@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/background_round_day_night_16"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:paddingHorizontal="24dp"
+        android:paddingTop="32dp"
+        android:paddingBottom="12dp"
+        tools:ignore="RtlSymmetry">
+
+        <TextView
+            android:id="@+id/tvTitle"
+            style="@style/BlackH1TextStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:elevation="2dp"
+            android:gravity="center"
+            android:text="@string/permission_dialog_title"
+            android:textColor="@color/onSurface" />
+
+        <TextView
+            android:id="@+id/tvVoicePermissionSubtitle"
+            style="@style/ColorMediumTextStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:drawablePadding="16dp"
+            android:gravity="center"
+            android:textColor="@color/onSurface"
+            app:drawableTopCompat="@drawable/ic_voice_permission"
+            tools:text="@string/permission_dialog_record_audio_rationale" />
+
+        <TextView
+            android:id="@+id/tvDescription"
+            style="@style/ColorMediumTextStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:gravity="center"
+            android:text="@string/permission_dialog_description"
+            android:textColor="@color/onSurface" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/buttonEnable"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:backgroundTint="@color/colorPrimary"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="16dp"
+            android:text="@string/permission_dialog_button"
+            android:textAppearance="@style/WhiteBoldTextStyle"
+            android:textColor="@color/white"
+            app:cornerRadius="24dp" />
+
+        <TextView
+            android:id="@+id/tvNotNow"
+            style="@style/ColorMediumTextStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawablePadding="16dp"
+            android:gravity="center"
+            android:paddingVertical="12dp"
+            android:text="@string/permission_dialog_button_2"
+            android:textColor="@color/onSurface"
+            android:textSize="16sp" />
+
+    </LinearLayout>
+</layout>

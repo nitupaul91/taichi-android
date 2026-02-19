@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="purple_200">#FFBB86FC</color>
+    <color name="purple_500">#FF6200EE</color>
+    <color name="purple_700">#FF3700B3</color>
+    <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
+    <color name="pastel_teal">#9EDAE0</color>
+    <color name="black">#FF000000</color>
+    <color name="blackThree">#4c4c4c</color>
+    <color name="blackTwo">#323232</color>
+    <color name="blackTransparent">#60000000</color>
+    <color name="blackTransparentTwo">#CC000000</color>
+    <color name="white">#ffffff</color>
+    <color name="transparent_gray">#40FAFAFA</color>
+    <color name="transparent_lighter_gray">#40D8D8D8</color>
+    <color name="transparent_white">#DDFFFFFF</color>
+    <color name="lightGray">#F5F5F5</color>
+    <color name="lightGray3">#F1F1F1</color>
+    <color name="lightGray4">#EFEFEF</color>
+    <color name="lighterGray">#f7f7f7</color>
+    <color name="lightGrayTwo">#DCDCDC</color>
+    <color name="lightGray2">#ECEBEB</color>
+    <color name="mediumGray">#989898</color>
+    <color name="mediumGrayVariant">#AEAEAE</color>
+    <color name="mediumLighterGray">#cbcbcb</color>
+    <color name="mediumGrayTransparent">#BC989898</color>
+    <color name="darkGray">#444444</color>
+    <color name="darkGray2">#29282b</color>
+    <color name="orange">#FFAE19</color>
+    <color name="tangerineOrange">#ED8B00</color>
+    <color name="roadSignOrange">#e89923</color>
+    <color name="orangeTwo">#CCFFAE19</color>
+    <color name="lightOrange">#F8D38B</color>
+    <color name="lightOrange2">#F6C970</color>
+    <color name="mustard">#FFD55A</color>
+    <color name="fadeOrange">#F9C449</color>
+    <color name="pastelOrange">#FFB650</color>
+    <color name="darkBlue">#8A454365</color>
+    <color name="lighterDarkBlue">#D23E3C57</color>
+    <color name="mediumBlue">#1F79FF</color>
+    <color name="lightBlue">#22CBFF</color>
+
+    <color name="babyBlue">#9BD3DD</color>
+    <color name="grayVariant">#2d2b2c</color>
+    <color name="grayVariantTransparent">#882D2B2C</color>
+    <color name="lightGrayVariantTransparent">#57BABABA</color>
+    <color name="blackVariant">#222021</color>
+
+    <color name="lightPink">#f4acb7</color>
+    <color name="lightPeach">#CCF9988B</color>
+    <color name="salmonPink">#d96d76</color>
+    <color name="lighterSalmonPink">#FFE67780</color>
+    <color name="lightOrangePink">#ffe5d9</color>
+    <color name="pinkFaded">#EE2F55</color>
+    <color name="darkPinkFaded">#842D4F</color>
+    <color name="dullPurple">#2F3152</color>
+    <color name="green">#59C9A5</color>
+    <color name="purpleFade">#3E8981DD</color>
+    <color name="skyBlue">#0094e2</color>
+    <color name="fadeBlue">#e5f1fd</color>
+    <color name="fadeBlueDark">#3c6478</color>
+    <color name="skyBlueLight">#66BEED</color>
+    <color name="navy">#293250</color>
+    <color name="redOne">#E16666</color>
+    <color name="redOrange">#FC4C02</color>
+    <color name="lavender_60">#66A6517E</color>
+    <color name="lavender">#B35B89</color>
+    <color name="darkLavender">#702A4F</color>
+
+    <color name="darkSalmonPink">#B1535A</color>
+
+    <color name="lightSaberRed">#FF3D4A</color>
+    <color name="dark_yellow">#e5e500</color>
+
+    <color name="darkPurple">#655eb0</color>
+    <color name="darkPurple_80">#66655EB0</color>
+    <color name="lighterBlue">#1BCEDF</color>
+    <color name="aquaBlue">#4aDEDE</color>
+    <color name="aquaPurple">#787FF6</color>
+
+    <color name="pinkPurple">#8A5082</color>
+    <color name="accentPink">#FF7B89</color>
+
+    <color name="greenCactus">#9719BD90</color>
+    <color name="androidGreen">#009688</color>
+    <color name="brightGreen">#2E885B</color>
+    <color name="brightGreenNight">#204834</color>
+    <color name="brightLighterGreen">#5600B159</color>
+    <color name="beachGreen">#88d8b0</color>
+    <color name="inactiveGreen">#B9E4CF</color>
+    <color name="neonGreen">#BFFFBF</color>
+    <color name="lightPastelGreen">#E2EBE7</color>
+    <color name="neonGreenTransparent">#1400FF00</color>
+    <color name="emeraldGreen">#50C878</color>
+    <color name="seaGreen">#E656C596</color>
+    <color name="darkPurpleTwo">#534666</color>
+    <color name="greenBlue">#138086</color>
+    <color name="darkGreen">#00a185</color>
+    <color name="darkPastelGreen">#6F7A76</color>
+
+    <color name="night_gray_18">#2E989898</color>
+    <color name="night_blue_18">#2E20639B</color>
+    <color name="night_yellow_18">#2EF6D55C</color>
+    <color name="night_red_18">#2EED5538</color>
+    <color name="night_navy_70">#B2173F5F</color>
+    <color name="night_green_18">#2E3CAEA3</color>
+    <color name="night_black_two">#1C1C1C</color>
+    <color name="night_black">#161616</color>
+
+    <color name="night_blue">#9920639B</color>
+    <color name="night_yellow">#99FF9900</color>
+    <color name="night_red">#99ED5538</color>
+    <color name="night_navy">#99173F5F</color>
+    <color name="night_green">#993CAEA3</color>
+    <color name="icon_background">#412C38</color>
+
+    <color name="blueLightGray">#c0c2ce</color>
+    <color name="blueGray">#8c9da9</color>
+    <color name="darkBlueGray">#6D7C87</color>
+
+    <color name="lightLavender">#C5B4E3</color>
+    <color name="amethystPurple">#9A6DD8</color>
+    <color name="grapePurple">#8031A7</color>
+    <color name="onboardingBlue">#4D61FC</color>
+    <color name="onboardingBlue2">#6877F3</color>
+    <color name="paywallBlue">#3027FD</color>
+
+    <color name="cardBackgroundPink">#ADFFEEF2</color>
+    <color name="cardBackgroundBlue">#ADE0EEFF</color>
+    <color name="cardBackgroundGreen">#ADEFFCE0</color>
+    <color name="cardBackgroundOrange">#ADFFEFF2</color>
+    <color name="cardButtonPink">#F7C1D4</color>
+    <color name="cardButtonGreen">#96E3AE</color>
+    <color name="cardButtonOrange">#FAE395</color>
+    <color name="cardButtonBlue">#6CCCED</color>
+    <color name="cardButtonBlue2">#2d85a3</color>
+
+    <color name="buttonGreen">#96e3ac</color>
+    <color name="buttonGreenVariant">#7EE49C</color>
+    <color name="buttonGreenRipple">#6696E3AC</color>
+    <color name="backgroundGrey">#faf8f9</color>
+
+    <color name="bottomNavOrange">#ec855c</color>
+    <color name="hyperlinkBlue">#0044CC</color>
+
+    <color name="peach">#FD8165</color>
+
+    <color name="gold">#E8B006</color>
+
+    <color name="background_day">#EDEADF</color>
+    <color name="background_day_chat_gradient_start">@color/lightGray</color>
+    <color name="background_day_chat_gradient_end">@color/lightGray4</color>
+    <color name="background_night_chat_gradient_start">#2B2B2B</color>
+    <color name="background_night_chat_gradient_end">#000000</color>
+    <color name="background_day_history">#FFFFFF</color>
+    <color name="background_night_history">@color/background_night</color>
+    <color name="background_day_paywall">#F4F4F4</color>
+    <color name="background_day_transparent">#00000000</color>
+    <color name="background_night_paywall">#0F052F</color>
+    <color name="background_night">#1B1B1B</color>
+    <color name="background_night_transparent">#A61B1B1B</color>
+    <color name="background_night_onboarding_page_one">@color/background_night</color>
+    <color name="background_night_onboarding_page_two">#002B21</color>
+    <color name="background_night_onboarding_page_three">#211C30</color>
+    <color name="background_day_onboarding_page_one">@color/background_day</color>
+    <color name="background_day_onboarding_page_two">#E4FAF5</color>
+    <color name="background_day_onboarding_page_three">#DED6F4</color>
+
+    <color name="blueButton">#7392ff</color>
+    <color name="blueChatStroke">#D0DBFD</color>
+
+    <color name="redCta">#ED3B3B</color>
+    <color name="redCtaLight">#F14C4C</color>
+
+    <color name="userChatBackgroundDay">@color/colorPrimary</color>
+    <color name="botChatBackgroundDay">#E3E3E3</color>
+    <color name="botChatBackgroundNight">#484646</color>
+    <color name="userChatBackgroundNight">@color/brightGreenNight</color>
+    <color name="remainingMessagesLabelColorDay">@color/neonGreen</color>
+    <color name="remainingMessagesLabelColorNight">@color/colorPrimary</color>
+
+    <color name="arrowDownColorFilterNight">#FFFFFF</color>
+    <color name="arrowDownColorFilterDay">#00FFFFFF</color>
+    <color name="chatLoadingIndicatorDay">#3d3c3f</color>
+    <color name="chatLoadingIndicatorNight">#ffffff</color>
+    <color name="paywallSurfaceBackgroundDay">#F7F7F7</color>
+    <color name="paywallSurfaceBackgroundNight">#0E003E</color>
+    <color name="paywallFreeBenefitIconBackgroundNight">#130052</color>
+    <color name="paywallBenefitsSeparatorBackgroundNight">#59EDEDED</color>
+    <color name="paywallBenefitsSeparatorBackgroundDay">#FFFFFF</color>
+    <color name="light_blue_50">#FFE1F5FE</color>
+    <color name="light_blue_200">#FF81D4FA</color>
+    <color name="light_blue_600">#FF039BE5</color>
+    <color name="light_blue_900">#FF01579B</color>
+    <color name="surfaceColorDay">#ffffff</color>
+    <color name="surfaceColorNight">#242424</color>
+    <color name="onSurfaceColorDay">@color/blackTwo</color>
+    <color name="onSurfaceColorNight">@color/lightGray2</color>
+    <color name="onBackgroundColorDay">@color/blackTwo</color>
+    <color name="onBackgroundColorNight">@color/mediumGray</color>
+    <color name="roundButtonBackgroundDay">@color/lightGray2</color>
+    <color name="roundButtonBackgroundNight">@color/darkGray</color>
+    <color name="selectedChatBackgroundColorNight">@color/brightGreenNight</color>
+    <color name="selectedChatBackgroundColorDay">@color/neonGreen</color>
+
+    <color name="paywallBlueVariant">#3027FD</color>
+    <color name="paywallUnselectedGray">#9d9e9e</color>
+    <color name="paywallNightGray">#4D101010</color>
+    <color name="paywallNightBlack">#13083E</color>
+    <color name="paywallLightGrey">#EBEBEB</color>
+    <color name="paywallLightWhite">#FFFFFF</color>
+
+    <color name="chipBackgroundDay">@color/lightGrayTwo</color>
+    <color name="chipBackgroundNight">@color/darkGray</color>
+
+    <color name="paywallV2SelectedProductBackgroundDay">@color/brightLighterGreen</color>
+    <color name="paywallV2SelectedProductBackgroundNight">#66008744</color>
+
+    <color name="historyDeleteBackgroundColorDay">@color/lightPastelGreen</color>
+    <color name="historyDeleteBackgroundColorNight">@color/darkPastelGreen</color>
+
+    <color name="separator_color_on_surface_day">#226B6B6B</color>
+    <color name="separator_color_on_surface_night">#535353</color>
+    <color name="separator_color_on_background_day">#226B6B6B</color>
+    <color name="separator_color_on_background_night">#2C2C2C</color>
+
+    <color name="background_1_day">#ffffff</color>
+    <color name="background_1_night">#3d3c3f</color>
+
+    <color name="accent_1_day">@color/darkGray</color>
+    <color name="accent_1_night">@color/lightGray</color>
+    <color name="rewardedAdsOrange">#ffc700</color>
+    <color name="rewardedAdsDarkOrange">#c59c1b</color>
+    <color name="clay">#E0E0E0</color>
+</resources>

@@ -1,0 +1,81 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Theme.AiAssistant" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/redCta</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorPrimaryVariant">@color/brightGreen</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/teal_200</item>
+        <item name="colorSecondaryVariant">@color/teal_700</item>
+        <item name="colorOnSecondary">@color/black</item>
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor">@color/black</item>
+        <!-- Customize your theme here. -->
+        <item name="android:windowBackground">@color/windowBackground</item>
+        <item name="android:forceDarkAllowed" tools:targetApi="q">false</item>
+    </style>
+
+    <style name="Theme.AiAssistant.AppWidgetContainerParent" parent="@android:style/Theme.DeviceDefault">
+        <!-- Radius of the outer bound of widgets to make the rounded corners -->
+        <item name="appWidgetRadius">16dp</item>
+        <!--
+        Radius of the inner view's bound of widgets to make the rounded corners.
+        It needs to be 8dp or less than the value of appWidgetRadius
+        -->
+        <item name="appWidgetInnerRadius">8dp</item>
+    </style>
+
+    <style name="Theme.AiAssistant.AppWidgetContainer" parent="Theme.AiAssistant.AppWidgetContainerParent">
+        <!-- Apply padding to avoid the content of the widget colliding with the rounded corners -->
+        <item name="appWidgetPadding">2dp</item>
+    </style>
+
+    <color name="colorPrimary">@color/redCta</color>
+    <color name="windowBackground">@color/background_day</color>
+    <color name="backgroundChatGradientStart">@color/background_day_chat_gradient_start</color>
+    <color name="backgroundChatGradientEnd">@color/background_day_chat_gradient_end</color>
+    <color name="historyBackground">@color/background_day_history</color>
+    <color name="onboardingPageOneBackground">@color/background_day_onboarding_page_one</color>
+    <color name="onboardingPageTwoBackground">@color/background_day_onboarding_page_two</color>
+    <color name="onboardingPageThreeBackground">@color/background_day_onboarding_page_three</color>
+    <color name="paywallWindowBackground">@color/background_day_paywall</color>
+    <color name="paywallSurfaceBackground">@color/paywallSurfaceBackgroundDay</color>
+    <color name="paywallBenefitsSeparatorColor">@color/paywallBenefitsSeparatorBackgroundDay</color>
+    <color name="window_background_transparent">@color/background_day_transparent</color>
+    <color name="userChatBackground">@color/userChatBackgroundDay</color>
+    <color name="botChatBackground">@color/botChatBackgroundDay</color>
+    <color name="chatLoadingColor">@color/chatLoadingIndicatorDay</color>
+    <color name="paywallBackground">@color/backgroundGrey</color>
+    <color name="paywallFreeBenefitIconBackground">#AEB2D8</color>
+    <color name="accentTextColor">@color/black</color>
+    <color name="bodyTextColor">@color/black</color>
+    <color name="h3TextColor">@color/blackThree</color>
+    <color name="bodyTextColor2">@color/mediumGray</color>
+    <color name="bodyTextColor3">@color/blackThree</color>
+    <color name="background_card">@color/white</color>
+    <color name="arrowDown">@color/arrowDownColorFilterDay</color>
+    <color name="surface">@color/surfaceColorDay</color>
+    <color name="onSurface">@color/onSurfaceColorDay</color>
+    <color name="onBackground">@color/onBackgroundColorDay</color>
+    <color name="roundButtonBackground">@color/roundButtonBackgroundDay</color>
+    <color name="bodyTextColor4">@color/paywallBlueVariant</color>
+    <color name="paywallUnselectedProductBackground">@color/paywallLightGrey</color>
+    <color name="paywallSelectedProductBackground">@color/paywallLightWhite</color>
+    <color name="chipBackground">@color/chipBackgroundDay</color>
+    <color name="remainingMessagesLabelColor">@color/remainingMessagesLabelColorDay</color>
+    <color name="selectedChatBackgroundColor">@color/selectedChatBackgroundColorDay</color>
+
+    <color name="paywallV2SelectedProductBackground">@color/paywallV2SelectedProductBackgroundDay
+    </color>
+    <color name="paywallV2CloseBtn">@color/lightGrayTwo</color>
+
+    <color name="historyDeleteBackgroundColor">@color/historyDeleteBackgroundColorDay</color>
+
+    <color name="separator_color_on_surface">@color/separator_color_on_surface_day</color>
+    <color name="separator_color_on_background">@color/separator_color_on_background_day</color>
+
+    <color name="background_1">@color/background_1_day</color>
+
+    <color name="accent_1">@color/accent_1_day</color>
+</resources>

@@ -1,0 +1,249 @@
+<resources>
+    <!--     Non-translatable-->
+    <string name="app_link" translatable="false">https://play.google.com/store/apps/details?id=taichi.walking.seniors.beginners</string>
+    <string name="privacy_policy_link" translatable="false">https://strada.pics/privacy_policy.html</string>
+    <string name="no_trial_product_name" translatable="false">%s / %s</string>
+    <string name="forward_arrow" translatable="false">→</string>
+    <string name="app_name" translatable="false">Taichi</string>
+    <string name="i_understand_button_text">I understand</string>
+    <string name="rate_limited_error_message">You are sending too many messages. Please wait before retrying.</string>
+    <string name="generic_error_message">Something went wrong. Please try again.</string>
+    <string name="generic_network_error_message">Something went wrong. Please check your internet connection and try again.</string>
+    <string name="toast_copy">Copied to clipboard!</string>
+    <string name="rate_app_dialog_title">Enjoying our ChatGPT powered app?</string>
+    <string name="rate_app_dialog_subtitle">Your review helps us grow the community and improve our AI Chat app with ChatGPT!</string>
+    <string name="rate_app_dialog_cta">Rate us</string>
+    <string name="privacy_policy">Privacy policy</string>
+    <string name="contact">Report issue</string>
+    <string name="share_app_title">AI Chat</string>
+    <string name="share_app_chooser_title">Share via</string>
+    <string name="share_app">Share with friends</string>
+    <string name="scan_to_install">Scan to install\n<b>AI Chat</b></string>
+    <string name="version_name">Version %s</string>
+    <string name="email_error_toast">You have no email application installed.</string>
+    <string name="privacy_policy_error_toast">You have no browser installed.</string>
+    <string name="app_widget_description">Chat</string>
+    <string name="regular_user">Regular</string>
+    <string name="premium_user">Premium</string>
+    <string name="faq">Frequently Asked Questions</string>
+    <string name="paywall_benefit_one">📺 &#160;&#160;Ad-Free Experience</string>
+    <string name="paywall_benefit_two">🔍 &#160;&#160;App Widget Access</string>
+    <string name="paywall_benefit_three">🌟 &#160;&#160;VIP Customer Support</string>
+    <string name="paywall_benefit_four">💬 &#160;&#160;Unlimited chat</string>
+    <string name="paywall_benefit_five">🤖 &#160;&#160;Best AI model</string>
+    <string name="review_one_description">Spectacular AI in every subject I\'ve tried so far.</string>
+    <string name="review_three_description">Simply incredible!!! This AI is a revolution on it\'s own.</string>
+    <string name="review_four_description">Very good app. Useful when using AI Chat on the phone.</string>
+    <string name="faq_one">Can I ask unlimited questions?</string>
+    <string name="faq_one_answer">Free users are restricted to only 5 text processing usages per day, while premium users have access to unlimited use of our app. This access is subject to fair usage policies and is intended to prevent abuse.</string>
+    <string name="faq_two">Are the answers accurate?</string>
+    <string name="faq_two_answer">The used model is not connected to the internet so it may sometimes produce incorrect results.</string>
+    <string name="snackbar_select_product">Please select an option</string>
+    <string name="widget_ask_ai">Ask AI</string>
+    <string name="suggestions_title">Suggestions</string>
+    <string name="skip_onboarding">Skip</string>
+    <string name="onboarding_three_title">Quick and convenient</string>
+    <string name="onboarding_continue_btn">Continue</string>
+    <string name="purchase_status_title_success">Congratulations!</string>
+    <string name="purchase_status_subtitle_success">Purchase was acknowledged successfully.</string>
+    <string name="purchase_status_title_in_progress">Please don\'t close the app.</string>
+    <string name="purchase_status_subtitle_in_progress">The purchase is being validated.</string>
+    <string name="purchase_status_sub_not_valid">Subscription could not be validated. Please try again later.</string>
+    <string name="close">Close</string>
+    <string name="exceeded_daily_quota">Daily quota exceeded. Upgrade to premium to unlock more messages!</string>
+    <string name="exceeded_vision_quota">🚫 Oops! It looks like you\'ve reached your daily limit for image interpretations.</string>
+    <string name="minimum_characters_error">Please enter at least 2 characters</string>
+    <string name="notice">Notice</string>
+    <string name="ai_first_message">Hey there! Ask anything you\'d like, or choose one of our suggestions below!</string>
+    <string name="chat_suggestion">Ask any question or try the suggestions below ↓</string>
+    <string name="permission_dialog_title">Permission required</string>
+    <string name="permission_dialog_record_audio_rationale">We need you to enable <b>Microphone Permission</b>, which is necessary for the voice input feature in our app.</string>
+    <string name="permission_dialog_camera_rationale">We need you to enable <b>Camera Permission</b>, which is necessary for capturing and sending camera images.</string>
+    <string name="permission_dialog_gallery_images_rationale">We need you to enable &lt;b>%s&lt;/b>, which is necessary for sending images from your gallery.</string>
+    <string name="permission_dialog_files_and_media">Files and media permission</string>
+    <string name="permission_rationale_read_media_images">Photos and videos permission</string>
+    <string name="permission_dialog_description">Please enable the permission from the device settings, in the App Info section.</string>
+    <string name="permission_dialog_button">Go to App Info</string>
+    <string name="permission_dialog_button_2">Not now</string>
+    <string name="free_trial_days">%s-day free trial</string>
+    <string name="start_free_trial">Start Free Trial</string>
+    <string name="subscribe">Subscribe</string>
+    <string name="save_80">Save 80%</string>
+    <string name="savings_text">Save %s</string>
+    <string name="join_thousands_of_happy_users">Join Thousands of Happy Users</string>
+    <string name="free">free</string>
+    <string name="compare">compare</string>
+    <string name="choose_your_plan">Choose your plan</string>
+    <string name="trial_product_name">then %s / %s</string>
+    <string name="no_payment_now">No payment now</string>
+    <string name="cancel_anytime">Cancel anytime</string>
+    <string name="yearly_access">Yearly</string>
+    <string name="monthly_access">Monthly</string>
+    <string name="weekly_access">Weekly</string>
+    <string name="lifetime_access">Lifetime access</string>
+    <string name="week">week</string>
+    <string name="year">year</string>
+    <string name="month">month</string>
+
+    <string name="get_unlimited_chat">Get Unlimited Chat</string>
+    <string name="powered_by" translatable="false">Powered by</string>
+    <string name="ai_model_name" translatable="false">ChatGPT</string>
+    <string name="new_chat">New chat</string>
+    <string name="chat_history">Chat history</string>
+    <string name="view_all_history">View all history</string>
+    <string name="go_premium">Go premium</string>
+
+    <string name="paywall_v2_title">Elevate Your Experience with Premium Access</string>
+    <string name="paywall_v2_benefit_1_title">Answers from ChatGPT</string>
+    <string name="paywall_v2_benefit_1_description">Get more human-like chat with ChatGPT</string>
+    <string name="paywall_v2_benefit_2_title">Unlimited chat messages</string>
+    <string name="paywall_v2_benefit_2_description">No limits, no worries</string>
+    <string name="paywall_v2_benefit_3_title">No Ads</string>
+    <string name="paywall_v2_benefit_3_description">Enjoy AI Chat without ads</string>
+    <string name="paywall_v2_benefit_4_title">Audio responses</string>
+    <string name="paywall_v2_benefit_4_description">AI bot can read its responses aloud</string>
+    <string name="paywall_benefit_images_title">Unlimited image interpretations</string>
+    <string name="paywall_benefit_images_description">Analyze all your images</string>
+    <string name="paywall_v2_powered_by_chatgpt" translatable="false">Powered by ChatGPT</string>
+
+    <!--    TODO Update strings-->
+    <string name="contextual_chats">Chat context</string>
+    <string name="onboarding_page_two_description">Our AI Chatbot can remember what you\'ve talked about before, making it easy to chat with!</string>
+    <string name="onboarding_page_three_description">You can access your past conversations anytime in our app!</string>
+    <string name="fragment_onboarding_one_description">This app is powered by ChatGPT. \nThe most advanced AI to date.</string>
+    <string name="revolutionary_ai_chat">AI Chat</string>
+    <string name="next">Continue</string>
+    <string name="onboarding_demo_chat_message_one">Can you tell me how to say Hello in French?</string>
+    <string name="onboarding_demo_chat_message_two">Certainly! \"Hello\" can be translated to \"Salut\" in French.</string>
+    <string name="onboarding_demo_chat_message_three">How about German?</string>
+    <string name="onboarding_demo_chat_message_four">In German, \"Hello\" can be translated to \"Hallo\" or \"Hi\".</string>
+
+    <string name="chat_history_delete">Delete</string>
+    <string name="chat_history_cancel_delete">Cancel</string>
+    <string name="chat_history_confirm_delete">Confirm delete</string>
+
+    <string name="rewards_title">Earn FREE messages</string>
+    <string name="rewards_subtitle_messages_left">You have %s messages left</string>
+    <string name="rewards_subtitle_daily_quota">You will receive %s messages daily for FREE</string>
+    <string name="rewards_subtitle_watch_ads">Watch ads to earn additional <b>FREE</b> messages</string>
+    <string name="rewards_subtitle_get_premium">Get premium to unlock unlimited access or watch ads to earn additional <b>FREE</b> messages</string>
+    <string name="rewards_button_watch_ads">🎁 Watch AD 🎁</string>
+    <string name="rewards_explainer"><b>Earn %s for every ad you see</b></string>
+    <plurals name="messages_with_count">
+        <item quantity="one">%d message</item>
+        <item quantity="other">%d messages</item>
+    </plurals>
+    <string name="rewards_button_premium">Get Premium</string>
+    <string name="rewards_or">Or</string>
+    <string name="internet_connection_error">No internet connection. Your message could not be sent.</string>
+    <string name="recent_chats">Recent chats</string>
+    <string name="view_all">View all</string>
+    <string name="empty_chats_history_placeholder">Your chat history is empty. </string>
+    <string name="more">More</string>
+    <string name="share_message_outro">\n\nGenerated by AI Chat Android App.</string>
+    <string name="you_have_no_chats">You have no chats.</string>
+    <string name="select">select</string>
+    <string name="snackbar_upgrade_tts">Upgrade to Premium to unlock audio messages.</string>
+
+    <string name="theme_light">Day</string>
+    <string name="theme_dark">Night</string>
+    <string name="theme_system">System</string>
+    <string name="app_promotion_header">Try Our Other Apps</string>
+
+    <string name="quota_dialog_exceeded_vision_quota_title">Oops! You\'ve reached your daily limit for image interpretations</string>
+    <string name="quota_dialog_exceeded_vision_quota_message">Due to high costs, free users can only interpret 1 image per day.\n\nUpgrade now for unlimited image interpretations and better service! 🚀✨</string>
+    <string name="quota_dialog_exceeded_message_quota_title">Oh no! You\'ve reached your daily limit for questions</string>
+    <string name="quota_dialog_exceeded_message_quota_message">Because of high costs, free users can only ask a limited number of questions each day.\n\nUpgrade to premium now for unlimited questions and better service! 🚀✨</string>
+
+    <string name="ok" translatable="false">Ok</string>
+
+    <string name="notifications_permission_title">Get Notified When Your Car is Ready!</string>
+    <string name="notifications_permission_subtitle">Turn on notifications to know when your car is ready. No spam, just updates! 🚗✨</string>
+    <string name="add_images">Add Images</string>
+    <string name="looks_good">Looks Good</string>
+    <string name="onboarding_one_title">Create Stunning Photos of Your Car</string>
+    <string name="onboarding_one_subtitle">Choose your style, set the scene, and make your car shine. 🚗✨</string>
+    <string name="onboarding_two_title">This Can Be Your Car!</string>
+    <string name="onboarding_two_subtitle">Bring your car to life with breathtaking visuals.</string>
+    <string name="error_empty_make">Enter your car brand.</string>
+    <string name="error_empty_model">Enter your car model.</string>
+    <string name="error_empty_color">Enter your car color</string>
+    <string name="error_not_enough_photos">Add at least 1 photo.</string>
+    <string name="error_not_enough_templates">Select at least one style.</string>
+    <string name="per_month"> / month</string>
+    <string name="generate">Generate</string>
+    <string name="refresh">Refresh</string>
+    <string name="new_car">New Car</string>
+    <string name="select_your_car">Select Your Car</string>
+
+    <string name="monthly_level_1">Basic</string>
+    <string name="monthly_level_2">Pro</string>
+    <string name="monthly_level_3">Elite</string>
+
+    <string name="train_model_error_message">You\'ve reached the maximum number of cars allowed in your plan. Upgrade your plan!</string>
+    <string name="generate_image_error_message">Can\'t generate more images. Upgrade your plan!</string>
+    <string name="car_not_trained">This car was not trained yet. Start Training.</string>
+    <string name="generating">Generating..</string>
+    <string name="monthly_benefit_one">%s car training per month</string>
+    <string name="monthly_benefit_two">%s images per month</string>
+    <string name="no_watermark">No watermark</string>
+    <string name="high_res_images">High-res images</string>
+    <string name="free_premium_templates">FREE Premium Templates</string>
+    <string name="enter_car_make">Enter Your Car Make</string>
+    <string name="just_the_car_brand_name">Just the car brand name.</string>
+    <string name="enter_car_color">Enter Your Car Color</string>
+    <string name="use_simple_colors_like_red_blue_white_etc">Use simple colors, like red, blue, white etc.</string>
+    <string name="enter_car_model">Enter Your Car Model</string>
+    <string name="you_can_also_include_the_chassis_code">You can also include the chassis code.</string>
+    <string name="add_10_20_photos_of_your_car">Add 1-3 photos of your car</string>
+    <string name="add_car_photos_subtitle">Help us create realistic images of your car. Upload clear photos of the exterior from different angles. No interior shots.</string>
+    <string name="you_re_offline">You\'re offline.</string>
+    <string name="training_started">Training will take up to 20-30 minutes. Please wait...</string>
+    <string name="training_complete">Training complete. Try different styles.</string>
+    <string name="training_not_started">Start training your images.</string>
+    <string name="dismiss">Dismiss</string>
+    <string name="retry">Retry</string>
+    <string name="start">Start</string>
+    <string name="gallery">Gallery</string>
+    <string name="empty_gallery_message">Your generated images will be here</string>
+    <string name="generating_image">Generating image...</string>
+    <string name="image_saved_to">Image saved to %1$s</string>
+    <string name="failed_to_save_image">Failed to save image</string>
+    <string name="copied_to_clipboard">Copied to clipboard</string>
+    <string name="garage">Garage</string>
+    <string name="app">App</string>
+    <string name="rate_app">Rate app</string>
+    <string name="share">Share app</string>
+    <string name="terms">Terms</string>
+    <string name="image_ready">Your image is ready!</string>
+    <string name="see_image">See Image</string>
+    <string name="styles">Styles</string>
+    <string name="templates">Templates</string>
+    <string name="profile">Profile</string>
+    <string name="training_complete_title">Training complete.</string>
+    <string name="try_styles">Try different styles.</string>
+    <string name="car_make">Car Make</string>
+    <string name="add_car_details">Add Car Details</string>
+    <string name="car_model">Car Model</string>
+    <string name="car_color">Car Color</string>
+    <string name="add_photos_title">Add 1-3 car photos</string>
+    <string name="add_photos_subtitle">Upload clear photos of the exterior from different angles. No interior shots.</string>
+    <string name="photos_added_10_20">Photos added: %1$s / 1–3</string>
+    <string name="enjoying_the_app">🔥 Enjoying the app? 🔥</string>
+    <string name="rate_app_subtitle">Help us grow and rate us on Google Play! 🙏</string>
+    <string name="rate_now">Rate Now</string>
+    <string name="trigger_word" translatable="false">STRADACAR</string>
+    <string name="choose_styles">Choose your favourite styles</string>
+    <string name="choose_styles_subtitle">Give your car the spotlight it deserves and pick a scene that matches its soul. 🚗✨</string>
+    <string name="describe_scene">Describe your scene.</string>
+    <string name="prompt_info">Prompt Info</string>
+    <string name="prompt_info_dialog_title">Writing Good Prompts</string>
+    <string name="prompt_info_dialog_subtitle">
+• Mention your car’s color, brand, and model (e.g., "Yellow Porsche 911 992")\n\n
+• Start with the main action or setting (e.g., "Kicking up dust in a desert").\n\n
+• Describe the background (e.g., "rugged mountains, clear sky, neon city").\n\n
+• Mention camera angle or mood (e.g., "mid-motion, cinematic").\n
+</string>
+    <string name="auto_renewable_cancel_anytime">Auto renewable. Cancel anytime</string>
+
+</resources>

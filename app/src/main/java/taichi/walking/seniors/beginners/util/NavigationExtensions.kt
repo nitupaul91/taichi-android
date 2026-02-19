@@ -1,0 +1,17 @@
+package taichi.walking.seniors.beginners.util
+
+import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
+
+fun <T> Fragment.getNavigationResult(key: String) =
+    findNavController().currentBackStackEntry?.savedStateHandle?.get<T>(key)
+
+fun <T> Fragment.getNavigationResultLiveData(key: String) =
+    findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<T>(key)
+
+fun <T> Fragment.removeNavigationResult(key: String) =
+    findNavController().currentBackStackEntry?.savedStateHandle?.remove<T>(key)
+
+fun <T> Fragment.setNavigationResult(result: T, key: String) {
+    findNavController().previousBackStackEntry?.savedStateHandle?.set(key, result)
+}

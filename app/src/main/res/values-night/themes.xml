@@ -1,0 +1,70 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Theme.AiAssistant" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/redCta</item>
+        <item name="colorPrimaryVariant">@color/brightGreen</item>
+        <item name="colorOnPrimary">@color/black</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/teal_200</item>
+        <item name="colorSecondaryVariant">@color/teal_200</item>
+        <item name="colorOnSecondary">@color/black</item>
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor">@color/black</item>
+        <item name="colorSurface">#121212</item>
+        <!-- Customize your theme here. -->
+        <item name="android:windowBackground">@color/windowBackground</item>
+        <item name="android:forceDarkAllowed" tools:targetApi="q">false</item>
+    </style>
+
+    <color name="colorPrimary">@color/redCta</color>
+    <color name="windowBackground">@color/background_night</color>
+    <color name="backgroundChatGradientStart">@color/background_night</color>
+    <color name="backgroundChatGradientEnd">@color/background_night</color>
+    <color name="historyBackground">@color/background_night_history</color>
+    <color name="onboardingPageOneBackground">@color/background_night_onboarding_page_one</color>
+    <color name="onboardingPageTwoBackground">@color/background_night_onboarding_page_two</color>
+    <color name="onboardingPageThreeBackground">@color/background_night_onboarding_page_three
+    </color>
+    <color name="window_background_transparent">@color/background_night_transparent</color>
+    <color name="paywallSurfaceBackground">@color/paywallSurfaceBackgroundNight</color>
+    <color name="paywallWindowBackground">@color/background_night_paywall</color>
+    <color name="paywallBenefitsSeparatorColor">@color/paywallBenefitsSeparatorBackgroundNight
+    </color>
+    <color name="userChatBackground">@color/userChatBackgroundNight</color>
+    <color name="botChatBackground">@color/botChatBackgroundNight</color>
+    <color name="chatLoadingColor">@color/chatLoadingIndicatorNight</color>
+    <color name="paywallBackground">@color/windowBackground</color>
+    <color name="paywallFreeBenefitIconBackground">#40B1B1B1</color>
+    <color name="bodyTextColor">@color/onSurfaceColorNight</color>
+    <color name="bodyTextColor2">@color/lightGrayTwo</color>
+    <color name="bodyTextColor3">@color/lightGrayTwo</color>
+    <color name="accentTextColor">@color/white</color>
+    <color name="h3TextColor">@color/white</color>
+    <color name="background_card">@color/blackTransparent</color>
+    <color name="arrowDown">@color/arrowDownColorFilterNight</color>
+    <color name="surface">@color/surfaceColorNight</color>
+    <color name="onSurface">@color/onSurfaceColorNight</color>
+    <color name="onBackground">@color/onBackgroundColorNight</color>
+    <color name="roundButtonBackground">@color/roundButtonBackgroundNight</color>
+    <color name="bodyTextColor4">@color/white</color>
+    <color name="paywallUnselectedProductBackground">@color/paywallNightGray</color>
+    <color name="paywallSelectedProductBackground">@color/paywallNightBlack</color>
+    <color name="chipBackground">@color/chipBackgroundNight</color>
+    <color name="remainingMessagesLabelColor">@color/remainingMessagesLabelColorNight</color>
+    <color name="selectedChatBackgroundColor">@color/selectedChatBackgroundColorNight</color>
+    <color name="historyDeleteBackgroundColor">@color/historyDeleteBackgroundColorNight</color>
+
+    <color name="paywallV2SelectedProductBackground">
+        @color/paywallV2SelectedProductBackgroundNight
+    </color>
+    <color name="paywallV2CloseBtn">@color/darkGray</color>
+
+    <color name="separator_color_on_surface">@color/separator_color_on_surface_night</color>
+    <color name="separator_color_on_background">@color/separator_color_on_background_night</color>
+
+    <color name="background_1">@color/background_1_night</color>
+
+    <color name="accent_1">@color/accent_1_night</color>
+
+</resources>
