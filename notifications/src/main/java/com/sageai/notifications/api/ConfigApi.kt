@@ -8,7 +8,7 @@ import retrofit2.http.POST
 
 interface ConfigApi {
 
-    @POST("config/upload")
+    @POST("config/android/upload")
     suspend fun uploadConfig(
         @Body body: UploadConfigBody
     ): Response<ResponseBody>

@@ -46,6 +46,8 @@ class IDService @Inject constructor(
         userIdDataStore.setUserId(newUserId)
     }
 
+    suspend fun getDeviceID(): String = getDeviceId()
+
     @SuppressLint("HardwareIds")
     private fun getDeviceId(): String =
         Settings.Secure.getString(applicationContext.contentResolver, Settings.Secure.ANDROID_ID)

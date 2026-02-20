@@ -26,7 +26,8 @@ class ConfigUploadWorker @AssistedInject constructor(
         Timber.tag(TAG).i("Executing fcm token upload")
 
         val body = UploadConfigBody(
-            userId = idService.getUserID(),
+            userId = idService.getDeviceID(),
+            region = Locale.getDefault().country.ifBlank { "UN" },
             fcmToken = getFcmToken(),
             deviceLanguage = Locale.getDefault().displayLanguage,
             appVersion = appVersionCode,

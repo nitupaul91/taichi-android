@@ -8,6 +8,7 @@ import androidx.work.Configuration
 import com.mixpanel.android.mpmetrics.MixpanelAPI
 import com.mobteq.analytics.MixpanelAnalytics
 import com.mobteq.billing.datastore.DataStorePrefs
+import com.mobteq.billing.domain.repository.PurchasesRepository
 import com.sageai.id.IDService
 import dagger.hilt.android.HiltAndroidApp
 import kotlinx.coroutines.CoroutineScope
@@ -37,6 +38,9 @@ class StradaApp : Application(), Configuration.Provider {
     @Inject
     lateinit var idService: IDService
 
+    @Inject
+    lateinit var purchasesRepository: PurchasesRepository
+
     override fun getWorkManagerConfiguration(): Configuration =
         Configuration.Builder()
             .setWorkerFactory(workerFactory)
@@ -55,6 +59,11 @@ class StradaApp : Application(), Configuration.Provider {
 
         CoroutineScope(Dispatchers.Main).launch {
             mp.identify(idService.getUserID())
+        }
+
+        // Warm up BillingClient and product cache as early as possible.
+        CoroutineScope(Dispatchers.IO).launch {
+            purchasesRepository.queryPurchases()
         }
     }
 }

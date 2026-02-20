@@ -63,7 +63,7 @@ import taichi.walking.seniors.beginners.taichi.onboarding.ui.components.PrimaryB
 import taichi.walking.seniors.beginners.ui.paywall.PaywallEvents
 import taichi.walking.seniors.beginners.ui.paywall.PaywallViewModel
 import taichi.walking.seniors.beginners.ui.paywall.UIProduct
-import java.text.NumberFormat
+import java.util.Locale
 
 @Composable
 fun PaywallScreen(
@@ -110,6 +110,7 @@ fun PaywallScreen(
             ) {
                 PrimaryButton(
                     text = ctaText,
+                    enabled = selectedProduct != null,
                     onClick = {
                         if (activity != null) viewModel.makePurchase(activity)
                     }
@@ -197,8 +198,30 @@ private fun UIProduct.subtitleForCard(): String? {
 private fun UIProduct.monthlyBreakdownPrice(): String {
     if (product.price <= 0L) return product.displayPrice
     val monthlyPrice = (product.price / 1_000_000.0) / 12.0
-    return runCatching { NumberFormat.getCurrencyInstance().format(monthlyPrice) }
-        .getOrElse { product.displayPrice }
+    return formatWithProductCurrency(monthlyPrice, product.displayPrice)
+}
+
+private fun formatWithProductCurrency(value: Double, samplePrice: String): String {
+    val sample = samplePrice.trim()
+    val numberRegex = Regex("[\\d.,\\s]+")
+    val numberMatch = numberRegex.find(sample) ?: return String.format(Locale.US, "%.2f", value)
+
+    val prefix = sample.substring(0, numberMatch.range.first).trim()
+    val numberPart = numberMatch.value.trim()
+    val suffix = sample.substring(numberMatch.range.last + 1).trim()
+    val usesCommaDecimal = numberPart.lastIndexOf(',') > numberPart.lastIndexOf('.')
+
+    val formattedNumber = if (usesCommaDecimal) {
+        String.format(Locale.US, "%.2f", value).replace('.', ',')
+    } else {
+        String.format(Locale.US, "%.2f", value)
+    }
+
+    return when {
+        prefix.isNotEmpty() -> "$prefix$formattedNumber"
+        suffix.isNotEmpty() -> "$formattedNumber $suffix"
+        else -> formattedNumber
+    }
 }
 
 private fun Context.findActivity(): Activity? {
