@@ -27,7 +27,7 @@ android {
         applicationId "taichi.walking.seniors.beginners"
         minSdk 23
         targetSdk 35
-        versionCode 6
+        versionCode 7
         versionName "1.0.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -37,7 +37,7 @@ android {
         compose true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion '1.5.13'
+        kotlinCompilerExtensionVersion '1.5.14'
     }
 
     signingConfigs {
@@ -80,7 +80,7 @@ dependencies {
     implementation 'com.google.android.material:material:1.7.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
 
-    implementation "com.google.dagger:hilt-android:2.48.1"
+    implementation "com.google.dagger:hilt-android:2.51.1"
     implementation 'androidx.hilt:hilt-common:1.0.0'
     implementation 'androidx.hilt:hilt-work:1.0.0'
 
@@ -97,7 +97,7 @@ dependencies {
 
     implementation 'com.google.android.play:review-ktx:2.0.2'
 
-    kapt "com.google.dagger:hilt-compiler:2.48.1"
+    kapt "com.google.dagger:hilt-compiler:2.51.1"
     kapt("androidx.hilt:hilt-compiler:1.0.0")
 
     /** Navigation */
@@ -153,8 +153,8 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.4'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.0'
 
-    // Compose BOM – aligns versions of all Compose libraries
-    implementation platform("androidx.compose:compose-bom:2025.02.00")
+    // Compose BOM – aligns versions of all Compose libraries (2024.12.01+ supports 16KB page sizes)
+    implementation platform("androidx.compose:compose-bom:2024.12.01")
     implementation "com.google.accompanist:accompanist-systemuicontroller:0.32.0"
 
     // Core Compose libraries
