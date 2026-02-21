@@ -63,8 +63,4 @@ class MainActivity : AppCompatActivity() {
         mainViewModel.queryPurchases()
     }
 
-    override fun onDestroy() {
-        mainViewModel.endBillingConnection()
-        super.onDestroy()
-    }
 }
