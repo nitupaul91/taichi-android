@@ -31,15 +31,19 @@ import androidx.compose.material.icons.filled.SelfImprovement
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.filled.TrendingUp
 import androidx.compose.material3.Card
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -52,6 +56,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.DialogProperties
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.gson.Gson
 import kotlinx.coroutines.flow.map
@@ -64,6 +70,10 @@ import taichi.walking.seniors.beginners.ui.paywall.PaywallEvents
 import taichi.walking.seniors.beginners.ui.paywall.PaywallViewModel
 import taichi.walking.seniors.beginners.ui.paywall.UIProduct
 import java.util.Locale
+
+private enum class PurchaseDialogState {
+    Hidden, Loading, Success, Failed
+}
 
 @Composable
 fun PaywallScreen(
@@ -83,6 +93,8 @@ fun PaywallScreen(
     val ctaText = if (hasFreeTrial) "TRY $trialDays Days Free 🎉" else "Continue"
     val ctaSubtitle = if (hasFreeTrial) "No payment now" else "Cancel anytime"
 
+    var purchaseDialogState by remember { mutableStateOf(PurchaseDialogState.Hidden) }
+
     val genderId = remember(answersJson) {
         runCatching { Gson().fromJson(answersJson, OnboardingState::class.java)?.genderId }
             .getOrNull()
@@ -91,11 +103,28 @@ fun PaywallScreen(
     LaunchedEffect(Unit) {
         viewModel.eventsFlow.collect { event ->
             when (event) {
-                PaywallEvents.PurchaseIsAcknowledged,
+                PaywallEvents.PurchaseInProgress -> purchaseDialogState = PurchaseDialogState.Loading
+                PaywallEvents.PurchaseIsAcknowledged -> purchaseDialogState = PurchaseDialogState.Success
+                PaywallEvents.PurchaseNotValid -> purchaseDialogState = PurchaseDialogState.Failed
                 PaywallEvents.CloseScreen -> onComplete()
                 else -> Unit
             }
         }
+    }
+
+    // Purchase Status Dialog
+    if (purchaseDialogState != PurchaseDialogState.Hidden) {
+        PurchaseStatusDialog(
+            state = purchaseDialogState,
+            onOkay = {
+                purchaseDialogState = PurchaseDialogState.Hidden
+                onComplete()
+            },
+            onRetry = {
+                purchaseDialogState = PurchaseDialogState.Hidden
+                if (activity != null) viewModel.makePurchase(activity)
+            }
+        )
     }
 
     Scaffold(
@@ -436,6 +465,131 @@ private fun TestimonialCard(quote: String, author: String) {
                 color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.65f),
                 fontWeight = FontWeight.SemiBold
             )
+        }
+    }
+}
+
+@Composable
+private fun PurchaseStatusDialog(
+    state: PurchaseDialogState,
+    onOkay: () -> Unit,
+    onRetry: () -> Unit
+) {
+    Dialog(
+        onDismissRequest = { /* Non-dismissible during loading */ },
+        properties = DialogProperties(
+            dismissOnBackPress = state != PurchaseDialogState.Loading,
+            dismissOnClickOutside = false
+        )
+    ) {
+        Surface(
+            shape = RoundedCornerShape(24.dp),
+            color = MaterialTheme.colorScheme.surface,
+            tonalElevation = 8.dp
+        ) {
+            Column(
+                modifier = Modifier
+                    .padding(24.dp)
+                    .fillMaxWidth(),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.spacedBy(16.dp)
+            ) {
+                when (state) {
+                    PurchaseDialogState.Loading -> {
+                        CircularProgressIndicator(
+                            modifier = Modifier.size(48.dp),
+                            color = Color(0xFF0BA56B)
+                        )
+                        Text(
+                            text = "Validating your purchase...",
+                            style = MaterialTheme.typography.titleMedium,
+                            fontWeight = FontWeight.SemiBold,
+                            textAlign = TextAlign.Center
+                        )
+                        Text(
+                            text = "Please wait and don't close this screen",
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f),
+                            textAlign = TextAlign.Center
+                        )
+                    }
+                    PurchaseDialogState.Success -> {
+                        Icon(
+                            imageVector = Icons.Default.Star,
+                            contentDescription = null,
+                            tint = Color(0xFF0BA56B),
+                            modifier = Modifier.size(48.dp)
+                        )
+                        Text(
+                            text = "Welcome to Premium!",
+                            style = MaterialTheme.typography.titleMedium,
+                            fontWeight = FontWeight.Bold,
+                            textAlign = TextAlign.Center
+                        )
+                        Text(
+                            text = "Your purchase was successful. Enjoy all premium features!",
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f),
+                            textAlign = TextAlign.Center
+                        )
+                        Spacer(modifier = Modifier.height(8.dp))
+                        Box(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .clip(RoundedCornerShape(16.dp))
+                                .background(Color(0xFF0BA56B))
+                                .clickable { onOkay() }
+                                .padding(vertical = 14.dp),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Text(
+                                text = "Okay",
+                                color = Color.White,
+                                fontWeight = FontWeight.Bold,
+                                style = MaterialTheme.typography.titleMedium
+                            )
+                        }
+                    }
+                    PurchaseDialogState.Failed -> {
+                        Icon(
+                            imageVector = Icons.Default.Close,
+                            contentDescription = null,
+                            tint = Color(0xFFE53935),
+                            modifier = Modifier.size(48.dp)
+                        )
+                        Text(
+                            text = "Purchase Failed",
+                            style = MaterialTheme.typography.titleMedium,
+                            fontWeight = FontWeight.Bold,
+                            textAlign = TextAlign.Center
+                        )
+                        Text(
+                            text = "Something went wrong. Please try again.",
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f),
+                            textAlign = TextAlign.Center
+                        )
+                        Spacer(modifier = Modifier.height(8.dp))
+                        Box(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .clip(RoundedCornerShape(16.dp))
+                                .background(Color(0xFF0BA56B))
+                                .clickable { onRetry() }
+                                .padding(vertical = 14.dp),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Text(
+                                text = "Retry",
+                                color = Color.White,
+                                fontWeight = FontWeight.Bold,
+                                style = MaterialTheme.typography.titleMedium
+                            )
+                        }
+                    }
+                    else -> Unit
+                }
+            }
         }
     }
 }

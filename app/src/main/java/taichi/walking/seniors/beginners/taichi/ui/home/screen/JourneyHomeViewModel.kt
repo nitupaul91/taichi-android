@@ -2,6 +2,7 @@ package taichi.walking.seniors.beginners.taichi.ui.home.screen
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.mobteq.billing.model.purchases.local.PurchaseManager
 import taichi.walking.seniors.beginners.taichi.ui.home.data.WorkoutPlanService
 import taichi.walking.seniors.beginners.taichi.ui.home.model.WorkoutDayDto
 import taichi.walking.seniors.beginners.taichi.ui.home.model.WorkoutPlanDto
@@ -18,7 +19,8 @@ import javax.inject.Inject
 @HiltViewModel
 class JourneyHomeViewModel @Inject constructor(
     private val workoutPlanService: WorkoutPlanService,
-    private val practiceRepository: PracticeRepository
+    private val practiceRepository: PracticeRepository,
+    private val purchaseManager: PurchaseManager
 ) : ViewModel() {
 
     data class UiState(
@@ -27,7 +29,8 @@ class JourneyHomeViewModel @Inject constructor(
         val currentDay: Int = 1,
         val selectedDayNumber: Int = 1,
         val selectedDayData: WorkoutDayDto? = null,
-        val error: String? = null
+        val error: String? = null,
+        val isPremium: Boolean = false
     )
 
     private val _state = MutableStateFlow(UiState())
@@ -37,9 +40,12 @@ class JourneyHomeViewModel @Inject constructor(
         viewModelScope.launch {
             combine(
                 practiceRepository.currentDay,
-                practiceRepository.totalMinutes
-            ) { currentDay, _ -> currentDay }
-                .collect { day -> _state.update { it.copy(currentDay = day) } }
+                practiceRepository.totalMinutes,
+                purchaseManager.isUserPremiumSubscribed()
+            ) { currentDay, _, isPremium -> Pair(currentDay, isPremium) }
+                .collect { (day, isPremium) ->
+                    _state.update { it.copy(currentDay = day, isPremium = isPremium) }
+                }
         }
     }
 

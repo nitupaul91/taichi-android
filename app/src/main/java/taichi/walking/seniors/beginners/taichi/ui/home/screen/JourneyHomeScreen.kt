@@ -189,6 +189,7 @@ fun JourneyHomeScreen(
             dayNumber = day.day,
             dayData = day,
             currentDay = state.currentDay,
+            isPremium = state.isPremium,
             onClose = { previewDay = null },
             onBegin = { previewDay = null; workoutDay = day },
             onOpenPaywall = { showPaywall = true }

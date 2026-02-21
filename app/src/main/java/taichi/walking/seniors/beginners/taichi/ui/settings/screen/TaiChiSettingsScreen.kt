@@ -1,6 +1,5 @@
 package taichi.walking.seniors.beginners.taichi.ui.settings.screen
 
-import taichi.walking.seniors.beginners.taichi.ui.onboarding.screens.PaywallScreen
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -27,6 +26,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -41,6 +41,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import taichi.walking.seniors.beginners.taichi.ui.onboarding.screens.PaywallScreen
 
 @Composable
 fun TaiChiSettingsScreen(
@@ -49,6 +50,7 @@ fun TaiChiSettingsScreen(
 ) {
     val uriHandler = LocalUriHandler.current
     var showPaywall by remember { mutableStateOf(false) }
+    val isPremium by viewModel.isPremium.collectAsState()
 
     LaunchedEffect(showPaywall) {
         onBottomBarVisibilityChange(!showPaywall)
@@ -81,11 +83,12 @@ fun TaiChiSettingsScreen(
         SettingsCard {
             SettingsRow(
                 icon = Icons.Default.WorkspacePremium,
-                iconColor = Color(0xFFF5A623),
-                iconBackground = Color(0xFFF9EFD9),
-                title = "Upgrade to Premium",
-                subtitle = "Unlock all features",
-                onClick = { showPaywall = true }
+                iconColor = if (isPremium) Color(0xFF0BA56B) else Color(0xFFF5A623),
+                iconBackground = if (isPremium) Color(0xFFE6F5EE) else Color(0xFFF9EFD9),
+                title = if (isPremium) "Premium" else "Upgrade to Premium",
+                subtitle = if (isPremium) "You have full access" else "Unlock all features",
+                showChevron = !isPremium,
+                onClick = { if (!isPremium) showPaywall = true }
             )
         }
 

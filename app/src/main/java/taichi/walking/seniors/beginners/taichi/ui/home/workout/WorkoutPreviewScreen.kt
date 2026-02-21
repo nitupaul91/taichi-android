@@ -53,11 +53,12 @@ fun WorkoutPreviewScreen(
     dayNumber: Int,
     dayData: WorkoutDayDto,
     currentDay: Int,
+    isPremium: Boolean = false,
     onClose: () -> Unit,
     onBegin: () -> Unit,
     onOpenPaywall: (() -> Unit)? = null
 ) {
-    val requiresPremium = dayNumber > 3
+    val requiresPremium = dayNumber > 3 && !isPremium
     val accessible = dayNumber <= currentDay
     var showCompleteFirstDialog by remember { mutableStateOf(false) }
 
