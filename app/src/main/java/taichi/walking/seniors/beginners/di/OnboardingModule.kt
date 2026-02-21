@@ -4,6 +4,7 @@ import taichi.walking.seniors.beginners.taichi.onboarding.data.OnboardingPrefs
 import taichi.walking.seniors.beginners.taichi.onboarding.data.OnboardingRepository
 import taichi.walking.seniors.beginners.taichi.onboarding.data.OnboardingRepositoryImpl
 import android.content.Context
+import com.sageai.notifications.worker.ConfigUploadWorkScheduler
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -22,6 +23,9 @@ object OnboardingModule {
 
     @Provides
     @Singleton
-    fun provideOnboardingRepository(prefs: OnboardingPrefs): OnboardingRepository =
-        OnboardingRepositoryImpl(prefs)
+    fun provideOnboardingRepository(
+        prefs: OnboardingPrefs,
+        configUploadWorkScheduler: ConfigUploadWorkScheduler
+    ): OnboardingRepository =
+        OnboardingRepositoryImpl(prefs, configUploadWorkScheduler)
 }

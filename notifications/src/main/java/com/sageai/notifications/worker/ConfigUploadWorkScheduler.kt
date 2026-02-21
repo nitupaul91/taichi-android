@@ -16,26 +16,28 @@ import javax.inject.Inject
 class ConfigUploadWorkScheduler @Inject constructor(
     @ApplicationContext private val context: Context
 ) {
-    fun scheduleOnce(fcmToken: String) {
+    fun scheduleOnce(fcmToken: String? = null) {
         Timber.tag(TAG).i("Scheduling fcm token upload work")
 
         val constraints = Constraints.Builder()
             .setRequiredNetworkType(NetworkType.CONNECTED)
             .build()
 
-        val data = Data.Builder().putString(KEY_FCM_TOKEN, fcmToken).build()
+        val dataBuilder = Data.Builder()
+        if (fcmToken != null) {
+            dataBuilder.putString(KEY_FCM_TOKEN, fcmToken)
+        }
 
         val work = OneTimeWorkRequestBuilder<ConfigUploadWorker>()
             .setConstraints(constraints)
-            .setInputData(data)
+            .setInputData(dataBuilder.build())
             .build()
 
-        val enqueueUniqueWork = WorkManager.getInstance(context).enqueueUniqueWork(
+        WorkManager.getInstance(context).enqueueUniqueWork(
             WORK_NAME,
             ExistingWorkPolicy.REPLACE,
             work
         )
-        println(enqueueUniqueWork)
     }
 
     companion object {

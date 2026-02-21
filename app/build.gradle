@@ -27,7 +27,7 @@ android {
         applicationId "taichi.walking.seniors.beginners"
         minSdk 23
         targetSdk 35
-        versionCode 2
+        versionCode 4
         versionName "1.0.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"

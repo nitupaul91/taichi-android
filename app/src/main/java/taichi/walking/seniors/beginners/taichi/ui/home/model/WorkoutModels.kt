@@ -19,9 +19,9 @@ enum class ExerciseGoal {
 }
 
 data class GenerateWorkoutRequest(
-    val language: String,
-    val restrictions: List<ExerciseLimitation>,
-    val goals: List<ExerciseGoal>
+    @SerializedName("language") val language: String,
+    @SerializedName("restrictions") val restrictions: List<ExerciseLimitation>,
+    @SerializedName("goals") val goals: List<ExerciseGoal>
 )
 
 enum class ExerciseStage {
@@ -37,20 +37,20 @@ enum class ExerciseDifficulty {
 }
 
 data class ExerciseDto(
-    val exerciseId: String,
-    val name: String,
-    val limitations: List<ExerciseLimitation>,
-    val steps: List<String>,
-    val energyUse: Int,
-    val lengthSeconds: Int,
-    val intensity: ExerciseDifficulty,
-    val goals: List<ExerciseGoal>,
-    val stage: ExerciseStage,
-    val heroImageUrl: String,
-    val hintSpeechUrl: String,
-    val stepsSpeechUrl: String,
-    val nameSpeechUrl: String,
-    val videoUrl: String
+    @SerializedName("exerciseId") val exerciseId: String,
+    @SerializedName("name") val name: String,
+    @SerializedName("limitations") val limitations: List<ExerciseLimitation>,
+    @SerializedName("steps") val steps: List<String>,
+    @SerializedName("energyUse") val energyUse: Int,
+    @SerializedName("lengthSeconds") val lengthSeconds: Int,
+    @SerializedName("intensity") val intensity: ExerciseDifficulty,
+    @SerializedName("goals") val goals: List<ExerciseGoal>,
+    @SerializedName("stage") val stage: ExerciseStage,
+    @SerializedName("heroImageUrl") val heroImageUrl: String,
+    @SerializedName("hintSpeechUrl") val hintSpeechUrl: String,
+    @SerializedName("stepsSpeechUrl") val stepsSpeechUrl: String,
+    @SerializedName("nameSpeechUrl") val nameSpeechUrl: String,
+    @SerializedName("videoUrl") val videoUrl: String
 ) {
     val id: String get() = exerciseId
     val duration: Int get() = lengthSeconds
@@ -59,11 +59,11 @@ data class ExerciseDto(
 }
 
 data class WorkoutDayDto(
-    val day: Int,
-    val lengthSeconds: Int,
-    val exercises: List<ExerciseDto>,
-    val description: String,
-    val heroImageUrl: String
+    @SerializedName("day") val day: Int,
+    @SerializedName("lengthSeconds") val lengthSeconds: Int,
+    @SerializedName("exercises") val exercises: List<ExerciseDto>,
+    @SerializedName("description") val description: String,
+    @SerializedName("heroImageUrl") val heroImageUrl: String
 ) {
     val id: Int get() = day
     val durationInMinutes: Int get() = lengthSeconds / 60
@@ -81,16 +81,16 @@ data class WorkoutDayDto(
 }
 
 data class WorkoutPhaseDto(
-    val phase: Int,
-    val name: String,
-    val description: String,
-    val days: List<WorkoutDayDto>
+    @SerializedName("phase") val phase: Int,
+    @SerializedName("name") val name: String,
+    @SerializedName("description") val description: String,
+    @SerializedName("days") val days: List<WorkoutDayDto>
 ) {
     val id: Int get() = phase
 }
 
 data class WorkoutPlanDto(
-    val phases: List<WorkoutPhaseDto>
+    @SerializedName("phases") val phases: List<WorkoutPhaseDto>
 ) {
     val totalDays: Int get() = phases.sumOf { it.days.size }
     val allDays: List<WorkoutDayDto> get() = phases.flatMap { it.days }

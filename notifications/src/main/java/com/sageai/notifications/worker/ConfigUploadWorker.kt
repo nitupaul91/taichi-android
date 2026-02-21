@@ -4,11 +4,13 @@ import android.content.Context
 import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
+import com.google.firebase.messaging.FirebaseMessaging
 import com.sageai.id.IDService
 import com.sageai.notifications.api.ConfigApi
 import com.sageai.notifications.api.model.UploadConfigBody
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
+import kotlinx.coroutines.tasks.await
 import timber.log.Timber
 import java.util.Locale
 import javax.inject.Named
@@ -25,10 +27,16 @@ class ConfigUploadWorker @AssistedInject constructor(
     override suspend fun doWork(): Result {
         Timber.tag(TAG).i("Executing fcm token upload")
 
+        val fcmToken = getFcmToken()
+        if (fcmToken == null) {
+            Timber.tag(TAG).e("FCM token not available")
+            return Result.retry()
+        }
+
         val body = UploadConfigBody(
             userId = idService.getDeviceID(),
             region = Locale.getDefault().country.ifBlank { "UN" },
-            fcmToken = getFcmToken(),
+            fcmToken = fcmToken,
             deviceLanguage = Locale.getDefault().displayLanguage,
             appVersion = appVersionCode,
         )
@@ -43,10 +51,20 @@ class ConfigUploadWorker @AssistedInject constructor(
         return Result.success()
     }
 
-    private fun getFcmToken(): String {
-        val fcmToken = inputData.getString(KEY_FCM_TOKEN)
+    private suspend fun getFcmToken(): String? {
+        // First try to get from input data (when triggered by onNewToken)
+        val inputToken = inputData.getString(KEY_FCM_TOKEN)
+        if (!inputToken.isNullOrBlank()) {
+            return inputToken
+        }
 
-        return requireNotNull(fcmToken)
+        // Otherwise fetch from Firebase
+        return try {
+            FirebaseMessaging.getInstance().token.await()
+        } catch (e: Exception) {
+            Timber.tag(TAG).e(e, "Failed to get FCM token")
+            null
+        }
     }
 
     companion object {
