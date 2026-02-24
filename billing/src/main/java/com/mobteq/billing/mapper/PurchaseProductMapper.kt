@@ -44,16 +44,34 @@ fun ProductDetails.mapToPurchaseProduct(): Product? {
 private fun selectOfferForPurchase(
     offers: List<ProductDetails.SubscriptionOfferDetails>
 ): ProductDetails.SubscriptionOfferDetails {
-    val purchasableOffers = offers.filter { offer ->
-        offer.offerToken.isNotBlank() &&
-            offer.pricingPhases.pricingPhaseList.any { it.priceAmountMicros > 0L }
-    }
-    if (purchasableOffers.isEmpty()) return offers.first()
 
-    // Prefer a stable paid base-plan style offer to avoid ineligible trial-offer tokens.
-    return purchasableOffers.firstOrNull { offer ->
-        offer.pricingPhases.pricingPhaseList.none { it.priceAmountMicros == 0L }
-    } ?: purchasableOffers.first()
+    // 1. Prefer trial offer
+    val trialOffer = offers.firstOrNull { offer ->
+        offer.pricingPhases.pricingPhaseList.any {
+            it.priceAmountMicros == 0L
+        }
+    }
+
+    if (trialOffer != null) {
+        Timber.d("Selected TRIAL offer: ${trialOffer.offerToken}")
+        return trialOffer
+    }
+
+    // 2. Fallback to regular paid offer
+    val paidOffer = offers.firstOrNull { offer ->
+        offer.pricingPhases.pricingPhaseList.any {
+            it.priceAmountMicros > 0L
+        }
+    }
+
+    if (paidOffer != null) {
+        Timber.d("Selected PAID offer: ${paidOffer.offerToken}")
+        return paidOffer
+    }
+
+    // 3. Final fallback
+    Timber.w("Fallback to first offer")
+    return offers.first()
 }
 
 private fun getFreeTrialIfEligible(

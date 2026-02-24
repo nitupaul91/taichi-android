@@ -1,8 +1,5 @@
 package taichi.walking.seniors.beginners.ui.paywall
 
-import taichi.walking.seniors.beginners.R
-import taichi.walking.seniors.beginners.service.UserService
-import taichi.walking.seniors.beginners.util.Strings
 import android.app.Activity
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -22,6 +19,9 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import taichi.walking.seniors.beginners.R
+import taichi.walking.seniors.beginners.service.UserService
+import taichi.walking.seniors.beginners.util.Strings
 import javax.inject.Inject
 
 @HiltViewModel
@@ -123,7 +123,7 @@ class PaywallViewModel @Inject constructor(
                 discountText = "",
                 title = getProductTitle(product),
                 description = getProductDescription(product),
-                benefits = getProductBenefits(product.productId),
+                benefits = emptyList(),
                 billingPeriod = getBillingPeriodForProduct(product)
             )
         }
@@ -135,28 +135,6 @@ class PaywallViewModel @Inject constructor(
             else -> strings.getString(R.string.month)
         }
 
-    }
-
-    private fun getProductBenefits(productId: String): List<String> {
-        return when (productId) {
-            MONTHLY_SUBSCRIPTION_V1 -> listOf(
-//                strings.getString(R.string.monthly_benefit_one, TIER_ONE_MAX_CARS),
-                strings.getString(R.string.monthly_benefit_two, TIER_ONE_MAX_IMAGES),
-                strings.getString(R.string.no_watermark),
-                strings.getString(R.string.high_res_images),
-                strings.getString(R.string.free_premium_templates),
-            )
-
-            YEARLY_SUBSCRIPTION_V1 -> listOf(
-//                strings.getString(R.string.monthly_benefit_one, TIER_TWO_MAX_CARS),
-                strings.getString(R.string.monthly_benefit_two, TIER_TWO_MAX_IMAGES),
-                strings.getString(R.string.no_watermark),
-                strings.getString(R.string.high_res_images),
-                strings.getString(R.string.free_premium_templates),
-            )
-
-            else -> emptyList()
-        }
     }
 
     private fun setPreselectedProduct(products: List<Product>) {

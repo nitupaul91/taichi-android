@@ -388,19 +388,6 @@
         <item name="rippleColor">?attr/colorControlHighlight</item>
     </style>
 
-    <style name="CategoryChipStyle" parent="Widget.MaterialComponents.Chip.Choice">
-        <item name="chipBackgroundColor">@color/chip_background_color_state_list</item>
-        <item name="android:textColor">@color/chip_text_color_state_list</item>
-        <item name="chipStartPadding">16dp</item>
-        <item name="chipEndPadding">16dp</item>
-        <item name="chipCornerRadius">12dp</item>
-        <item name="chipMinHeight">36dp</item>
-        <item name="android:textAlignment">center</item>
-        <item name="android:fontFamily">@font/mona_sans_bold</item>
-        <item name="android:textSize">14sp</item>
-        <item name="minWidth">80dp</item>
-    </style>
-
     <style name="OnboardingTitleStyle">
         <item name="android:textColor">@color/white</item>
         <item name="android:textSize">20sp</item>
