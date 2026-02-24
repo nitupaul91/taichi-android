@@ -1,5 +1,9 @@
 package taichi.walking.seniors.beginners.taichi.ui.home.workout
 
+import android.graphics.Color as AndroidColor
+import androidx.activity.ComponentActivity
+import androidx.activity.SystemBarStyle
+import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -16,6 +20,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
@@ -46,6 +51,7 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
@@ -70,18 +76,28 @@ fun WorkoutScreen(
     val currentExercise = model.currentExercise
     val isPlaying = model.isVideoPlaying
     val statusBarPadding = WindowInsets.statusBars.asPaddingValues()
+    val navBarPadding = WindowInsets.navigationBars.asPaddingValues()
+
+    val activity = LocalContext.current as? ComponentActivity
+    DisposableEffect(Unit) {
+        activity?.enableEdgeToEdge(
+            statusBarStyle = SystemBarStyle.dark(AndroidColor.TRANSPARENT),
+            navigationBarStyle = SystemBarStyle.dark(AndroidColor.TRANSPARENT)
+        )
+        onDispose {
+            model.stop()
+            activity?.enableEdgeToEdge(
+                statusBarStyle = SystemBarStyle.light(AndroidColor.TRANSPARENT, AndroidColor.TRANSPARENT),
+                navigationBarStyle = SystemBarStyle.light(AndroidColor.TRANSPARENT, AndroidColor.TRANSPARENT)
+            )
+        }
+    }
 
     LaunchedEffect(dayData.id) {
         model.startTimer(
             onTick = { },
             onComplete = onComplete
         )
-    }
-
-    DisposableEffect(Unit) {
-        onDispose {
-            model.stop()
-        }
     }
 
     Box(
@@ -166,6 +182,7 @@ fun WorkoutScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(top = statusBarPadding.calculateTopPadding())
+                .padding(bottom = navBarPadding.calculateBottomPadding())
                 .padding(horizontal = 20.dp, vertical = 20.dp)
         ) {
             Row(verticalAlignment = Alignment.CenterVertically) {

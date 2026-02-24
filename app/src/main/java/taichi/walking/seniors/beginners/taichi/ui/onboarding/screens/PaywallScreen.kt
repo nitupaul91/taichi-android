@@ -155,7 +155,7 @@ fun PaywallScreen(
                     .fillMaxWidth()
                     .background(MaterialTheme.colorScheme.background)
                     .padding(horizontal = 20.dp)
-                    .padding(top = 10.dp, bottom = navBarPadding + 10.dp),
+                    .padding(top = 10.dp, bottom = navBarPadding),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 PrimaryButton(

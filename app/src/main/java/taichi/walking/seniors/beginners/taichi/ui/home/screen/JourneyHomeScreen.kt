@@ -12,12 +12,15 @@ import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -97,10 +100,9 @@ fun JourneyHomeScreen(
             .fillMaxSize()
             .background(
                 Brush.verticalGradient(
-                    colors = listOf(
-                        Color(0xFFE8F5EE),
-                        Color(0xFFF0FAF4),
-                        Color(0xFFF8FCF9),
+                    listOf(
+                        Color(0xFFF5FAF8),
+                        Color(0xFFFAFDFC),
                         Color.White
                     )
                 )
@@ -115,9 +117,10 @@ fun JourneyHomeScreen(
             }
             state.workoutPlan != null -> {
                 val plan = state.workoutPlan!!
+                val statusBarPadding = WindowInsets.statusBars.asPaddingValues().calculateTopPadding()
                 LazyColumn(
                     modifier = Modifier.fillMaxSize(),
-                    contentPadding = PaddingValues(top = 60.dp, start = 20.dp, end = 20.dp, bottom = 100.dp)
+                    contentPadding = PaddingValues(top = statusBarPadding + 20.dp, start = 20.dp, end = 20.dp, bottom = 100.dp)
                 ) {
                     item {
 

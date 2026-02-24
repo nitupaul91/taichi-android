@@ -75,7 +75,8 @@ fun ValuePropPlanAdjustedScreen(
                 Text(
                     text = stringResource(R.string.onboarding_value_plan_adjusted_timeline),
                     style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.primary
+                    color = MaterialTheme.colorScheme.primary,
+                    textAlign = TextAlign.Center
                 )
             }
             BodyCol(

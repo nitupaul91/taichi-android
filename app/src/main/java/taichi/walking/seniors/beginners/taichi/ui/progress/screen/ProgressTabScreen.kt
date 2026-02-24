@@ -11,8 +11,13 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
+import androidx.compose.foundation.layout.statusBars
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.CheckCircle
@@ -37,6 +42,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 @Composable
 fun ProgressTabScreen(viewModel: ProgressViewModel = hiltViewModel()) {
     val state by viewModel.state.collectAsState()
+    val statusBarPadding = WindowInsets.statusBars.asPaddingValues().calculateTopPadding()
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -49,10 +55,11 @@ fun ProgressTabScreen(viewModel: ProgressViewModel = hiltViewModel()) {
                     )
                 )
             )
-            .padding(20.dp),
+            .verticalScroll(rememberScrollState())
+            .padding(top = statusBarPadding + 20.dp, start = 20.dp, end = 20.dp, bottom = 20.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
-        Text("Your Progress", style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold)
+        Text("Your Progress", style = MaterialTheme.typography.headlineMedium, fontWeight = FontWeight.ExtraBold, color = Color(0xFF1A1A1A))
         StatCard(
             title = "Days Completed",
             value = state.totalDaysCompleted.toString(),
@@ -87,14 +94,14 @@ fun ProgressTabScreen(viewModel: ProgressViewModel = hiltViewModel()) {
             modifier = Modifier
                 .fillMaxWidth()
                 .background(MaterialTheme.colorScheme.surface, RoundedCornerShape(20.dp))
-                .padding(16.dp),
+                .padding(horizontal = 12.dp, vertical = 16.dp),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             state.weeklyProgress.forEach { day ->
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
                     Box(
                         modifier = Modifier
-                            .size(46.dp)
+                            .size(38.dp)
                             .background(Color(0xFFF9FBFA), CircleShape)
                             .border(
                                 width = 2.dp,
@@ -106,7 +113,7 @@ fun ProgressTabScreen(viewModel: ProgressViewModel = hiltViewModel()) {
                         if (day.isCompleted) {
                             Box(
                                 modifier = Modifier
-                                    .size(34.dp)
+                                    .size(28.dp)
                                     .background(Color(0xFF45A977), CircleShape),
                                 contentAlignment = Alignment.Center
                             ) {
@@ -114,15 +121,15 @@ fun ProgressTabScreen(viewModel: ProgressViewModel = hiltViewModel()) {
                                     imageVector = Icons.Default.Check,
                                     contentDescription = null,
                                     tint = Color.White,
-                                    modifier = Modifier.size(19.dp)
+                                    modifier = Modifier.size(16.dp)
                                 )
                             }
                         }
                     }
-                    Spacer(modifier = Modifier.size(6.dp))
+                    Spacer(modifier = Modifier.size(4.dp))
                     Text(
                         text = day.dayName,
-                        style = MaterialTheme.typography.bodyMedium.copy(fontSize = 14.sp, fontWeight = FontWeight.Medium),
+                        style = MaterialTheme.typography.bodyMedium.copy(fontSize = 12.sp, fontWeight = FontWeight.Medium),
                         color = Color(0xFF6E7B82)
                     )
                 }

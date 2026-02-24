@@ -33,7 +33,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.shadow
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
+import androidx.compose.foundation.layout.statusBars
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalUriHandler
@@ -56,27 +58,28 @@ fun TaiChiSettingsScreen(
         onBottomBarVisibilityChange(!showPaywall)
     }
 
+    val statusBarPadding = WindowInsets.statusBars.asPaddingValues().calculateTopPadding()
+
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(
                 Brush.verticalGradient(
-                    colors = listOf(
-                        Color(0xFFF1F7F4),
-                        Color(0xFFF7FBF9),
+                    listOf(
+                        Color(0xFFF5FAF8),
+                        Color(0xFFFAFDFC),
                         Color.White
                     )
                 )
             )
-            .padding(horizontal = 24.dp, vertical = 20.dp),
+            .padding(top = statusBarPadding + 20.dp, start = 20.dp, end = 20.dp, bottom = 20.dp),
         verticalArrangement = Arrangement.spacedBy(22.dp)
     ) {
         Text(
             text = "Settings",
-            style = MaterialTheme.typography.titleLarge.copy(fontSize = 42.sp),
-            fontWeight = FontWeight.Bold,
-            color = Color(0xFF2F3C42),
-            modifier = Modifier.padding(top = 8.dp)
+            style = MaterialTheme.typography.headlineMedium,
+            fontWeight = FontWeight.ExtraBold,
+            color = Color(0xFF1A1A1A)
         )
 
         SectionLabel("SUBSCRIPTION")
@@ -156,8 +159,7 @@ private fun SettingsCard(content: @Composable () -> Unit) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .shadow(10.dp, RoundedCornerShape(16.dp), ambientColor = Color.Black.copy(alpha = 0.04f))
-            .background(Color.White, RoundedCornerShape(16.dp))
+            .background(MaterialTheme.colorScheme.surface, RoundedCornerShape(20.dp))
             .padding(vertical = 2.dp)
     ) {
         content()

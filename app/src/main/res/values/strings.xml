@@ -252,13 +252,13 @@
     <string name="onboarding_paywall_cta_trial">Start %s-Day Free Trial</string>
     <string name="onboarding_paywall_no_payment_now">No payment now</string>
     <string name="onboarding_paywall_cancel_anytime">Cancel anytime</string>
-    <string name="onboarding_paywall_trial_then_yearly">%1$s-day free trial, then %2$s/year. Auto-renews.</string>
-    <string name="onboarding_paywall_trial_then_monthly">%1$s-day free trial, then %2$s/month. Auto-renews.</string>
+    <string name="onboarding_paywall_trial_then_yearly">then %2$s/year</string>
+    <string name="onboarding_paywall_trial_then_monthly">then %2$s/month</string>
     <string name="onboarding_paywall_loading_offers">Loading offers…</string>
     <string name="onboarding_paywall_billed_yearly">%s billed yearly</string>
     <string name="onboarding_paywall_best_value">BEST VALUE</string>
     <string name="onboarding_paywall_free_trial_days">%s-day free trial</string>
-    <string name="onboarding_paywall_terms_of_use">Terms of Use</string>
+    <string name="onboarding_paywall_terms_of_use">Terms</string>
     <string name="onboarding_paywall_privacy_policy">Privacy Policy</string>
     <string name="onboarding_paywall_benefit_1">Unlimited access to all Tai Chi sessions</string>
     <string name="onboarding_paywall_benefit_2">Calm voice guidance through every movement</string>
