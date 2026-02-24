@@ -1,6 +1,7 @@
 package taichi.walking.seniors.beginners.taichi.onboarding.nav
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
@@ -8,7 +9,9 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import taichi.walking.seniors.beginners.taichi.onboarding.analytics.OnboardingAnalyticsTracker
 import taichi.walking.seniors.beginners.taichi.ui.onboarding.screens.*
 import taichi.walking.seniors.beginners.taichi.onboarding.viewmodel.OnboardingViewModel
 import kotlinx.coroutines.launch
@@ -17,10 +20,19 @@ import kotlinx.coroutines.launch
 fun OnboardingNavGraph(
     navController: NavHostController = rememberNavController(),
     viewModel: OnboardingViewModel = hiltViewModel(),
+    analyticsTracker: OnboardingAnalyticsTracker,
     onFinished: () -> Unit = {}
 ) {
     val state by viewModel.state.collectAsState()
     val scope = rememberCoroutineScope()
+
+    // Track screen views
+    val currentBackStackEntry by navController.currentBackStackEntryAsState()
+    LaunchedEffect(currentBackStackEntry) {
+        val currentRoute = currentBackStackEntry?.destination?.route
+        val screenIndex = OnboardingRoutes.all.find { it.route == currentRoute }?.index ?: return@LaunchedEffect
+        analyticsTracker.trackScreenView(screenIndex)
+    }
 
     NavHost(
         navController = navController,
@@ -294,12 +306,14 @@ fun OnboardingNavGraph(
                 onClose = {
                     scope.launch {
                         viewModel.completeOnboarding()
+                        analyticsTracker.trackOnboardingComplete()
                         onFinished()
                     }
                 },
                 onComplete = {
                     scope.launch {
                         viewModel.completeOnboarding()
+                        analyticsTracker.trackOnboardingComplete()
                         onFinished()
                     }
                 }

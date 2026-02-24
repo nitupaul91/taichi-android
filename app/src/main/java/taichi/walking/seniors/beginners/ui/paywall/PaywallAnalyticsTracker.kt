@@ -4,12 +4,10 @@ import android.os.Bundle
 import androidx.core.os.bundleOf
 import com.mobteq.analytics.FirebaseAnalytics
 import com.mobteq.analytics.FirebaseAnalytics.Companion.PROPERTY_SCREEN_NAME
-import com.mobteq.analytics.MixpanelAnalytics
 import javax.inject.Inject
 
 class PaywallAnalyticsTracker @Inject constructor(
-    private val firebaseAnalyticsTracker: FirebaseAnalytics,
-    private val mixpanelAnalytics: MixpanelAnalytics
+    private val firebaseAnalyticsTracker: FirebaseAnalytics
 ) {
 
     fun trackPaywallView() {
@@ -40,23 +38,7 @@ class PaywallAnalyticsTracker @Inject constructor(
 
     private fun trackEvent(name: String, params: Bundle = bundleOf()) {
         params.putString(PROPERTY_SCREEN_NAME, VALUE_PAYWALL)
-
-        // Firebase
         firebaseAnalyticsTracker.logEvent(name, params)
-
-        // Mixpanel
-        val mapParams = bundleToMap(params)
-        mixpanelAnalytics.logEvent(name, mapParams)
-    }
-
-    private fun bundleToMap(bundle: Bundle): Map<String, Any> {
-        val map = mutableMapOf<String, Any>()
-        for (key in bundle.keySet()) {
-            bundle.get(key)?.let { value ->
-                map[key] = value
-            }
-        }
-        return map
     }
 
     companion object {

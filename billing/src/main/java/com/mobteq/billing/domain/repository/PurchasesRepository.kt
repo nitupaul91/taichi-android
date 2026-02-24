@@ -46,8 +46,11 @@ class PurchasesRepository @Inject constructor(
                 }
             }
             .collect { subs ->
+                // Clear old cached products to ensure we use fresh offer tokens
+                playBillingProductMap.clear()
+
                 val products = subs.mapNotNull { billingProduct ->
-                    playBillingProductMap.put(billingProduct.productId, billingProduct)
+                    playBillingProductMap[billingProduct.productId] = billingProduct
 
                     billingProduct.mapToPurchaseProduct()
                 }
