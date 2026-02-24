@@ -19,7 +19,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import taichi.walking.seniors.beginners.R
 import taichi.walking.seniors.beginners.taichi.onboarding.ui.components.QuestionScaffold
 
 @Composable
@@ -58,7 +60,7 @@ fun ValuePropAlmostDoneScreen(
             }
             Spacer(modifier = Modifier.height(34.dp))
             Text(
-                text = "You're almost done",
+                text = stringResource(R.string.onboarding_value_almost_done_title),
                 style = MaterialTheme.typography.titleLarge,
                 color = MaterialTheme.colorScheme.onSurface,
                 textAlign = TextAlign.Center,
@@ -66,14 +68,14 @@ fun ValuePropAlmostDoneScreen(
             )
             Spacer(modifier = Modifier.height(12.dp))
             Text(
-                text = "Just a few more details to personalize your plan.",
+                text = stringResource(R.string.onboarding_value_almost_done_subtitle),
                 style = MaterialTheme.typography.bodyLarge,
                 color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.75f),
                 textAlign = TextAlign.Center
             )
             Spacer(modifier = Modifier.height(22.dp))
             Text(
-                text = "A calm routine, built around your comfort and daily life.",
+                text = stringResource(R.string.onboarding_value_almost_done_message),
                 style = MaterialTheme.typography.bodyLarge,
                 color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f),
                 textAlign = TextAlign.Center

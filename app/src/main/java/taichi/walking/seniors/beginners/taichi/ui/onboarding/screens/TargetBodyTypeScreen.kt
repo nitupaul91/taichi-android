@@ -1,6 +1,8 @@
 package taichi.walking.seniors.beginners.taichi.ui.onboarding.screens
 
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.res.stringResource
+import taichi.walking.seniors.beginners.R
 import taichi.walking.seniors.beginners.taichi.onboarding.state.OnboardingAction
 import taichi.walking.seniors.beginners.taichi.onboarding.state.OnboardingState
 import taichi.walking.seniors.beginners.taichi.onboarding.ui.util.OnboardingOptions
@@ -17,8 +19,8 @@ fun TargetBodyTypeScreen(
 ) {
     ImageGridScreen(
         progress = progressFor(OnboardingRoutes.TargetBodyType),
-        title = "Your TARGET body type",
-        subtitle = "Pick the shape you’re aiming for.",
+        title = stringResource(R.string.onboarding_target_body_type_title),
+        subtitle = stringResource(R.string.onboarding_target_body_type_subtitle),
         options = OnboardingOptions.bodyTypesForGender(state.genderId),
         selectedId = state.targetBodyTypeId,
         onBack = onBack,

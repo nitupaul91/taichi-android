@@ -4,7 +4,9 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import taichi.walking.seniors.beginners.R
 import taichi.walking.seniors.beginners.taichi.onboarding.ui.components.OptionCard
 import taichi.walking.seniors.beginners.taichi.onboarding.ui.components.QuestionScaffold
 import taichi.walking.seniors.beginners.taichi.onboarding.ui.util.OnboardingOptions
@@ -17,8 +19,8 @@ fun CommunityValueScreen(
 ) {
     QuestionScaffold(
         progress = progress,
-        title = "A calm, supportive community",
-        subtitle = "We keep it simple and gentle from day one.",
+        title = stringResource(R.string.onboarding_community_title),
+        subtitle = stringResource(R.string.onboarding_community_subtitle),
         onBack = onBack,
         onContinue = onContinue
     ) {

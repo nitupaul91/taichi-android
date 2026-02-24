@@ -11,7 +11,9 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import taichi.walking.seniors.beginners.R
 import taichi.walking.seniors.beginners.taichi.onboarding.ui.components.QuestionScaffold
 import taichi.walking.seniors.beginners.taichi.onboarding.ui.util.progressFor
 import taichi.walking.seniors.beginners.taichi.onboarding.nav.OnboardingRoutes
@@ -24,16 +26,16 @@ fun SocialProofScreen(
 ) {
     QuestionScaffold(
         progress = progress,
-        title = "Trusted by Thousands",
-        subtitle = "Over 10M members have started a gentle Tai Chi routine.",
+        title = stringResource(R.string.onboarding_social_proof_title),
+        subtitle = stringResource(R.string.onboarding_social_proof_subtitle),
         onBack = onBack,
         onContinue = onContinue
     ) {
-        TestimonialCard("At 72, I finally found an exercise I can do every day.", "Margaret S., 72")
+        TestimonialCard(stringResource(R.string.onboarding_social_proof_testimonial_1), stringResource(R.string.onboarding_social_proof_author_1))
         Spacer(modifier = Modifier.height(12.dp))
-        TestimonialCard("The gentle movements have helped with my balance.", "Robert M., 68")
+        TestimonialCard(stringResource(R.string.onboarding_social_proof_testimonial_2), stringResource(R.string.onboarding_social_proof_author_2))
         Spacer(modifier = Modifier.height(12.dp))
-        TestimonialCard("I sleep better and have more energy throughout the day.", "Patricia L., 75")
+        TestimonialCard(stringResource(R.string.onboarding_social_proof_testimonial_3), stringResource(R.string.onboarding_social_proof_author_3))
     }
 }
 

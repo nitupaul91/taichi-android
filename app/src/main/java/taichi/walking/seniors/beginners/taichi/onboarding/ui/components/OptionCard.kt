@@ -20,6 +20,7 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.ui.draw.clip
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -44,6 +45,7 @@ fun OptionCard(
         modifier = Modifier
             .fillMaxWidth()
             .heightIn(min = Dimens.cardMinHeight)
+            .clip(MaterialTheme.shapes.large)
             .clickable(onClick = onClick)
             .semantics {
                 stateDescription = if (selected) "Selected" else "Not selected"

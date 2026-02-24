@@ -1,6 +1,8 @@
 package taichi.walking.seniors.beginners.taichi.ui.onboarding.screens
 
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.res.stringResource
+import taichi.walking.seniors.beginners.R
 import taichi.walking.seniors.beginners.taichi.onboarding.state.OnboardingAction
 import taichi.walking.seniors.beginners.taichi.onboarding.state.OnboardingState
 import taichi.walking.seniors.beginners.taichi.onboarding.ui.util.OnboardingOptions
@@ -17,8 +19,8 @@ fun WaterIntakeScreen(
 ) {
     SingleSelectScreen(
         progress = progressFor(OnboardingRoutes.WaterIntake),
-        title = "How much water do you drink daily?",
-        subtitle = "Hydration supports comfortable movement.",
+        title = stringResource(R.string.onboarding_water_title),
+        subtitle = stringResource(R.string.onboarding_water_subtitle),
         options = OnboardingOptions.water,
         selectedId = state.waterIntakeId,
         onBack = onBack,

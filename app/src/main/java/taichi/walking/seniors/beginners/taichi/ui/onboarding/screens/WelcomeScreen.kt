@@ -32,6 +32,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -70,7 +71,7 @@ fun WelcomeScreen(
             }
             Spacer(modifier = Modifier.height(10.dp))
             Text(
-                text = "#1 Tai Chi app for Beginners",
+                text = stringResource(R.string.onboarding_welcome_tagline),
                 style = TextStyle(fontSize = 24.sp, fontWeight = FontWeight.SemiBold),
                 color = Color(0xFF2CB48E)
             )
@@ -86,7 +87,7 @@ fun WelcomeScreen(
                     colorFilter = ColorFilter.tint(Color(0xFF7FC8B3))
                 )
                 Text(
-                    text = "100,000+",
+                    text = stringResource(R.string.onboarding_welcome_member_count),
                     style = TextStyle(fontSize = 52.sp, fontWeight = FontWeight.Bold),
                     color = MaterialTheme.colorScheme.onSurface
                 )
@@ -99,7 +100,7 @@ fun WelcomeScreen(
             }
             Spacer(modifier = Modifier.height(6.dp))
             Text(
-                text = "HAPPY MEMBERS",
+                text = stringResource(R.string.onboarding_welcome_members_label),
                 style = TextStyle(fontSize = 18.sp, fontWeight = FontWeight.Medium),
                 color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f)
             )
@@ -120,7 +121,7 @@ fun WelcomeScreen(
             }
         }
         PrimaryButton(
-            text = "Begin Your Journey",
+            text = stringResource(R.string.onboarding_welcome_button),
             textStyle = TextStyle(fontSize = 24.sp, fontWeight = FontWeight.Bold),
             onClick = onContinue,
             modifier = Modifier

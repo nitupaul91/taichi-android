@@ -1,6 +1,8 @@
 package taichi.walking.seniors.beginners.taichi.ui.onboarding.screens
 
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.res.stringResource
+import taichi.walking.seniors.beginners.R
 import taichi.walking.seniors.beginners.taichi.onboarding.state.OnboardingAction
 import taichi.walking.seniors.beginners.taichi.onboarding.state.OnboardingState
 import taichi.walking.seniors.beginners.taichi.onboarding.ui.util.OnboardingOptions
@@ -17,8 +19,8 @@ fun GenderScreen(
 ) {
     SingleSelectScreen(
         progress = progressFor(OnboardingRoutes.Gender),
-        title = "How do you identify?",
-        subtitle = "Only if you'd like to share.",
+        title = stringResource(R.string.onboarding_gender_title),
+        subtitle = stringResource(R.string.onboarding_gender_subtitle),
         options = OnboardingOptions.gender,
         selectedId = state.genderId,
         onBack = onBack,

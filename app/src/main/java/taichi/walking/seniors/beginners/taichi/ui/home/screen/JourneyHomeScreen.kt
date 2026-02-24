@@ -1,10 +1,5 @@
 package taichi.walking.seniors.beginners.taichi.ui.home.screen
 
-import taichi.walking.seniors.beginners.taichi.ui.home.model.WorkoutDayDto
-import taichi.walking.seniors.beginners.taichi.ui.home.workout.WorkoutCompletionScreen
-import taichi.walking.seniors.beginners.taichi.ui.home.workout.WorkoutPreviewScreen
-import taichi.walking.seniors.beginners.taichi.ui.home.workout.WorkoutScreen
-import taichi.walking.seniors.beginners.taichi.ui.onboarding.screens.PaywallScreen
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
@@ -61,6 +56,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
+import taichi.walking.seniors.beginners.taichi.ui.home.model.WorkoutDayDto
+import taichi.walking.seniors.beginners.taichi.ui.home.workout.WorkoutCompletionScreen
+import taichi.walking.seniors.beginners.taichi.ui.home.workout.WorkoutPreviewScreen
+import taichi.walking.seniors.beginners.taichi.ui.home.workout.WorkoutScreen
+import taichi.walking.seniors.beginners.taichi.ui.onboarding.screens.PaywallScreen
 
 // Specific colors from the design (matching iOS)
 private val TaiChiGreen = Color(0xFF0BA56B)
@@ -75,7 +75,6 @@ fun JourneyHomeScreen(
     onBottomBarVisibilityChange: (Boolean) -> Unit = {}
 ) {
     val state by viewModel.state.collectAsState()
-
     var previewDay by remember { mutableStateOf<WorkoutDayDto?>(null) }
     var workoutDay by remember { mutableStateOf<WorkoutDayDto?>(null) }
     var completedDay by remember { mutableStateOf<WorkoutDayDto?>(null) }
@@ -121,6 +120,7 @@ fun JourneyHomeScreen(
                     contentPadding = PaddingValues(top = 60.dp, start = 20.dp, end = 20.dp, bottom = 100.dp)
                 ) {
                     item {
+
                         Text(
                             text = "Your Tai Chi Journey",
                             style = MaterialTheme.typography.headlineMedium,

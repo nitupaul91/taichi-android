@@ -1,5 +1,6 @@
 package taichi.walking.seniors.beginners.taichi.ui.onboarding.screens
 
+import taichi.walking.seniors.beginners.R
 import taichi.walking.seniors.beginners.taichi.onboarding.nav.OnboardingRoutes
 import taichi.walking.seniors.beginners.taichi.onboarding.ui.components.QuestionScaffold
 import taichi.walking.seniors.beginners.taichi.onboarding.ui.util.progressFor
@@ -39,6 +40,7 @@ import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -58,14 +60,14 @@ fun LoadingScreen(
         title = "",
         subtitle = null,
         onBack = {},
-        continueText = "Please wait...",
+        continueText = stringResource(R.string.please_wait),
         continueEnabled = false,
         onContinue = onContinue
     ) {
         LoadingProgress()
         Spacer(modifier = Modifier.height(24.dp))
         Text(
-            text = "Creating Your Plan",
+            text = stringResource(R.string.onboarding_loading_title),
             modifier = Modifier.fillMaxWidth(),
             textAlign = TextAlign.Center,
             style = MaterialTheme.typography.titleLarge,
@@ -73,7 +75,7 @@ fun LoadingScreen(
         )
         Spacer(modifier = Modifier.height(10.dp))
         Text(
-            text = "Optimizing for your goals...",
+            text = stringResource(R.string.onboarding_loading_subtitle),
             modifier = Modifier.fillMaxWidth(),
             textAlign = TextAlign.Center,
             style = MaterialTheme.typography.bodyLarge,
@@ -88,12 +90,12 @@ fun LoadingScreen(
                     }
                 }
             },
-            text = "4.9  •  50K+ Reviews"
+            text = stringResource(R.string.onboarding_loading_rating)
         )
         Spacer(modifier = Modifier.height(12.dp))
         SocialCard(
             icon = { Icon(Icons.Default.Groups, contentDescription = null, tint = MaterialTheme.colorScheme.primary) },
-            text = "Join 100,000+ happy members"
+            text = stringResource(R.string.onboarding_loading_members)
         )
     }
 }

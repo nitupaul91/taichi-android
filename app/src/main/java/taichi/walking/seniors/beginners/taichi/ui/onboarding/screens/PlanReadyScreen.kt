@@ -1,5 +1,6 @@
 package taichi.walking.seniors.beginners.taichi.ui.onboarding.screens
 
+import taichi.walking.seniors.beginners.R
 import taichi.walking.seniors.beginners.taichi.onboarding.nav.OnboardingRoutes
 import taichi.walking.seniors.beginners.taichi.onboarding.ui.components.QuestionScaffold
 import taichi.walking.seniors.beginners.taichi.onboarding.ui.util.progressFor
@@ -39,6 +40,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.delay
 
@@ -65,13 +67,13 @@ fun PlanReadyScreen(
         title = "",
         subtitle = null,
         onBack = onBack,
-        continueText = "See What's Possible",
+        continueText = stringResource(R.string.onboarding_plan_ready_button),
         onContinue = onContinue
     ) {
         ReadyBadge()
         Spacer(modifier = Modifier.height(24.dp))
         Text(
-            text = "Your Plan is Ready!",
+            text = stringResource(R.string.onboarding_plan_ready_title),
             modifier = Modifier.fillMaxWidth(),
             textAlign = TextAlign.Center,
             style = MaterialTheme.typography.titleLarge,
@@ -80,7 +82,7 @@ fun PlanReadyScreen(
         )
         Spacer(modifier = Modifier.height(10.dp))
         Text(
-            text = "Based on your profile, we've created a personalized Tai Chi program just for you.",
+            text = stringResource(R.string.onboarding_plan_ready_subtitle),
             modifier = Modifier.fillMaxWidth(),
             textAlign = TextAlign.Center,
             style = MaterialTheme.typography.bodyLarge,
@@ -89,15 +91,15 @@ fun PlanReadyScreen(
         Spacer(modifier = Modifier.height(20.dp))
 
         AnimatedVisibility(visible = showOne, enter = fadeIn() + slideInVertically(initialOffsetY = { it / 3 })) {
-            ReadyFeature(icon = Icons.Default.QueryBuilder, text = "10–15 min daily sessions")
+            ReadyFeature(icon = Icons.Default.QueryBuilder, text = stringResource(R.string.onboarding_plan_ready_feature_1))
         }
         Spacer(modifier = Modifier.height(10.dp))
         AnimatedVisibility(visible = showTwo, enter = fadeIn() + slideInVertically(initialOffsetY = { it / 3 })) {
-            ReadyFeature(icon = Icons.Default.CalendarMonth, text = "Personalized weekly schedule")
+            ReadyFeature(icon = Icons.Default.CalendarMonth, text = stringResource(R.string.onboarding_plan_ready_feature_2))
         }
         Spacer(modifier = Modifier.height(10.dp))
         AnimatedVisibility(visible = showThree, enter = fadeIn() + slideInVertically(initialOffsetY = { it / 3 })) {
-            ReadyFeature(icon = Icons.Default.ShowChart, text = "Progress tracking included")
+            ReadyFeature(icon = Icons.Default.ShowChart, text = stringResource(R.string.onboarding_plan_ready_feature_3))
         }
     }
 }

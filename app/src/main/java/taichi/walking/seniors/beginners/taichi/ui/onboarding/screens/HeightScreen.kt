@@ -1,6 +1,8 @@
 package taichi.walking.seniors.beginners.taichi.ui.onboarding.screens
 
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.res.stringResource
+import taichi.walking.seniors.beginners.R
 import taichi.walking.seniors.beginners.taichi.onboarding.nav.OnboardingRoutes
 import taichi.walking.seniors.beginners.taichi.onboarding.state.OnboardingAction
 import taichi.walking.seniors.beginners.taichi.onboarding.state.OnboardingState
@@ -14,15 +16,16 @@ fun HeightScreen(
     onContinue: () -> Unit
 ) {
     val metricValues = (140..200).toList()
+    val cmUnit = stringResource(R.string.unit_cm)
     NumberPickerScreen(
         progress = progressFor(OnboardingRoutes.Height),
-        title = "What's your height?",
-        subtitle = "This helps us calculate your health metrics.",
+        title = stringResource(R.string.onboarding_height_title),
+        subtitle = stringResource(R.string.onboarding_height_subtitle),
         metricValues = metricValues,
         selectedMetric = state.heightCm,
-        metricUnit = "cm",
-        imperialUnit = "ft/in",
-        metricLabel = { "$it cm" },
+        metricUnit = cmUnit,
+        imperialUnit = stringResource(R.string.unit_ft_in),
+        metricLabel = { "$it $cmUnit" },
         imperialLabel = {
             val feet = it / 12
             val inches = it % 12

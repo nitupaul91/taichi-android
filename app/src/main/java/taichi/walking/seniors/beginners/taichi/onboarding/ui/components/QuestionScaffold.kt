@@ -75,6 +75,8 @@ fun QuestionScaffold(
         }
         Box(modifier = Modifier
             .fillMaxWidth()
+            .background(MaterialTheme.colorScheme.background)
+            .padding(top = 16.dp)
             .align(Alignment.BottomCenter)
         ) {
             PrimaryButton(text = continueText, enabled = continueEnabled, onClick = onContinue)

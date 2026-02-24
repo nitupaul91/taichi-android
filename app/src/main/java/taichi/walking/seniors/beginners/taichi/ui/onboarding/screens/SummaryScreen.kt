@@ -37,7 +37,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.res.stringResource
 import kotlinx.coroutines.delay
+import taichi.walking.seniors.beginners.R
 
 @Composable
 fun SummaryScreen(
@@ -64,7 +66,7 @@ fun SummaryScreen(
 
     QuestionScaffold(
         progress = progressFor(OnboardingRoutes.Summary),
-        title = "Your Personalized Plan",
+        title = stringResource(R.string.onboarding_summary_title),
         subtitle = "",
         onBack = onBack,
         onContinue = onContinue
@@ -82,8 +84,8 @@ fun SummaryScreen(
             ) {
                 SummaryInfoRow(
                     icon = Icons.Default.SelfImprovement,
-                    label = "Tai Chi Level",
-                    value = state.taiChiLevelId?.replaceFirstChar { it.uppercase() } ?: "Beginner"
+                    label = stringResource(R.string.onboarding_summary_taichi_level),
+                    value = state.taiChiLevelId?.replaceFirstChar { it.uppercase() } ?: stringResource(R.string.onboarding_summary_taichi_level_default)
                 )
             }
             AnimatedVisibility(
@@ -92,7 +94,7 @@ fun SummaryScreen(
             ) {
                 SummaryInfoRow(
                     icon = Icons.Default.LocalFireDepartment,
-                    label = "Motivation",
+                    label = stringResource(R.string.onboarding_summary_motivation),
                     value = mapMotivation(state.motivationLevelId)
                 )
             }
@@ -102,7 +104,7 @@ fun SummaryScreen(
             ) {
                 SummaryInfoRow(
                     icon = Icons.Default.FitnessCenter,
-                    label = "BMI",
+                    label = stringResource(R.string.onboarding_summary_bmi),
                     value = String.format("%.1f (%s)", state.bmi, bmiTag(state.bmi))
                 )
             }
@@ -112,7 +114,7 @@ fun SummaryScreen(
             ) {
                 SummaryInfoRow(
                     icon = Icons.Default.DirectionsRun,
-                    label = "Activity",
+                    label = stringResource(R.string.onboarding_summary_activity),
                     value = mapActivity(state.activityLevelId)
                 )
             }
@@ -130,12 +132,12 @@ private fun GraphCard(current: Int, target: Int, projectedLoss: Int) {
     ) {
         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
             Column {
-                Text("Weight Journey", style = MaterialTheme.typography.titleMedium, color = MaterialTheme.colorScheme.onSurface, fontWeight = FontWeight.Bold)
-                Text("Projected weight loss", style = MaterialTheme.typography.bodyLarge, color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f))
+                Text(stringResource(R.string.onboarding_summary_weight_journey), style = MaterialTheme.typography.titleMedium, color = MaterialTheme.colorScheme.onSurface, fontWeight = FontWeight.Bold)
+                Text(stringResource(R.string.onboarding_summary_projected_loss), style = MaterialTheme.typography.bodyLarge, color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f))
             }
             Column(horizontalAlignment = Alignment.End) {
-                Text("${projectedLoss.toFloat()} kg", style = MaterialTheme.typography.titleMedium, color = MaterialTheme.colorScheme.primary, fontWeight = FontWeight.Bold)
-                Text("to lose", style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f))
+                Text("${projectedLoss.toFloat()} ${stringResource(R.string.unit_kg)}", style = MaterialTheme.typography.titleMedium, color = MaterialTheme.colorScheme.primary, fontWeight = FontWeight.Bold)
+                Text(stringResource(R.string.onboarding_summary_to_lose), style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f))
             }
         }
         Spacer(modifier = Modifier.height(14.dp))
@@ -143,12 +145,12 @@ private fun GraphCard(current: Int, target: Int, projectedLoss: Int) {
         Spacer(modifier = Modifier.height(8.dp))
         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
             Column {
-                Text("Now", style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f))
-                Text("${current}.0 kg", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
+                Text(stringResource(R.string.onboarding_summary_now), style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f))
+                Text("${current}.0 ${stringResource(R.string.unit_kg)}", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
             }
             Column(horizontalAlignment = Alignment.End) {
-                Text("In 4 weeks", style = MaterialTheme.typography.bodyLarge, color = MaterialTheme.colorScheme.primary)
-                Text("${target}.0 kg", style = MaterialTheme.typography.titleMedium, color = MaterialTheme.colorScheme.primary, fontWeight = FontWeight.Bold)
+                Text(stringResource(R.string.onboarding_summary_in_4_weeks), style = MaterialTheme.typography.bodyLarge, color = MaterialTheme.colorScheme.primary)
+                Text("${target}.0 ${stringResource(R.string.unit_kg)}", style = MaterialTheme.typography.titleMedium, color = MaterialTheme.colorScheme.primary, fontWeight = FontWeight.Bold)
             }
         }
     }

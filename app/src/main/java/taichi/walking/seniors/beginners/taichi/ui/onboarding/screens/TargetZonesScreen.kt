@@ -1,6 +1,8 @@
 package taichi.walking.seniors.beginners.taichi.ui.onboarding.screens
 
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.res.stringResource
+import taichi.walking.seniors.beginners.R
 import taichi.walking.seniors.beginners.taichi.onboarding.state.OnboardingAction
 import taichi.walking.seniors.beginners.taichi.onboarding.state.OnboardingState
 import taichi.walking.seniors.beginners.taichi.onboarding.ui.util.OnboardingOptions
@@ -17,8 +19,8 @@ fun TargetZonesScreen(
 ) {
     MultiSelectScreen(
         progress = progressFor(OnboardingRoutes.TargetZones),
-        title = "Which areas need the most care?",
-        subtitle = "Select all that apply.",
+        title = stringResource(R.string.onboarding_target_zones_title),
+        subtitle = stringResource(R.string.select_all_that_apply),
         options = OnboardingOptions.zones,
         selectedIds = state.targetZones,
         onBack = onBack,

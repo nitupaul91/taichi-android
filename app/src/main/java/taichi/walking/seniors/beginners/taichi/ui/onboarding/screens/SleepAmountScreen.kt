@@ -1,6 +1,8 @@
 package taichi.walking.seniors.beginners.taichi.ui.onboarding.screens
 
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.res.stringResource
+import taichi.walking.seniors.beginners.R
 import taichi.walking.seniors.beginners.taichi.onboarding.state.OnboardingAction
 import taichi.walking.seniors.beginners.taichi.onboarding.state.OnboardingState
 import taichi.walking.seniors.beginners.taichi.onboarding.ui.util.OnboardingOptions
@@ -17,8 +19,8 @@ fun SleepAmountScreen(
 ) {
     SingleSelectScreen(
         progress = progressFor(OnboardingRoutes.SleepAmount),
-        title = "How much do you sleep?",
-        subtitle = "Your sleep patterns help us optimize your practice timing.",
+        title = stringResource(R.string.onboarding_sleep_title),
+        subtitle = stringResource(R.string.onboarding_sleep_subtitle),
         options = OnboardingOptions.sleep,
         selectedId = state.sleepAmountId,
         onBack = onBack,

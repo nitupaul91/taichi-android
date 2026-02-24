@@ -1,6 +1,8 @@
 package taichi.walking.seniors.beginners.taichi.ui.onboarding.screens
 
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.res.stringResource
+import taichi.walking.seniors.beginners.R
 import taichi.walking.seniors.beginners.taichi.onboarding.state.OnboardingAction
 import taichi.walking.seniors.beginners.taichi.onboarding.state.OnboardingState
 import taichi.walking.seniors.beginners.taichi.onboarding.ui.util.OnboardingOptions
@@ -17,8 +19,8 @@ fun TaiChiLevelScreen(
 ) {
     SingleSelectScreen(
         progress = progressFor(OnboardingRoutes.TaiChiLevel),
-        title = "Your Tai Chi level",
-        subtitle = "We’ll adjust the plan to your level.",
+        title = stringResource(R.string.onboarding_taichi_level_title),
+        subtitle = stringResource(R.string.onboarding_taichi_level_subtitle),
         options = OnboardingOptions.taiChiLevel,
         selectedId = state.taiChiLevelId,
         onBack = onBack,

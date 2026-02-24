@@ -8,7 +8,9 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import taichi.walking.seniors.beginners.R
 import taichi.walking.seniors.beginners.taichi.onboarding.state.OnboardingAction
 import taichi.walking.seniors.beginners.taichi.onboarding.state.OnboardingState
 import taichi.walking.seniors.beginners.taichi.onboarding.ui.components.QuestionScaffold
@@ -24,16 +26,16 @@ fun EmailCaptureScreen(
 ) {
     QuestionScaffold(
         progress = progressFor(OnboardingRoutes.EmailCapture),
-        title = "Where should we send your plan?",
-        subtitle = "Optional — you can skip for now.",
+        title = stringResource(R.string.onboarding_email_title),
+        subtitle = stringResource(R.string.onboarding_email_subtitle),
         onBack = onBack,
-        continueText = "Continue",
+        continueText = stringResource(R.string.continue_button),
         onContinue = onContinue
     ) {
         OutlinedTextField(
             value = state.email,
             onValueChange = { onEmailChange(OnboardingAction.EmailChange(it)) },
-            label = { Text("Email") },
+            label = { Text(stringResource(R.string.onboarding_email_label)) },
             textStyle = MaterialTheme.typography.bodyLarge,
             modifier = Modifier
                 .fillMaxWidth()

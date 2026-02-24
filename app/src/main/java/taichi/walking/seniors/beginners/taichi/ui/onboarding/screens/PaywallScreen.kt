@@ -3,6 +3,8 @@ package taichi.walking.seniors.beginners.taichi.ui.onboarding.screens
 import android.app.Activity
 import android.content.Context
 import android.content.ContextWrapper
+import android.content.Intent
+import android.net.Uri
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -55,6 +57,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -94,8 +97,17 @@ fun PaywallScreen(
     val selectedProduct by viewModel.selectedProduct.collectAsState()
     val hasFreeTrial = !selectedProduct?.freeTrial.isNullOrBlank()
     val trialDays = selectedProduct?.freeTrial.orEmpty()
-    val ctaText = if (hasFreeTrial) "TRY $trialDays Days Free 🎉" else "Continue"
-    val ctaSubtitle = if (hasFreeTrial) "No payment now" else "Cancel anytime"
+    val isYearlyProduct = selectedProduct?.productId?.contains("yearly", ignoreCase = true) == true
+    val ctaTrialText = stringResource(R.string.onboarding_paywall_cta_trial, trialDays)
+    val ctaContinueText = stringResource(R.string.continue_button)
+    val ctaText = if (hasFreeTrial) ctaTrialText else ctaContinueText
+    val trialSubtitleYearly = stringResource(R.string.onboarding_paywall_trial_then_yearly, trialDays, selectedProduct?.displayPrice.orEmpty())
+    val trialSubtitleMonthly = stringResource(R.string.onboarding_paywall_trial_then_monthly, trialDays, selectedProduct?.displayPrice.orEmpty())
+    val ctaSubtitle = when {
+        hasFreeTrial && isYearlyProduct -> trialSubtitleYearly
+        hasFreeTrial -> trialSubtitleMonthly
+        else -> stringResource(R.string.onboarding_paywall_cancel_anytime)
+    }
 
     var purchaseDialogState by remember { mutableStateOf(PurchaseDialogState.Hidden) }
 
@@ -164,8 +176,24 @@ fun PaywallScreen(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
-                    Text("Terms of Use", style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.45f))
-                    Text("Privacy Policy", style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.45f))
+                    Text(
+                        text = stringResource(R.string.onboarding_paywall_terms_of_use),
+                        style = MaterialTheme.typography.bodySmall.copy(fontSize = 12.sp),
+                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.45f),
+                        modifier = Modifier.clickable {
+                            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(context.getString(R.string.terms_of_use_link)))
+                            context.startActivity(intent)
+                        }
+                    )
+                    Text(
+                        text = stringResource(R.string.onboarding_paywall_privacy_policy),
+                        style = MaterialTheme.typography.bodySmall.copy(fontSize = 12.sp),
+                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.45f),
+                        modifier = Modifier.clickable {
+                            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(context.getString(R.string.privacy_policy_link)))
+                            context.startActivity(intent)
+                        }
+                    )
                 }
             }
         }
@@ -186,7 +214,7 @@ fun PaywallScreen(
             if (products.isEmpty()) {
                 item {
                     Text(
-                        text = "Loading offers...",
+                        text = stringResource(R.string.onboarding_paywall_loading_offers),
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f),
                         modifier = Modifier.fillMaxWidth(),
@@ -196,17 +224,17 @@ fun PaywallScreen(
             } else {
                 items(products) { product ->
                     val isYearly = product.product.productId.contains("yearly", ignoreCase = true)
+                    val billedYearlyText = stringResource(R.string.onboarding_paywall_billed_yearly, product.product.displayPrice)
+                    val bestValueText = stringResource(R.string.onboarding_paywall_best_value)
+                    val freeTrialText = product.product.freeTrial?.let { stringResource(R.string.onboarding_paywall_free_trial_days, it) }
+                    val perMonthText = stringResource(R.string.per_month)
                     PlanOption(
                         title = product.title.ifBlank { product.product.productId },
-                        subtitle = if (isYearly) {
-                            "${product.product.displayPrice} billed yearly"
-                        } else {
-                            product.subtitleForCard()
-                        },
-                        highlight = if (isYearly) "BEST VALUE" else null,
-                        trialText = if (isYearly) null else product.product.freeTrial?.let { "$it-day free trial" },
+                        subtitle = if (isYearly) billedYearlyText else product.subtitleForCard(),
+                        highlight = if (isYearly) bestValueText else null,
+                        trialText = if (isYearly) null else freeTrialText,
                         rightMain = if (isYearly) product.monthlyBreakdownPrice() else product.product.displayPrice,
-                        rightSub = "per month",
+                        rightSub = perMonthText,
                         selected = selectedProduct?.productId == product.product.productId,
                         onClick = { viewModel.selectProduct(product.product) }
                     )
@@ -311,21 +339,21 @@ private fun BeforeAfterHeader(genderId: String?, onClose: () -> Unit) {
 private fun CenteredTitle() {
     Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.fillMaxWidth()) {
         Text(
-            text = "Your Personalized Path\nto Vitality!",
-            style = MaterialTheme.typography.titleLarge,
+            text = stringResource(R.string.onboarding_paywall_title),
+            style = MaterialTheme.typography.titleLarge.copy(fontSize = 21.sp),
             textAlign = TextAlign.Center,
             fontWeight = FontWeight.Bold
         )
         Spacer(modifier = Modifier.height(8.dp))
         Row(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
             repeat(5) {
-                Icon(Icons.Default.Star, contentDescription = null, tint = Color(0xFFF6B12D), modifier = Modifier.size(30.dp))
+                Icon(Icons.Default.Star, contentDescription = null, tint = Color(0xFFF6B12D), modifier = Modifier.size(28.dp))
             }
         }
         Spacer(modifier = Modifier.height(6.dp))
         Text(
-            text = "Trusted by thousands of beginners",
-            style = MaterialTheme.typography.bodyLarge,
+            text = stringResource(R.string.onboarding_paywall_trust_message),
+            style = MaterialTheme.typography.bodyMedium.copy(fontSize = 15.sp),
             color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.62f)
         )
     }

@@ -81,7 +81,23 @@ private fun getFreeTrialIfEligible(
         it.priceAmountMicros == 0L && it.billingPeriod.isNotBlank()
     } ?: return null
 
-    return freeTrialPhase.billingPeriod.filter { it.isDigit() }.ifBlank { null }
+    return parseIsoDurationToDays(freeTrialPhase.billingPeriod)
+}
+
+/**
+ * Parses ISO 8601 duration format to days.
+ * Examples: P7D -> 7, P1W -> 7, P2W -> 14, P1M -> 30, P3M -> 90
+ */
+private fun parseIsoDurationToDays(isoDuration: String): String? {
+    val period = isoDuration.uppercase().removePrefix("P")
+
+    return when {
+        period.endsWith("D") -> period.removeSuffix("D").toIntOrNull()?.toString()
+        period.endsWith("W") -> period.removeSuffix("W").toIntOrNull()?.let { it * 7 }?.toString()
+        period.endsWith("M") -> period.removeSuffix("M").toIntOrNull()?.let { it * 30 }?.toString()
+        period.endsWith("Y") -> period.removeSuffix("Y").toIntOrNull()?.let { it * 365 }?.toString()
+        else -> period.filter { it.isDigit() }.ifBlank { null }
+    }
 }
 
 private fun getPrice(

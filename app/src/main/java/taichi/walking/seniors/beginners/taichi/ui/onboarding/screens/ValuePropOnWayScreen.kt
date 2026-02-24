@@ -14,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import taichi.walking.seniors.beginners.taichi.onboarding.ui.components.QuestionScaffold
 
@@ -46,13 +47,13 @@ fun ValuePropOnWayScreen(
         }
         Spacer(modifier = Modifier.height(20.dp))
         Text(
-            text = "You're on your way!",
+            text = stringResource(R.string.onboarding_value_on_way_title),
             style = TextStyle(fontSize = 28.sp, fontWeight = FontWeight.Bold),
             color = MaterialTheme.colorScheme.onSurface
         )
         Spacer(modifier = Modifier.height(8.dp))
         Text(
-            text = "We're building a program tailored to your goals.",
+            text = stringResource(R.string.onboarding_value_on_way_description),
             style = MaterialTheme.typography.bodyLarge
         )
     }

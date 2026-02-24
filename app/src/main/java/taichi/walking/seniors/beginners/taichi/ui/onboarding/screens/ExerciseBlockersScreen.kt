@@ -1,6 +1,8 @@
 package taichi.walking.seniors.beginners.taichi.ui.onboarding.screens
 
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.res.stringResource
+import taichi.walking.seniors.beginners.R
 import taichi.walking.seniors.beginners.taichi.onboarding.state.OnboardingAction
 import taichi.walking.seniors.beginners.taichi.onboarding.state.OnboardingState
 import taichi.walking.seniors.beginners.taichi.onboarding.ui.util.OnboardingOptions
@@ -17,8 +19,8 @@ fun ExerciseBlockersScreen(
 ) {
     MultiSelectScreen(
         progress = progressFor(OnboardingRoutes.ExerciseBlockers),
-        title = "What challenges do you face?",
-        subtitle = "Select all that apply.",
+        title = stringResource(R.string.onboarding_blockers_title),
+        subtitle = stringResource(R.string.select_all_that_apply),
         options = OnboardingOptions.blockers,
         selectedIds = state.exerciseBlockers,
         onBack = onBack,

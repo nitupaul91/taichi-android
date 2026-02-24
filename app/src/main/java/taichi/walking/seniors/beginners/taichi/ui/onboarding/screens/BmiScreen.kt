@@ -32,6 +32,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.res.stringResource
+import taichi.walking.seniors.beginners.R
 
 @Composable
 fun BmiScreen(
@@ -45,8 +47,8 @@ fun BmiScreen(
 
     QuestionScaffold(
         progress = progressFor(OnboardingRoutes.Bmi),
-        title = "Your BMI",
-        subtitle = "Here's where you are right now.",
+        title = stringResource(R.string.onboarding_bmi_title),
+        subtitle = stringResource(R.string.onboarding_bmi_subtitle),
         onBack = onBack,
         onContinue = onContinue
     ) {
@@ -120,7 +122,7 @@ private fun BmiRing(value: String) {
                 fontWeight = FontWeight.Bold
             )
             Text(
-                text = "BMI",
+                text = stringResource(R.string.onboarding_bmi_label),
                 style = MaterialTheme.typography.titleMedium,
                 color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.65f)
             )
@@ -158,7 +160,7 @@ private fun BmiZoneLegend() {
         }
         Spacer(modifier = Modifier.height(8.dp))
         Text(
-            text = "Low           Healthy           Higher",
+            text = stringResource(R.string.onboarding_bmi_legend),
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.65f)
         )

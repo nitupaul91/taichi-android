@@ -1,6 +1,8 @@
 package taichi.walking.seniors.beginners.taichi.ui.onboarding.screens
 
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.res.stringResource
+import taichi.walking.seniors.beginners.R
 import taichi.walking.seniors.beginners.taichi.onboarding.state.OnboardingAction
 import taichi.walking.seniors.beginners.taichi.onboarding.state.OnboardingState
 import taichi.walking.seniors.beginners.taichi.onboarding.ui.util.OnboardingOptions
@@ -17,8 +19,8 @@ fun CurrentBodyTypeScreen(
 ) {
     ImageGridScreen(
         progress = progressFor(OnboardingRoutes.CurrentBodyType),
-        title = "Your CURRENT body type",
-        subtitle = "Choose the closest match.",
+        title = stringResource(R.string.onboarding_current_body_type_title),
+        subtitle = stringResource(R.string.onboarding_current_body_type_subtitle),
         options = OnboardingOptions.bodyTypesForGender(state.genderId),
         selectedId = state.currentBodyTypeId,
         onBack = onBack,

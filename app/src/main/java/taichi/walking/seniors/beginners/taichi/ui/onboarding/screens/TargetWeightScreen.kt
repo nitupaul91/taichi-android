@@ -1,6 +1,8 @@
 package taichi.walking.seniors.beginners.taichi.ui.onboarding.screens
 
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.res.stringResource
+import taichi.walking.seniors.beginners.R
 import taichi.walking.seniors.beginners.taichi.onboarding.nav.OnboardingRoutes
 import taichi.walking.seniors.beginners.taichi.onboarding.state.OnboardingAction
 import taichi.walking.seniors.beginners.taichi.onboarding.state.OnboardingState
@@ -14,16 +16,18 @@ fun TargetWeightScreen(
     onContinue: () -> Unit
 ) {
     val metricValues = (40..140).toList()
+    val kgUnit = stringResource(R.string.unit_kg)
+    val lbsUnit = stringResource(R.string.unit_lbs)
     NumberPickerScreen(
         progress = progressFor(OnboardingRoutes.TargetWeight),
-        title = "What's your goal weight?",
-        subtitle = "We'll help you work towards it.",
+        title = stringResource(R.string.onboarding_target_weight_title),
+        subtitle = stringResource(R.string.onboarding_target_weight_subtitle),
         metricValues = metricValues,
         selectedMetric = state.targetWeightKg,
-        metricUnit = "kg",
-        imperialUnit = "lbs",
-        metricLabel = { "$it kg" },
-        imperialLabel = { "$it lbs" },
+        metricUnit = kgUnit,
+        imperialUnit = lbsUnit,
+        metricLabel = { "$it $kgUnit" },
+        imperialLabel = { "$it $lbsUnit" },
         metricToImperial = { kg -> (kg * 2.20462).toInt() },
         imperialToMetric = { lbs -> (lbs / 2.20462).toInt() },
         onBack = onBack,

@@ -19,6 +19,7 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.ui.draw.clip
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -51,6 +52,7 @@ fun ImageGridQuestion(
                         modifier = Modifier
                             .weight(1f)
                             .aspectRatio(1f)
+                            .clip(MaterialTheme.shapes.large)
                             .clickable { onSelect(option) },
                         border = BorderStroke(2.dp, borderColor),
                         shape = MaterialTheme.shapes.large,

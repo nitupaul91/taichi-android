@@ -1,6 +1,8 @@
 package taichi.walking.seniors.beginners.taichi.ui.onboarding.screens
 
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.res.stringResource
+import taichi.walking.seniors.beginners.R
 import taichi.walking.seniors.beginners.taichi.onboarding.state.OnboardingAction
 import taichi.walking.seniors.beginners.taichi.onboarding.state.OnboardingState
 import taichi.walking.seniors.beginners.taichi.onboarding.ui.util.OnboardingOptions
@@ -17,8 +19,8 @@ fun WalkDailyScreen(
 ) {
     SingleSelectScreen(
         progress = progressFor(OnboardingRoutes.WalkDaily),
-        title = "How much do you walk daily?",
-        subtitle = "This helps us pace your routines.",
+        title = stringResource(R.string.onboarding_walk_daily_title),
+        subtitle = stringResource(R.string.onboarding_walk_daily_subtitle),
         options = OnboardingOptions.walkDaily,
         selectedId = state.walkDailyId,
         onBack = onBack,

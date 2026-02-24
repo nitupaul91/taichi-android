@@ -13,6 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.sp
 import taichi.walking.seniors.beginners.taichi.onboarding.ui.components.QuestionScaffold
 
@@ -39,13 +40,13 @@ fun ValuePropMeditationScreen(
         }
         Spacer(modifier = Modifier.height(20.dp))
         Text(
-            text = "Meditation in Motion",
+            text = stringResource(R.string.onboarding_value_meditation_title),
             style = TextStyle(fontSize = 28.sp, fontWeight = FontWeight.Bold),
             color = MaterialTheme.colorScheme.onSurface
         )
         Spacer(modifier = Modifier.height(8.dp))
         Text(
-            text = "Tai Chi combines breath, balance, and calm focus.",
+            text = stringResource(R.string.onboarding_value_meditation_description),
             style = MaterialTheme.typography.bodyLarge
         )
     }

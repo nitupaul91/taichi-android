@@ -1,6 +1,8 @@
 package taichi.walking.seniors.beginners.taichi.ui.onboarding.screens
 
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.res.stringResource
+import taichi.walking.seniors.beginners.R
 import taichi.walking.seniors.beginners.taichi.onboarding.state.OnboardingAction
 import taichi.walking.seniors.beginners.taichi.onboarding.state.OnboardingState
 import taichi.walking.seniors.beginners.taichi.onboarding.ui.util.OnboardingOptions
@@ -17,8 +19,8 @@ fun SquatAbilityScreen(
 ) {
     SingleSelectScreen(
         progress = progressFor(OnboardingRoutes.SquatAbility),
-        title = "How is your squat ability?",
-        subtitle = "We’ll keep movements comfortable.",
+        title = stringResource(R.string.onboarding_squat_title),
+        subtitle = stringResource(R.string.onboarding_squat_subtitle),
         options = OnboardingOptions.squat,
         selectedId = state.squatAbilityId,
         onBack = onBack,

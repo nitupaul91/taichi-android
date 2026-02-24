@@ -25,9 +25,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import taichi.walking.seniors.beginners.R
 
 @Composable
 fun ValuePropPlanAdjustedScreen(
@@ -51,25 +53,37 @@ fun ValuePropPlanAdjustedScreen(
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(10.dp),
+            horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.Top
         ) {
-            BodyCol(label = "Now", imageRes = currentRes, modifier = Modifier.width(150.dp))
-            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+            BodyCol(
+                label = stringResource(R.string.onboarding_value_plan_adjusted_now),
+                imageRes = currentRes,
+                modifier = Modifier.weight(1f)
+            )
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = Modifier.width(70.dp)
+            ) {
                 Spacer(modifier = Modifier.height(62.dp))
                 Icon(
                     imageVector = Icons.Default.ArrowForward,
                     contentDescription = null,
                     tint = MaterialTheme.colorScheme.primary,
-                    modifier = Modifier.size(56.dp)
+                    modifier = Modifier.size(40.dp)
                 )
                 Text(
-                    text = "4 weeks",
-                    style = MaterialTheme.typography.titleMedium,
+                    text = stringResource(R.string.onboarding_value_plan_adjusted_timeline),
+                    style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.primary
                 )
             }
-            BodyCol(label = "Goal", imageRes = targetRes, modifier = Modifier.width(150.dp))
+            BodyCol(
+                label = stringResource(R.string.onboarding_value_plan_adjusted_goal),
+                imageRes = targetRes,
+                isGoal = true,
+                modifier = Modifier.weight(1f)
+            )
         }
 
         Spacer(modifier = Modifier.height(20.dp))
@@ -95,7 +109,7 @@ fun ValuePropPlanAdjustedScreen(
 
         Spacer(modifier = Modifier.height(24.dp))
         Text(
-            text = "Plan Adjusted to Your Level",
+            text = stringResource(R.string.onboarding_value_plan_adjusted_title),
             modifier = Modifier.fillMaxWidth(),
             textAlign = TextAlign.Center,
             style = MaterialTheme.typography.titleLarge,
@@ -104,7 +118,7 @@ fun ValuePropPlanAdjustedScreen(
         )
         Spacer(modifier = Modifier.height(10.dp))
         Text(
-            text = "Your practice will start at the right pace and progress with you.",
+            text = stringResource(R.string.onboarding_value_plan_adjusted_message),
             modifier = Modifier.fillMaxWidth(),
             textAlign = TextAlign.Center,
             style = MaterialTheme.typography.bodyLarge,
@@ -114,12 +128,15 @@ fun ValuePropPlanAdjustedScreen(
 }
 
 @Composable
-private fun BodyCol(label: String, imageRes: Int?, modifier: Modifier = Modifier) {
-    Column(modifier = modifier, horizontalAlignment = Alignment.CenterHorizontally) {
+private fun BodyCol(label: String, imageRes: Int?, isGoal: Boolean = false, modifier: Modifier = Modifier) {
+    Column(
+        modifier = modifier,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
         Text(
             text = label,
             style = MaterialTheme.typography.titleMedium,
-            color = if (label == "Goal") MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface.copy(alpha = 0.45f),
+            color = if (isGoal) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface.copy(alpha = 0.45f),
             fontWeight = FontWeight.SemiBold
         )
         Spacer(modifier = Modifier.height(8.dp))
@@ -127,7 +144,7 @@ private fun BodyCol(label: String, imageRes: Int?, modifier: Modifier = Modifier
             Image(
                 painter = painterResource(id = imageRes),
                 contentDescription = label,
-                modifier = Modifier.size(170.dp)
+                modifier = Modifier.fillMaxWidth()
             )
         }
     }
