@@ -64,6 +64,7 @@ import taichi.walking.seniors.beginners.taichi.ui.home.workout.WorkoutCompletion
 import taichi.walking.seniors.beginners.taichi.ui.home.workout.WorkoutPreviewScreen
 import taichi.walking.seniors.beginners.taichi.ui.home.workout.WorkoutScreen
 import taichi.walking.seniors.beginners.taichi.ui.onboarding.screens.PaywallScreen
+import taichi.walking.seniors.beginners.ui.rateapp.RateAppDialogView
 
 // Specific colors from the design (matching iOS)
 private val TaiChiGreen = Color(0xFF0BA56B)
@@ -213,6 +214,12 @@ fun JourneyHomeScreen(
         PaywallScreen(
             onClose = { showPaywall = false },
             onComplete = { showPaywall = false }
+        )
+    }
+    if (state.showRateDialog) {
+        RateAppDialogView(
+            onDismiss = viewModel::dismissRateDialog,
+            onRateNow = viewModel::onRateDialogConfirmed
         )
     }
 }

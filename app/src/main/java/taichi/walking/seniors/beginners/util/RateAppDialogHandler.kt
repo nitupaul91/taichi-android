@@ -22,4 +22,7 @@ class RateAppDialogHandler @Inject constructor(
         return setOf(1, 2, 3, 5, 9, 14, 29).contains(count)
     }
 
+    suspend fun disableEnjoyAppDialog() {
+        dataStorePrefs.changeEnjoyAppDialogStatus(false)
+    }
 }

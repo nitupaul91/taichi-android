@@ -34,6 +34,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
@@ -45,14 +48,27 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.platform.LocalContext
+import taichi.walking.seniors.beginners.util.InAppReviewHelper
+import taichi.walking.seniors.beginners.util.findActivity
 
 @Composable
 fun LoadingScreen(
     onContinue: () -> Unit
 ) {
+    val context = LocalContext.current
+    val activity = remember(context) { context.findActivity() }
+    var hasAttemptedInAppReview by rememberSaveable { mutableStateOf(false) }
+
     LaunchedEffect(Unit) {
         kotlinx.coroutines.delay(10_000)
         onContinue()
+    }
+
+    LaunchedEffect(activity) {
+        if (activity == null || hasAttemptedInAppReview) return@LaunchedEffect
+        hasAttemptedInAppReview = true
+        InAppReviewHelper.launchIfAvailable(activity)
     }
 
     QuestionScaffold(

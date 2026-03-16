@@ -1,87 +1,84 @@
 package taichi.walking.seniors.beginners.ui.rateapp
 
 import taichi.walking.seniors.beginners.R
-import taichi.walking.seniors.beginners.ui.styles.SmallBoldTextStyle
-import taichi.walking.seniors.beginners.ui.styles.SmallRegularTextStyle
 import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Close
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.Dialog
 import androidx.core.net.toUri
 
 @Composable
-fun RateAppDialogView(onDismiss: () -> Unit) {
+fun RateAppDialogView(
+    onDismiss: () -> Unit,
+    onRateNow: () -> Unit = {}
+) {
     val context = LocalContext.current
 
-    Dialog(onDismissRequest = onDismiss) {
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp)
-                .background(colorResource(R.color.blackTwo), shape = MaterialTheme.shapes.medium)
-                .padding(16.dp)
-        ) {
-            Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                Spacer(modifier = Modifier.height(16.dp))
-
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        title = {
+            Box(modifier = Modifier.fillMaxWidth()) {
                 Text(
-                    text = stringResource(R.string.enjoying_the_app),
-                    style = SmallBoldTextStyle,
-                    color = Color.White
+                    text = stringResource(R.string.rate_our_app_title),
+                    style = MaterialTheme.typography.titleLarge,
+                    modifier = Modifier
+                        .align(Alignment.CenterStart)
+                        .padding(end = 40.dp)
                 )
-
-                Spacer(modifier = Modifier.height(12.dp))
-
-                Text(
-                    text = stringResource(R.string.rate_app_subtitle),
-                    color = Color.LightGray,
-                    style = SmallRegularTextStyle,
-                )
-
-                Spacer(modifier = Modifier.height(16.dp))
-
-                Row {
-                    TextButton(onClick = {
-                        openPlayStore(context)
-
-                        onDismiss()
-                    }) {
-                        Text(
-                            text = stringResource(R.string.rate_now),
-                            color = Color.White
-                        )
-                    }
+                IconButton(
+                    onClick = onDismiss,
+                    modifier = Modifier.align(Alignment.CenterEnd)
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Close,
+                        contentDescription = stringResource(R.string.close)
+                    )
                 }
             }
+        },
+        text = {
+            Text(
+                text = stringResource(R.string.rate_app_subtitle),
+                style = MaterialTheme.typography.bodyMedium
+            )
+        },
+        confirmButton = {
+            TextButton(
+                onClick = {
+                    onRateNow()
+                    openPlayStore(context)
+                    onDismiss()
+                }
+            ) {
+                Text(text = stringResource(R.string.okay))
+            }
         }
-    }
+    )
 }
 
 @Preview(showBackground = true)
 @Composable
 fun PreviewRateAppDialog() {
     RateAppDialogView(
-        onDismiss = { }
+        onDismiss = { },
+        onRateNow = { }
     )
 }
 

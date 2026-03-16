@@ -7,6 +7,7 @@ import taichi.walking.seniors.beginners.taichi.ui.home.data.WorkoutPlanService
 import taichi.walking.seniors.beginners.taichi.ui.home.model.WorkoutDayDto
 import taichi.walking.seniors.beginners.taichi.ui.home.model.WorkoutPlanDto
 import taichi.walking.seniors.beginners.taichi.ui.progress.data.PracticeRepository
+import taichi.walking.seniors.beginners.util.RateAppDialogHandler
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -20,7 +21,8 @@ import javax.inject.Inject
 class JourneyHomeViewModel @Inject constructor(
     private val workoutPlanService: WorkoutPlanService,
     private val practiceRepository: PracticeRepository,
-    private val purchaseManager: PurchaseManager
+    private val purchaseManager: PurchaseManager,
+    private val rateAppDialogHandler: RateAppDialogHandler
 ) : ViewModel() {
 
     data class UiState(
@@ -30,7 +32,8 @@ class JourneyHomeViewModel @Inject constructor(
         val selectedDayNumber: Int = 1,
         val selectedDayData: WorkoutDayDto? = null,
         val error: String? = null,
-        val isPremium: Boolean = false
+        val isPremium: Boolean = false,
+        val showRateDialog: Boolean = false
     )
 
     private val _state = MutableStateFlow(UiState())
@@ -76,6 +79,19 @@ class JourneyHomeViewModel @Inject constructor(
     fun completeWorkoutFlow(day: WorkoutDayDto) {
         viewModelScope.launch {
             practiceRepository.recordCompletion(day.durationInMinutes)
+            val shouldShowRateDialog = rateAppDialogHandler.showEnjoyAppDialog()
+            _state.update { it.copy(showRateDialog = shouldShowRateDialog) }
+        }
+    }
+
+    fun dismissRateDialog() {
+        _state.update { it.copy(showRateDialog = false) }
+    }
+
+    fun onRateDialogConfirmed() {
+        viewModelScope.launch {
+            rateAppDialogHandler.disableEnjoyAppDialog()
+            _state.update { it.copy(showRateDialog = false) }
         }
     }
 }

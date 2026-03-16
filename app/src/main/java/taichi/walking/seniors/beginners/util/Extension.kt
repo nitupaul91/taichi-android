@@ -52,6 +52,17 @@ fun View.getActivity(): AppCompatActivity? {
     return null
 }
 
+fun Context.findActivity(): Activity? {
+    var current: Context? = this
+    while (current is ContextWrapper) {
+        if (current is Activity) {
+            return current
+        }
+        current = current.baseContext
+    }
+    return null
+}
+
 fun Context.copyToClipboard(text: CharSequence) {
     val clipboard =
         ContextCompat.getSystemService(this, ClipboardManager::class.java) as ClipboardManager

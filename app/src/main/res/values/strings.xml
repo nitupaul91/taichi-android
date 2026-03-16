@@ -44,6 +44,7 @@
 
     <!-- Rate app -->
     <string name="enjoying_the_app">Enjoying the app?</string>
+    <string name="rate_our_app_title">Rate our app</string>
     <string name="rate_app_subtitle">Help us grow and rate us on Google Play!</string>
     <string name="rate_now">Rate Now</string>
 

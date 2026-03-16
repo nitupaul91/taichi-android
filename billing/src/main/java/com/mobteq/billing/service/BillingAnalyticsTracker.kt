@@ -36,7 +36,7 @@ data class SubscriptionStartEvent(
 ) : AnalyticsEvent() {
 
     companion object {
-        const val EVENT_NAME_MONTHLY_SUBSCRIPTION_V1 = "monthly_subscription_v1"
-        const val EVENT_NAME_YEARLY_SUBSCRIPTION_V1 = "yearly_subscription_v1"
+        const val EVENT_NAME_MONTHLY_SUBSCRIPTION_V1 = "monthly_subscription"
+        const val EVENT_NAME_YEARLY_SUBSCRIPTION_V1 = "yearly_subscription"
     }
 }
