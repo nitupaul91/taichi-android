@@ -18,6 +18,11 @@ class OnboardingRepositoryImpl(
         prefs.setAnswersJson(gson.toJson(state))
     }
 
+    override suspend fun persistSnapshot(state: OnboardingState) {
+        saveAnswers(state)
+        configUploadWorkScheduler.scheduleOnce()
+    }
+
     override suspend fun markCompleted() {
         prefs.setCompleted(true)
         configUploadWorkScheduler.scheduleOnce()

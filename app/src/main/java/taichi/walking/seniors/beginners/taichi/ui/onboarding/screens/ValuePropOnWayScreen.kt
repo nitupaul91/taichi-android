@@ -42,10 +42,10 @@ fun ValuePropOnWayScreen(
         Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
             LoopingVideoCard(
                 videoResId = videoRes,
-                modifier = Modifier.fillMaxWidth(0.68f)
+                modifier = Modifier.fillMaxWidth(0.82f)
             )
         }
-        Spacer(modifier = Modifier.height(20.dp))
+        Spacer(modifier = Modifier.height(24.dp))
         Text(
             text = stringResource(R.string.onboarding_value_on_way_title),
             style = TextStyle(fontSize = 28.sp, fontWeight = FontWeight.Bold),

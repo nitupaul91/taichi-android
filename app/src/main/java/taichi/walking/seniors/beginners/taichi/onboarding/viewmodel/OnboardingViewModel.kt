@@ -24,9 +24,22 @@ class OnboardingViewModel @Inject constructor(
         when (action) {
             is OnboardingAction.SingleSelect -> handleSingleSelect(action.questionId, action.optionId)
             is OnboardingAction.MultiToggle -> handleMultiToggle(action.questionId, action.optionId)
+            is OnboardingAction.MeasurementSystemChange -> _state.update { it.copy(useMetric = action.value) }
+            is OnboardingAction.AgeChange -> _state.update { it.copy(actualAge = action.value) }
             is OnboardingAction.HeightChange -> _state.update { it.copy(heightCm = action.value) }
-            is OnboardingAction.WeightChange -> _state.update { it.copy(weightKg = action.value) }
+            is OnboardingAction.WeightChange -> _state.update {
+                it.copy(
+                    weightKg = action.value,
+                    targetWeightKg = autoTargetWeight(action.value)
+                )
+            }
             is OnboardingAction.TargetWeightChange -> _state.update { it.copy(targetWeightKg = action.value) }
+            is OnboardingAction.ShapeUpEventDateChange -> _state.update {
+                it.copy(shapeUpEventDateMillis = action.value, shapeUpEventDateSkipped = false)
+            }
+            is OnboardingAction.ShapeUpEventDateSkipped -> _state.update {
+                it.copy(shapeUpEventDateSkipped = action.value)
+            }
             is OnboardingAction.EmailChange -> _state.update { it.copy(email = action.value) }
             OnboardingAction.Complete -> markCompleted()
         }
@@ -35,8 +48,8 @@ class OnboardingViewModel @Inject constructor(
     private fun handleSingleSelect(questionId: String, optionId: String) {
         _state.update { current ->
             when (questionId) {
-                "age" -> current.copy(ageRangeId = optionId)
-                "gender" -> current.copy(genderId = optionId)
+                "heard_about_us" -> current.copy(discoverySourceId = optionId)
+                "gender" -> applyGenderDefaults(current, optionId)
                 "familiarity" -> current.copy(taiChiFamiliarityId = optionId)
                 "current_body" -> current.copy(currentBodyTypeId = optionId)
                 "target_body" -> current.copy(targetBodyTypeId = optionId)
@@ -50,6 +63,10 @@ class OnboardingViewModel @Inject constructor(
                 "between_meals" -> current.copy(betweenMealsId = optionId)
                 "sleep" -> current.copy(sleepAmountId = optionId)
                 "water" -> current.copy(waterIntakeId = optionId)
+                "shape_up_event" -> current.copy(
+                    shapeUpEventId = optionId,
+                    shapeUpEventDateSkipped = optionId == "none"
+                )
                 "motivation" -> current.copy(motivationLevelId = optionId)
                 else -> current
             }
@@ -71,9 +88,32 @@ class OnboardingViewModel @Inject constructor(
     private fun toggleSet(current: Set<String>, item: String): Set<String> =
         if (current.contains(item)) current - item else current + item
 
+    private fun applyGenderDefaults(current: OnboardingState, genderId: String): OnboardingState {
+        val defaults = when (genderId) {
+            "female" -> Triple(163, 75, autoTargetWeight(75))
+            "male" -> Triple(172, 85, autoTargetWeight(85))
+            else -> Triple(current.heightCm, current.weightKg, current.targetWeightKg)
+        }
+        return current.copy(
+            genderId = genderId,
+            heightCm = defaults.first,
+            weightKg = defaults.second,
+            targetWeightKg = defaults.third,
+            currentBodyTypeId = null,
+            targetBodyTypeId = null
+        )
+    }
+
+    private fun autoTargetWeight(currentWeightKg: Int): Int =
+        (currentWeightKg * 0.95f).toInt()
+
     suspend fun completeOnboarding() {
         repository.saveAnswers(state.value)
         repository.markCompleted()
+    }
+
+    suspend fun persistSnapshot() {
+        repository.persistSnapshot(state.value)
     }
 
     private fun markCompleted() {

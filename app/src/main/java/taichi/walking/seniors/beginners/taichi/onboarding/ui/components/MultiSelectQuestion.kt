@@ -20,6 +20,7 @@ fun MultiSelectQuestion(
                 title = option.title,
                 subtitle = option.subtitle,
                 icon = option.icon,
+                imageRes = option.imageRes,
                 selected = selectedIds.contains(option.id),
                 onClick = { onToggle(option) }
             )

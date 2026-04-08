@@ -30,6 +30,8 @@ fun WeightScreen(
         imperialLabel = { "$it $lbsUnit" },
         metricToImperial = { kg -> (kg * 2.20462).toInt() },
         imperialToMetric = { lbs -> (lbs / 2.20462).toInt() },
+        useMetric = state.useMetric,
+        onUnitChange = { onChange(OnboardingAction.MeasurementSystemChange(it)) },
         onBack = onBack,
         onChange = { onChange(OnboardingAction.WeightChange(it)) },
         onContinue = onContinue

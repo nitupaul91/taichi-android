@@ -1,21 +1,26 @@
 package taichi.walking.seniors.beginners.taichi.onboarding.ui.util
 
-import taichi.walking.seniors.beginners.R
-import taichi.walking.seniors.beginners.taichi.onboarding.model.OnboardingOption
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccessibilityNew
 import androidx.compose.material.icons.filled.Bedtime
 import androidx.compose.material.icons.filled.Bolt
-import androidx.compose.material.icons.filled.Healing
+import androidx.compose.material.icons.filled.Chair
 import androidx.compose.material.icons.filled.DirectionsWalk
 import androidx.compose.material.icons.filled.FitnessCenter
+import androidx.compose.material.icons.filled.Healing
+import androidx.compose.material.icons.filled.LiveTv
 import androidx.compose.material.icons.filled.LocalDrink
+import androidx.compose.material.icons.filled.MedicalServices
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Psychology
+import androidx.compose.material.icons.filled.DirectionsRun
 import androidx.compose.material.icons.filled.SelfImprovement
 import androidx.compose.material.icons.filled.Spa
+import taichi.walking.seniors.beginners.R
+import taichi.walking.seniors.beginners.taichi.onboarding.model.OnboardingOption
 
 object OnboardingQuestions {
+    const val HEARD_ABOUT_US = "heard_about_us"
     const val AGE = "age"
     const val GENDER = "gender"
     const val GOALS = "goals"
@@ -34,85 +39,104 @@ object OnboardingQuestions {
     const val SLEEP = "sleep"
     const val WATER = "water"
     const val DIET = "diet"
+    const val SHAPE_UP_EVENT = "shape_up_event"
     const val MOTIVATION = "motivation"
     const val BLOCKERS = "blockers"
 }
 
 object OnboardingOptions {
-    val ageRanges = listOf(
-        OnboardingOption("under_45", "Under 45"),
-        OnboardingOption("45_54", "45–54"),
-        OnboardingOption("55_64", "55–64"),
-        OnboardingOption("65_74", "65–74"),
-        OnboardingOption("75_plus", "75+")
+    val discoverySources = listOf(
+        OnboardingOption("google", "Google"),
+        OnboardingOption("tv_commercial", "TV Commercial", icon = Icons.Default.LiveTv),
+        OnboardingOption("trainer_therapist_recommendation", "Recommended by Trainer / Therapist", icon = Icons.Default.MedicalServices),
+        OnboardingOption("tiktok", "TikTok"),
+        OnboardingOption("instagram", "Instagram"),
+        OnboardingOption("facebook", "Facebook"),
+        OnboardingOption("friends_family", "Friends / Family"),
+        OnboardingOption("other", "Other")
     )
 
     val gender = listOf(
         OnboardingOption("female", "Female"),
         OnboardingOption("male", "Male"),
-        OnboardingOption("no_say", "Prefer not to say")
+        OnboardingOption("prefer_not_to_say", "Prefer not to say")
     )
 
     val goals = listOf(
-        OnboardingOption("balance", "Improve balance", icon = Icons.Default.AccessibilityNew),
-        OnboardingOption("stress", "Reduce stress", icon = Icons.Default.Psychology),
-        OnboardingOption("flexibility", "Increase flexibility", icon = Icons.Default.SelfImprovement),
-        OnboardingOption("energy", "More energy", icon = Icons.Default.Bolt),
-        OnboardingOption("pain_relief", "Pain relief", icon = Icons.Default.Healing)
+        OnboardingOption("weight_loss", "Weight Loss", icon = Icons.Default.FitnessCenter),
+        OnboardingOption("improve_balance", "Improve Balance", icon = Icons.Default.AccessibilityNew),
+        OnboardingOption("reduce_stress", "Reduce Stress", icon = Icons.Default.Psychology),
+        OnboardingOption("increase_flexibility", "Increase Flexibility", icon = Icons.Default.SelfImprovement),
+        OnboardingOption("more_energy", "More Energy", icon = Icons.Default.Bolt),
+        OnboardingOption("pain_relief", "Pain Relief", icon = Icons.Default.Healing)
     )
 
     val familiarity = listOf(
-        OnboardingOption("beginner", "Beginner"),
-        OnboardingOption("some", "Some experience"),
-        OnboardingOption("regular", "Regular practice")
+        OnboardingOption("never_tried", "Never tried it"),
+        OnboardingOption("tried_once", "Tried once or twice"),
+        OnboardingOption("practice_occasionally", "Practice occasionally"),
+        OnboardingOption("regular_practice", "Regular practice")
     )
 
-    val femaleBodyTypes = listOf(
-        OnboardingOption("female_skinny", "Skinny", imageRes = R.drawable.femaleskinny),
-        OnboardingOption("female_normal", "Normal", imageRes = R.drawable.femalenormal),
-        OnboardingOption("female_toned", "Toned", imageRes = R.drawable.femaletoned),
-        OnboardingOption("female_fat", "Curvy", imageRes = R.drawable.femalefat)
+    private val femaleCurrentBodyTypes = listOf(
+        OnboardingOption("regular", "Regular", imageRes = R.drawable.current_female_regular),
+        OnboardingOption("rounded", "Rounded", imageRes = R.drawable.current_female_rounded),
+        OnboardingOption("full", "Full", imageRes = R.drawable.current_female_full)
     )
 
-    val maleBodyTypes = listOf(
-        OnboardingOption("male_skinny", "Skinny", imageRes = R.drawable.maleskinny),
-        OnboardingOption("male_normal", "Normal", imageRes = R.drawable.malenormal),
-        OnboardingOption("male_bulk", "Bulk", imageRes = R.drawable.malebulk),
-        OnboardingOption("male_fat", "Broad", imageRes = R.drawable.malefat)
+    private val maleCurrentBodyTypes = listOf(
+        OnboardingOption("skinny", "Skinny", imageRes = R.drawable.current_male_skinny),
+        OnboardingOption("average", "Average", imageRes = R.drawable.current_male_average),
+        OnboardingOption("heavyset", "Heavyset", imageRes = R.drawable.current_male_heavyset)
+    )
+
+    private val femaleTargetBodyTypes = listOf(
+        OnboardingOption("regular", "Regular", imageRes = R.drawable.target_female_regular),
+        OnboardingOption("fit", "Fit", imageRes = R.drawable.target_female_fit),
+        OnboardingOption("athletic", "Athletic", imageRes = R.drawable.target_female_athletic)
+    )
+
+    private val maleTargetBodyTypes = listOf(
+        OnboardingOption("fit", "Fit", imageRes = R.drawable.target_male_fit),
+        OnboardingOption("bulk", "Bulk", imageRes = R.drawable.target_male_bulk),
+        OnboardingOption("extrabulk", "Extrabulk", imageRes = R.drawable.target_male_extrabulk)
     )
 
     val zones = listOf(
-        OnboardingOption("neck", "Neck"),
-        OnboardingOption("shoulders", "Shoulders"),
-        OnboardingOption("back", "Back"),
-        OnboardingOption("hips", "Hips"),
-        OnboardingOption("knees", "Knees"),
-        OnboardingOption("ankles", "Ankles")
+        OnboardingOption("arms", "Arms", icon = Icons.Default.FitnessCenter),
+        OnboardingOption("legs", "Legs", icon = Icons.Default.DirectionsWalk),
+        OnboardingOption("core", "Core", icon = Icons.Default.AccessibilityNew),
+        OnboardingOption("back", "Back", icon = Icons.Default.Person),
+        OnboardingOption("shoulders", "Shoulders", icon = Icons.Default.SelfImprovement),
+        OnboardingOption("hips", "Hips", icon = Icons.Default.Spa)
     )
 
     val activity = listOf(
-        OnboardingOption("seated", "Mostly seated"),
-        OnboardingOption("light", "Lightly active"),
-        OnboardingOption("active", "Active most days")
+        OnboardingOption("sedentary", "Mostly sitting", "Desk work, minimal movement", icon = Icons.Default.Chair),
+        OnboardingOption("lightly_active", "Light activity", "Some walking, light tasks", icon = Icons.Default.DirectionsWalk),
+        OnboardingOption("moderately_active", "Moderately active", "Regular walks, active hobbies", icon = Icons.Default.SelfImprovement),
+        OnboardingOption("very_active", "Very active", "Exercise most days", icon = Icons.Default.DirectionsRun)
     )
 
     val walkDaily = listOf(
-        OnboardingOption("lt_10", "Less than 10 min", icon = Icons.Default.DirectionsWalk),
-        OnboardingOption("10_30", "10–30 min", icon = Icons.Default.DirectionsWalk),
-        OnboardingOption("30_60", "30–60 min", icon = Icons.Default.DirectionsWalk),
-        OnboardingOption("60_plus", "60+ min", icon = Icons.Default.DirectionsWalk)
+        OnboardingOption("less_than_10", "Less than 10 min", icon = Icons.Default.DirectionsWalk),
+        OnboardingOption("ten_to_30", "10 - 30 minutes", icon = Icons.Default.DirectionsWalk),
+        OnboardingOption("thirty_to_60", "30 - 60 minutes", icon = Icons.Default.DirectionsWalk),
+        OnboardingOption("more_than_60", "More than 1 hour", icon = Icons.Default.DirectionsWalk)
     )
 
     val stairs = listOf(
-        OnboardingOption("easy", "Very easy"),
-        OnboardingOption("winded", "A bit winded"),
-        OnboardingOption("break", "Need a break")
+        OnboardingOption("easy", "Easy, no problem"),
+        OnboardingOption("slightly_tired", "Slightly tired"),
+        OnboardingOption("need_to_rest", "Need to rest"),
+        OnboardingOption("avoid_stairs", "I avoid stairs")
     )
 
     val squat = listOf(
-        OnboardingOption("cannot", "Cannot"),
-        OnboardingOption("partial", "Partial"),
-        OnboardingOption("full", "Full")
+        OnboardingOption("none", "0 squats"),
+        OnboardingOption("one_to_five", "1 - 5 squats"),
+        OnboardingOption("six_to_ten", "6 - 10 squats"),
+        OnboardingOption("more_than_ten", "More than 10")
     )
 
     val yesNo = listOf(
@@ -121,60 +145,77 @@ object OnboardingOptions {
     )
 
     val taiChiLevel = listOf(
-        OnboardingOption("new", "New"),
-        OnboardingOption("intermediate", "Intermediate"),
-        OnboardingOption("advanced", "Advanced")
+        OnboardingOption("complete", "Complete beginner", "Never practiced before"),
+        OnboardingOption("beginner", "Beginner", "Know a few basic moves"),
+        OnboardingOption("intermediate", "Intermediate", "Comfortable with forms"),
+        OnboardingOption("advanced", "Advanced", "Years of experience")
     )
 
     val betweenMeals = listOf(
-        OnboardingOption("often", "Often hungry"),
-        OnboardingOption("sometimes", "Sometimes hungry"),
-        OnboardingOption("rarely", "Rarely hungry")
+        OnboardingOption("energetic", "Energetic", icon = Icons.Default.Bolt),
+        OnboardingOption("normal", "Normal", icon = Icons.Default.Person),
+        OnboardingOption("tired", "Tired", icon = Icons.Default.Bedtime),
+        OnboardingOption("very_tired", "Very tired", icon = Icons.Default.Bedtime)
     )
 
     val sleep = listOf(
-        OnboardingOption("2_4", "2–4 hours", "Light sleeper", icon = Icons.Default.Bedtime),
-        OnboardingOption("4_6", "4–6 hours", "Below average", icon = Icons.Default.Bedtime),
-        OnboardingOption("6_8", "6–8 hours", "Recommended range", icon = Icons.Default.Bedtime),
-        OnboardingOption("8_plus", "8+ hours", "Well rested", icon = Icons.Default.Bedtime)
+        OnboardingOption("less_than_5", "Less than 5 hours", icon = Icons.Default.Bedtime),
+        OnboardingOption("five_to_six", "5 - 6 hours", icon = Icons.Default.Bedtime),
+        OnboardingOption("seven_to_eight", "7 - 8 hours", icon = Icons.Default.Bedtime),
+        OnboardingOption("more_than_8", "More than 8 hours", icon = Icons.Default.Bedtime)
     )
 
     val water = listOf(
-        OnboardingOption("1_3", "1–3 cups", icon = Icons.Default.LocalDrink),
-        OnboardingOption("4_6", "4–6 cups", icon = Icons.Default.LocalDrink),
-        OnboardingOption("7_9", "7–9 cups", icon = Icons.Default.LocalDrink),
-        OnboardingOption("10_plus", "10+ cups", icon = Icons.Default.LocalDrink)
+        OnboardingOption("less_than_2", "Less than 2 glasses", icon = Icons.Default.LocalDrink),
+        OnboardingOption("two_to_four", "2 - 4 glasses", icon = Icons.Default.LocalDrink),
+        OnboardingOption("five_to_seven", "5 - 7 glasses", icon = Icons.Default.LocalDrink),
+        OnboardingOption("eight_plus", "8+ glasses", icon = Icons.Default.LocalDrink)
     )
 
     val diet = listOf(
-        OnboardingOption("balanced", "Balanced"),
-        OnboardingOption("low_carb", "Low-carb"),
-        OnboardingOption("plant_forward", "Plant-forward"),
-        OnboardingOption("no_pref", "No preference")
+        OnboardingOption("regular", "Regular"),
+        OnboardingOption("vegetarian", "Vegetarian"),
+        OnboardingOption("vegan", "Vegan"),
+        OnboardingOption("keto", "Keto"),
+        OnboardingOption("mediterranean", "Mediterranean"),
+        OnboardingOption("gluten_free", "Gluten-free")
+    )
+
+    val shapeUpEvents = listOf(
+        OnboardingOption("none", "No"),
+        OnboardingOption("vacation", "Vacation"),
+        OnboardingOption("wedding", "Wedding"),
+        OnboardingOption("reunion", "Reunion"),
+        OnboardingOption("family_reunion", "Family Reunion"),
+        OnboardingOption("birthday", "Birthday"),
+        OnboardingOption("beach_trip", "Beach trip"),
+        OnboardingOption("adventure_trip", "Adventure trip"),
+        OnboardingOption("sporting_event", "Sporting event"),
+        OnboardingOption("important_date", "Important date"),
+        OnboardingOption("other", "Other")
     )
 
     val motivation = listOf(
-        OnboardingOption("not_ready", "Not ready", icon = Icons.Default.Psychology),
-        OnboardingOption("somewhat", "Somewhat ready", icon = Icons.Default.Psychology),
-        OnboardingOption("ready", "Ready", icon = Icons.Default.Psychology),
-        OnboardingOption("very_ready", "Very ready", icon = Icons.Default.Psychology)
+        OnboardingOption("very_motivated", "Very motivated", "Ready to start today!", icon = Icons.Default.Bolt),
+        OnboardingOption("motivated", "Motivated", "Looking forward to it", icon = Icons.Default.SelfImprovement),
+        OnboardingOption("need_help", "Need some help", "Could use encouragement", icon = Icons.Default.Psychology),
+        OnboardingOption("struggling", "Struggling", "Finding it hard to begin", icon = Icons.Default.Spa)
     )
 
     val blockers = listOf(
-        OnboardingOption("time", "Time"),
-        OnboardingOption("pain", "Pain"),
-        OnboardingOption("low_energy", "Low energy"),
-        OnboardingOption("no_routine", "No routine"),
-        OnboardingOption("not_sure", "Not sure where to start")
+        OnboardingOption("no_time", "Not enough time"),
+        OnboardingOption("too_tired", "Too tired"),
+        OnboardingOption("pain_discomfort", "Pain or discomfort"),
+        OnboardingOption("lack_motivation", "Lack of motivation"),
+        OnboardingOption("dont_know_how", "Don't know how"),
+        OnboardingOption("no_equipment", "No equipment")
     )
 
-    val communityPoints = listOf(
-        OnboardingOption("guided", "Guided practice", "Calm voice guidance and gentle pacing", icon = Icons.Default.SelfImprovement),
-        OnboardingOption("community", "Community support", "A welcoming space for beginners", icon = Icons.Default.Person),
-        OnboardingOption("routine", "Daily routine", "Simple steps to build consistency", icon = Icons.Default.Spa)
-    )
+    fun currentBodyTypesForGender(genderId: String?): List<OnboardingOption> {
+        return if (genderId == "male") maleCurrentBodyTypes else femaleCurrentBodyTypes
+    }
 
-    fun bodyTypesForGender(genderId: String?): List<OnboardingOption> {
-        return if (genderId == "male") maleBodyTypes else femaleBodyTypes
+    fun targetBodyTypesForGender(genderId: String?): List<OnboardingOption> {
+        return if (genderId == "male") maleTargetBodyTypes else femaleTargetBodyTypes
     }
 }

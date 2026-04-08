@@ -1,7 +1,5 @@
 package taichi.walking.seniors.beginners.taichi.ui.onboarding.screens
 
-import taichi.walking.seniors.beginners.R
-import taichi.walking.seniors.beginners.taichi.onboarding.ui.components.PrimaryButton
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -21,22 +19,23 @@ import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Star
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import taichi.walking.seniors.beginners.R
+import taichi.walking.seniors.beginners.taichi.onboarding.ui.components.PrimaryButton
 
 @Composable
 fun WelcomeScreen(
@@ -44,88 +43,135 @@ fun WelcomeScreen(
 ) {
     val statusBarPadding = WindowInsets.statusBars.asPaddingValues().calculateTopPadding()
     val navBarPadding = WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding()
+    val backgroundColor = Color(0xFFFBFAF6)
 
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(MaterialTheme.colorScheme.background)
-            .padding(horizontal = 24.dp)
-            .padding(top = statusBarPadding + 24.dp, bottom = navBarPadding + 24.dp)
+            .background(backgroundColor)
+            .padding(top = statusBarPadding + 20.dp, bottom = navBarPadding + 16.dp)
     ) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(bottom = 80.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
+                .padding(bottom = 88.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                repeat(5) {
-                    androidx.compose.material3.Icon(
-                        imageVector = Icons.Default.Star,
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 24.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Text(
+                    text = stringResource(R.string.onboarding_welcome_title),
+                    modifier = Modifier.padding(top = 8.dp),
+                    style = MaterialTheme.typography.headlineLarge.copy(
+                        fontSize = 32.sp,
+                        lineHeight = 38.sp,
+                        fontWeight = FontWeight.SemiBold
+                    ),
+                    color = Color(0xFF304B46),
+                    textAlign = TextAlign.Center
+                )
+
+                Spacer(modifier = Modifier.height(18.dp))
+
+                Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(4.dp)) {
+                    Image(
+                        painter = painterResource(id = R.drawable.ic_laurel_left),
                         contentDescription = null,
-                        tint = Color(0xFFF5A623),
-                        modifier = Modifier.size(34.dp)
+                        modifier = Modifier.size(92.dp),
+                        colorFilter = ColorFilter.tint(Color(0xFFE3B12B))
+                    )
+                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                        Text(
+                            text = stringResource(R.string.onboarding_welcome_rating_value),
+                            style = MaterialTheme.typography.headlineLarge.copy(fontSize = 44.sp, fontWeight = FontWeight.Bold),
+                            color = Color(0xFFD59A20)
+                        )
+                        Row(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
+                            repeat(5) {
+                                androidx.compose.material3.Icon(
+                                    imageVector = Icons.Default.Star,
+                                    contentDescription = null,
+                                    tint = Color(0xFFE3B12B),
+                                    modifier = Modifier.size(18.dp)
+                                )
+                            }
+                        }
+                        Spacer(modifier = Modifier.height(4.dp))
+                        Text(
+                            text = stringResource(R.string.onboarding_welcome_rating_label),
+                            style = MaterialTheme.typography.bodyLarge,
+                            color = Color(0xFF6A7471)
+                        )
+                    }
+                    Image(
+                        painter = painterResource(id = R.drawable.ic_laurel_right),
+                        contentDescription = null,
+                        modifier = Modifier.size(92.dp),
+                        colorFilter = ColorFilter.tint(Color(0xFFE3B12B))
                     )
                 }
             }
-            Spacer(modifier = Modifier.height(10.dp))
-            Text(
-                text = stringResource(R.string.onboarding_welcome_tagline),
-                style = TextStyle(fontSize = 24.sp, fontWeight = FontWeight.SemiBold),
-                color = Color(0xFF2CB48E)
-            )
-            Spacer(modifier = Modifier.height(10.dp))
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(12.dp)
-            ) {
-                Image(
-                    painter = painterResource(id = R.drawable.ic_laurel_left),
-                    contentDescription = null,
-                    modifier = Modifier.size(42.dp),
-                    colorFilter = ColorFilter.tint(Color(0xFF7FC8B3))
-                )
-                Text(
-                    text = stringResource(R.string.onboarding_welcome_member_count),
-                    style = TextStyle(fontSize = 52.sp, fontWeight = FontWeight.Bold),
-                    color = MaterialTheme.colorScheme.onSurface
-                )
-                Image(
-                    painter = painterResource(id = R.drawable.ic_laurel_right),
-                    contentDescription = null,
-                    modifier = Modifier.size(42.dp),
-                    colorFilter = ColorFilter.tint(Color(0xFF7FC8B3))
-                )
-            }
-            Spacer(modifier = Modifier.height(6.dp))
-            Text(
-                text = stringResource(R.string.onboarding_welcome_members_label),
-                style = TextStyle(fontSize = 18.sp, fontWeight = FontWeight.Medium),
-                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f)
-            )
+
             Spacer(modifier = Modifier.height(18.dp))
-            Card(
+
+            Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(260.dp),
-                shape = RoundedCornerShape(24.dp),
-                elevation = CardDefaults.cardElevation(defaultElevation = 6.dp)
+                    .weight(1f)
             ) {
                 Image(
                     painter = painterResource(id = R.drawable.welcome_screen),
-                    contentDescription = "Welcome",
+                    contentDescription = null,
                     modifier = Modifier.fillMaxSize(),
                     contentScale = ContentScale.Crop
                 )
+
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(160.dp)
+                        .align(Alignment.TopCenter)
+                        .background(
+                            Brush.verticalGradient(
+                                colors = listOf(
+                                    backgroundColor,
+                                    backgroundColor.copy(alpha = 0.92f),
+                                    backgroundColor.copy(alpha = 0.55f),
+                                    backgroundColor.copy(alpha = 0f)
+                                )
+                            )
+                        )
+                )
+
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(180.dp)
+                        .align(Alignment.BottomCenter)
+                        .background(
+                            Brush.verticalGradient(
+                                colors = listOf(
+                                    Color.Transparent,
+                                    backgroundColor.copy(alpha = 0.45f),
+                                    backgroundColor.copy(alpha = 0.82f),
+                                    backgroundColor
+                                )
+                            )
+                        )
+                )
             }
         }
+
         PrimaryButton(
             text = stringResource(R.string.onboarding_welcome_button),
-            textStyle = TextStyle(fontSize = 24.sp, fontWeight = FontWeight.Bold),
-            onClick = onContinue,
             modifier = Modifier
                 .align(Alignment.BottomCenter)
+                .padding(horizontal = 24.dp),
+            onClick = onContinue
         )
     }
 }

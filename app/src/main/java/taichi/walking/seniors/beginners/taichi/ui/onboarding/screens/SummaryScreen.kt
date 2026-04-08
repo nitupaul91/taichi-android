@@ -184,17 +184,18 @@ private fun SummaryInfoRow(icon: ImageVector, label: String, value: String) {
 }
 
 private fun mapMotivation(id: String?): String = when (id) {
-    "very_ready" -> "Motivated"
-    "ready" -> "Ready"
-    "somewhat" -> "Building up"
-    "not_ready" -> "Low"
+    "very_motivated" -> "Very motivated"
+    "motivated" -> "Motivated"
+    "need_help" -> "Need some help"
+    "struggling" -> "Struggling"
     else -> "Motivated"
 }
 
 private fun mapActivity(id: String?): String = when (id) {
-    "active" -> "Moderately active"
-    "light" -> "Lightly active"
-    "seated" -> "Mostly seated"
+    "very_active" -> "Very active"
+    "moderately_active" -> "Moderately active"
+    "lightly_active" -> "Light activity"
+    "sedentary" -> "Mostly sitting"
     else -> "Moderately active"
 }
 

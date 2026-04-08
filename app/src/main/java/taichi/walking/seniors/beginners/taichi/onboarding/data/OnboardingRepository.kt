@@ -6,5 +6,6 @@ import kotlinx.coroutines.flow.Flow
 interface OnboardingRepository {
     fun observeCompletion(): Flow<Boolean>
     suspend fun saveAnswers(state: OnboardingState)
+    suspend fun persistSnapshot(state: OnboardingState)
     suspend fun markCompleted()
 }

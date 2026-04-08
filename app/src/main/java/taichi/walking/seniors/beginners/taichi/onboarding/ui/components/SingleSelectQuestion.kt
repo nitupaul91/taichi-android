@@ -20,6 +20,7 @@ fun SingleSelectQuestion(
                 title = option.title,
                 subtitle = option.subtitle,
                 icon = option.icon,
+                imageRes = option.imageRes,
                 selected = selectedId == option.id,
                 onClick = { onSelect(option) }
             )

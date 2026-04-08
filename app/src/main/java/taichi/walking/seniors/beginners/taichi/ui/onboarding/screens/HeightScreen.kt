@@ -33,6 +33,8 @@ fun HeightScreen(
         },
         metricToImperial = { cm -> (cm / 2.54).toInt() },
         imperialToMetric = { inches -> (inches * 2.54).toInt() },
+        useMetric = state.useMetric,
+        onUnitChange = { onChange(OnboardingAction.MeasurementSystemChange(it)) },
         onBack = onBack,
         onChange = { onChange(OnboardingAction.HeightChange(it)) },
         onContinue = onContinue

@@ -54,26 +54,33 @@
     <!-- ==================== ONBOARDING SCREENS ==================== -->
 
     <!-- Welcome Screen -->
-    <string name="onboarding_welcome_tagline">#1 Tai Chi app for Beginners</string>
-    <string name="onboarding_welcome_member_count">100,000+</string>
-    <string name="onboarding_welcome_members_label">HAPPY MEMBERS</string>
-    <string name="onboarding_welcome_button">Begin Your Journey</string>
+    <string name="onboarding_welcome_title">Tai Chi for\nWeight Loss</string>
+    <string name="onboarding_welcome_rating_value">4.9</string>
+    <string name="onboarding_welcome_rating_label">Google Play Rating</string>
+    <string name="onboarding_welcome_button">Continue</string>
 
     <!-- Age Screen -->
-    <string name="onboarding_age_title">What is your age range?</string>
-    <string name="onboarding_age_subtitle">This helps us tailor your practice.</string>
+    <string name="onboarding_age_title">What age should we use for your plan?</string>
+    <string name="onboarding_age_subtitle">This helps us set the right pace and progression for your sessions.</string>
+    <string name="onboarding_age_metric_unit">Age</string>
+    <string name="onboarding_age_imperial_unit">Age</string>
+    <string name="onboarding_age_suffix">years old</string>
 
     <!-- Gender Screen -->
-    <string name="onboarding_gender_title">How do you identify?</string>
-    <string name="onboarding_gender_subtitle">Only if you\'d like to share.</string>
+    <string name="onboarding_gender_title">What\'s your gender?</string>
+    <string name="onboarding_gender_subtitle">This helps us tailor guidance to your body.</string>
+
+    <!-- Heard About Us Screen -->
+    <string name="onboarding_heard_about_us_title">Where did you hear about us?</string>
+    <string name="onboarding_heard_about_us_subtitle">Pick the one that brought you here.</string>
 
     <!-- Height Screen -->
     <string name="onboarding_height_title">What\'s your height?</string>
     <string name="onboarding_height_subtitle">This helps us calculate your health metrics.</string>
 
     <!-- Weight Screen -->
-    <string name="onboarding_weight_title">What\'s your weight?</string>
-    <string name="onboarding_weight_subtitle">We use this to personalize your Tai Chi plan.</string>
+    <string name="onboarding_weight_title">What\'s your current weight?</string>
+    <string name="onboarding_weight_subtitle">Used to personalize your program.</string>
 
     <!-- Target Weight Screen -->
     <string name="onboarding_target_weight_title">What\'s your goal weight?</string>
@@ -98,24 +105,24 @@
     <string name="onboarding_bmi_tag_higher">Higher</string>
 
     <!-- Activity Level Screen -->
-    <string name="onboarding_activity_title">How active are you these days?</string>
-    <string name="onboarding_activity_subtitle">This guides your starting plan.</string>
+    <string name="onboarding_activity_title">How active are you?</string>
+    <string name="onboarding_activity_subtitle">Be honest - there\'s no wrong answer!</string>
 
     <!-- Goals Screen -->
     <string name="onboarding_goals_title">What do you want to achieve?</string>
     <string name="onboarding_goals_subtitle">Select all that apply.</string>
 
     <!-- Motivation Screen -->
-    <string name="onboarding_motivation_title">How motivated do you feel today?</string>
-    <string name="onboarding_motivation_subtitle">We\'ll set a plan that feels doable.</string>
+    <string name="onboarding_motivation_title">How motivated are you?</string>
+    <string name="onboarding_motivation_subtitle">We\'ll support you wherever you are.</string>
 
     <!-- Current Body Type Screen -->
-    <string name="onboarding_current_body_type_title">Your CURRENT body type</string>
-    <string name="onboarding_current_body_type_subtitle">Choose the closest match.</string>
+    <string name="onboarding_current_body_type_title">Select your current body type</string>
+    <string name="onboarding_current_body_type_subtitle">Choose the silhouette that best represents you today.</string>
 
     <!-- Target Body Type Screen -->
-    <string name="onboarding_target_body_type_title">Your TARGET body type</string>
-    <string name="onboarding_target_body_type_subtitle">Pick the shape you\'re aiming for.</string>
+    <string name="onboarding_target_body_type_title">What\'s your goal body type?</string>
+    <string name="onboarding_target_body_type_subtitle">Select the shape you\'d like to work towards.</string>
 
     <!-- Email Capture Screen -->
     <string name="onboarding_email_title">Where should we send your plan?</string>
@@ -123,23 +130,23 @@
     <string name="onboarding_email_label">Email</string>
 
     <!-- Diet Type Screen -->
-    <string name="onboarding_diet_title">What best describes your diet?</string>
+    <string name="onboarding_diet_title">What\'s your diet like?</string>
     <string name="onboarding_diet_subtitle">Select all that apply.</string>
 
     <!-- Water Intake Screen -->
-    <string name="onboarding_water_title">How much water do you drink daily?</string>
-    <string name="onboarding_water_subtitle">Hydration supports comfortable movement.</string>
+    <string name="onboarding_water_title">How much water do you drink?</string>
+    <string name="onboarding_water_subtitle">Daily water intake.</string>
 
     <!-- Tai Chi Level Screen -->
-    <string name="onboarding_taichi_level_title">Your Tai Chi level</string>
-    <string name="onboarding_taichi_level_subtitle">We\'ll adjust the plan to your level.</string>
+    <string name="onboarding_taichi_level_title">What\'s your Tai Chi level?</string>
+    <string name="onboarding_taichi_level_subtitle">We\'ll match the difficulty to your experience.</string>
 
     <!-- Exercise Blockers Screen -->
-    <string name="onboarding_blockers_title">What challenges do you face?</string>
-    <string name="onboarding_blockers_subtitle">Select all that apply.</string>
+    <string name="onboarding_blockers_title">What stops you from exercising?</string>
+    <string name="onboarding_blockers_subtitle">Select all that apply. We\'ll help you overcome them.</string>
 
     <!-- Summary Screen -->
-    <string name="onboarding_summary_title">Your Personalized Plan</string>
+    <string name="onboarding_summary_title">The only plan you\'ll ever need to get in shape</string>
     <string name="onboarding_summary_taichi_level">Tai Chi Level</string>
     <string name="onboarding_summary_taichi_level_default">Beginner</string>
     <string name="onboarding_summary_motivation">Motivation</string>
@@ -160,7 +167,7 @@
 
     <!-- Value Prop: Meditation Screen -->
     <string name="onboarding_value_meditation_title">Meditation in Motion</string>
-    <string name="onboarding_value_meditation_description">Tai Chi combines breath, balance, and calm focus.</string>
+    <string name="onboarding_value_meditation_description">We\'ll tailor your Tai Chi sessions to match your goals, body, and progress.</string>
 
     <!-- Value Prop: On Way Screen -->
     <string name="onboarding_value_on_way_title">You\'re on your way!</string>
@@ -179,42 +186,43 @@
     <string name="onboarding_value_plan_adjusted_timeline">4 weeks</string>
 
     <!-- Social Proof Screen -->
-    <string name="onboarding_social_proof_title">Trusted by Thousands</string>
-    <string name="onboarding_social_proof_subtitle">Over 10M members have started a gentle Tai Chi routine.</string>
-    <string name="onboarding_social_proof_testimonial_1">At 72, I finally found an exercise I can do every day.</string>
-    <string name="onboarding_social_proof_author_1" translatable="false">Maria S., 72</string>
-    <string name="onboarding_social_proof_testimonial_2">The gentle movements have helped with my balance.</string>
-    <string name="onboarding_social_proof_author_2" translatable="false">Robert M., 68</string>
-    <string name="onboarding_social_proof_testimonial_3">I sleep better and have more energy throughout the day.</string>
-    <string name="onboarding_social_proof_author_3" translatable="false">Patricia L., 75</string>
+    <string name="onboarding_social_proof_title">Your success story starts here!</string>
+    <string name="onboarding_social_proof_subtitle">Made for people like you.</string>
+    <string name="onboarding_social_proof_members">12,000+ active members</string>
+    <string name="onboarding_social_proof_testimonial_1">"Knees aren\'t great so I can\'t run anymore. This has been a good alternative."</string>
+    <string name="onboarding_social_proof_author_1" translatable="false">Paul, 58</string>
+    <string name="onboarding_social_proof_testimonial_2">"Not really into workouts, but this feels manageable. Been sticking with it for a few weeks now."</string>
+    <string name="onboarding_social_proof_author_2" translatable="false">David, 55</string>
+    <string name="onboarding_social_proof_testimonial_3">"I like that it\'s gentle but still gets you moving. Lost about 10 pounds in the first few weeks."</string>
+    <string name="onboarding_social_proof_author_3" translatable="false">Laura, 50</string>
 
     <!-- Sleep Amount Screen -->
     <string name="onboarding_sleep_title">How much do you sleep?</string>
-    <string name="onboarding_sleep_subtitle">Your sleep patterns help us optimize your practice timing.</string>
+    <string name="onboarding_sleep_subtitle">On a typical night.</string>
 
     <!-- Between Meals Screen -->
     <string name="onboarding_between_meals_title">How do you feel between meals?</string>
-    <string name="onboarding_between_meals_subtitle">This helps us understand your energy patterns.</string>
+    <string name="onboarding_between_meals_subtitle">This helps us understand your energy levels.</string>
 
     <!-- Stairs Feeling Screen -->
-    <string name="onboarding_stairs_title">How do you feel after stairs?</string>
-    <string name="onboarding_stairs_subtitle">Just a quick check-in.</string>
+    <string name="onboarding_stairs_title">How do you feel after climbing stairs?</string>
+    <string name="onboarding_stairs_subtitle">Think about a typical flight of stairs.</string>
 
     <!-- Squat Ability Screen -->
-    <string name="onboarding_squat_title">How is your squat ability?</string>
-    <string name="onboarding_squat_subtitle">We\'ll keep movements comfortable.</string>
+    <string name="onboarding_squat_title">How many squats can you do?</string>
+    <string name="onboarding_squat_subtitle">A rough estimate is fine.</string>
 
     <!-- Arms Forward Screen -->
     <string name="onboarding_arms_forward_title">Can you hold your arms forward for 5 seconds?</string>
-    <string name="onboarding_arms_forward_subtitle">This helps set a safe starting point.</string>
+    <string name="onboarding_arms_forward_subtitle">Arms straight out in front of you.</string>
 
     <!-- Rotate Head Screen -->
     <string name="onboarding_rotate_head_title">Can you rotate your head easily?</string>
-    <string name="onboarding_rotate_head_subtitle">A simple mobility check.</string>
+    <string name="onboarding_rotate_head_subtitle">Look left and right without discomfort.</string>
 
     <!-- Walk Daily Screen -->
     <string name="onboarding_walk_daily_title">How much do you walk daily?</string>
-    <string name="onboarding_walk_daily_subtitle">This helps us pace your routines.</string>
+    <string name="onboarding_walk_daily_subtitle">Include all walking throughout your day.</string>
 
     <!-- Plan Ready Screen -->
     <string name="onboarding_plan_ready_title">Your Plan is Ready!</string>
@@ -229,7 +237,7 @@
     <string name="onboarding_community_subtitle">We keep it simple and gentle from day one.</string>
 
     <!-- Target Zones Screen -->
-    <string name="onboarding_target_zones_title">Which areas need the most care?</string>
+    <string name="onboarding_target_zones_title">Which areas do you want to focus on?</string>
     <string name="onboarding_target_zones_subtitle">Select all that apply.</string>
 
     <!-- Improvement Graph Screen -->
@@ -239,7 +247,22 @@
 
     <!-- Familiarity Screen -->
     <string name="onboarding_familiarity_title">Are you familiar with Tai Chi?</string>
-    <string name="onboarding_familiarity_subtitle">No experience needed.</string>
+    <string name="onboarding_familiarity_subtitle">Don\'t worry - we welcome all levels!</string>
+
+    <!-- Shape Up Event -->
+    <string name="onboarding_shape_up_event_title">Do you have an event coming up?</string>
+    <string name="onboarding_shape_up_event_date_title">When is your event?</string>
+    <string name="onboarding_shape_up_event_date_subtitle">We\'ll craft a personalized plan to help you feel confident and in shape right on time. Your information stays private and is never shared with third parties.</string>
+    <string name="onboarding_shape_up_event_date_picker_label">Event date</string>
+    <string name="onboarding_shape_up_event_date_skip">Skip this question</string>
+
+    <!-- Notification Permission -->
+    <string name="onboarding_notification_title">We\'ll help you stay consistent</string>
+    <string name="onboarding_notification_subtitle">Gentle reminders keep your Tai Chi practice flowing and turn it into a habit.</string>
+    <string name="onboarding_notification_prompt_title">Tai Chi Would Like to Send You Notifications</string>
+    <string name="onboarding_notification_prompt_body">Notifications may include alerts, sounds, and icon badges. These can be configured in Settings.</string>
+    <string name="onboarding_notification_decline">Don\'t Allow</string>
+    <string name="onboarding_notification_allow">Allow</string>
 
     <!-- Loading Screen -->
     <string name="onboarding_loading_title">Creating Your Plan</string>

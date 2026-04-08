@@ -35,10 +35,10 @@ fun ValuePropMeditationScreen(
         Box(modifier = Modifier.fillMaxWidth(), contentAlignment = androidx.compose.ui.Alignment.Center) {
             LoopingVideoCard(
                 videoResId = R.raw.meditation,
-                modifier = Modifier.fillMaxWidth(0.68f)
+                modifier = Modifier.fillMaxWidth(0.82f)
             )
         }
-        Spacer(modifier = Modifier.height(20.dp))
+        Spacer(modifier = Modifier.height(24.dp))
         Text(
             text = stringResource(R.string.onboarding_value_meditation_title),
             style = TextStyle(fontSize = 28.sp, fontWeight = FontWeight.Bold),

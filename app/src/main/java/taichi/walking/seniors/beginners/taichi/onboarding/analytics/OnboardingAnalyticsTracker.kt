@@ -1,16 +1,20 @@
 package taichi.walking.seniors.beginners.taichi.onboarding.analytics
 
+import androidx.core.os.bundleOf
 import com.mobteq.analytics.FirebaseAnalytics
 import javax.inject.Inject
 
 class OnboardingAnalyticsTracker @Inject constructor(
     private val firebaseAnalytics: FirebaseAnalytics
 ) {
-    fun trackScreenView(screenIndex: Int) {
-        firebaseAnalytics.logEvent("onboarding_view_$screenIndex")
+    fun trackScreenView(screenIndex: Int, stepName: String) {
+        firebaseAnalytics.logEvent(
+            "onboarding_view_${screenIndex + 1}",
+            bundleOf("step_name" to stepName)
+        )
     }
 
     fun trackOnboardingComplete() {
-        firebaseAnalytics.logEvent("onboarding_complete")
+        firebaseAnalytics.logEvent("onboarding_completed")
     }
 }

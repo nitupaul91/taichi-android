@@ -19,10 +19,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
@@ -111,11 +107,13 @@ fun NumberPickerScreen(
     imperialLabel: (Int) -> String,
     metricToImperial: (Int) -> Int,
     imperialToMetric: (Int) -> Int,
+    useMetric: Boolean,
+    onUnitChange: (Boolean) -> Unit,
+    showUnitSwitcher: Boolean = true,
     onBack: () -> Unit,
     onChange: (Int) -> Unit,
     onContinue: () -> Unit
 ) {
-    var useMetric by rememberSaveable { mutableStateOf(true) }
     val visibleValues = if (useMetric) metricValues else metricValues.map(metricToImperial).distinct()
     val selectedVisible = if (useMetric) selectedMetric else metricToImperial(selectedMetric)
     val selectedText = if (useMetric) metricLabel(selectedMetric) else imperialLabel(selectedVisible)
@@ -134,14 +132,16 @@ fun NumberPickerScreen(
                 .padding(horizontal = 14.dp, vertical = 18.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            UnitSwitcher(
-                metricUnit = metricUnit,
-                imperialUnit = imperialUnit,
-                useMetric = useMetric,
-                onMetricClick = { useMetric = true },
-                onImperialClick = { useMetric = false }
-            )
-            Spacer(modifier = Modifier.height(22.dp))
+            if (showUnitSwitcher) {
+                UnitSwitcher(
+                    metricUnit = metricUnit,
+                    imperialUnit = imperialUnit,
+                    useMetric = useMetric,
+                    onMetricClick = { onUnitChange(true) },
+                    onImperialClick = { onUnitChange(false) }
+                )
+                Spacer(modifier = Modifier.height(22.dp))
+            }
             Text(
                 text = selectedText,
                 style = MaterialTheme.typography.titleLarge.copy(fontSize = 66.sp),
