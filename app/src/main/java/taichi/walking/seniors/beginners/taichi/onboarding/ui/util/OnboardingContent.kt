@@ -112,10 +112,10 @@ object OnboardingOptions {
     )
 
     val activity = listOf(
-        OnboardingOption("sedentary", "Mostly sitting", "Desk work, minimal movement", icon = Icons.Default.Chair),
-        OnboardingOption("lightly_active", "Light activity", "Some walking, light tasks", icon = Icons.Default.DirectionsWalk),
-        OnboardingOption("moderately_active", "Moderately active", "Regular walks, active hobbies", icon = Icons.Default.SelfImprovement),
-        OnboardingOption("very_active", "Very active", "Exercise most days", icon = Icons.Default.DirectionsRun)
+        OnboardingOption("sedentary", "Mostly sitting", icon = Icons.Default.Chair),
+        OnboardingOption("lightly_active", "Light activity", icon = Icons.Default.DirectionsWalk),
+        OnboardingOption("moderately_active", "Moderately active", icon = Icons.Default.SelfImprovement),
+        OnboardingOption("very_active", "Very active", icon = Icons.Default.DirectionsRun)
     )
 
     val walkDaily = listOf(
