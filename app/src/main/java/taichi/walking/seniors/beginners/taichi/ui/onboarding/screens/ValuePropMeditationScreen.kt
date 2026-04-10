@@ -28,6 +28,10 @@ fun ValuePropMeditationScreen(
         title = "",
         subtitle = null,
         showProgress = false,
+        applyTopInset = false,
+        overlayBackButton = true,
+        applyOverlayBackButtonInset = true,
+        contentTopSpacing = 106.dp,
         onBack = onBack,
         continueEnabled = true,
         onContinue = onContinue

@@ -14,11 +14,11 @@ import androidx.navigation.compose.rememberNavController
 import kotlinx.coroutines.launch
 import taichi.walking.seniors.beginners.taichi.onboarding.analytics.OnboardingAnalyticsTracker
 import taichi.walking.seniors.beginners.taichi.onboarding.viewmodel.OnboardingViewModel
-import taichi.walking.seniors.beginners.taichi.ui.onboarding.screens.AgeScreen
 import taichi.walking.seniors.beginners.taichi.ui.onboarding.screens.ActivityLevelScreen
+import taichi.walking.seniors.beginners.taichi.ui.onboarding.screens.AgeScreen
 import taichi.walking.seniors.beginners.taichi.ui.onboarding.screens.ArmsForwardScreen
-import taichi.walking.seniors.beginners.taichi.ui.onboarding.screens.BmiScreen
 import taichi.walking.seniors.beginners.taichi.ui.onboarding.screens.BetweenMealsScreen
+import taichi.walking.seniors.beginners.taichi.ui.onboarding.screens.BmiScreen
 import taichi.walking.seniors.beginners.taichi.ui.onboarding.screens.CurrentBodyTypeScreen
 import taichi.walking.seniors.beginners.taichi.ui.onboarding.screens.DietTypeScreen
 import taichi.walking.seniors.beginners.taichi.ui.onboarding.screens.ExerciseBlockersScreen
@@ -50,6 +50,7 @@ import taichi.walking.seniors.beginners.taichi.ui.onboarding.screens.WalkDailySc
 import taichi.walking.seniors.beginners.taichi.ui.onboarding.screens.WaterIntakeScreen
 import taichi.walking.seniors.beginners.taichi.ui.onboarding.screens.WeightScreen
 import taichi.walking.seniors.beginners.taichi.ui.onboarding.screens.WelcomeScreen
+import taichi.walking.seniors.beginners.ui.paywall.RemotePaywallVariant
 
 @Composable
 fun OnboardingNavGraph(
@@ -284,7 +285,7 @@ fun OnboardingNavGraph(
                 state = state,
                 onSelect = { viewModel.onAction(it) },
                 onBack = { navController.popBackStack() },
-                onContinue = { navController.navigateNext(OnboardingRoutes.ShapeUpEvent, state.shapeUpEventId) }
+                onContinue = { navController.navigateNext(OnboardingRoutes.ShapeUpEvent, viewModel.state.value.shapeUpEventId) }
             )
         }
         composable(OnboardingRoutes.ShapeUpEventDate.route) {
@@ -357,7 +358,8 @@ fun OnboardingNavGraph(
                         analyticsTracker.trackOnboardingComplete()
                         onFinished()
                     }
-                }
+                },
+                paywallVariant = RemotePaywallVariant.PRIMARY
             )
         }
     }

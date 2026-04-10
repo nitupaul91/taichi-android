@@ -19,6 +19,8 @@ import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.OpenInNew
 import androidx.compose.material.icons.filled.PrivacyTip
+import androidx.compose.material.icons.filled.Share
+import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.filled.WorkspacePremium
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -36,14 +38,18 @@ import androidx.compose.ui.Modifier
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.statusBars
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.foundation.verticalScroll
 import androidx.hilt.navigation.compose.hiltViewModel
 import taichi.walking.seniors.beginners.taichi.ui.onboarding.screens.PaywallScreen
+import taichi.walking.seniors.beginners.ui.rateapp.openPlayStore
+import taichi.walking.seniors.beginners.util.sharePlainText
 
 @Composable
 fun TaiChiSettingsScreen(
@@ -51,6 +57,7 @@ fun TaiChiSettingsScreen(
     onBottomBarVisibilityChange: (Boolean) -> Unit = {}
 ) {
     val uriHandler = LocalUriHandler.current
+    val context = androidx.compose.ui.platform.LocalContext.current
     var showPaywall by remember { mutableStateOf(false) }
     val isPremium by viewModel.isPremium.collectAsState()
 
@@ -72,6 +79,7 @@ fun TaiChiSettingsScreen(
                     )
                 )
             )
+            .verticalScroll(rememberScrollState())
             .padding(top = statusBarPadding + 20.dp, start = 20.dp, end = 20.dp, bottom = 20.dp),
         verticalArrangement = Arrangement.spacedBy(22.dp)
     ) {
@@ -92,6 +100,33 @@ fun TaiChiSettingsScreen(
                 subtitle = if (isPremium) "You have full access" else "Unlock all features",
                 showChevron = !isPremium,
                 onClick = { if (!isPremium) showPaywall = true }
+            )
+        }
+
+        SectionLabel("COMMUNITY")
+        SettingsCard {
+            SettingsRow(
+                icon = Icons.Default.Share,
+                iconColor = Color(0xFF0BA56B),
+                iconBackground = Color(0xFFE6F5EE),
+                title = "Share App",
+                subtitle = "Tell friends about Tai Chi",
+                onClick = {
+                    sharePlainText(
+                        context = context,
+                        text = "Try this Tai Chi app \uD83E\uDDD8\n${context.getString(taichi.walking.seniors.beginners.R.string.app_link)}",
+                        title = "Share App"
+                    )
+                }
+            )
+            DividerRow()
+            SettingsRow(
+                icon = Icons.Default.Star,
+                iconColor = Color(0xFFF5A623),
+                iconBackground = Color(0xFFFDF1DA),
+                title = "Rate App",
+                subtitle = "Leave a review on Google Play",
+                onClick = { openPlayStore(context) }
             )
         }
 

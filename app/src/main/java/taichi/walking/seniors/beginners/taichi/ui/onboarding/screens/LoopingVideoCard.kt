@@ -1,7 +1,6 @@
 package taichi.walking.seniors.beginners.taichi.ui.onboarding.screens
 
 import android.net.Uri
-import android.view.ViewGroup
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
@@ -20,8 +19,8 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.media3.common.MediaItem
 import androidx.media3.common.Player
-import androidx.media3.exoplayer.ExoPlayer
-import androidx.media3.ui.PlayerView
+import taichi.walking.seniors.beginners.taichi.ui.video.buildAppExoPlayer
+import taichi.walking.seniors.beginners.taichi.ui.video.inflateAppPlayerView
 
 @Composable
 fun LoopingVideoCard(
@@ -33,7 +32,7 @@ fun LoopingVideoCard(
     val lifecycleOwner = LocalLifecycleOwner.current
 
     val player = remember(videoResId) {
-        ExoPlayer.Builder(context).build().apply {
+        buildAppExoPlayer(context).apply {
             repeatMode = Player.REPEAT_MODE_ALL
             playWhenReady = true
             volume = 0f
@@ -80,11 +79,7 @@ fun LoopingVideoCard(
         AndroidView(
             modifier = Modifier.fillMaxSize(),
             factory = {
-                PlayerView(it).apply {
-                    layoutParams = ViewGroup.LayoutParams(
-                        ViewGroup.LayoutParams.MATCH_PARENT,
-                        ViewGroup.LayoutParams.MATCH_PARENT
-                    )
+                inflateAppPlayerView(it).apply {
                     useController = false
                     resizeMode = androidx.media3.ui.AspectRatioFrameLayout.RESIZE_MODE_ZOOM
                     this.player = player

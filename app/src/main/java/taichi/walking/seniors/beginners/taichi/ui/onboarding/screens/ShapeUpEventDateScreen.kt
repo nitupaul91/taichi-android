@@ -1,6 +1,7 @@
 package taichi.walking.seniors.beginners.taichi.ui.onboarding.screens
 
 import android.widget.DatePicker
+import android.view.ContextThemeWrapper
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -35,6 +36,9 @@ fun ShapeUpEventDateScreen(
     onContinue: () -> Unit
 ) {
     val context = LocalContext.current
+    val lightDatePickerContext = remember(context) {
+        ContextThemeWrapper(context, R.style.Theme_AiAssistant_TaiChiDatePicker)
+    }
     val minCalendar = remember { Calendar.getInstance().apply { set(Calendar.HOUR_OF_DAY, 0); set(Calendar.MINUTE, 0); set(Calendar.SECOND, 0); set(Calendar.MILLISECOND, 0) } }
     val maxCalendar = remember {
         Calendar.getInstance().apply {
@@ -56,7 +60,7 @@ fun ShapeUpEventDateScreen(
     QuestionScaffold(
         progress = progressFor(OnboardingRoutes.ShapeUpEventDate),
         title = stringResource(R.string.onboarding_shape_up_event_date_title),
-        subtitle = stringResource(R.string.onboarding_shape_up_event_date_subtitle),
+        subtitle = null,
         onBack = onBack,
         onContinue = {
             onAction(OnboardingAction.ShapeUpEventDateSkipped(false))
@@ -67,10 +71,10 @@ fun ShapeUpEventDateScreen(
             AndroidView(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .background(MaterialTheme.colorScheme.surface, RoundedCornerShape(24.dp))
+                    .background(androidx.compose.ui.graphics.Color.White, RoundedCornerShape(24.dp))
                     .padding(horizontal = 4.dp, vertical = 14.dp),
                 factory = {
-                    DatePicker(context).apply {
+                    DatePicker(lightDatePickerContext).apply {
                         this.minDate = minCalendar.timeInMillis
                         this.maxDate = maxCalendar.timeInMillis
                         calendarViewShown = false

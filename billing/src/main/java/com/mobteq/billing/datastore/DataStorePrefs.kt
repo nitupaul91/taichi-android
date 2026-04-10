@@ -37,6 +37,7 @@ class DataStorePrefs @Inject constructor(
         val SELECTED_CAR_ID = stringPreferencesKey("selectedCarId")
         val SHOW_ONBOARDING = booleanPreferencesKey("showOnboarding")
         val TRAINING_COMPLETED_CARS = stringSetPreferencesKey("training_completed_cars")
+        val HAS_SCHEDULED_CONVERSION_NOTIFICATION = booleanPreferencesKey("hasScheduledConversionNotification")
     }
 
     fun isSubscribed() = context.dataStore.data.map { preferences ->
@@ -180,6 +181,16 @@ class DataStorePrefs @Inject constructor(
 
     fun getCompletedCarTrainingIds() = context.dataStore.data.map { preferences ->
         preferences[TRAINING_COMPLETED_CARS] ?: emptySet()
+    }
+
+    fun hasScheduledConversionNotification() = context.dataStore.data.map { preferences ->
+        preferences[HAS_SCHEDULED_CONVERSION_NOTIFICATION] ?: false
+    }
+
+    suspend fun setHasScheduledConversionNotification(value: Boolean) {
+        context.dataStore.edit { preferences ->
+            preferences[HAS_SCHEDULED_CONVERSION_NOTIFICATION] = value
+        }
     }
 
     suspend fun setCarTrainingCompleted(carId: String) {

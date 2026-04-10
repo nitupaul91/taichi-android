@@ -9,5 +9,5 @@ object Dimens {
     val buttonHeight = 60.dp
     val sectionSpacing = 18.dp
     val itemSpacing = 14.dp
-    val progressHeight = 10.dp
+    val progressHeight = 12.dp
 }

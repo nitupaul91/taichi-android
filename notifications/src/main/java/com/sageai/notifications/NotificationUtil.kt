@@ -51,7 +51,7 @@ fun buildDefaultNotification(
     )
         .setContentTitle(title)
         .setContentText(subtitle)
-        .setSmallIcon(R.drawable.ic_launcher)
+        .setSmallIcon(R.drawable.ic_notification_small)
         .setContentIntent(pendingIntent)
         .setAutoCancel(true)
         .setPriority(NotificationCompat.PRIORITY_HIGH)

@@ -36,6 +36,17 @@ class PaywallAnalyticsTracker @Inject constructor(
         trackEvent(NAME_CLOSED_PAYWALL)
     }
 
+    fun trackPaywallPersonalization(variants: Map<String, Any?>) {
+        val params = bundleOf()
+        (variants["titleVariant"] as? String)?.let { params.putString("title_variant", it) }
+        (variants["heroVariant"] as? String)?.let { params.putString("hero_variant", it) }
+        (variants["urgencyVariant"] as? String)?.let { params.putString("urgency_variant", it) }
+        ((variants["segment"] as? Map<*, *>)?.get("primaryGoal") as? String)?.let {
+            params.putString("primary_goal", it)
+        }
+        trackEvent(NAME_PAYWALL_PERSONALIZATION, params)
+    }
+
     private fun trackEvent(name: String, params: Bundle = bundleOf()) {
         params.putString(PROPERTY_SCREEN_NAME, VALUE_PAYWALL)
         firebaseAnalyticsTracker.logEvent(name, params)
@@ -46,6 +57,7 @@ class PaywallAnalyticsTracker @Inject constructor(
         private const val NAME_CLOSED_PAYWALL = "closed_paywall"
         private const val NAME_CLICKED_PRODUCT = "selected_product"
         private const val NAME_CLICKED_MAKE_PURCHASE = "clicked_make_purchase"
+        private const val NAME_PAYWALL_PERSONALIZATION = "paywall_personalization"
 
         private const val PROPERTY_PRODUCT_ID = "product_id"
 

@@ -1,66 +1,73 @@
 package taichi.walking.seniors.beginners.util
 
-import taichi.walking.seniors.beginners.R
 import com.mobteq.remoteconfig.RemoteConfig
+import taichi.walking.seniors.beginners.R
+import taichi.walking.seniors.beginners.ui.paywall.RemotePaywallVariant
 import javax.inject.Inject
+
+enum class LocalNotificationCampaign(
+    val rawValue: String,
+    val paywallVariant: RemotePaywallVariant?,
+    val paywallSource: String?
+) {
+    OFF(
+        rawValue = "off",
+        paywallVariant = null,
+        paywallSource = null
+    ),
+    NORMAL_PAYWALL(
+        rawValue = "normal_paywall",
+        paywallVariant = RemotePaywallVariant.PRIMARY,
+        paywallSource = "local_1h_normal"
+    ),
+    DISCOUNT_PAYWALL(
+        rawValue = "discount_paywall",
+        paywallVariant = RemotePaywallVariant.ONBOARDING_LIMITED_OFFER,
+        paywallSource = "local_1h_discount"
+    );
+
+    companion object {
+        fun fromRemoteValue(value: String?): LocalNotificationCampaign =
+            entries.firstOrNull { it.rawValue == value?.trim()?.lowercase() } ?: OFF
+    }
+}
 
 class AiAssistantRemoteConfig @Inject constructor(
     private val remoteConfig: RemoteConfig
 ) {
-    fun shouldShowOnboardingVariant(): Boolean {
-        return remoteConfig.getBoolean(SHOW_ONBOARDING_VARIANT)
-    }
 
-    fun getChatPromptCategories(): String {
-        return remoteConfig.getString(CHAT_PROMPT_CATEGORIES)
-    }
-
-    fun shouldShowPaywallWithRewardedAds(): Boolean {
-        return false
-    }
-
-    fun getDailyMessageQuota(): Int {
-        return remoteConfig.getLong(DAILY_MESSAGE_QUOTA).toInt()
-    }
-
-    fun getRewardedMessagesPerAdView(): Int {
-        return remoteConfig.getLong(MESSAGES_PER_AD).toInt()
-    }
-
-    fun shouldShowMonthlyTrial(): Boolean {
-        return remoteConfig.getBoolean(SHOW_MONTHLY_TRIAL)
-    }
-
-    fun isTTSActive(): Boolean {
-        return remoteConfig.getBoolean(IS_TTS_ACTIVE)
-    }
-
-    fun fetchAndActivate() {
+    fun fetchAndActivate(onComplete: (() -> Unit)? = null) {
         remoteConfig.fetchAndActivate(R.xml.remote_config_values)
+            .addOnCompleteListener { onComplete?.invoke() }
     }
 
     fun getPromotedAppsJson(): String {
         return remoteConfig.getString(PROMOTED_APPS)
     }
 
-    fun getVisibleProducts(): String {
-        return remoteConfig.getString(VISIBLE_PRODUCTS)
+    fun getPaywallHtmlUrl(): String {
+        return remoteConfig.getString(PAYWALL_HTML_URL).trim()
     }
 
-    fun shouldAllowImageQueries(): Boolean {
-        return remoteConfig.getBoolean(ALLOW_IMAGE_QUERIES)
+    fun getAndroidPaywallHtmlUrl(): String {
+        return remoteConfig.getString(PAYWALL_HTML_ANDROID_URL).trim()
+    }
+
+    fun getLimitedOfferPaywallHtmlUrl(): String {
+        return remoteConfig.getString(LIMITED_OFFER_PAYWALL_HTML_URL).trim()
+    }
+
+    fun localNotificationCampaign(): LocalNotificationCampaign {
+        return LocalNotificationCampaign.fromRemoteValue(
+            remoteConfig.getString(LOCAL_NOTIFICATION_CAMPAIGN)
+        )
     }
 
     companion object {
-        const val SHOW_ONBOARDING_VARIANT = "showOnboardingVariant"
-        const val SHOW_PAYWALL_WITH_REWARDED_ADS = "showPaywallWithRewardedAds"
-        const val CHAT_PROMPT_CATEGORIES = "chatPromptCategories"
-        const val DAILY_MESSAGE_QUOTA = "dailyMessageQuota"
-        const val MESSAGES_PER_AD = "messagesPerAd"
-        const val SHOW_MONTHLY_TRIAL = "showMonthlyTrial"
-        const val IS_TTS_ACTIVE = "isTTSActive"
         const val PROMOTED_APPS = "promotedApps"
-        const val VISIBLE_PRODUCTS = "visibleProducts"
-        const val ALLOW_IMAGE_QUERIES = "allowImageQueries"
+        const val PAYWALL_HTML_URL = "paywall_html_url"
+        const val PAYWALL_HTML_ANDROID_URL = "paywall_html_android"
+        const val LIMITED_OFFER_PAYWALL_HTML_URL = "limited_offer_paywall_html_url"
+        const val LOCAL_NOTIFICATION_CAMPAIGN = "local_notification_campaign"
     }
 }

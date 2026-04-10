@@ -1,5 +1,6 @@
 package com.mobteq.remoteconfig
 
+import com.google.android.gms.tasks.Task
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -8,9 +9,9 @@ import javax.inject.Singleton
 class RemoteConfig @Inject constructor(
     private val firebaseRemoteConfig: FirebaseRemoteConfig
 ) {
-    fun fetchAndActivate(defaults: Int) {
-        firebaseRemoteConfig.setDefaultsAsync(defaults)
-            .continueWith { firebaseRemoteConfig.fetchAndActivate() }
+    fun fetchAndActivate(defaults: Int): Task<Boolean> {
+        return firebaseRemoteConfig.setDefaultsAsync(defaults)
+            .continueWithTask { firebaseRemoteConfig.fetchAndActivate() }
     }
 
     fun getBoolean(key: String) = firebaseRemoteConfig.getBoolean(key)

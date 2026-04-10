@@ -20,7 +20,7 @@ fun ShapeUpEventScreen(
     SingleSelectScreen(
         progress = progressFor(OnboardingRoutes.ShapeUpEvent),
         title = stringResource(R.string.onboarding_shape_up_event_title),
-        subtitle = "",
+        subtitle = stringResource(R.string.onboarding_shape_up_event_subtitle),
         options = OnboardingOptions.shapeUpEvents,
         selectedId = state.shapeUpEventId,
         onBack = onBack,

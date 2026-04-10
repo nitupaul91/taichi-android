@@ -48,6 +48,10 @@
     <string name="rate_app_subtitle">Help us grow and rate us on Google Play!</string>
     <string name="rate_now">Rate Now</string>
 
+    <!-- Local notifications -->
+    <string name="notification_conversion_title">Your 50%% off is still active</string>
+    <string name="notification_conversion_body">We saved your plan. Start today with a special limited-time discount.</string>
+
     <!-- Errors -->
     <string name="email_error_toast">You have no email application installed.</string>
 
@@ -251,8 +255,8 @@
 
     <!-- Shape Up Event -->
     <string name="onboarding_shape_up_event_title">Do you have an event coming up?</string>
+    <string name="onboarding_shape_up_event_subtitle">We\'ll tailor your plan around it.</string>
     <string name="onboarding_shape_up_event_date_title">When is your event?</string>
-    <string name="onboarding_shape_up_event_date_subtitle">We\'ll craft a personalized plan to help you feel confident and in shape right on time. Your information stays private and is never shared with third parties.</string>
     <string name="onboarding_shape_up_event_date_picker_label">Event date</string>
     <string name="onboarding_shape_up_event_date_skip">Skip this question</string>
 

@@ -1,5 +1,6 @@
 package com.mobteq.billing.service
 
+import androidx.core.os.bundleOf
 import com.mobteq.analytics.FirebaseAnalytics
 import com.mobteq.analytics.events.firebase.AnalyticsEvent
 import com.mobteq.billing.service.PlayStoreBillingService.Companion.MONTHLY_SUBSCRIPTION_V1
@@ -12,6 +13,15 @@ import javax.inject.Inject
 class BillingAnalyticsTracker @Inject constructor(
     private val firebaseAnalytics: FirebaseAnalytics,
 ) {
+
+    fun trackPurchaseComplete(productId: String) {
+        Timber.tag(TAG).i("Tracking purchase_complete. productId: $productId")
+
+        firebaseAnalytics.logEvent(
+            EVENT_NAME_PURCHASE_COMPLETE,
+            bundleOf(PROPERTY_PRODUCT_ID to productId)
+        )
+    }
 
     fun trackPurchase(productId: String) {
         Timber.tag(TAG).i("Tracking purchase. productId: $productId")
@@ -28,6 +38,8 @@ class BillingAnalyticsTracker @Inject constructor(
 
     companion object {
         private const val TAG = "BillingAnalytics"
+        private const val EVENT_NAME_PURCHASE_COMPLETE = "purchase_complete"
+        private const val PROPERTY_PRODUCT_ID = "product_id"
     }
 }
 

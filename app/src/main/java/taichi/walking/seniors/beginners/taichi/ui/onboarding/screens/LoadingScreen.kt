@@ -35,6 +35,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -59,14 +60,22 @@ fun LoadingScreen(
     val context = LocalContext.current
     val activity = remember(context) { context.findActivity() }
     var hasAttemptedInAppReview by rememberSaveable { mutableStateOf(false) }
+    var secondsRemaining by rememberSaveable { mutableIntStateOf(10) }
+    var showCountdown by rememberSaveable { mutableStateOf(false) }
 
     LaunchedEffect(Unit) {
-        kotlinx.coroutines.delay(10_000)
+        kotlinx.coroutines.delay(4_000)
+        showCountdown = true
+        for (second in 10 downTo 1) {
+            secondsRemaining = second
+            kotlinx.coroutines.delay(1_000)
+        }
         onContinue()
     }
 
     LaunchedEffect(activity) {
         if (activity == null || hasAttemptedInAppReview) return@LaunchedEffect
+        kotlinx.coroutines.delay(3_500)
         hasAttemptedInAppReview = true
         InAppReviewHelper.launchIfAvailable(activity)
     }
@@ -97,6 +106,17 @@ fun LoadingScreen(
             style = MaterialTheme.typography.bodyLarge,
             color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f)
         )
+        if (showCountdown) {
+            Spacer(modifier = Modifier.height(10.dp))
+            Text(
+                text = "Finalizing your plan in ${secondsRemaining}s",
+                modifier = Modifier.fillMaxWidth(),
+                textAlign = TextAlign.Center,
+                style = MaterialTheme.typography.titleMedium,
+                color = MaterialTheme.colorScheme.primary,
+                fontWeight = FontWeight.SemiBold
+            )
+        }
         Spacer(modifier = Modifier.height(30.dp))
         SocialCard(
             icon = {
@@ -131,7 +151,7 @@ private fun LoadingProgress() {
     )
 
     LaunchedEffect(Unit) {
-        progress.animateTo(1f, tween(10_000, easing = FastOutSlowInEasing))
+        progress.animateTo(1f, tween(14_000, easing = FastOutSlowInEasing))
     }
 
     Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {

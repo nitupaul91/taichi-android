@@ -64,6 +64,7 @@ import taichi.walking.seniors.beginners.taichi.ui.home.workout.WorkoutCompletion
 import taichi.walking.seniors.beginners.taichi.ui.home.workout.WorkoutPreviewScreen
 import taichi.walking.seniors.beginners.taichi.ui.home.workout.WorkoutScreen
 import taichi.walking.seniors.beginners.taichi.ui.onboarding.screens.PaywallScreen
+import taichi.walking.seniors.beginners.taichi.ui.progress.data.PracticeKind
 import taichi.walking.seniors.beginners.ui.rateapp.RateAppDialogView
 
 // Specific colors from the design (matching iOS)
@@ -76,6 +77,34 @@ private val FutureDayTextColor = Color(0xFF9AA8AD)
 @Composable
 fun JourneyHomeScreen(
     viewModel: JourneyHomeViewModel = hiltViewModel(),
+    onBottomBarVisibilityChange: (Boolean) -> Unit = {}
+) {
+    PracticeJourneyHomeScreen(
+        title = "Your Tai Chi Journey",
+        practiceKind = PracticeKind.TAI_CHI,
+        viewModel = viewModel,
+        onBottomBarVisibilityChange = onBottomBarVisibilityChange
+    )
+}
+
+@Composable
+fun WalkingHomeScreen(
+    viewModel: WalkingHomeViewModel = hiltViewModel(),
+    onBottomBarVisibilityChange: (Boolean) -> Unit = {}
+) {
+    PracticeJourneyHomeScreen(
+        title = "Tai Chi Walking",
+        practiceKind = PracticeKind.WALKING,
+        viewModel = viewModel,
+        onBottomBarVisibilityChange = onBottomBarVisibilityChange
+    )
+}
+
+@Composable
+private fun PracticeJourneyHomeScreen(
+    title: String,
+    practiceKind: PracticeKind,
+    viewModel: BaseJourneyHomeViewModel,
     onBottomBarVisibilityChange: (Boolean) -> Unit = {}
 ) {
     val state by viewModel.state.collectAsState()
@@ -126,7 +155,7 @@ fun JourneyHomeScreen(
                     item {
 
                         Text(
-                            text = "Your Tai Chi Journey",
+                            text = title,
                             style = MaterialTheme.typography.headlineMedium,
                             fontWeight = FontWeight.ExtraBold,
                             color = Color(0xFF1A1A1A)
@@ -137,32 +166,19 @@ fun JourneyHomeScreen(
                     item {
                         val phase = plan.phaseForDay(state.currentDay)
                         if (phase != null) {
-                            Row(
-                                verticalAlignment = Alignment.CenterVertically,
+                            Surface(
+                                shape = RoundedCornerShape(50),
+                                border = BorderStroke(1.5.dp, TaiChiGreen),
+                                color = Color.Transparent,
                                 modifier = Modifier.padding(bottom = 24.dp)
                             ) {
-                                Surface(
-                                    shape = RoundedCornerShape(50),
-                                    border = BorderStroke(1.5.dp, TaiChiGreen),
-                                    color = Color.Transparent
-                                ) {
-                                    Text(
-                                        text = phase.name.uppercase(),
-                                        modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp),
-                                        style = MaterialTheme.typography.labelSmall,
-                                        fontWeight = FontWeight.Bold,
-                                        color = TaiChiGreen,
-                                        fontSize = 12.sp
-                                    )
-                                }
-                                Spacer(modifier = Modifier.width(12.dp))
                                 Text(
-                                    text = phase.description,
-                                    style = MaterialTheme.typography.bodyLarge,
-                                    fontWeight = FontWeight.SemiBold,
-                                    color = Color(0xFF1A1A1A),
-                                    maxLines = 1,
-                                    overflow = TextOverflow.Ellipsis
+                                    text = phase.name.uppercase(),
+                                    modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp),
+                                    style = MaterialTheme.typography.labelSmall,
+                                    fontWeight = FontWeight.Bold,
+                                    color = TaiChiGreen,
+                                    fontSize = 12.sp
                                 )
                             }
                         }
@@ -208,7 +224,16 @@ fun JourneyHomeScreen(
         )
     }
     completedDay?.let { day ->
-        WorkoutCompletionScreen(dayNumber = day.day, dayData = day, onReturnHome = { completedDay = null })
+        WorkoutCompletionScreen(
+            dayNumber = day.day,
+            dayData = day,
+            practiceKind = practiceKind,
+            completionResult = state.completionResult,
+            onReturnHome = {
+                completedDay = null
+                viewModel.clearCompletionResult()
+            }
+        )
     }
     if (showPaywall) {
         PaywallScreen(

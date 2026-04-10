@@ -39,12 +39,19 @@ fun SingleSelectScreen(
     QuestionScaffold(
         progress = progress,
         title = title,
-        subtitle = subtitle,
+        subtitle = subtitle.takeIf { it.isNotBlank() },
         onBack = onBack,
-        continueEnabled = selectedId != null,
+        showContinueButton = false,
         onContinue = onContinue
     ) {
-        SingleSelectQuestion(options = options, selectedId = selectedId, onSelect = onSelect)
+        SingleSelectQuestion(
+            options = options,
+            selectedId = selectedId,
+            onSelect = { option ->
+                onSelect(option)
+                onContinue()
+            }
+        )
     }
 }
 
@@ -62,7 +69,7 @@ fun MultiSelectScreen(
     QuestionScaffold(
         progress = progress,
         title = title,
-        subtitle = subtitle,
+        subtitle = subtitle.takeIf { it.isNotBlank() },
         onBack = onBack,
         continueEnabled = selectedIds.isNotEmpty(),
         onContinue = onContinue
@@ -85,12 +92,19 @@ fun ImageGridScreen(
     QuestionScaffold(
         progress = progress,
         title = title,
-        subtitle = subtitle,
+        subtitle = subtitle.takeIf { it.isNotBlank() },
         onBack = onBack,
-        continueEnabled = selectedId != null,
+        showContinueButton = false,
         onContinue = onContinue
     ) {
-        ImageGridQuestion(options = options, selectedId = selectedId, onSelect = onSelect)
+        ImageGridQuestion(
+            options = options,
+            selectedId = selectedId,
+            onSelect = { option ->
+                onSelect(option)
+                onContinue()
+            }
+        )
     }
 }
 
@@ -121,7 +135,7 @@ fun NumberPickerScreen(
     QuestionScaffold(
         progress = progress,
         title = title,
-        subtitle = subtitle,
+        subtitle = subtitle.takeIf { it.isNotBlank() },
         onBack = onBack,
         onContinue = onContinue
     ) {
@@ -227,7 +241,7 @@ fun ValuePropScreen(
     QuestionScaffold(
         progress = progress,
         title = title,
-        subtitle = subtitle,
+        subtitle = subtitle.takeIf { it.isNotBlank() },
         showProgress = false,
         onBack = onBack,
         continueEnabled = true,

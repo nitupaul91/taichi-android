@@ -24,6 +24,10 @@ class OnboardingPrefs(private val context: Context) {
         prefs[ONBOARDING_COMPLETED] ?: false
     }
 
+    fun observeAnswersJson(): Flow<String?> = context.taichiOnboardingDataStore.data.map { prefs ->
+        prefs[ONBOARDING_ANSWERS_JSON]
+    }
+
     suspend fun setCompleted(completed: Boolean) {
         context.taichiOnboardingDataStore.edit { prefs ->
             prefs[ONBOARDING_COMPLETED] = completed

@@ -4,6 +4,7 @@ import android.net.Uri
 import android.os.Build
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.sageai.id.IDService
 import com.mobteq.billing.model.purchases.local.PurchaseManager
 import taichi.walking.seniors.beginners.BuildConfig
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -16,10 +17,12 @@ import javax.inject.Inject
 
 @HiltViewModel
 class TaiChiSettingsViewModel @Inject constructor(
-    private val purchaseManager: PurchaseManager
+    private val purchaseManager: PurchaseManager,
+    private val idService: IDService
 ) : ViewModel() {
 
     val appVersion: String = BuildConfig.VERSION_NAME
+    private var userId: String = "Unknown"
 
     private val _isPremium = MutableStateFlow(false)
     val isPremium: StateFlow<Boolean> = _isPremium.asStateFlow()
@@ -30,11 +33,15 @@ class TaiChiSettingsViewModel @Inject constructor(
                 _isPremium.value = isPremium
             }
         }
+        viewModelScope.launch {
+            userId = runCatching { idService.getUserID() }.getOrDefault("Unknown")
+        }
     }
 
     fun buildContactEmailUri(): String {
         val subject = "Taichi - Feedback report"
         val body = buildString {
+            append("UserId: $userId\n")
             append("OS: Android ${Build.VERSION.RELEASE}\n")
             append("Model: ${Build.MANUFACTURER} ${Build.MODEL}\n")
             append("Language: ${Locale.getDefault().language}\n")

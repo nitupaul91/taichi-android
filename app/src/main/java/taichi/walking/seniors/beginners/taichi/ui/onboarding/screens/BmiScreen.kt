@@ -52,6 +52,7 @@ fun BmiScreen(
         title = "",
         subtitle = null,
         onBack = onBack,
+        topInsetExtra = 0.dp,
         onContinue = onContinue
     ) {
         Column(
@@ -141,7 +142,7 @@ private fun BmiResultRing(
             Spacer(modifier = Modifier.height(4.dp))
             Text(
                 text = category,
-                style = MaterialTheme.typography.headlineSmall,
+                style = MaterialTheme.typography.headlineMedium.copy(fontSize = 34.sp),
                 color = statusColor,
                 fontWeight = FontWeight.Bold
             )

@@ -25,6 +25,12 @@ fun ProductDetails.mapToPurchaseProduct(): Product? {
         val pricingPhases = selectedOffer.pricingPhases.pricingPhaseList
         val price: Pair<String, Long> = getPrice(pricingPhases, productId)
         val freeTrial = getFreeTrialIfEligible(pricingPhases)
+        val paidPhase = pricingPhases.lastOrNull { it.priceAmountMicros > 0L }
+        val introOfferPhase = pricingPhases.firstOrNull {
+            it.priceAmountMicros == 0L && it.billingPeriod.isNotBlank()
+        }
+        val paidPeriod = paidPhase?.billingPeriod?.let(::parseIsoDurationToPeriod)
+        val introOfferPeriod = introOfferPhase?.billingPeriod?.let(::parseIsoDurationToPeriod)
 
         return SubscriptionProduct(
             productId,
@@ -32,6 +38,11 @@ fun ProductDetails.mapToPurchaseProduct(): Product? {
             price.first,
             price.second,
             freeTrial,
+            paidPeriod?.unit,
+            paidPeriod?.value,
+            introOfferPhase?.let(::mapPaymentMode),
+            introOfferPeriod?.unit,
+            introOfferPeriod?.value,
             selectedOffer.offerToken,
         )
     }
@@ -82,6 +93,30 @@ private fun getFreeTrialIfEligible(
     } ?: return null
 
     return parseIsoDurationToDays(freeTrialPhase.billingPeriod)
+}
+
+private data class ParsedPeriod(
+    val unit: String,
+    val value: Int
+)
+
+private fun parseIsoDurationToPeriod(isoDuration: String): ParsedPeriod? {
+    val period = isoDuration.uppercase().removePrefix("P")
+
+    return when {
+        period.endsWith("D") -> period.removeSuffix("D").toIntOrNull()?.let { ParsedPeriod("day", it) }
+        period.endsWith("W") -> period.removeSuffix("W").toIntOrNull()?.let { ParsedPeriod("week", it) }
+        period.endsWith("M") -> period.removeSuffix("M").toIntOrNull()?.let { ParsedPeriod("month", it) }
+        period.endsWith("Y") -> period.removeSuffix("Y").toIntOrNull()?.let { ParsedPeriod("year", it) }
+        else -> null
+    }
+}
+
+private fun mapPaymentMode(phase: ProductDetails.PricingPhase): String {
+    return when {
+        phase.priceAmountMicros == 0L -> "freeTrial"
+        else -> "payAsYouGo"
+    }
 }
 
 /**

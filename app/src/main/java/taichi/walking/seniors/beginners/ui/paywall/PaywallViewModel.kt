@@ -3,6 +3,7 @@ package taichi.walking.seniors.beginners.ui.paywall
 import android.app.Activity
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.gson.Gson
 import com.mobteq.billing.datastore.DataStorePrefs
 import com.mobteq.billing.domain.Product
 import com.mobteq.billing.domain.PurchaseStatus
@@ -10,6 +11,7 @@ import com.mobteq.billing.domain.repository.PurchasesRepository
 import com.mobteq.billing.service.PlayStoreBillingService.Companion.MONTHLY_SUBSCRIPTION_V1
 import com.mobteq.billing.service.PlayStoreBillingService.Companion.PREMIUM_LIFETIME_PRODUCT
 import com.mobteq.billing.service.PlayStoreBillingService.Companion.YEARLY_SUBSCRIPTION_V1
+import com.sageai.id.IDService
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -21,7 +23,10 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import taichi.walking.seniors.beginners.R
 import taichi.walking.seniors.beginners.service.UserService
+import taichi.walking.seniors.beginners.taichi.onboarding.data.OnboardingPrefs
+import taichi.walking.seniors.beginners.taichi.onboarding.state.OnboardingState
 import taichi.walking.seniors.beginners.util.Strings
+import kotlinx.coroutines.delay
 import javax.inject.Inject
 
 @HiltViewModel
@@ -31,6 +36,10 @@ class PaywallViewModel @Inject constructor(
     private val strings: Strings,
     private val dataStorePrefs: DataStorePrefs,
     private val userService: UserService,
+    private val onboardingPrefs: OnboardingPrefs,
+    private val gson: Gson,
+    private val idService: IDService,
+    private val remotePaywallCache: RemotePaywallCache
 ) : ViewModel() {
 
     private val events = MutableSharedFlow<PaywallEvents>()
@@ -43,9 +52,26 @@ class PaywallViewModel @Inject constructor(
     private val _isLoadingProducts = MutableStateFlow(true)
     val isLoadingProducts: StateFlow<Boolean> = _isLoadingProducts
 
+    private val _isPurchaseInProgress = MutableStateFlow(false)
+    val isPurchaseInProgress: StateFlow<Boolean> = _isPurchaseInProgress
+
+    private val _isRestoring = MutableStateFlow(false)
+    val isRestoring: StateFlow<Boolean> = _isRestoring
+
+    private val _errorMessage = MutableStateFlow<String?>(null)
+    val errorMessage: StateFlow<String?> = _errorMessage
+
+    private val _onboardingState = MutableStateFlow<OnboardingState?>(null)
+    val onboardingState: StateFlow<OnboardingState?> = _onboardingState
+
+    private val _userId = MutableStateFlow<String?>(null)
+    val userId: StateFlow<String?> = _userId
+
     init {
         getProducts()
         subscribeToPurchaseStatus()
+        subscribeToOnboardingState()
+        fetchUserId()
 
         analytics.trackPaywallView()
     }
@@ -55,9 +81,16 @@ class PaywallViewModel @Inject constructor(
             purchasesRepository.getPurchaseStatus()
                 .collect {
                     when (it) {
-                        PurchaseStatus.InProgress -> events.emit(PaywallEvents.PurchaseInProgress)
+                        PurchaseStatus.InProgress -> {
+                            _isPurchaseInProgress.value = true
+                            _errorMessage.value = null
+                            events.emit(PaywallEvents.PurchaseInProgress)
+                        }
                         is PurchaseStatus.Acknowledged -> {
                             purchasesRepository.clearPurchaseStatus()
+                            _isPurchaseInProgress.value = false
+                            _isRestoring.value = false
+                            _errorMessage.value = null
 
                             events.emit(PaywallEvents.PurchaseIsAcknowledged)
 
@@ -66,7 +99,16 @@ class PaywallViewModel @Inject constructor(
                             closeScreen()
                         }
 
-                        PurchaseStatus.SubNotValid -> events.emit(PaywallEvents.PurchaseNotValid)
+                        PurchaseStatus.SubNotValid -> {
+                            _isPurchaseInProgress.value = false
+                            _errorMessage.value = if (_isRestoring.value) {
+                                "No previous purchases found."
+                            } else {
+                                "Purchase failed. Please try again."
+                            }
+                            _isRestoring.value = false
+                            events.emit(PaywallEvents.PurchaseNotValid)
+                        }
                         else -> Unit
                     }
                 }
@@ -100,6 +142,22 @@ class PaywallViewModel @Inject constructor(
 
                     products.emit(uiProducts)
                 }
+        }
+    }
+
+    private fun subscribeToOnboardingState() {
+        viewModelScope.launch {
+            onboardingPrefs.observeAnswersJson().collect { json ->
+                _onboardingState.value = json
+                    ?.takeIf { it.isNotBlank() }
+                    ?.let { runCatching { gson.fromJson(it, OnboardingState::class.java) }.getOrNull() }
+            }
+        }
+    }
+
+    private fun fetchUserId() {
+        viewModelScope.launch {
+            _userId.value = runCatching { idService.getUserID() }.getOrNull()
         }
     }
 
@@ -187,23 +245,41 @@ class PaywallViewModel @Inject constructor(
         product.getPeriodString()
     )
 
-    fun makePurchase(activity: Activity) {
+    fun makePurchase(activity: Activity, productId: String? = null) {
         viewModelScope.launch {
-            val selectedProduct = selectedProduct.value
+            val purchaseProduct = productId
+                ?.let { requestedProductId ->
+                    products.value.firstOrNull { it.product.productId == requestedProductId }?.product
+                }
+                ?: selectedProduct.value
 
-            analytics.trackMakePurchase(selectedProduct?.productId)
+            if (purchaseProduct != null && this@PaywallViewModel.selectedProduct.value != purchaseProduct) {
+                selectedProduct(purchaseProduct, trackAnalytics = false)
+            }
 
-            if (selectedProduct == null) {
+            analytics.trackMakePurchase(purchaseProduct?.productId)
+
+            if (purchaseProduct == null) {
                 events.emit(PaywallEvents.SelectProduct)
                 return@launch
             }
 
-            purchasesRepository.makePurchase(activity, selectedProduct)
+            _errorMessage.value = null
+            purchasesRepository.makePurchase(activity, purchaseProduct)
         }
     }
 
 
     fun selectProduct(newlySelectedProduct: Product) {
+        selectedProduct(newlySelectedProduct, trackAnalytics = true)
+    }
+
+    fun selectProductById(productId: String) {
+        val product = products.value.firstOrNull { it.product.productId == productId }?.product ?: return
+        selectedProduct(product, trackAnalytics = true)
+    }
+
+    private fun selectedProduct(newlySelectedProduct: Product, trackAnalytics: Boolean) {
         viewModelScope.launch {
             selectedProduct.value = newlySelectedProduct
             products.emit(products.value.map { uiProduct ->
@@ -211,12 +287,41 @@ class PaywallViewModel @Inject constructor(
             })
         }
 
-        analytics.trackSelectProduct(newlySelectedProduct.productId)
+        if (trackAnalytics) {
+            analytics.trackSelectProduct(newlySelectedProduct.productId)
+        }
     }
 
     fun navigateBack() {
         closeScreen()
         analytics.trackPaywallClose()
+    }
+
+    fun onCloseRequested() {
+        analytics.trackPaywallClose()
+    }
+
+    fun trackPersonalization(variants: Map<String, Any?>) {
+        analytics.trackPaywallPersonalization(variants)
+    }
+
+    fun observeCachedPaywall(variant: RemotePaywallVariant): StateFlow<CachedRemotePaywall?> {
+        return remotePaywallCache.observeCachedPaywall(variant)
+    }
+
+    fun restorePurchases() {
+        viewModelScope.launch {
+            _isRestoring.value = true
+            _errorMessage.value = null
+            purchasesRepository.clearPurchaseStatus()
+            purchasesRepository.queryPurchases()
+            delay(1_500)
+            val isPremium = dataStorePrefs.isSubscribed().first()
+            if (!isPremium) {
+                _isRestoring.value = false
+                _errorMessage.value = "No previous purchases found."
+            }
+        }
     }
 
     fun dismissDialog() {

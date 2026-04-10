@@ -31,6 +31,17 @@
         <item name="appWidgetPadding">2dp</item>
     </style>
 
+    <style name="Theme.AiAssistant.TaiChiDatePicker" parent="@android:style/Theme.DeviceDefault.Light">
+        <item name="android:colorAccent">@color/taiChiGreenAccent</item>
+        <item name="android:colorControlActivated">@color/taiChiGreenAccent</item>
+        <item name="android:colorControlHighlight">@color/taiChiGreenAccent</item>
+        <item name="android:colorButtonNormal">@color/taiChiGreenAccent</item>
+        <item name="android:colorForeground">@color/taiChiGreenAccent</item>
+        <item name="colorAccent">@color/taiChiGreenAccent</item>
+        <item name="colorPrimary">@color/taiChiGreenAccent</item>
+        <item name="colorPrimaryDark">@color/taiChiGreenAccent</item>
+    </style>
+
     <color name="colorPrimary">@color/redCta</color>
     <color name="windowBackground">@color/background_day</color>
     <color name="backgroundChatGradientStart">@color/background_day_chat_gradient_start</color>

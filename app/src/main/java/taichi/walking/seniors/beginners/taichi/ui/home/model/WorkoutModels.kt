@@ -19,6 +19,8 @@ enum class ExerciseGoal {
 }
 
 data class GenerateWorkoutRequest(
+    @SerializedName("userId") val userId: String? = null,
+    @SerializedName("intensity") val intensity: Int? = null,
     @SerializedName("language") val language: String,
     @SerializedName("restrictions") val restrictions: List<ExerciseLimitation>,
     @SerializedName("goals") val goals: List<ExerciseGoal>
@@ -90,7 +92,8 @@ data class WorkoutPhaseDto(
 }
 
 data class WorkoutPlanDto(
-    @SerializedName("phases") val phases: List<WorkoutPhaseDto>
+    @SerializedName("phases") val phases: List<WorkoutPhaseDto>,
+    @SerializedName("intensity") val intensity: String? = null
 ) {
     val totalDays: Int get() = phases.sumOf { it.days.size }
     val allDays: List<WorkoutDayDto> get() = phases.flatMap { it.days }

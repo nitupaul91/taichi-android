@@ -327,9 +327,12 @@ class PlayStoreBillingService @Inject constructor(
     private suspend fun handleAcknowledgeSuccess(purchase: Purchase) {
         purchaseManager.setUserPremiumSubscribed()
 
-        Timber.tag(TAG).d("Emitting PurchaseStatus.Acknowledged ")
+        val productId = purchase.products.firstOrNull()
 
-        purchaseStatus.emit(PurchaseStatus.Acknowledged)
+        Timber.tag(TAG).d("Emitting PurchaseStatus.Acknowledged for productId=$productId")
+
+        productId?.let(analyticsTracker::trackPurchaseComplete)
+        purchaseStatus.emit(PurchaseStatus.Acknowledged(productId))
 
         trackPurchase(purchase)
     }

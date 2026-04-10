@@ -66,16 +66,20 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.google.gson.Gson
-import kotlinx.coroutines.flow.map
 import taichi.walking.seniors.beginners.R
-import taichi.walking.seniors.beginners.taichi.onboarding.data.OnboardingPrefs
-import taichi.walking.seniors.beginners.taichi.onboarding.data.taichiOnboardingDataStore
 import taichi.walking.seniors.beginners.taichi.onboarding.state.OnboardingState
 import taichi.walking.seniors.beginners.taichi.onboarding.ui.components.PrimaryButton
+import taichi.walking.seniors.beginners.ui.paywall.PaywallWebAction
+import taichi.walking.seniors.beginners.ui.paywall.PaywallWebIntroOffer
+import taichi.walking.seniors.beginners.ui.paywall.PaywallWebOnboardingProfile
+import taichi.walking.seniors.beginners.ui.paywall.PaywallWebStorePayload
+import taichi.walking.seniors.beginners.ui.paywall.PaywallWebStoreProduct
 import taichi.walking.seniors.beginners.ui.paywall.PaywallEvents
+import taichi.walking.seniors.beginners.ui.paywall.RemotePaywallVariant
+import taichi.walking.seniors.beginners.ui.paywall.RemotePaywallWebView
 import taichi.walking.seniors.beginners.ui.paywall.PaywallViewModel
 import taichi.walking.seniors.beginners.ui.paywall.UIProduct
+import java.time.Instant
 import java.util.Locale
 
 private enum class PurchaseDialogState {
@@ -86,15 +90,21 @@ private enum class PurchaseDialogState {
 fun PaywallScreen(
     onClose: () -> Unit,
     onComplete: () -> Unit,
+    paywallVariant: RemotePaywallVariant = RemotePaywallVariant.PRIMARY,
     viewModel: PaywallViewModel = hiltViewModel()
 ) {
     val context = LocalContext.current
     val activity = context.findActivity()
-    val answersJson by context.taichiOnboardingDataStore.data
-        .map { prefs -> prefs[OnboardingPrefs.ONBOARDING_ANSWERS_JSON] }
-        .collectAsState(initial = null)
     val products by viewModel.products.collectAsState()
     val selectedProduct by viewModel.selectedProduct.collectAsState()
+    val onboardingState by viewModel.onboardingState.collectAsState()
+    val userId by viewModel.userId.collectAsState()
+    val isPurchaseInProgress by viewModel.isPurchaseInProgress.collectAsState()
+    val isRestoring by viewModel.isRestoring.collectAsState()
+    val errorMessage by viewModel.errorMessage.collectAsState()
+    val cachedRemotePaywall by remember(paywallVariant) {
+        viewModel.observeCachedPaywall(paywallVariant)
+    }.collectAsState()
     val hasFreeTrial = !selectedProduct?.freeTrial.isNullOrBlank()
     val trialDays = selectedProduct?.freeTrial.orEmpty()
     val isYearlyProduct = selectedProduct?.productId?.contains("yearly", ignoreCase = true) == true
@@ -111,25 +121,53 @@ fun PaywallScreen(
 
     var purchaseDialogState by remember { mutableStateOf(PurchaseDialogState.Hidden) }
 
-    val genderId = remember(answersJson) {
-        runCatching { Gson().fromJson(answersJson, OnboardingState::class.java)?.genderId }
-            .getOrNull()
+    val genderId = onboardingState?.genderId
+    val useRemotePaywall = cachedRemotePaywall != null
+    val storePayload = remember(
+        products,
+        selectedProduct,
+        onboardingState,
+        userId,
+        errorMessage,
+        isPurchaseInProgress,
+        isRestoring
+    ) {
+        buildRemotePaywallStorePayload(
+            products = products,
+            selectedProduct = selectedProduct,
+            onboardingState = onboardingState,
+            userId = userId,
+            errorMessage = errorMessage,
+            isPurchaseInProgress = isPurchaseInProgress,
+            isRestoring = isRestoring
+        )
     }
 
-    LaunchedEffect(Unit) {
+    LaunchedEffect(useRemotePaywall) {
         viewModel.eventsFlow.collect { event ->
             when (event) {
-                PaywallEvents.PurchaseInProgress -> purchaseDialogState = PurchaseDialogState.Loading
-                PaywallEvents.PurchaseIsAcknowledged -> purchaseDialogState = PurchaseDialogState.Success
-                PaywallEvents.PurchaseNotValid -> purchaseDialogState = PurchaseDialogState.Failed
+                PaywallEvents.PurchaseInProgress -> {
+                    if (!useRemotePaywall) {
+                        purchaseDialogState = PurchaseDialogState.Loading
+                    }
+                }
+                PaywallEvents.PurchaseIsAcknowledged -> {
+                    if (!useRemotePaywall) {
+                        purchaseDialogState = PurchaseDialogState.Success
+                    }
+                }
+                PaywallEvents.PurchaseNotValid -> {
+                    if (!useRemotePaywall) {
+                        purchaseDialogState = PurchaseDialogState.Failed
+                    }
+                }
                 PaywallEvents.CloseScreen -> onComplete()
                 else -> Unit
             }
         }
     }
 
-    // Purchase Status Dialog
-    if (purchaseDialogState != PurchaseDialogState.Hidden) {
+    if (!useRemotePaywall && purchaseDialogState != PurchaseDialogState.Hidden) {
         PurchaseStatusDialog(
             state = purchaseDialogState,
             onOkay = {
@@ -145,6 +183,44 @@ fun PaywallScreen(
 
     val statusBarPadding = WindowInsets.statusBars.asPaddingValues().calculateTopPadding()
     val navBarPadding = WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding()
+
+    cachedRemotePaywall?.let { remotePaywall ->
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(MaterialTheme.colorScheme.background)
+                .padding(top = statusBarPadding, bottom = navBarPadding)
+        ) {
+            RemotePaywallWebView(
+                paywall = remotePaywall,
+                storePayload = storePayload,
+                onAction = { action ->
+                    when (action) {
+                        PaywallWebAction.Close -> {
+                            viewModel.onCloseRequested()
+                            onClose()
+                        }
+                        PaywallWebAction.Restore -> viewModel.restorePurchases()
+                        is PaywallWebAction.Purchase -> {
+                            if (activity != null) {
+                                viewModel.makePurchase(activity, action.productId)
+                            }
+                        }
+                        is PaywallWebAction.SelectProduct -> viewModel.selectProductById(action.productId)
+                        is PaywallWebAction.OpenUrl -> {
+                            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(action.url))
+                            context.startActivity(intent)
+                        }
+                        is PaywallWebAction.TrackPersonalization -> {
+                            viewModel.trackPersonalization(action.variants)
+                        }
+                    }
+                },
+                modifier = Modifier.fillMaxSize()
+            )
+        }
+        return
+    }
 
     Scaffold(
         containerColor = MaterialTheme.colorScheme.background,
@@ -206,7 +282,13 @@ fun PaywallScreen(
             verticalArrangement = Arrangement.spacedBy(14.dp)
         ) {
             item {
-                BeforeAfterHeader(genderId = genderId, onClose = onClose)
+                BeforeAfterHeader(
+                    genderId = genderId,
+                    onClose = {
+                        viewModel.onCloseRequested()
+                        onClose()
+                    }
+                )
             }
             item {
                 CenteredTitle()
@@ -265,6 +347,97 @@ private fun UIProduct.monthlyBreakdownPrice(): String {
     if (product.price <= 0L) return product.displayPrice
     val monthlyPrice = (product.price / 1_000_000.0) / 12.0
     return formatWithProductCurrency(monthlyPrice, product.displayPrice)
+}
+
+private fun buildRemotePaywallStorePayload(
+    products: List<UIProduct>,
+    selectedProduct: com.mobteq.billing.domain.Product?,
+    onboardingState: OnboardingState?,
+    userId: String?,
+    errorMessage: String?,
+    isPurchaseInProgress: Boolean,
+    isRestoring: Boolean
+): PaywallWebStorePayload {
+    return PaywallWebStorePayload(
+        products = products.map { it.toPaywallWebStoreProduct(selectedProduct?.productId) },
+        heroGender = onboardingState?.genderId ?: "female",
+        isTaiChiWalkingFlow = true,
+        onboardingProfile = onboardingState?.toPaywallWebOnboardingProfile(userId),
+        selectedProductId = selectedProduct?.productId,
+        errorMessage = errorMessage,
+        isPurchaseInProgress = isPurchaseInProgress,
+        isRestoring = isRestoring
+    )
+}
+
+private fun UIProduct.toPaywallWebStoreProduct(selectedProductId: String?): PaywallWebStoreProduct {
+    val trialDays = product.freeTrial?.takeIf { it.isNotBlank() }
+    val introOfferPaymentMode = product.introOfferPaymentMode
+    val introOfferPeriodUnit = product.introOfferPeriodUnit
+    val introOfferPeriodValue = product.introOfferPeriodValue
+    val introOffer = if (introOfferPaymentMode != null &&
+        introOfferPeriodUnit != null &&
+        introOfferPeriodValue != null
+    ) {
+        PaywallWebIntroOffer(
+            paymentMode = introOfferPaymentMode,
+            periodUnit = introOfferPeriodUnit,
+            periodValue = introOfferPeriodValue
+        )
+    } else {
+        null
+    }
+
+    return PaywallWebStoreProduct(
+        id = product.productId,
+        title = title.ifBlank { null },
+        description = description.ifBlank { null },
+        displayPrice = product.displayPrice,
+        billingPeriodLabel = billingPeriod,
+        freeTrialDays = trialDays,
+        trialDisplayText = trialDays?.let { "$it-day free trial" },
+        subscriptionPeriodUnit = product.subscriptionPeriodUnit,
+        subscriptionPeriodValue = product.subscriptionPeriodValue,
+        introOffer = introOffer,
+        isIntroOfferEligible = introOffer != null,
+        isSelected = product.productId == selectedProductId
+    )
+}
+
+private fun OnboardingState.toPaywallWebOnboardingProfile(userId: String?): PaywallWebOnboardingProfile {
+    return PaywallWebOnboardingProfile(
+        userId = userId,
+        completedStep = "paywall",
+        discoverySource = discoverySourceId,
+        age = actualAge,
+        gender = genderId,
+        goals = goals,
+        taiChiFamiliarity = taiChiFamiliarityId,
+        currentBodyType = currentBodyTypeId,
+        targetBodyType = targetBodyTypeId,
+        targetZones = targetZones,
+        activityLevel = activityLevelId,
+        dailyWalking = walkDailyId,
+        stairsFeeling = stairsFeelingId,
+        squatsAbility = squatAbilityId,
+        canRotateHead = rotateHeadId,
+        canHoldArms = armsForwardId,
+        taiChiLevel = taiChiLevelId,
+        betweenMealsFeeling = betweenMealsId,
+        sleepAmount = sleepAmountId,
+        waterIntake = waterIntakeId,
+        dietTypes = dietTypes,
+        height = heightCm,
+        weight = weightKg.toDouble(),
+        targetWeight = targetWeightKg.toDouble(),
+        shapeUpEvent = shapeUpEventId,
+        shapeUpEventDate = shapeUpEventDateMillis
+            .takeIf { !shapeUpEventDateSkipped }
+            ?.let { Instant.ofEpochMilli(it).toString() },
+        motivationLevel = motivationLevelId,
+        exerciseBlockers = exerciseBlockers,
+        useMetric = useMetric
+    )
 }
 
 private fun formatWithProductCurrency(value: Double, samplePrice: String): String {

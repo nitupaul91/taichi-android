@@ -2,17 +2,20 @@ package taichi.walking.seniors.beginners.taichi.ui.progress.screen
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import taichi.walking.seniors.beginners.taichi.ui.progress.data.PracticeRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import taichi.walking.seniors.beginners.taichi.ui.progress.data.PracticeDaySummary
+import taichi.walking.seniors.beginners.taichi.ui.progress.data.PracticeRepository
+import taichi.walking.seniors.beginners.taichi.ui.progress.data.PracticeTitleModel
+import taichi.walking.seniors.beginners.taichi.ui.progress.data.PracticeTitleService
 import java.time.DayOfWeek
 import java.time.LocalDate
 import java.time.format.TextStyle
+import java.time.temporal.WeekFields
 import java.util.Locale
 import javax.inject.Inject
 
@@ -27,64 +30,67 @@ class ProgressViewModel @Inject constructor(
         val isCompleted: Boolean
     )
 
+    data class CalendarDayProgress(
+        val date: LocalDate,
+        val isCompleted: Boolean
+    )
+
     data class UiState(
-        val currentDay: Int = 1,
-        val totalMinutes: Int = 0,
-        val completionDates: List<LocalDate> = emptyList(),
         val weeklyProgress: List<DayProgress> = emptyList(),
-        val streak: Int = 0
-    ) {
-        val totalDaysCompleted: Int get() = (currentDay - 1).coerceAtLeast(0)
-    }
+        val monthlyProgress: List<CalendarDayProgress> = emptyList(),
+        val totalDaysPracticed: Int = 0,
+        val totalMinutesPracticed: Int = 0,
+        val currentStreak: Int = 0,
+        val currentTitle: PracticeTitleModel? = null
+    )
 
     private val _state = MutableStateFlow(UiState())
     val state: StateFlow<UiState> = _state.asStateFlow()
 
     init {
         viewModelScope.launch {
-            combine(
-                practiceRepository.currentDay,
-                practiceRepository.totalMinutes,
-                practiceRepository.completionDates
-            ) { day, mins, dates -> Triple(day, mins, dates) }
-                .collect { (day, mins, dates) ->
-                    _state.update {
-                        it.copy(
-                            currentDay = day,
-                            totalMinutes = mins,
-                            completionDates = dates,
-                            weeklyProgress = buildWeek(dates),
-                            streak = computeStreak(dates)
-                        )
-                    }
+            practiceRepository.practiceSnapshot.collect { snapshot ->
+                val summaries = snapshot.summaries.filter { it.hasPractice() }
+                _state.update {
+                    it.copy(
+                        weeklyProgress = buildWeeklyProgress(summaries),
+                        monthlyProgress = buildMonthlyProgress(summaries),
+                        totalDaysPracticed = snapshot.totalDaysPracticed,
+                        totalMinutesPracticed = snapshot.totalMinutesPracticed,
+                        currentStreak = practiceRepository.computeCurrentStreak(summaries),
+                        currentTitle = PracticeTitleService.getTitle(snapshot.totalDaysPracticed)
+                    )
                 }
+            }
         }
     }
 
-    private fun buildWeek(dates: List<LocalDate>): List<DayProgress> {
+    private fun buildWeeklyProgress(summaries: List<PracticeDaySummary>): List<DayProgress> {
+        val practicedDates = summaries.map { it.date }.toSet()
         val today = LocalDate.now()
-        val start = today.with(DayOfWeek.MONDAY)
-        val map = dates.toSet()
-        return (0..6).map { offset ->
-            val date = start.plusDays(offset.toLong())
+        val firstDayOfWeek = WeekFields.of(Locale.getDefault()).firstDayOfWeek
+        val weekStart = today.with(java.time.temporal.TemporalAdjusters.previousOrSame(firstDayOfWeek))
+
+        return (0L..6L).map { offset ->
+            val date = weekStart.plusDays(offset)
             DayProgress(
-                dayName = date.dayOfWeek.getDisplayName(TextStyle.SHORT, Locale.ENGLISH),
+                dayName = date.dayOfWeek.getDisplayName(TextStyle.SHORT, Locale.getDefault()),
                 date = date,
-                isCompleted = map.contains(date)
+                isCompleted = date in practicedDates
             )
         }
     }
 
-    private fun computeStreak(dates: List<LocalDate>): Int {
-        val set = dates.toSet()
-        if (set.isEmpty()) return 0
-        var streak = 0
-        var day = LocalDate.now()
-        if (!set.contains(day)) day = day.minusDays(1)
-        while (set.contains(day)) {
-            streak += 1
-            day = day.minusDays(1)
+    private fun buildMonthlyProgress(summaries: List<PracticeDaySummary>): List<CalendarDayProgress> {
+        val practicedDates = summaries.map { it.date }.toSet()
+        val today = LocalDate.now()
+        val startDate = today.minusDays(29)
+        return (0L..29L).map { offset ->
+            val date = startDate.plusDays(offset)
+            CalendarDayProgress(
+                date = date,
+                isCompleted = date in practicedDates
+            )
         }
-        return streak
     }
 }

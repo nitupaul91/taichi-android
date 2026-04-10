@@ -46,4 +46,20 @@
         <key>allowImageQueries</key>
         <value>true</value>
     </entry>
+    <entry>
+        <key>paywall_html_url</key>
+        <value></value>
+    </entry>
+    <entry>
+        <key>paywall_html_android</key>
+        <value>https://taichi.aimobileapps.net/paywall-v6-android.html</value>
+    </entry>
+    <entry>
+        <key>limited_offer_paywall_html_url</key>
+        <value></value>
+    </entry>
+    <entry>
+        <key>local_notification_campaign</key>
+        <value>normal_paywall</value>
+    </entry>
 </defaults>

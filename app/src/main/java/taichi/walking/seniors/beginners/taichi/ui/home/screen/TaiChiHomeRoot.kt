@@ -1,8 +1,11 @@
 package taichi.walking.seniors.beginners.taichi.ui.home.screen
 
+import androidx.activity.compose.BackHandler
+import androidx.compose.foundation.background
 import taichi.walking.seniors.beginners.taichi.ui.progress.screen.ProgressTabScreen
 import taichi.walking.seniors.beginners.taichi.ui.settings.screen.TaiChiSettingsScreen
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AccessibilityNew
 import androidx.compose.material.icons.filled.DirectionsWalk
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.ShowChart
@@ -21,31 +24,54 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import taichi.walking.seniors.beginners.taichi.ui.home.activity.PaywallLaunchRequest
+import taichi.walking.seniors.beginners.taichi.ui.onboarding.screens.PaywallScreen
 
 private enum class HomeTab(val title: String, val icon: androidx.compose.ui.graphics.vector.ImageVector) {
-    Journey("Journey", Icons.Default.DirectionsWalk),
+    TaiChi("Tai Chi", Icons.Default.AccessibilityNew),
+    Walking("Walking", Icons.Default.DirectionsWalk),
     Progress("Progress", Icons.Default.ShowChart),
     Settings("Settings", Icons.Default.Settings)
 }
 
 @Composable
-fun TaiChiHomeRoot() {
-    var selected by remember { mutableStateOf(HomeTab.Journey) }
+fun TaiChiHomeRoot(
+    pendingPaywallRequest: PaywallLaunchRequest? = null,
+    onPaywallRequestConsumed: () -> Unit = {}
+) {
+    var selected by remember { mutableStateOf(HomeTab.TaiChi) }
     var showBottomBar by remember { mutableStateOf(true) }
+    var activePaywallRequest by remember { mutableStateOf<PaywallLaunchRequest?>(null) }
 
     LaunchedEffect(selected) {
-        if (selected != HomeTab.Journey) showBottomBar = true
+        if (selected != HomeTab.TaiChi && selected != HomeTab.Walking) showBottomBar = true
+    }
+
+    LaunchedEffect(pendingPaywallRequest) {
+        if (pendingPaywallRequest != null) {
+            activePaywallRequest = pendingPaywallRequest
+        }
+    }
+
+    val dismissActivePaywall = {
+        activePaywallRequest = null
+        onPaywallRequestConsumed()
+    }
+
+    BackHandler(enabled = activePaywallRequest != null) {
+        dismissActivePaywall()
     }
 
     Scaffold(
         containerColor = MaterialTheme.colorScheme.background,
         contentWindowInsets = WindowInsets(0, 0, 0, 0),
         bottomBar = {
-            if (showBottomBar) {
+            if (showBottomBar && activePaywallRequest == null) {
                 NavigationBar(
                     containerColor = Color(0xFFFDFEFD),
                     tonalElevation = 0.dp
@@ -69,9 +95,18 @@ fun TaiChiHomeRoot() {
             }
         }
     ) { padding ->
-        Box(modifier = Modifier.padding(padding)) {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(padding)
+        ) {
             when (selected) {
-                HomeTab.Journey -> JourneyHomeScreen(
+                HomeTab.TaiChi -> JourneyHomeScreen(
+                    onBottomBarVisibilityChange = { shouldShow ->
+                        showBottomBar = shouldShow
+                    }
+                )
+                HomeTab.Walking -> WalkingHomeScreen(
                     onBottomBarVisibilityChange = { shouldShow ->
                         showBottomBar = shouldShow
                     }
@@ -82,6 +117,20 @@ fun TaiChiHomeRoot() {
                         showBottomBar = shouldShow
                     }
                 )
+            }
+
+            activePaywallRequest?.let { request ->
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(MaterialTheme.colorScheme.background)
+                ) {
+                    PaywallScreen(
+                        paywallVariant = request.variant,
+                        onClose = dismissActivePaywall,
+                        onComplete = dismissActivePaywall
+                    )
+                }
             }
         }
     }

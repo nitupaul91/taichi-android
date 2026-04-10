@@ -55,9 +55,9 @@ fun TargetBodyTypeScreen(
     QuestionScaffold(
         progress = progressFor(OnboardingRoutes.TargetBodyType),
         title = stringResource(R.string.onboarding_target_body_type_title),
-        subtitle = stringResource(R.string.onboarding_target_body_type_subtitle),
+        subtitle = null,
         onBack = onBack,
-        continueEnabled = state.targetBodyTypeId != null,
+        showContinueButton = false,
         onContinue = onContinue
     ) {
         Column(verticalArrangement = Arrangement.spacedBy(14.dp)) {
@@ -65,7 +65,10 @@ fun TargetBodyTypeScreen(
                 TargetBodyTypeRow(
                     option = option,
                     selected = state.targetBodyTypeId == option.id,
-                    onClick = { onSelect(OnboardingAction.SingleSelect(OnboardingQuestions.TARGET_BODY, option.id)) }
+                    onClick = {
+                        onSelect(OnboardingAction.SingleSelect(OnboardingQuestions.TARGET_BODY, option.id))
+                        onContinue()
+                    }
                 )
             }
         }
@@ -87,6 +90,7 @@ private fun TargetBodyTypeRow(
     Card(
         modifier = Modifier
             .fillMaxWidth()
+            .clip(RoundedCornerShape(24.dp))
             .clickable(onClick = onClick),
         shape = RoundedCornerShape(24.dp),
         border = BorderStroke(2.dp, borderColor),

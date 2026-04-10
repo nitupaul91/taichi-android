@@ -8,4 +8,7 @@ import retrofit2.http.POST
 interface WorkoutApi {
     @POST("workouts/generate")
     suspend fun generateWorkout(@Body request: GenerateWorkoutRequest): WorkoutPlanDto
+
+    @POST("workouts/walking/generate")
+    suspend fun generateWalkingWorkout(@Body request: GenerateWorkoutRequest): WorkoutPlanDto
 }
