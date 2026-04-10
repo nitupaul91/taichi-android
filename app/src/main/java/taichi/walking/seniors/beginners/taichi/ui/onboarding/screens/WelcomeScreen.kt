@@ -16,7 +16,6 @@ import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBars
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.MaterialTheme
@@ -133,7 +132,7 @@ fun WelcomeScreen(
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(160.dp)
+                        .height(80.dp)
                         .align(Alignment.TopCenter)
                         .background(
                             Brush.verticalGradient(
@@ -150,7 +149,7 @@ fun WelcomeScreen(
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(180.dp)
+                        .height(100.dp)
                         .align(Alignment.BottomCenter)
                         .background(
                             Brush.verticalGradient(
