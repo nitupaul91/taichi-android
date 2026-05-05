@@ -36,6 +36,7 @@ android {
 dependencies {
 
     implementation 'androidx.core:core-ktx:1.7.0'
+    implementation 'com.github.tiktok:tiktok-business-android-sdk:1.6.1'
 
     /** Hilt */
     implementation "com.google.dagger:hilt-android:2.51.1"

@@ -1,13 +1,18 @@
 package taichi.walking.seniors.beginners.ui.paywall
 
 import android.annotation.SuppressLint
+import android.graphics.Color
 import android.webkit.JavascriptInterface
 import android.webkit.WebChromeClient
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.viewinterop.AndroidView
 import com.google.gson.Gson
 import com.google.gson.JsonSyntaxException
@@ -94,26 +99,30 @@ fun RemotePaywallWebView(
 ) {
     val gson = remember { Gson() }
     val payloadJson = remember(storePayload, gson) { gson.toJson(storePayload) }
+    var isPageVisible by remember(paywall.identifier) { mutableStateOf(false) }
 
     AndroidView(
-        modifier = modifier,
+        modifier = modifier.alpha(if (isPageVisible) 1f else 0f),
         factory = { context ->
             createPaywallWebView(
                 paywall = paywall,
                 onAction = onAction,
                 gson = gson,
                 context = context,
-                initialPayloadJson = payloadJson
+                initialPayloadJson = payloadJson,
+                onPageVisible = { isPageVisible = true }
             )
         },
         update = { webView ->
             webView.setTag(TAG_PAYLOAD_JSON, payloadJson)
             val loadedIdentifier = webView.getTag(TAG_PAYWALL_IDENTIFIER) as? String
             if (loadedIdentifier != paywall.identifier) {
+                isPageVisible = false
                 webView.setTag(TAG_PAYWALL_IDENTIFIER, paywall.identifier)
                 webView.setTag(TAG_WEBVIEW_READY, false)
                 webView.loadDataWithBaseURL(paywall.baseUrl, paywall.html, "text/html", "utf-8", null)
             } else if (webView.getTag(TAG_WEBVIEW_READY) == true) {
+                isPageVisible = true
                 webView.evaluateJavascript(updateStoreScript(payloadJson), null)
             }
         }
@@ -126,9 +135,11 @@ private fun createPaywallWebView(
     paywall: CachedRemotePaywall,
     onAction: (PaywallWebAction) -> Unit,
     gson: Gson,
-    initialPayloadJson: String
+    initialPayloadJson: String,
+    onPageVisible: () -> Unit
 ): WebView {
     return WebView(context).apply {
+        setBackgroundColor(Color.TRANSPARENT)
         settings.javaScriptEnabled = true
         settings.domStorageEnabled = true
         settings.loadsImagesAutomatically = true
@@ -137,9 +148,15 @@ private fun createPaywallWebView(
         isHorizontalScrollBarEnabled = false
         webChromeClient = WebChromeClient()
         webViewClient = object : WebViewClient() {
+            override fun onPageCommitVisible(view: WebView?, url: String?) {
+                super.onPageCommitVisible(view, url)
+                onPageVisible()
+            }
+
             override fun onPageFinished(view: WebView?, url: String?) {
                 super.onPageFinished(view, url)
                 setTag(TAG_WEBVIEW_READY, true)
+                onPageVisible()
                 evaluateJavascript(bridgeBootstrapScript(), null)
                 val latestPayloadJson = getTag(TAG_PAYLOAD_JSON) as? String ?: initialPayloadJson
                 evaluateJavascript(updateStoreScript(latestPayloadJson), null)

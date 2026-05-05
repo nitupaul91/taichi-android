@@ -257,7 +257,7 @@ class PaywallViewModel @Inject constructor(
                 selectedProduct(purchaseProduct, trackAnalytics = false)
             }
 
-            analytics.trackMakePurchase(purchaseProduct?.productId)
+            analytics.trackMakePurchase(purchaseProduct)
 
             if (purchaseProduct == null) {
                 events.emit(PaywallEvents.SelectProduct)

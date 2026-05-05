@@ -4,14 +4,21 @@ import android.os.Bundle
 import androidx.core.os.bundleOf
 import com.mobteq.analytics.FirebaseAnalytics
 import com.mobteq.analytics.FirebaseAnalytics.Companion.PROPERTY_SCREEN_NAME
+import com.mobteq.analytics.TikTokAnalyticsTracker
+import com.mobteq.billing.domain.Product
 import javax.inject.Inject
 
 class PaywallAnalyticsTracker @Inject constructor(
-    private val firebaseAnalyticsTracker: FirebaseAnalytics
+    private val firebaseAnalyticsTracker: FirebaseAnalytics,
+    private val tikTokAnalyticsTracker: TikTokAnalyticsTracker,
 ) {
 
     fun trackPaywallView() {
         trackEvent(NAME_VIEWED_PAYWALL)
+        tikTokAnalyticsTracker.trackCustomEvent(
+            eventName = TIKTOK_EVENT_PAYWALL_VIEW,
+            properties = mapOf(PROPERTY_SCREEN_NAME to VALUE_PAYWALL)
+        )
     }
 
     fun trackSelectProduct(productId: String) {
@@ -23,11 +30,22 @@ class PaywallAnalyticsTracker @Inject constructor(
         )
     }
 
-    fun trackMakePurchase(productId: String?) {
+    fun trackMakePurchase(product: Product?) {
+        val productId = product?.productId ?: "NULL"
         trackEvent(
             name = NAME_CLICKED_MAKE_PURCHASE,
             params = bundleOf(
-                PROPERTY_PRODUCT_ID to (productId ?: "NULL")
+                PROPERTY_PRODUCT_ID to productId
+            )
+        )
+        tikTokAnalyticsTracker.trackCustomEvent(
+            eventName = NAME_CLICKED_MAKE_PURCHASE,
+            properties = mapOf(
+                PROPERTY_SCREEN_NAME to VALUE_PAYWALL,
+                PROPERTY_PRODUCT_ID to productId,
+                PROPERTY_PRICE to product?.displayPrice,
+                PROPERTY_HAS_FREE_TRIAL to (product?.freeTrial != null),
+                PROPERTY_FREE_TRIAL_DAYS to product?.freeTrial
             )
         )
     }
@@ -60,7 +78,11 @@ class PaywallAnalyticsTracker @Inject constructor(
         private const val NAME_PAYWALL_PERSONALIZATION = "paywall_personalization"
 
         private const val PROPERTY_PRODUCT_ID = "product_id"
+        private const val PROPERTY_PRICE = "price"
+        private const val PROPERTY_HAS_FREE_TRIAL = "has_free_trial"
+        private const val PROPERTY_FREE_TRIAL_DAYS = "free_trial_days"
 
         private const val VALUE_PAYWALL = "paywall_screen"
+        private const val TIKTOK_EVENT_PAYWALL_VIEW = "paywall_view"
     }
 }
