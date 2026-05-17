@@ -18,7 +18,7 @@ object RetrofitFactory {
 
     const val URL_PROD = "https://taichi.aimobileapps.net/"
 
-    const val BASE_URL = URL_PAUL
+    const val BASE_URL = URL_PROD
 
     fun getRetrofitInstance(): Retrofit {
         return Retrofit.Builder()
