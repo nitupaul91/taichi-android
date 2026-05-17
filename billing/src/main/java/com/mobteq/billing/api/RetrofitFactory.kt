@@ -14,11 +14,11 @@ object RetrofitFactory {
     const val URL_SANDU = "http://192.168.0.113:8080"
     const val URL_SANDU_AIUD = "http://192.168.100.11:8080"
     const val URL_ACASA = "http://192.168.0.104:8080"
-    const val URL_PAUL = "http://192.168.100.172:8080"
+    const val URL_PAUL = "http://192.168.100.246:8080"
 
     const val URL_PROD = "https://taichi.aimobileapps.net/"
 
-    const val BASE_URL = URL_PROD
+    const val BASE_URL = URL_PAUL
 
     fun getRetrofitInstance(): Retrofit {
         return Retrofit.Builder()

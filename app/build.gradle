@@ -27,8 +27,8 @@ android {
         applicationId "taichi.walking.seniors.beginners"
         minSdk 23
         targetSdk 35
-        versionCode 12
-        versionName "1.0.4"
+        versionCode 13
+        versionName "1.0.5"
         buildConfigField "String", "TIKTOK_APP_ID", "\"7636413186681405447\""
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"

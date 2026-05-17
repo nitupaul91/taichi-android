@@ -8,6 +8,7 @@ import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 
 private const val DATASTORE_NAME = "taichi_onboarding_prefs"
@@ -27,6 +28,8 @@ class OnboardingPrefs(private val context: Context) {
     fun observeAnswersJson(): Flow<String?> = context.taichiOnboardingDataStore.data.map { prefs ->
         prefs[ONBOARDING_ANSWERS_JSON]
     }
+
+    suspend fun getAnswersJson(): String? = observeAnswersJson().first()
 
     suspend fun setCompleted(completed: Boolean) {
         context.taichiOnboardingDataStore.edit { prefs ->

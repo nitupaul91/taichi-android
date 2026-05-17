@@ -1,7 +1,9 @@
 package taichi.walking.seniors.beginners.taichi.ui.home.model
 
+import androidx.annotation.Keep
 import com.google.gson.annotations.SerializedName
 
+@Keep
 enum class ExerciseLimitation {
     @SerializedName("SHOULDER") SHOULDER,
     @SerializedName("ANKLE") ANKLE,
@@ -11,6 +13,7 @@ enum class ExerciseLimitation {
     @SerializedName("HIP") HIP
 }
 
+@Keep
 enum class ExerciseGoal {
     @SerializedName("WELLNESS_LONGEVITY") WELLNESS_LONGEVITY,
     @SerializedName("BALANCE_MOBILITY") BALANCE_MOBILITY,
@@ -18,6 +21,7 @@ enum class ExerciseGoal {
     @SerializedName("WEIGHT_LOSS") WEIGHT_LOSS
 }
 
+@Keep
 data class GenerateWorkoutRequest(
     @SerializedName("userId") val userId: String? = null,
     @SerializedName("intensity") val intensity: Int? = null,
@@ -26,18 +30,21 @@ data class GenerateWorkoutRequest(
     @SerializedName("goals") val goals: List<ExerciseGoal>
 )
 
+@Keep
 enum class ExerciseStage {
     @SerializedName("WARMUP") WARMUP,
     @SerializedName("PRIMARY") PRIMARY,
     @SerializedName("COOLDOWN") COOLDOWN
 }
 
+@Keep
 enum class ExerciseDifficulty {
     @SerializedName("LIGHT") LIGHT,
     @SerializedName("MODERATE") MODERATE,
     @SerializedName("CHALLENGING") CHALLENGING
 }
 
+@Keep
 data class ExerciseDto(
     @SerializedName("exerciseId") val exerciseId: String,
     @SerializedName("name") val name: String,
@@ -60,6 +67,7 @@ data class ExerciseDto(
     val calories: Int get() = energyUse
 }
 
+@Keep
 data class WorkoutDayDto(
     @SerializedName("day") val day: Int,
     @SerializedName("lengthSeconds") val lengthSeconds: Int,
@@ -82,6 +90,7 @@ data class WorkoutDayDto(
         }
 }
 
+@Keep
 data class WorkoutPhaseDto(
     @SerializedName("phase") val phase: Int,
     @SerializedName("name") val name: String,
@@ -91,6 +100,7 @@ data class WorkoutPhaseDto(
     val id: Int get() = phase
 }
 
+@Keep
 data class WorkoutPlanDto(
     @SerializedName("phases") val phases: List<WorkoutPhaseDto>,
     @SerializedName("intensity") val intensity: String? = null
