@@ -7,21 +7,38 @@ plugins {
     id 'kotlinx-serialization'
 }
 
+def billingLocalProperties = new Properties()
+def billingLocalPropertiesFile = rootProject.file("local.properties")
+if (billingLocalPropertiesFile.exists()) {
+    billingLocalProperties.load(new FileInputStream(billingLocalPropertiesFile))
+}
+
+def billingProdUrl = "https://taichi.aimobileapps.net/"
+def billingDebugUrl = billingLocalProperties.getProperty("taichi.debugBaseUrl", billingProdUrl)
+
 android {
     namespace 'com.mobteq.billing'
-    compileSdk 34
+    compileSdk 36
 
     defaultConfig {
         minSdk 23
-        targetSdk 34
+        targetSdk 36
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
     }
 
+    buildFeatures {
+        buildConfig true
+    }
+
     buildTypes {
+        debug {
+            buildConfigField "String", "API_BASE_URL", "\"${billingDebugUrl}\""
+        }
         release {
             minifyEnabled false
+            buildConfigField "String", "API_BASE_URL", "\"${billingProdUrl}\""
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
@@ -71,8 +88,7 @@ dependencies {
     implementation('androidx.datastore:datastore-preferences:1.0.0')
 
     /** Billing */
-    implementation("com.android.billingclient:billing:7.1.1")
-    implementation("com.android.billingclient:billing-ktx:7.1.1")
+    implementation("com.android.billingclient:billing:9.1.0")
 
     implementation "com.squareup.okhttp3:logging-interceptor:4.12.0"
     implementation "com.squareup.retrofit2:retrofit:2.9.0"

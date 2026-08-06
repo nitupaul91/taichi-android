@@ -18,9 +18,11 @@ object RetrofitFactory {
 
     const val URL_PROD = "https://taichi.aimobileapps.net/"
 
-    const val BASE_URL = URL_PROD
-
     fun getRetrofitInstance(): Retrofit {
+        val baseUrl = BuildConfig.API_BASE_URL
+        if (!BuildConfig.DEBUG) {
+            check(baseUrl == URL_PROD) { "Release build must use production API base URL." }
+        }
         return Retrofit.Builder()
             .addConverterFactory(
                 GsonConverterFactory.create(
@@ -29,7 +31,7 @@ object RetrofitFactory {
                         .create()
                 )
             )
-            .baseUrl(BASE_URL)
+            .baseUrl(baseUrl)
             .client(getClient())
             .build()
     }

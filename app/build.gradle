@@ -21,14 +21,14 @@ localProperties.load(new FileInputStream(localPropertiesFile))
 
 android {
     namespace 'taichi.walking.seniors.beginners'
-    compileSdk 35
+    compileSdk 36
 
     defaultConfig {
         applicationId "taichi.walking.seniors.beginners"
         minSdk 23
-        targetSdk 35
-        versionCode 14
-        versionName "1.0.5"
+        targetSdk 36
+        versionCode 15
+        versionName "1.0.6"
         buildConfigField "String", "TIKTOK_APP_ID", "\"7636413186681405447\""
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"

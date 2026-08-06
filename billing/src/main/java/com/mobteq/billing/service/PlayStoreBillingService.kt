@@ -9,12 +9,13 @@ import com.android.billingclient.api.BillingClient
 import com.android.billingclient.api.BillingClientStateListener
 import com.android.billingclient.api.BillingFlowParams
 import com.android.billingclient.api.BillingResult
+import com.android.billingclient.api.PendingPurchasesParams
 import com.android.billingclient.api.ProductDetails
 import com.android.billingclient.api.Purchase
 import com.android.billingclient.api.PurchasesUpdatedListener
 import com.android.billingclient.api.QueryProductDetailsParams
+import com.android.billingclient.api.QueryProductDetailsResult
 import com.android.billingclient.api.QueryPurchasesParams
-import com.android.billingclient.api.acknowledgePurchase
 import com.mobteq.billing.domain.PurchaseStatus
 import com.mobteq.billing.domain.Subscription
 import com.mobteq.billing.mapper.SubscriptionMapper
@@ -28,9 +29,11 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.suspendCancellableCoroutine
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
+import kotlin.coroutines.resume
 import kotlin.math.max
 
 @Singleton
@@ -163,7 +166,6 @@ class PlayStoreBillingService @Inject constructor(
 
             BillingClient.BillingResponseCode.BILLING_UNAVAILABLE,
             BillingClient.BillingResponseCode.ERROR,
-            BillingClient.BillingResponseCode.SERVICE_TIMEOUT,
             BillingClient.BillingResponseCode.SERVICE_UNAVAILABLE -> {
                 Timber.tag(TAG)
                     .e("Billing service error. ${result.responseCode} ${result.debugMessage}")
@@ -299,7 +301,7 @@ class PlayStoreBillingService @Inject constructor(
             .setPurchaseToken(purchase.purchaseToken)
             .build()
 
-        val result = billingClient.acknowledgePurchase(params)
+        val result = acknowledgePurchaseWithPlay(params)
 
         Timber.tag(TAG).d("Acknowledging new purchase - server response ${result.responseCode}")
 
@@ -309,8 +311,7 @@ class PlayStoreBillingService @Inject constructor(
             }
 
             BillingClient.BillingResponseCode.SERVICE_DISCONNECTED,
-            BillingClient.BillingResponseCode.SERVICE_UNAVAILABLE,
-            BillingClient.BillingResponseCode.SERVICE_TIMEOUT -> {
+            BillingClient.BillingResponseCode.SERVICE_UNAVAILABLE -> {
                 Timber.tag(TAG)
                     .e("Subscription acknowledgement failed. ${result.responseCode} ${result.debugMessage}")
 
@@ -335,6 +336,16 @@ class PlayStoreBillingService @Inject constructor(
         purchaseStatus.emit(PurchaseStatus.Acknowledged(productId))
 
         trackPurchase(purchase)
+    }
+
+    private suspend fun acknowledgePurchaseWithPlay(
+        params: AcknowledgePurchaseParams
+    ): BillingResult = suspendCancellableCoroutine { continuation ->
+        billingClient.acknowledgePurchase(params) { result ->
+            if (continuation.isActive) {
+                continuation.resume(result)
+            }
+        }
     }
 
     private fun trackPurchase(purchase: Purchase) {
@@ -372,8 +383,9 @@ class PlayStoreBillingService @Inject constructor(
         )
     }
 
-    private fun handleSubscriptionProductsResponse(): (BillingResult, MutableList<ProductDetails>) -> Unit =
-        { result, productList ->
+    private fun handleSubscriptionProductsResponse(): (BillingResult, QueryProductDetailsResult) -> Unit =
+        { result, productDetailsResult ->
+            val productList = productDetailsResult.productDetailsList
             if (result.responseCode == BillingClient.BillingResponseCode.OK) {
                 Timber.tag(TAG).d("Product list size ${productList.size}")
 
@@ -434,7 +446,12 @@ class PlayStoreBillingService @Inject constructor(
     private fun createBillingClient() =
         BillingClient.newBuilder(context)
             .setListener(this)
-            .enablePendingPurchases()
+            .enableAutoServiceReconnection()
+            .enablePendingPurchases(
+                PendingPurchasesParams.newBuilder()
+                    .enableOneTimeProducts()
+                    .build()
+            )
             .build()
 
     companion object {
