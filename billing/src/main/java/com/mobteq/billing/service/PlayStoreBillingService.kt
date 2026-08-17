@@ -332,7 +332,10 @@ class PlayStoreBillingService @Inject constructor(
 
         Timber.tag(TAG).d("Emitting PurchaseStatus.Acknowledged for productId=$productId")
 
-        productId?.let(analyticsTracker::trackPurchaseComplete)
+        productId?.let {
+            analyticsTracker.trackPurchaseComplete(it)
+            trackFacebookPurchase(it)
+        }
         purchaseStatus.emit(PurchaseStatus.Acknowledged(productId))
 
         trackPurchase(purchase)
@@ -351,6 +354,42 @@ class PlayStoreBillingService @Inject constructor(
     private fun trackPurchase(purchase: Purchase) {
         val productId = purchase.products.first()
         analyticsTracker.trackPurchase(productId)
+    }
+
+    private fun trackFacebookPurchase(productId: String) {
+        val productDetails = findProductDetails(productId)
+        val price = productDetails?.purchasePrice()
+
+        if (price == null) {
+            Timber.tag(TAG).w("No cached ProductDetails for $productId. Meta purchase not priced.")
+        }
+
+        analyticsTracker.trackFacebookPurchase(
+            productId = productId,
+            productName = productDetails?.name,
+            priceAmountMicros = price?.first,
+            currencyCode = price?.second
+        )
+    }
+
+    private fun findProductDetails(productId: String): ProductDetails? =
+        (subscriptionProducts.value + oneTimeProducts.value)
+            .firstOrNull { it.productId == productId }
+
+    /**
+     * Recurring price of a subscription, or the price of a one-time product.
+     *
+     * Free-trial and introductory phases are skipped, so the value reported to Meta is what the
+     * subscription is actually worth rather than the (often zero) amount charged on day one. This
+     * matches how [com.mobteq.billing.mapper.mapToPurchaseProduct] prices products for the paywall.
+     */
+    private fun ProductDetails.purchasePrice(): Pair<Long, String>? {
+        oneTimePurchaseOfferDetails?.let { return it.priceAmountMicros to it.priceCurrencyCode }
+
+        return subscriptionOfferDetails
+            ?.flatMap { it.pricingPhases.pricingPhaseList }
+            ?.lastOrNull { it.priceAmountMicros > 0L }
+            ?.let { it.priceAmountMicros to it.priceCurrencyCode }
     }
 
     private fun retryConnecting() {

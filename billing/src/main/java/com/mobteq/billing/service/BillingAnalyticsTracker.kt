@@ -1,6 +1,7 @@
 package com.mobteq.billing.service
 
 import androidx.core.os.bundleOf
+import com.mobteq.analytics.FacebookAnalyticsTracker
 import com.mobteq.analytics.FirebaseAnalytics
 import com.mobteq.analytics.events.firebase.AnalyticsEvent
 import com.mobteq.billing.service.PlayStoreBillingService.Companion.MONTHLY_SUBSCRIPTION_V1
@@ -12,6 +13,7 @@ import javax.inject.Inject
 
 class BillingAnalyticsTracker @Inject constructor(
     private val firebaseAnalytics: FirebaseAnalytics,
+    private val facebookAnalyticsTracker: FacebookAnalyticsTracker,
 ) {
 
     fun trackPurchaseComplete(productId: String) {
@@ -34,6 +36,26 @@ class BillingAnalyticsTracker @Inject constructor(
                 SubscriptionStartEvent(EVENT_NAME_YEARLY_SUBSCRIPTION_V1)
             )
         }
+    }
+
+    /**
+     * Sends the Meta `Purchase` event that Facebook ads campaigns optimise against. Called once per
+     * newly acknowledged purchase, so it never fires for purchases restored on a reinstall.
+     */
+    fun trackFacebookPurchase(
+        productId: String,
+        productName: String?,
+        priceAmountMicros: Long?,
+        currencyCode: String?
+    ) {
+        Timber.tag(TAG).i("Tracking Facebook purchase. productId: $productId")
+
+        facebookAnalyticsTracker.trackPurchase(
+            productId = productId,
+            productName = productName,
+            priceAmountMicros = priceAmountMicros,
+            currencyCode = currencyCode
+        )
     }
 
     companion object {

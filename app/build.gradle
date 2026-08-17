@@ -31,6 +31,11 @@ android {
         versionName "1.0.6"
         buildConfigField "String", "TIKTOK_APP_ID", "\"7636413186681405447\""
 
+        // Meta app credentials, shared with the iOS app (see its Info.plist).
+        // Must be string resources: the manifest merger would parse a bare app id as an int.
+        resValue "string", "facebook_app_id", "2067875907467305"
+        resValue "string", "facebook_client_token", "4f75de7426ebd324800af07c3b102854"
+
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 

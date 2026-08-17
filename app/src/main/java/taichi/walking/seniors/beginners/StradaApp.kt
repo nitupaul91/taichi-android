@@ -7,6 +7,7 @@ import android.app.Application
 import androidx.lifecycle.ProcessLifecycleOwner
 import androidx.hilt.work.HiltWorkerFactory
 import androidx.work.Configuration
+import com.mobteq.analytics.FacebookAnalyticsTracker
 import com.mobteq.analytics.TikTokAnalyticsTracker
 import com.mobteq.billing.datastore.DataStorePrefs
 import com.mobteq.billing.domain.repository.PurchasesRepository
@@ -52,6 +53,9 @@ class StradaApp : Application(), Configuration.Provider {
     @Inject
     lateinit var tikTokAnalyticsTracker: TikTokAnalyticsTracker
 
+    @Inject
+    lateinit var facebookAnalyticsTracker: FacebookAnalyticsTracker
+
     override fun getWorkManagerConfiguration(): Configuration =
         Configuration.Builder()
             .setWorkerFactory(workerFactory)
@@ -83,6 +87,9 @@ class StradaApp : Application(), Configuration.Provider {
             sdkAppId = BuildConfig.APPLICATION_ID,
             tikTokAppId = BuildConfig.TIKTOK_APP_ID
         )
+
+        facebookAnalyticsTracker.initialize(application = this)
+
         ProcessLifecycleOwner.get().lifecycle.addObserver(appLifecycleNotificationObserver)
     }
 }
