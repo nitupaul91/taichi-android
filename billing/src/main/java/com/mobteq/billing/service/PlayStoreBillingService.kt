@@ -485,7 +485,6 @@ class PlayStoreBillingService @Inject constructor(
     private fun createBillingClient() =
         BillingClient.newBuilder(context)
             .setListener(this)
-            .enableAutoServiceReconnection()
             .enablePendingPurchases(
                 PendingPurchasesParams.newBuilder()
                     .enableOneTimeProducts()
