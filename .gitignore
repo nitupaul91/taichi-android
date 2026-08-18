@@ -56,3 +56,6 @@ freeline/
 freeline_project_description.json
 # macOS
 .DS_Store
+
+# Signing config — never commit; provide locally for release builds
+key.properties
