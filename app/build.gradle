@@ -27,8 +27,8 @@ android {
         applicationId "taichi.walking.seniors.beginners"
         minSdk 23
         targetSdk 36
-        versionCode 16
-        versionName "1.0.7"
+        versionCode 17
+        versionName "1.0.8"
         buildConfigField "String", "TIKTOK_APP_ID", "\"7636413186681405447\""
 
         // Meta app credentials, shared with the iOS app (see its Info.plist).
