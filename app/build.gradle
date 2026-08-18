@@ -27,8 +27,8 @@ android {
         applicationId "taichi.walking.seniors.beginners"
         minSdk 23
         targetSdk 36
-        versionCode 17
-        versionName "1.0.8"
+        versionCode 18
+        versionName "1.0.9"
         buildConfigField "String", "TIKTOK_APP_ID", "\"7636413186681405447\""
 
         // Meta app credentials, shared with the iOS app (see its Info.plist).
@@ -70,6 +70,13 @@ android {
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
+    }
+    // The JUnit 5 engine is already a dependency, but without this Gradle runs the JUnit 4 runner
+    // and silently skips every jupiter test.
+    testOptions {
+        unitTests.all {
+            useJUnitPlatform()
+        }
     }
     kotlinOptions {
         jvmTarget = '1.8'
@@ -182,6 +189,10 @@ dependencies {
 
     // Media3 for looping onboarding videos (1.5.0+ supports 16KB page sizes)
     implementation "androidx.media3:media3-exoplayer:1.5.1"
+    // Workout videos are HLS (.m3u8) since the v2 endpoints. DefaultMediaSourceFactory resolves
+    // HlsMediaSource.Factory reflectively, so without this module setMediaItem throws
+    // ClassNotFoundException at playback time rather than failing to compile.
+    implementation "androidx.media3:media3-exoplayer-hls:1.5.1"
     implementation "androidx.media3:media3-ui:1.5.1"
 }
 

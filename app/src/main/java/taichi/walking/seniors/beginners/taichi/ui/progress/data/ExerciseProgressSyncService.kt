@@ -12,6 +12,40 @@ class ExerciseProgressSyncService @Inject constructor(
     private val practiceRepository: PracticeRepository,
     private val idService: IDService
 ) {
+    /**
+     * Pulls server-side progress, merges it into local storage, then pushes the merged result back
+     * so both sides converge. Safe to call on every home-screen open: the merge only ever raises
+     * values, and the upload is skipped when nothing changed.
+     *
+     * @return true if local progress was updated.
+     */
+    suspend fun restoreAndMergeProgress(): Boolean {
+        val userId = runCatching { idService.getUserID() }.getOrNull()
+        if (userId.isNullOrBlank()) {
+            Timber.w("Skipping exercise progress restore because user ID is unavailable")
+            return false
+        }
+
+        val remote = try {
+            val response = exerciseProgressApi.restoreProgress(userId)
+            if (!response.isSuccessful) {
+                Timber.w("Exercise progress restore failed with code %s", response.code())
+                return false
+            }
+            response.body() ?: return false
+        } catch (throwable: Throwable) {
+            Timber.w(throwable, "Exercise progress restore failed")
+            return false
+        }
+
+        val changed = practiceRepository.mergeRemoteProgress(remote)
+        if (changed) {
+            // Push the merged view back so the server also learns about local-only practice.
+            uploadProgress()
+        }
+        return changed
+    }
+
     suspend fun uploadProgress() {
         val userId = runCatching { idService.getUserID() }.getOrNull()
         if (userId.isNullOrBlank()) {

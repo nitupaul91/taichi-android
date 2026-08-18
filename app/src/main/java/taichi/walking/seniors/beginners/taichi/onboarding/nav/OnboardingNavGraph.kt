@@ -71,7 +71,7 @@ fun OnboardingNavGraph(
             screenIndex = route.index,
             stepName = route.analyticsStepName
         )
-        viewModel.persistSnapshot()
+        viewModel.persistSnapshot(completedStep = route.analyticsStepName)
     }
 
     NavHost(

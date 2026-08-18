@@ -34,13 +34,16 @@ class PracticeRepository @Inject constructor(
         val summaries = stringPreferencesKey("practice_day_summaries")
         val taiChiCurrentDay = intPreferencesKey("tai_chi_current_day")
         val walkingCurrentDay = intPreferencesKey("walking_current_day")
+        val chairCurrentDay = intPreferencesKey("chair_current_day")
         val workoutIntensity = stringPreferencesKey("workout_intensity")
     }
 
     private data class StoredPracticeDaySummary(
         val date: String,
         val taiChiMinutes: Int,
-        val walkingMinutes: Int
+        val walkingMinutes: Int,
+        // Gson leaves this at 0 for summaries written before the seated program shipped.
+        val chairMinutes: Int = 0
     )
 
     val practiceSnapshot: Flow<PracticeSnapshot> = context.practiceDataStore.data.map(::buildSnapshot)
@@ -93,21 +96,9 @@ class PracticeRepository @Inject constructor(
             val existingIndex = summaries.indexOfFirst { it.date == date }
 
             if (existingIndex >= 0) {
-                val existing = summaries[existingIndex]
-                summaries[existingIndex] = when (kind) {
-                    PracticeKind.TAI_CHI -> existing.copy(
-                        taiChiMinutes = existing.taiChiMinutes + durationMinutes
-                    )
-                    PracticeKind.WALKING -> existing.copy(
-                        walkingMinutes = existing.walkingMinutes + durationMinutes
-                    )
-                }
+                summaries[existingIndex] = summaries[existingIndex].plusMinutes(kind, durationMinutes)
             } else {
-                summaries += PracticeDaySummary(
-                    date = date,
-                    taiChiMinutes = if (kind == PracticeKind.TAI_CHI) durationMinutes else 0,
-                    walkingMinutes = if (kind == PracticeKind.WALKING) durationMinutes else 0
-                )
+                summaries += PracticeDaySummary(date, 0, 0).plusMinutes(kind, durationMinutes)
             }
 
             prefs[Keys.summaries] = encodeSummaries(summaries)
@@ -130,6 +121,49 @@ class PracticeRepository @Inject constructor(
         )
     }
 
+    /**
+     * Folds server-side progress into local progress, taking `max` on every value — never a
+     * replace. Restore runs on a device that may already hold practice the server has not seen
+     * (offline sessions), so overwriting would destroy exactly the data this feature exists to
+     * protect. Mirrors the backend's own merge and iOS's `PracticeProgressStore.mergeAndSave`.
+     *
+     * @return true if anything changed locally, so the caller can decide whether to re-upload.
+     */
+    suspend fun mergeRemoteProgress(remote: ExerciseProgressRestoreResponse): Boolean {
+        migrateIfNeeded()
+
+        var changed = false
+        context.practiceDataStore.edit { prefs ->
+            val localTaiChiDay = max(prefs[Keys.taiChiCurrentDay] ?: legacyCurrentDay(prefs), 1)
+            val localWalkingDay = max(prefs[Keys.walkingCurrentDay] ?: legacyCurrentDay(prefs), 1)
+            val localChairDay = max(prefs[Keys.chairCurrentDay] ?: 1, 1)
+            val mergedTaiChiDay = max(localTaiChiDay, remote.taiChiCurrentDay.coerceAtLeast(1))
+            val mergedWalkingDay = max(localWalkingDay, remote.walkingCurrentDay.coerceAtLeast(1))
+            val mergedChairDay = max(localChairDay, remote.chairCurrentDay.coerceAtLeast(1))
+
+            if (mergedTaiChiDay != localTaiChiDay) {
+                prefs[Keys.taiChiCurrentDay] = mergedTaiChiDay
+                changed = true
+            }
+            if (mergedWalkingDay != localWalkingDay) {
+                prefs[Keys.walkingCurrentDay] = mergedWalkingDay
+                changed = true
+            }
+            if (mergedChairDay != localChairDay) {
+                prefs[Keys.chairCurrentDay] = mergedChairDay
+                changed = true
+            }
+
+            val localSummaries = decodeSummaries(prefs)
+            val mergedSummaries = mergePracticeSummaries(localSummaries, remote.dailyPractice)
+            if (mergedSummaries != localSummaries.sortedBy { it.date }) {
+                prefs[Keys.summaries] = encodeSummaries(mergedSummaries)
+                changed = true
+            }
+        }
+        return changed
+    }
+
     suspend fun currentSnapshot(): PracticeSnapshot {
         migrateIfNeeded()
         return practiceSnapshot.first()
@@ -142,11 +176,13 @@ class PracticeRepository @Inject constructor(
             programVariant = snapshot.programVariant,
             taiChiCurrentDay = snapshot.taiChiCurrentDay,
             walkingCurrentDay = snapshot.walkingCurrentDay,
+            chairCurrentDay = snapshot.chairCurrentDay,
             dailyPractice = snapshot.summaries.map { summary ->
                 PracticeSyncDay(
                     date = syncDateFormatter.format(summary.date),
                     taiChiMinutes = summary.taiChiMinutes,
-                    walkingMinutes = summary.walkingMinutes
+                    walkingMinutes = summary.walkingMinutes,
+                    chairMinutes = summary.chairMinutes
                 )
             }
         )
@@ -180,6 +216,11 @@ class PracticeRepository @Inject constructor(
             if (prefs[Keys.walkingCurrentDay] == null) {
                 prefs[Keys.walkingCurrentDay] = legacyDay
             }
+            // Seated practice is its own 30-day program, so it starts fresh rather than inheriting
+            // the legacy day a user reached in the original single-program build.
+            if (prefs[Keys.chairCurrentDay] == null) {
+                prefs[Keys.chairCurrentDay] = 1
+            }
             if (prefs[Keys.summaries].isNullOrBlank()) {
                 val migrated = migrateLegacySummaries(prefs)
                 if (migrated.isNotEmpty()) {
@@ -197,6 +238,7 @@ class PracticeRepository @Inject constructor(
             summaries = summaries,
             taiChiCurrentDay = max(preferences[Keys.taiChiCurrentDay] ?: legacyCurrentDay(preferences), 1),
             walkingCurrentDay = max(preferences[Keys.walkingCurrentDay] ?: legacyCurrentDay(preferences), 1),
+            chairCurrentDay = max(preferences[Keys.chairCurrentDay] ?: 1, 1),
             programVariant = PracticeProgramVariant.TAI_CHI_WALKING
         )
     }
@@ -207,6 +249,7 @@ class PracticeRepository @Inject constructor(
     private fun currentDayKey(kind: PracticeKind) = when (kind) {
         PracticeKind.TAI_CHI -> Keys.taiChiCurrentDay
         PracticeKind.WALKING -> Keys.walkingCurrentDay
+        PracticeKind.CHAIR -> Keys.chairCurrentDay
     }
 
     private fun migrateLegacySummaries(preferences: Preferences): List<PracticeDaySummary> {
@@ -243,7 +286,8 @@ class PracticeRepository @Inject constructor(
                 PracticeDaySummary(
                     date = LocalDate.parse(stored.date),
                     taiChiMinutes = stored.taiChiMinutes,
-                    walkingMinutes = stored.walkingMinutes
+                    walkingMinutes = stored.walkingMinutes,
+                    chairMinutes = stored.chairMinutes
                 )
             }.getOrNull()
         }
@@ -256,7 +300,8 @@ class PracticeRepository @Inject constructor(
                 StoredPracticeDaySummary(
                     date = summary.date.toString(),
                     taiChiMinutes = summary.taiChiMinutes,
-                    walkingMinutes = summary.walkingMinutes
+                    walkingMinutes = summary.walkingMinutes,
+                    chairMinutes = summary.chairMinutes
                 )
             }
         return gson.toJson(stored)

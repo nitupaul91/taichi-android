@@ -112,8 +112,8 @@ class OnboardingViewModel @Inject constructor(
         repository.markCompleted()
     }
 
-    suspend fun persistSnapshot() {
-        repository.persistSnapshot(state.value)
+    suspend fun persistSnapshot(completedStep: String) {
+        repository.persistSnapshot(state.value, completedStep)
     }
 
     private fun markCompleted() {

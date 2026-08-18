@@ -36,6 +36,7 @@ class WorkoutPlanService @Inject constructor(
         return when (kind) {
             PracticeKind.TAI_CHI -> workoutApi.generateWorkout(request)
             PracticeKind.WALKING -> workoutApi.generateWalkingWorkout(request)
+            PracticeKind.CHAIR -> workoutApi.generateChairWorkout(request, language)
         }
     }
 
@@ -56,6 +57,7 @@ class WorkoutPlanService @Inject constructor(
         return when (kind) {
             PracticeKind.TAI_CHI -> workoutApi.generateWorkout(request)
             PracticeKind.WALKING -> workoutApi.generateWalkingWorkout(request)
+            PracticeKind.CHAIR -> workoutApi.generateChairWorkout(request, language)
         }
     }
 

@@ -9,34 +9,46 @@ enum class PracticeKind(
     val displayName: String
 ) {
     TAI_CHI("tai_chi", "Tai Chi"),
-    WALKING("walking", "Tai Chi Walking")
+    WALKING("walking", "Tai Chi Walking"),
+    CHAIR("chair", "Chair Tai Chi")
 }
 
 enum class PracticeProgramVariant(val storageValue: String) {
     TAI_CHI("tai_chi"),
-    TAI_CHI_WALKING("tai_chi_walking")
+    TAI_CHI_WALKING("tai_chi_walking"),
+    CHAIR_TAI_CHI("chair_tai_chi")
 }
 
 data class PracticeDaySummary(
     val date: LocalDate,
     val taiChiMinutes: Int,
-    val walkingMinutes: Int
+    val walkingMinutes: Int,
+    // Defaulted so summaries persisted before the seated program existed still decode.
+    val chairMinutes: Int = 0
 ) {
     val totalMinutes: Int
-        get() = taiChiMinutes + walkingMinutes
+        get() = taiChiMinutes + walkingMinutes + chairMinutes
 
     fun hasPractice(): Boolean = totalMinutes > 0
 
     fun minutesFor(kind: PracticeKind): Int = when (kind) {
         PracticeKind.TAI_CHI -> taiChiMinutes
         PracticeKind.WALKING -> walkingMinutes
+        PracticeKind.CHAIR -> chairMinutes
+    }
+
+    fun plusMinutes(kind: PracticeKind, minutes: Int): PracticeDaySummary = when (kind) {
+        PracticeKind.TAI_CHI -> copy(taiChiMinutes = taiChiMinutes + minutes)
+        PracticeKind.WALKING -> copy(walkingMinutes = walkingMinutes + minutes)
+        PracticeKind.CHAIR -> copy(chairMinutes = chairMinutes + minutes)
     }
 }
 
 data class PracticeSyncDay(
     val date: String,
     val taiChiMinutes: Int,
-    val walkingMinutes: Int
+    val walkingMinutes: Int,
+    val chairMinutes: Int = 0
 )
 
 data class PracticeProgressSyncPayload(
@@ -44,6 +56,7 @@ data class PracticeProgressSyncPayload(
     val programVariant: PracticeProgramVariant,
     val taiChiCurrentDay: Int,
     val walkingCurrentDay: Int,
+    val chairCurrentDay: Int,
     val dailyPractice: List<PracticeSyncDay>
 )
 
@@ -51,11 +64,13 @@ data class PracticeSnapshot(
     val summaries: List<PracticeDaySummary>,
     val taiChiCurrentDay: Int,
     val walkingCurrentDay: Int,
+    val chairCurrentDay: Int,
     val programVariant: PracticeProgramVariant
 ) {
     fun currentDay(kind: PracticeKind): Int = when (kind) {
         PracticeKind.TAI_CHI -> taiChiCurrentDay
         PracticeKind.WALKING -> walkingCurrentDay
+        PracticeKind.CHAIR -> chairCurrentDay
     }
 
     val totalMinutesPracticed: Int
@@ -63,6 +78,34 @@ data class PracticeSnapshot(
 
     val totalDaysPracticed: Int
         get() = summaries.count { it.hasPractice() }
+}
+
+/**
+ * Folds server-side days into local days, taking `max` per field — never a replace.
+ *
+ * Restore runs on a device that may hold practice the server has never seen (an offline session),
+ * so overwriting would destroy exactly the data restore exists to protect. Unparseable remote dates
+ * are dropped rather than failing the whole merge. Mirrors the backend's own upload merge and iOS's
+ * `PracticeProgressStore.mergeAndSave`.
+ */
+fun mergePracticeSummaries(
+    local: List<PracticeDaySummary>,
+    remote: List<ExerciseProgressRestoreDay>
+): List<PracticeDaySummary> {
+    val byDate = local.associateBy { it.date }.toMutableMap()
+
+    remote.forEach { remoteDay ->
+        val date = runCatching { LocalDate.parse(remoteDay.date) }.getOrNull() ?: return@forEach
+        val existing = byDate[date]
+        byDate[date] = PracticeDaySummary(
+            date = date,
+            taiChiMinutes = maxOf(existing?.taiChiMinutes ?: 0, remoteDay.taiChiMinutes),
+            walkingMinutes = maxOf(existing?.walkingMinutes ?: 0, remoteDay.walkingMinutes),
+            chairMinutes = maxOf(existing?.chairMinutes ?: 0, remoteDay.chairMinutes)
+        )
+    }
+
+    return byDate.values.sortedBy { it.date }
 }
 
 data class PracticeTitleModel(

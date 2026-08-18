@@ -67,11 +67,12 @@ import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import androidx.hilt.navigation.compose.hiltViewModel
 import taichi.walking.seniors.beginners.R
+import taichi.walking.seniors.beginners.taichi.onboarding.nav.OnboardingRoutes
 import taichi.walking.seniors.beginners.taichi.onboarding.state.OnboardingState
 import taichi.walking.seniors.beginners.taichi.onboarding.ui.components.PrimaryButton
 import taichi.walking.seniors.beginners.ui.paywall.PaywallWebAction
 import taichi.walking.seniors.beginners.ui.paywall.PaywallWebIntroOffer
-import taichi.walking.seniors.beginners.ui.paywall.PaywallWebOnboardingProfile
+import taichi.walking.seniors.beginners.taichi.onboarding.data.toOnboardingProfilePayload
 import taichi.walking.seniors.beginners.ui.paywall.PaywallWebStorePayload
 import taichi.walking.seniors.beginners.ui.paywall.PaywallWebStoreProduct
 import taichi.walking.seniors.beginners.ui.paywall.PaywallEvents
@@ -79,7 +80,6 @@ import taichi.walking.seniors.beginners.ui.paywall.RemotePaywallVariant
 import taichi.walking.seniors.beginners.ui.paywall.RemotePaywallWebView
 import taichi.walking.seniors.beginners.ui.paywall.PaywallViewModel
 import taichi.walking.seniors.beginners.ui.paywall.UIProduct
-import java.time.Instant
 import java.util.Locale
 
 private enum class PurchaseDialogState {
@@ -362,7 +362,10 @@ private fun buildRemotePaywallStorePayload(
         products = products.map { it.toPaywallWebStoreProduct(selectedProduct?.productId) },
         heroGender = onboardingState?.genderId ?: "female",
         isTaiChiWalkingFlow = true,
-        onboardingProfile = onboardingState?.toPaywallWebOnboardingProfile(userId),
+        onboardingProfile = onboardingState?.toOnboardingProfilePayload(
+            userId = userId,
+            completedStep = OnboardingRoutes.Paywall.analyticsStepName
+        ),
         selectedProductId = selectedProduct?.productId,
         errorMessage = errorMessage,
         isPurchaseInProgress = isPurchaseInProgress,
@@ -401,42 +404,6 @@ private fun UIProduct.toPaywallWebStoreProduct(selectedProductId: String?): Payw
         introOffer = introOffer,
         isIntroOfferEligible = introOffer != null,
         isSelected = product.productId == selectedProductId
-    )
-}
-
-private fun OnboardingState.toPaywallWebOnboardingProfile(userId: String?): PaywallWebOnboardingProfile {
-    return PaywallWebOnboardingProfile(
-        userId = userId,
-        completedStep = "paywall",
-        discoverySource = discoverySourceId,
-        age = actualAge,
-        gender = genderId,
-        goals = goals,
-        taiChiFamiliarity = taiChiFamiliarityId,
-        currentBodyType = currentBodyTypeId,
-        targetBodyType = targetBodyTypeId,
-        targetZones = targetZones,
-        activityLevel = activityLevelId,
-        dailyWalking = walkDailyId,
-        stairsFeeling = stairsFeelingId,
-        squatsAbility = squatAbilityId,
-        canRotateHead = rotateHeadId,
-        canHoldArms = armsForwardId,
-        taiChiLevel = taiChiLevelId,
-        betweenMealsFeeling = betweenMealsId,
-        sleepAmount = sleepAmountId,
-        waterIntake = waterIntakeId,
-        dietTypes = dietTypes,
-        height = heightCm,
-        weight = weightKg.toDouble(),
-        targetWeight = targetWeightKg.toDouble(),
-        shapeUpEvent = shapeUpEventId,
-        shapeUpEventDate = shapeUpEventDateMillis
-            .takeIf { !shapeUpEventDateSkipped }
-            ?.let { Instant.ofEpochMilli(it).toString() },
-        motivationLevel = motivationLevelId,
-        exerciseBlockers = exerciseBlockers,
-        useMetric = useMetric
     )
 }
 

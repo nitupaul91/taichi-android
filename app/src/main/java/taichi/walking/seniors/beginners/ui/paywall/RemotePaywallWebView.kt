@@ -16,6 +16,7 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.viewinterop.AndroidView
 import com.google.gson.Gson
 import com.google.gson.JsonSyntaxException
+import taichi.walking.seniors.beginners.taichi.onboarding.data.OnboardingProfilePayload
 
 sealed interface PaywallWebAction {
     data object Close : PaywallWebAction
@@ -30,7 +31,7 @@ data class PaywallWebStorePayload(
     val products: List<PaywallWebStoreProduct>,
     val heroGender: String,
     val isTaiChiWalkingFlow: Boolean,
-    val onboardingProfile: PaywallWebOnboardingProfile?,
+    val onboardingProfile: OnboardingProfilePayload?,
     val selectedProductId: String?,
     val errorMessage: String?,
     val isPurchaseInProgress: Boolean,
@@ -56,38 +57,6 @@ data class PaywallWebIntroOffer(
     val paymentMode: String,
     val periodUnit: String?,
     val periodValue: Int?
-)
-
-data class PaywallWebOnboardingProfile(
-    val userId: String?,
-    val completedStep: String,
-    val discoverySource: String?,
-    val age: Int,
-    val gender: String?,
-    val goals: Set<String>,
-    val taiChiFamiliarity: String?,
-    val currentBodyType: String?,
-    val targetBodyType: String?,
-    val targetZones: Set<String>,
-    val activityLevel: String?,
-    val dailyWalking: String?,
-    val stairsFeeling: String?,
-    val squatsAbility: String?,
-    val canRotateHead: String?,
-    val canHoldArms: String?,
-    val taiChiLevel: String?,
-    val betweenMealsFeeling: String?,
-    val sleepAmount: String?,
-    val waterIntake: String?,
-    val dietTypes: Set<String>,
-    val height: Int,
-    val weight: Double,
-    val targetWeight: Double,
-    val shapeUpEvent: String?,
-    val shapeUpEventDate: String?,
-    val motivationLevel: String?,
-    val exerciseBlockers: Set<String>,
-    val useMetric: Boolean?
 )
 
 @Composable

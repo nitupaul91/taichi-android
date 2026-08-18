@@ -1,6 +1,7 @@
 package taichi.walking.seniors.beginners.di
 
 import taichi.walking.seniors.beginners.taichi.onboarding.data.OnboardingPrefs
+import taichi.walking.seniors.beginners.taichi.onboarding.data.OnboardingProfileSyncService
 import taichi.walking.seniors.beginners.taichi.onboarding.data.OnboardingRepository
 import taichi.walking.seniors.beginners.taichi.onboarding.data.OnboardingRepositoryImpl
 import android.content.Context
@@ -25,7 +26,8 @@ object OnboardingModule {
     @Singleton
     fun provideOnboardingRepository(
         prefs: OnboardingPrefs,
-        configUploadWorkScheduler: ConfigUploadWorkScheduler
+        configUploadWorkScheduler: ConfigUploadWorkScheduler,
+        onboardingProfileSyncService: OnboardingProfileSyncService
     ): OnboardingRepository =
-        OnboardingRepositoryImpl(prefs, configUploadWorkScheduler)
+        OnboardingRepositoryImpl(prefs, configUploadWorkScheduler, onboardingProfileSyncService)
 }

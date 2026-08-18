@@ -26,8 +26,9 @@ class WorkoutViewModel(
         TenMoreSeconds(R.raw.ten_more_seconds)
     }
 
+    /** [cue] null means "silence any cue still playing" rather than "play nothing new". */
     data class WorkoutAudioCueEvent(
-        val cue: WorkoutAudioCue,
+        val cue: WorkoutAudioCue?,
         val token: Int
     )
 
@@ -39,6 +40,9 @@ class WorkoutViewModel(
     companion object {
         const val PREVIEW_DURATION_SECONDS = 10
         const val PREVIEW_COUNTDOWN_START = 5
+
+        /** "Last 1-2 exercises" — the window in which exiting still counts as completing. */
+        const val EXIT_COMPLETION_REMAINING_THRESHOLD = 2
     }
 
     var currentExerciseIndex by mutableIntStateOf(startingExerciseIndex)
@@ -51,6 +55,14 @@ class WorkoutViewModel(
         private set
 
     var isVideoPlaying by mutableStateOf(true)
+        private set
+
+    /**
+     * The video is not actually rendering — it errored, or has been buffering past the grace period.
+     * Kept separate from [isPaused] so recovery is automatic and does not fight a deliberate user
+     * pause: the clock resumes on its own, but a user who paused stays paused.
+     */
+    var isVideoStalled by mutableStateOf(false)
         private set
 
     var exerciseElapsedSeconds by mutableIntStateOf(0)
@@ -71,12 +83,41 @@ class WorkoutViewModel(
     var audioCueEvent by mutableStateOf<WorkoutAudioCueEvent?>(null)
         private set
 
+    var musicMode by mutableStateOf<WorkoutMusicMode>(WorkoutMusicMode.Off)
+        private set
+
+    /** The track actually sounding — resolved once per session when the mode is Shuffle. */
+    var activeMusicTrack by mutableStateOf<WorkoutMusicTrack?>(null)
+        private set
+
+    /** True once the first preview has ended, i.e. the user actually began exercising. */
+    private var hasStartedExercises = false
+
     private var previewJob: Job? = null
     private var timerJob: Job? = null
     private var cueTokenCounter = 0
     private var instructionAudioDurationSeconds: Int? = null
     private var scheduledExerciseCues: List<ScheduledCue> = emptyList()
     private val firedCueSeconds = mutableSetOf<Int>()
+
+    /**
+     * Nothing may advance while the user has paused OR the video is not playing. Without the second
+     * condition the timer ran on wall clock alone, so a failed video still burned through the
+     * exercise with audio cues firing over a frozen frame.
+     */
+    private val isClockBlocked get() = isPaused || isVideoStalled
+
+    /** Exercises not yet finished, counting the one in progress. */
+    val remainingExercises: Int
+        get() = (dayData.exercises.size - currentExerciseIndex).coerceAtLeast(0)
+
+    /**
+     * Leaving with only the last exercise or two left counts the workout as done rather than
+     * abandoned (iOS parity). Users routinely walk away during the final stretch, and recording
+     * that as an abandon both loses their streak and understates completion in our analytics.
+     */
+    val shouldCompleteOnExit: Boolean
+        get() = hasStartedExercises && remainingExercises <= EXIT_COMPLETION_REMAINING_THRESHOLD
 
     val currentExercise get() = dayData.exercises.getOrNull(currentExerciseIndex)
 
@@ -105,7 +146,7 @@ class WorkoutViewModel(
         timerJob = viewModelScope.launch {
             while (isActive && !isWorkoutComplete) {
                 delay(1000)
-                if (isPaused) continue
+                if (isClockBlocked) continue
                 exerciseElapsedSeconds += 1
                 triggerExerciseCueIfNeeded()
                 onTick()
@@ -125,18 +166,20 @@ class WorkoutViewModel(
     fun startPreview(onTick: () -> Unit, onComplete: () -> Unit) {
         previewJob?.cancel()
         timerJob?.cancel()
+        cancelAudioCues()
         resetExerciseCueSchedule()
         isShowingPreview = true
         previewCountdown = 0
         exerciseElapsedSeconds = 0
         isPaused = false
         isVideoPlaying = true
+        isVideoStalled = false
 
         previewJob = viewModelScope.launch {
             var elapsed = 0
             while (isActive && isShowingPreview && !isWorkoutComplete) {
                 delay(1000)
-                if (isPaused) continue
+                if (isClockBlocked) continue
                 elapsed += 1
                 val remaining = PREVIEW_DURATION_SECONDS - elapsed
 
@@ -159,6 +202,8 @@ class WorkoutViewModel(
 
     fun finishPreview(onTick: () -> Unit, onComplete: () -> Unit) {
         previewJob?.cancel()
+        cancelAudioCues()
+        hasStartedExercises = true
         isShowingPreview = false
         previewCountdown = 0
         exerciseElapsedSeconds = 0
@@ -180,6 +225,16 @@ class WorkoutViewModel(
         )
     }
 
+    /**
+     * Driven by the ExoPlayer listener, not by user intent. [stalled] true stops the clock and the
+     * instruction audio; false resumes both unless the user has separately paused.
+     */
+    fun onVideoStalledChanged(stalled: Boolean) {
+        if (isVideoStalled == stalled) return
+        isVideoStalled = stalled
+        if (stalled) cancelAudioCues()
+    }
+
     fun togglePause() {
         isPaused = !isPaused
         isVideoPlaying = !isPaused
@@ -188,6 +243,19 @@ class WorkoutViewModel(
     fun toggleVideoPlayback() {
         isVideoPlaying = !isVideoPlaying
         isPaused = !isVideoPlaying
+    }
+
+    /**
+     * Shuffle resolves to a concrete track once and then stays put: re-rolling on every pause would
+     * restart the music mid-session.
+     */
+    fun selectMusicMode(mode: WorkoutMusicMode) {
+        musicMode = mode
+        activeMusicTrack = when (mode) {
+            WorkoutMusicMode.Off -> null
+            WorkoutMusicMode.Shuffle -> WorkoutMusicTrack.entries.random()
+            is WorkoutMusicMode.Track -> mode.track
+        }
     }
 
     fun toggleVoiceGuidance() {
@@ -235,9 +303,16 @@ class WorkoutViewModel(
         startExerciseTimer(onTick = onTick, onComplete = onComplete)
     }
 
+    /** Ends the session as complete when the user exits during the final exercises. */
+    fun completeEarly() {
+        stop()
+        isWorkoutComplete = true
+    }
+
     fun stop() {
         previewJob?.cancel()
         timerJob?.cancel()
+        cancelAudioCues()
         resetExerciseCueSchedule()
     }
 
@@ -251,6 +326,15 @@ class WorkoutViewModel(
         val cue = scheduledExerciseCues.firstOrNull { it.atSecond == exerciseElapsedSeconds } ?: return
         if (!firedCueSeconds.add(cue.atSecond)) return
         emitAudioCue(cue.cue)
+    }
+
+    /**
+     * Silences an in-flight cue. The countdown clip runs about five seconds, so tapping Start mid
+     * "5-4-3-2-1" used to leave it playing underneath the exercise narration.
+     */
+    fun cancelAudioCues() {
+        cueTokenCounter += 1
+        audioCueEvent = WorkoutAudioCueEvent(cue = null, token = cueTokenCounter)
     }
 
     private fun emitAudioCue(cue: WorkoutAudioCue) {

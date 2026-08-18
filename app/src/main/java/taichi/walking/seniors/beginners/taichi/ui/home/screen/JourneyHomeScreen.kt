@@ -57,7 +57,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
+import taichi.walking.seniors.beginners.R
 import coil.compose.AsyncImage
 import taichi.walking.seniors.beginners.taichi.ui.home.model.WorkoutDayDto
 import taichi.walking.seniors.beginners.taichi.ui.home.workout.WorkoutCompletionScreen
@@ -95,6 +97,19 @@ fun WalkingHomeScreen(
     PracticeJourneyHomeScreen(
         title = "Tai Chi Walking",
         practiceKind = PracticeKind.WALKING,
+        viewModel = viewModel,
+        onBottomBarVisibilityChange = onBottomBarVisibilityChange
+    )
+}
+
+@Composable
+fun ChairHomeScreen(
+    viewModel: ChairHomeViewModel = hiltViewModel(),
+    onBottomBarVisibilityChange: (Boolean) -> Unit = {}
+) {
+    PracticeJourneyHomeScreen(
+        title = stringResource(R.string.chair_tai_chi_title),
+        practiceKind = PracticeKind.CHAIR,
         viewModel = viewModel,
         onBottomBarVisibilityChange = onBottomBarVisibilityChange
     )
@@ -220,7 +235,8 @@ private fun PracticeJourneyHomeScreen(
             dayNumber = day.day,
             dayData = day,
             onClose = { workoutDay = null },
-            onComplete = { workoutDay = null; completedDay = day; viewModel.completeWorkoutFlow(day) }
+            onComplete = { workoutDay = null; completedDay = day; viewModel.completeWorkoutFlow(day) },
+            musicOnByDefault = state.musicOnByDefault
         )
     }
     completedDay?.let { day ->

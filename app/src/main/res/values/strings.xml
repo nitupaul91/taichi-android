@@ -305,4 +305,21 @@
     <string name="onboarding_paywall_error_title">Purchase Failed</string>
     <string name="onboarding_paywall_error_message">Something went wrong. Please try again.</string>
 
+    <string name="workout_video_unavailable_title">Connection lost</string>
+    <string name="workout_video_unavailable_subtitle">Your workout is paused and will continue as soon as the video loads.</string>
+    <string name="chair_tai_chi_title">Chair Tai Chi</string>
+    <string name="music_morning_mist_on_stone">Morning Mist on Stone</string>
+    <string name="music_strike_of_the_bamboo_blade">Strike of the Bamboo Blade</string>
+    <string name="music_iron_bamboo">Iron Bamboo</string>
+    <string name="music_sword_through_morning_mist">Sword Through Morning Mist</string>
+    <string name="music_echoes_of_the_jade_courtyard">Echoes of the Jade Courtyard</string>
+    <string name="music_lanterns_over_quiet_water">Lanterns Over Quiet Water</string>
+    <string name="music_stillness_beneath_the_pines">Stillness Beneath the Pines</string>
+    <string name="music_off">Off</string>
+    <string name="music_shuffle">Shuffle</string>
+    <string name="music_title">Background music</string>
+    <string name="workout_download_offline">Download for offline use</string>
+    <string name="workout_downloading">Downloading %1$d of %2$d…</string>
+    <string name="workout_item_count">%1$d Items</string>
+    <string name="workout_ready_offline">Ready for offline</string>
 </resources>

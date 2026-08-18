@@ -41,6 +41,9 @@ class AiAssistantRemoteConfig @Inject constructor(
             .addOnCompleteListener { onComplete?.invoke() }
     }
 
+    /** A/B test: whether a workout session starts with background music playing (iOS parity). */
+    fun musicOnByDefault(): Boolean = remoteConfig.getBoolean(MUSIC_ON_BY_DEFAULT)
+
     fun getPromotedAppsJson(): String {
         return remoteConfig.getString(PROMOTED_APPS)
     }
@@ -69,5 +72,6 @@ class AiAssistantRemoteConfig @Inject constructor(
         const val PAYWALL_HTML_ANDROID_URL = "paywall_html_android"
         const val LIMITED_OFFER_PAYWALL_HTML_URL = "limited_offer_paywall_html_url"
         const val LOCAL_NOTIFICATION_CAMPAIGN = "local_notification_campaign"
+        const val MUSIC_ON_BY_DEFAULT = "music_on_by_default"
     }
 }

@@ -2,6 +2,7 @@ package taichi.walking.seniors.beginners.di
 
 import taichi.walking.seniors.beginners.BuildConfig
 import taichi.walking.seniors.beginners.data.api.UserApi
+import taichi.walking.seniors.beginners.taichi.onboarding.data.OnboardingProfileApi
 import taichi.walking.seniors.beginners.taichi.ui.progress.data.ExerciseProgressApi
 import taichi.walking.seniors.beginners.taichi.ui.home.data.WorkoutApi
 import android.content.Context
@@ -53,6 +54,12 @@ class AppModule {
     @Singleton
     fun provideExerciseProgressApi(retrofit: Retrofit): ExerciseProgressApi {
         return retrofit.create(ExerciseProgressApi::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideOnboardingProfileApi(retrofit: Retrofit): OnboardingProfileApi {
+        return retrofit.create(OnboardingProfileApi::class.java)
     }
 
     @Provides

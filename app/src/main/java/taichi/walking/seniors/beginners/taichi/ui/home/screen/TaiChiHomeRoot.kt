@@ -7,6 +7,7 @@ import taichi.walking.seniors.beginners.taichi.ui.settings.screen.TaiChiSettings
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccessibilityNew
 import androidx.compose.material.icons.filled.DirectionsWalk
+import androidx.compose.material.icons.filled.EventSeat
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.ShowChart
 import androidx.compose.material3.Icon
@@ -34,6 +35,7 @@ import taichi.walking.seniors.beginners.taichi.ui.onboarding.screens.PaywallScre
 
 private enum class HomeTab(val title: String, val icon: androidx.compose.ui.graphics.vector.ImageVector) {
     TaiChi("Tai Chi", Icons.Default.AccessibilityNew),
+    Chair("Chair", Icons.Default.EventSeat),
     Walking("Walking", Icons.Default.DirectionsWalk),
     Progress("Progress", Icons.Default.ShowChart),
     Settings("Settings", Icons.Default.Settings)
@@ -49,7 +51,7 @@ fun TaiChiHomeRoot(
     var activePaywallRequest by remember { mutableStateOf<PaywallLaunchRequest?>(null) }
 
     LaunchedEffect(selected) {
-        if (selected != HomeTab.TaiChi && selected != HomeTab.Walking) showBottomBar = true
+        if (selected !in PRACTICE_TABS) showBottomBar = true
     }
 
     LaunchedEffect(pendingPaywallRequest) {
@@ -76,7 +78,7 @@ fun TaiChiHomeRoot(
                     containerColor = Color(0xFFFDFEFD),
                     tonalElevation = 0.dp
                 ) {
-                    HomeTab.entries.forEach { tab ->
+                    VISIBLE_TABS.forEach { tab ->
                         NavigationBarItem(
                             selected = selected == tab,
                             onClick = { selected = tab },
@@ -102,6 +104,11 @@ fun TaiChiHomeRoot(
         ) {
             when (selected) {
                 HomeTab.TaiChi -> JourneyHomeScreen(
+                    onBottomBarVisibilityChange = { shouldShow ->
+                        showBottomBar = shouldShow
+                    }
+                )
+                HomeTab.Chair -> ChairHomeScreen(
                     onBottomBarVisibilityChange = { shouldShow ->
                         showBottomBar = shouldShow
                     }
@@ -135,3 +142,16 @@ fun TaiChiHomeRoot(
         }
     }
 }
+
+/** Tabs that host the workout flow, which hides the bottom bar while a workout is running. */
+private val PRACTICE_TABS = setOf(HomeTab.TaiChi, HomeTab.Chair, HomeTab.Walking)
+
+/**
+ * The seated program is fully wired (endpoint, progress, journey screen) but its videos exist only
+ * in the v2 media set, which is Apple HEVC-with-alpha and renders as a blue matte on Android. Hide
+ * the entry point until an Android-decodable rendition ships; flip this to true to re-enable.
+ */
+private const val CHAIR_TAB_ENABLED = false
+
+private val VISIBLE_TABS: List<HomeTab> =
+    HomeTab.entries.filter { CHAIR_TAB_ENABLED || it != HomeTab.Chair }

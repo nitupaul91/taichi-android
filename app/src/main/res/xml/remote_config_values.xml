@@ -62,4 +62,8 @@
         <key>local_notification_campaign</key>
         <value>normal_paywall</value>
     </entry>
+    <entry>
+        <key>music_on_by_default</key>
+        <value>true</value>
+    </entry>
 </defaults>

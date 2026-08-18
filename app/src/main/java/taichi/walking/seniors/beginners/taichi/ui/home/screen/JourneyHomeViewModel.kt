@@ -16,6 +16,7 @@ import taichi.walking.seniors.beginners.taichi.ui.home.model.WorkoutPlanDto
 import taichi.walking.seniors.beginners.taichi.ui.progress.data.ExerciseProgressSyncService
 import taichi.walking.seniors.beginners.taichi.ui.progress.data.PracticeCompletionResult
 import taichi.walking.seniors.beginners.taichi.ui.progress.data.PracticeKind
+import taichi.walking.seniors.beginners.util.AiAssistantRemoteConfig
 import taichi.walking.seniors.beginners.taichi.ui.progress.data.PracticeRepository
 import taichi.walking.seniors.beginners.util.RateAppDialogHandler
 import javax.inject.Inject
@@ -26,6 +27,7 @@ open class BaseJourneyHomeViewModel(
     private val practiceRepository: PracticeRepository,
     private val purchaseManager: PurchaseManager,
     private val rateAppDialogHandler: RateAppDialogHandler,
+    private val remoteConfig: AiAssistantRemoteConfig,
     private val exerciseProgressSyncService: ExerciseProgressSyncService
 ) : ViewModel() {
 
@@ -37,6 +39,7 @@ open class BaseJourneyHomeViewModel(
         val selectedDayData: WorkoutDayDto? = null,
         val error: String? = null,
         val isPremium: Boolean = false,
+        val musicOnByDefault: Boolean = false,
         val showRateDialog: Boolean = false,
         val completionResult: PracticeCompletionResult? = null
     )
@@ -44,7 +47,15 @@ open class BaseJourneyHomeViewModel(
     private val _state = MutableStateFlow(UiState())
     val state: StateFlow<UiState> = _state.asStateFlow()
 
+    /** Guards against overlapping restores when the screen recomposes or is reopened quickly. */
+    private var isRestoringProgress = false
+
     init {
+        // Pull server-side progress once per ViewModel so a reinstall or a new device recovers the
+        // user's streak instead of silently restarting at day 1.
+        viewModelScope.launch { restoreProgressFromBackend() }
+        _state.update { it.copy(musicOnByDefault = remoteConfig.musicOnByDefault()) }
+
         viewModelScope.launch {
             combine(
                 practiceRepository.currentDay(practiceKind),
@@ -53,6 +64,16 @@ open class BaseJourneyHomeViewModel(
                 .collect { (day, isPremium) ->
                     _state.update { it.copy(currentDay = day, isPremium = isPremium) }
                 }
+        }
+    }
+
+    private suspend fun restoreProgressFromBackend() {
+        if (isRestoringProgress) return
+        isRestoringProgress = true
+        try {
+            exerciseProgressSyncService.restoreAndMergeProgress()
+        } finally {
+            isRestoringProgress = false
         }
     }
 
@@ -134,6 +155,7 @@ class JourneyHomeViewModel @Inject constructor(
     practiceRepository: PracticeRepository,
     purchaseManager: PurchaseManager,
     rateAppDialogHandler: RateAppDialogHandler,
+    remoteConfig: AiAssistantRemoteConfig,
     exerciseProgressSyncService: ExerciseProgressSyncService
 ) : BaseJourneyHomeViewModel(
     practiceKind = PracticeKind.TAI_CHI,
@@ -141,6 +163,7 @@ class JourneyHomeViewModel @Inject constructor(
     practiceRepository = practiceRepository,
     purchaseManager = purchaseManager,
     rateAppDialogHandler = rateAppDialogHandler,
+    remoteConfig = remoteConfig,
     exerciseProgressSyncService = exerciseProgressSyncService
 )
 
@@ -150,6 +173,7 @@ class WalkingHomeViewModel @Inject constructor(
     practiceRepository: PracticeRepository,
     purchaseManager: PurchaseManager,
     rateAppDialogHandler: RateAppDialogHandler,
+    remoteConfig: AiAssistantRemoteConfig,
     exerciseProgressSyncService: ExerciseProgressSyncService
 ) : BaseJourneyHomeViewModel(
     practiceKind = PracticeKind.WALKING,
@@ -157,5 +181,24 @@ class WalkingHomeViewModel @Inject constructor(
     practiceRepository = practiceRepository,
     purchaseManager = purchaseManager,
     rateAppDialogHandler = rateAppDialogHandler,
+    remoteConfig = remoteConfig,
+    exerciseProgressSyncService = exerciseProgressSyncService
+)
+
+@HiltViewModel
+class ChairHomeViewModel @Inject constructor(
+    workoutPlanService: WorkoutPlanService,
+    practiceRepository: PracticeRepository,
+    purchaseManager: PurchaseManager,
+    rateAppDialogHandler: RateAppDialogHandler,
+    remoteConfig: AiAssistantRemoteConfig,
+    exerciseProgressSyncService: ExerciseProgressSyncService
+) : BaseJourneyHomeViewModel(
+    practiceKind = PracticeKind.CHAIR,
+    workoutPlanService = workoutPlanService,
+    practiceRepository = practiceRepository,
+    purchaseManager = purchaseManager,
+    rateAppDialogHandler = rateAppDialogHandler,
+    remoteConfig = remoteConfig,
     exerciseProgressSyncService = exerciseProgressSyncService
 )

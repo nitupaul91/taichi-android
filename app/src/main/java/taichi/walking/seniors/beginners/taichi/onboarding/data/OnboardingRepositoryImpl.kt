@@ -7,7 +7,8 @@ import kotlinx.coroutines.flow.Flow
 
 class OnboardingRepositoryImpl(
     private val prefs: OnboardingPrefs,
-    private val configUploadWorkScheduler: ConfigUploadWorkScheduler
+    private val configUploadWorkScheduler: ConfigUploadWorkScheduler,
+    private val onboardingProfileSyncService: OnboardingProfileSyncService
 ) : OnboardingRepository {
 
     private val gson = Gson()
@@ -18,9 +19,11 @@ class OnboardingRepositoryImpl(
         prefs.setAnswersJson(gson.toJson(state))
     }
 
-    override suspend fun persistSnapshot(state: OnboardingState) {
+    override suspend fun persistSnapshot(state: OnboardingState, completedStep: String) {
+        // Local first: the upload is best-effort, but the answers must survive regardless.
         saveAnswers(state)
         configUploadWorkScheduler.scheduleOnce()
+        onboardingProfileSyncService.uploadSnapshot(state, completedStep)
     }
 
     override suspend fun markCompleted() {

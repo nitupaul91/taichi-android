@@ -12,6 +12,7 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
@@ -24,10 +25,16 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.CloudOff
 import androidx.compose.material.icons.filled.FastForward
 import androidx.compose.material.icons.filled.FastRewind
+import androidx.compose.material.icons.filled.MusicNote
+import androidx.compose.material.icons.filled.MusicOff
 import androidx.compose.material.icons.filled.Pause
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.VolumeOff
@@ -55,6 +62,7 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
@@ -63,10 +71,15 @@ import androidx.compose.ui.viewinterop.AndroidView
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.LocalLifecycleOwner
+import androidx.media3.common.PlaybackException
 import androidx.media3.common.Player.Listener
+import androidx.core.net.toUri
 import androidx.media3.common.MediaItem
+import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.common.Player
 import androidx.media3.ui.AspectRatioFrameLayout
+import kotlinx.coroutines.delay
+import taichi.walking.seniors.beginners.R
 import taichi.walking.seniors.beginners.taichi.ui.video.buildAppExoPlayer
 import taichi.walking.seniors.beginners.taichi.ui.video.inflateAppPlayerView
 import taichi.walking.seniors.beginners.taichi.ui.home.model.WorkoutDayDto
@@ -76,11 +89,14 @@ fun WorkoutScreen(
     dayNumber: Int,
     dayData: WorkoutDayDto,
     onClose: () -> Unit,
-    onComplete: () -> Unit
+    onComplete: () -> Unit,
+    musicOnByDefault: Boolean = false
 ) {
     val model = remember(dayData.id) { WorkoutViewModel(dayNumber, dayData) }
     val context = LocalContext.current
     var cuePlayer by remember { mutableStateOf<MediaPlayer?>(null) }
+    val musicPlayerRef = remember { mutableStateOf<ExoPlayer?>(null) }
+    var showMusicPicker by remember { mutableStateOf(false) }
 
     val currentExercise = model.currentExercise
     val isPlaying = model.isVideoPlaying
@@ -124,7 +140,42 @@ fun WorkoutScreen(
         }
     }
 
+    // Background music: one looping player for the session. Keyed on the resolved track so a mode
+    // change swaps it, and it follows pause/stall so it never plays over a frozen workout.
+    val musicTrack = model.activeMusicTrack
+    DisposableEffect(musicTrack) {
+        val track = musicTrack
+        if (track == null) {
+            onDispose { }
+        } else {
+            val musicPlayer = buildAppExoPlayer(context).apply {
+                repeatMode = Player.REPEAT_MODE_ONE
+                volume = WORKOUT_MUSIC_VOLUME
+                runCatching {
+                    setMediaItem(MediaItem.fromUri(rawResourceUri(context, track.resId)))
+                    prepare()
+                }
+                playWhenReady = true
+            }
+            musicPlayerRef.value = musicPlayer
+            onDispose {
+                musicPlayerRef.value = null
+                musicPlayer.release()
+            }
+        }
+    }
+
+    LaunchedEffect(model.isPaused, model.isVideoStalled, musicTrack) {
+        val musicPlayer = musicPlayerRef.value ?: return@LaunchedEffect
+        val shouldPlay = !model.isPaused && !model.isVideoStalled
+        musicPlayer.playWhenReady = shouldPlay
+        if (shouldPlay) musicPlayer.play() else musicPlayer.pause()
+    }
+
     LaunchedEffect(dayData.id) {
+        model.selectMusicMode(
+            if (musicOnByDefault) WorkoutMusicMode.Shuffle else WorkoutMusicMode.Off
+        )
         model.start(
             onTick = { },
             onComplete = onComplete
@@ -132,9 +183,11 @@ fun WorkoutScreen(
     }
 
     LaunchedEffect(model.audioCueEvent?.token) {
-        val cueEvent = model.audioCueEvent ?: return@LaunchedEffect
+        // Release first, unconditionally: a null cue is the ViewModel asking for silence.
         cuePlayer?.release()
-        cuePlayer = MediaPlayer.create(context, cueEvent.cue.resId)?.apply {
+        cuePlayer = null
+        val cue = model.audioCueEvent?.cue ?: return@LaunchedEffect
+        cuePlayer = MediaPlayer.create(context, cue.resId)?.apply {
             setOnCompletionListener { player ->
                 player.release()
                 if (cuePlayer === player) {
@@ -164,8 +217,10 @@ fun WorkoutScreen(
                 instructionAudioUrl = currentInstructionAudio,
                 isPlaying = isPlaying,
                 isMuted = !model.isAudioEnabled,
+                isStalled = model.isVideoStalled,
                 resetToken = model.videoResetTrigger,
-                onInstructionDurationResolved = model::updateInstructionAudioDuration
+                onInstructionDurationResolved = model::updateInstructionAudioDuration,
+                onStalledChanged = model::onVideoStalledChanged
             )
         }
 
@@ -183,8 +238,55 @@ fun WorkoutScreen(
             )
         }
 
+        if (showMusicPicker) {
+            WorkoutMusicPicker(
+                selected = model.musicMode,
+                onSelect = {
+                    model.selectMusicMode(it)
+                    showMusicPicker = false
+                },
+                onDismiss = { showMusicPicker = false }
+            )
+        }
+
+        // Connection overlay. The clock is already stopped by the ViewModel; this explains why.
+        if (model.isVideoStalled) {
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(Color.Black.copy(alpha = 0.7f)),
+                contentAlignment = Alignment.Center
+            ) {
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.spacedBy(12.dp),
+                    modifier = Modifier.padding(horizontal = 32.dp)
+                ) {
+                    Icon(
+                        Icons.Default.CloudOff,
+                        contentDescription = null,
+                        tint = Color.White.copy(alpha = 0.8f),
+                        modifier = Modifier.size(48.dp)
+                    )
+                    Text(
+                        text = stringResource(R.string.workout_video_unavailable_title),
+                        color = Color.White,
+                        fontSize = 20.sp,
+                        fontWeight = FontWeight.Bold,
+                        textAlign = TextAlign.Center
+                    )
+                    Text(
+                        text = stringResource(R.string.workout_video_unavailable_subtitle),
+                        color = Color.White.copy(alpha = 0.7f),
+                        fontSize = 15.sp,
+                        textAlign = TextAlign.Center
+                    )
+                }
+            }
+        }
+
         // Play icon overlay when paused
-        if (model.isPaused && !model.isShowingPreview) {
+        if (model.isPaused && !model.isShowingPreview && !model.isVideoStalled) {
             Box(
                 modifier = Modifier.fillMaxSize(),
                 contentAlignment = Alignment.Center
@@ -238,7 +340,14 @@ fun WorkoutScreen(
                 .padding(horizontal = 20.dp, vertical = 20.dp)
         ) {
             Row(verticalAlignment = Alignment.CenterVertically) {
-                CircleIcon(icon = Icons.Default.Close) { onClose() }
+                CircleIcon(icon = Icons.Default.Close) {
+                    if (model.shouldCompleteOnExit) {
+                        model.completeEarly()
+                        onComplete()
+                    } else {
+                        onClose()
+                    }
+                }
                 Spacer(modifier = Modifier.weight(1f))
                 Text(
                     text = "Exercise ${model.currentExerciseIndex + 1}/${dayData.exercises.size}",
@@ -250,6 +359,14 @@ fun WorkoutScreen(
                 CircleIcon(icon = if (model.isAudioEnabled) Icons.Default.VolumeUp else Icons.Default.VolumeOff) {
                     model.toggleVoiceGuidance()
                 }
+                Spacer(modifier = Modifier.width(8.dp))
+                CircleIcon(
+                    icon = if (model.musicMode == WorkoutMusicMode.Off) {
+                        Icons.Default.MusicOff
+                    } else {
+                        Icons.Default.MusicNote
+                    }
+                ) { showMusicPicker = true }
             }
 
             Spacer(modifier = Modifier.height(12.dp))
@@ -448,31 +565,44 @@ private fun WorkoutVideoPlayer(
     instructionAudioUrl: String?,
     isPlaying: Boolean,
     isMuted: Boolean,
+    isStalled: Boolean,
     resetToken: Int,
-    onInstructionDurationResolved: (Int?) -> Unit
+    onInstructionDurationResolved: (Int?) -> Unit,
+    onStalledChanged: (Boolean) -> Unit
 ) {
     val playerState = rememberUpdatedState(isPlaying)
     val mutedState = rememberUpdatedState(isMuted)
+    val stalledState = rememberUpdatedState(isStalled)
     val context = LocalContext.current
 
-    val player = remember(videoUrl, resetToken) {
-        buildAppExoPlayer(context).apply {
+    // setMediaItem throws synchronously for a media type this build cannot handle (a missing
+    // ExoPlayer module resolves its factory reflectively), which would take down the whole process
+    // mid-composition. Degrade to the stalled state instead so the user sees the overlay.
+    val playerSetup = remember(videoUrl, resetToken) {
+        val exoPlayer = buildAppExoPlayer(context, cached = true).apply {
             repeatMode = Player.REPEAT_MODE_ONE
-            setMediaItem(MediaItem.fromUri(videoUrl))
-            prepare()
-            playWhenReady = isPlaying
             // Exercise guidance comes from backend MP3, keep video track silent.
             volume = 0f
         }
+        val prepared = runCatching {
+            exoPlayer.setMediaItem(MediaItem.fromUri(videoUrl))
+            exoPlayer.prepare()
+        }.isSuccess
+        exoPlayer.playWhenReady = isPlaying
+        exoPlayer to prepared
     }
+    val player = playerSetup.first
+    val mediaSourceFailed = !playerSetup.second
 
     val instructionAudioPlayer = remember(instructionAudioUrl, resetToken) {
         if (instructionAudioUrl.isNullOrBlank()) {
             null
         } else {
-            buildAppExoPlayer(context).apply {
-                setMediaItem(MediaItem.fromUri(instructionAudioUrl))
-                prepare()
+            buildAppExoPlayer(context, cached = true).apply {
+                runCatching {
+                    setMediaItem(MediaItem.fromUri(instructionAudioUrl))
+                    prepare()
+                }
                 playWhenReady = isPlaying
                 volume = if (isMuted) 0f else 1f
             }
@@ -485,18 +615,70 @@ private fun WorkoutVideoPlayer(
         }
     }
 
-    LaunchedEffect(playerState.value) {
+    // --- Video health. The exercise player previously had NO listener, so a stalled or failed
+    // video never reached the ViewModel and the workout clock ran on regardless.
+    //
+    // `isRenderingVideo` is the ground truth: ExoPlayer reports it only while frames are actually
+    // advancing. Deriving from it (rather than from playbackState) covers buffering, the initial
+    // load and stalls with one signal, so the narration can never run ahead of the picture. ---
+    var isRenderingVideo by remember(player) { mutableStateOf(false) }
+    var hasPlaybackError by remember(player) { mutableStateOf(false) }
+
+    DisposableEffect(player) {
+        val listener = object : Listener {
+            override fun onIsPlayingChanged(playing: Boolean) {
+                isRenderingVideo = playing
+                if (playing) hasPlaybackError = false
+            }
+
+            override fun onPlayerError(error: PlaybackException) {
+                hasPlaybackError = true
+                isRenderingVideo = false
+            }
+        }
+        player.addListener(listener)
+        onDispose { player.removeListener(listener) }
+    }
+
+    // The CLOCK tolerates a short gap: a brief re-buffer mid-exercise should not visibly stutter
+    // the countdown. Cancelled the moment playback resumes, which is the debounce.
+    LaunchedEffect(isRenderingVideo, hasPlaybackError, mediaSourceFailed, playerState.value) {
+        when {
+            mediaSourceFailed -> onStalledChanged(true)
+            !playerState.value -> Unit // user paused: their pause already stops the clock
+            isRenderingVideo -> onStalledChanged(false)
+            else -> {
+                delay(STALL_GRACE_MILLIS)
+                onStalledChanged(true)
+            }
+        }
+    }
+
+    // ExoPlayer will not retry by itself after an error, so a user who reconnects would stay stuck.
+    LaunchedEffect(hasPlaybackError, mediaSourceFailed) {
+        while (hasPlaybackError && !mediaSourceFailed) {
+            delay(PLAYBACK_RETRY_MILLIS)
+            player.prepare()
+        }
+    }
+
+    LaunchedEffect(playerState.value, stalledState.value, isRenderingVideo) {
+        // The video keeps playWhenReady while stalled so ExoPlayer resumes by itself once it has
+        // buffered.
         if (playerState.value) {
             player.playWhenReady = true
             player.play()
-            instructionAudioPlayer?.playWhenReady = true
-            instructionAudioPlayer?.play()
         } else {
             player.playWhenReady = false
             player.pause()
-            instructionAudioPlayer?.playWhenReady = false
-            instructionAudioPlayer?.pause()
         }
+
+        // Narration is tied to actual rendering with NO grace period, so it starts only once the
+        // picture does and freezes the instant it does not. A grace here would let the voice run
+        // ahead of the exercise on a slow connection.
+        val audioShouldPlay = playerState.value && isRenderingVideo
+        instructionAudioPlayer?.playWhenReady = audioShouldPlay
+        if (audioShouldPlay) instructionAudioPlayer?.play() else instructionAudioPlayer?.pause()
     }
 
     LaunchedEffect(mutedState.value) {
@@ -539,6 +721,13 @@ private fun WorkoutVideoPlayer(
         factory = { ctx ->
             inflateAppPlayerView(ctx).apply {
                 useController = false
+                // v1 media is framed to fill a phone screen, so crop-to-fill gives the intended
+                // edge-to-edge look. FIT letterboxed it into black bands that read as if the screen
+                // were inset under the system bars.
+                //
+                // This pairs with the media set: the v2 videos are near-square (1328x1552) and must
+                // use RESIZE_MODE_FIT over the studio backdrop, the way iOS does. Switch both
+                // together when the Android-decodable v2 rendition lands.
                 resizeMode = AspectRatioFrameLayout.RESIZE_MODE_ZOOM
                 this.player = player
             }
@@ -569,5 +758,69 @@ private fun CircleIcon(
             tint = Color.White,
             modifier = Modifier.size(if (size > 60.dp) 36.dp else 28.dp)
         )
+    }
+}
+
+/** How long the video may buffer before the workout clock stops waiting for it. */
+private const val STALL_GRACE_MILLIS = 2_000L
+
+/** Backoff between recovery attempts after a playback error. */
+private const val PLAYBACK_RETRY_MILLIS = 3_000L
+
+/** `android.resource://` URI for a bundled track, which ExoPlayer reads directly. */
+private fun rawResourceUri(context: android.content.Context, resId: Int) =
+    "android.resource://${context.packageName}/$resId".toUri()
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun WorkoutMusicPicker(
+    selected: WorkoutMusicMode,
+    onSelect: (WorkoutMusicMode) -> Unit,
+    onDismiss: () -> Unit
+) {
+    ModalBottomSheet(onDismissRequest = onDismiss) {
+        Column(modifier = Modifier.padding(bottom = 32.dp)) {
+            Text(
+                text = stringResource(R.string.music_title),
+                fontSize = 20.sp,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier.padding(horizontal = 24.dp, vertical = 12.dp)
+            )
+            MusicPickerRow(
+                label = stringResource(R.string.music_off),
+                isSelected = selected == WorkoutMusicMode.Off
+            ) { onSelect(WorkoutMusicMode.Off) }
+            MusicPickerRow(
+                label = stringResource(R.string.music_shuffle),
+                isSelected = selected == WorkoutMusicMode.Shuffle
+            ) { onSelect(WorkoutMusicMode.Shuffle) }
+            WorkoutMusicTrack.entries.forEach { track ->
+                MusicPickerRow(
+                    label = stringResource(track.titleRes),
+                    isSelected = (selected as? WorkoutMusicMode.Track)?.track == track
+                ) { onSelect(WorkoutMusicMode.Track(track)) }
+            }
+        }
+    }
+}
+
+@Composable
+private fun MusicPickerRow(label: String, isSelected: Boolean, onClick: () -> Unit) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable(onClick = onClick)
+            .padding(horizontal = 24.dp, vertical = 16.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Text(
+            text = label,
+            fontSize = 17.sp,
+            fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal,
+            modifier = Modifier.weight(1f)
+        )
+        if (isSelected) {
+            Icon(Icons.Default.Check, contentDescription = null)
+        }
     }
 }

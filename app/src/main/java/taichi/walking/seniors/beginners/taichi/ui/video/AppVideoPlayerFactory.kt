@@ -4,14 +4,25 @@ import android.content.Context
 import android.view.LayoutInflater
 import androidx.media3.exoplayer.DefaultRenderersFactory
 import androidx.media3.exoplayer.ExoPlayer
+import androidx.media3.exoplayer.source.DefaultMediaSourceFactory
 import androidx.media3.ui.PlayerView
 import taichi.walking.seniors.beginners.R
 
-fun buildAppExoPlayer(context: Context): ExoPlayer {
+/**
+ * @param cached routes media through [WorkoutMediaCache] so playback works offline and watching a
+ *   workout populates the cache. Left off for bundled resources (music), which need no cache.
+ */
+fun buildAppExoPlayer(context: Context, cached: Boolean = false): ExoPlayer {
     val renderersFactory = DefaultRenderersFactory(context)
         .setEnableDecoderFallback(true)
 
-    return ExoPlayer.Builder(context, renderersFactory).build()
+    val builder = ExoPlayer.Builder(context, renderersFactory)
+    if (cached) {
+        builder.setMediaSourceFactory(
+            DefaultMediaSourceFactory(WorkoutMediaCache.dataSourceFactory(context))
+        )
+    }
+    return builder.build()
 }
 
 fun inflateAppPlayerView(context: Context): PlayerView {

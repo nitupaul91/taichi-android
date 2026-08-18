@@ -18,7 +18,18 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.border
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material.icons.filled.CheckCircle
+import androidx.compose.material.icons.filled.Download
+import taichi.walking.seniors.beginners.taichi.ui.video.WorkoutMediaCache
+import taichi.walking.seniors.beginners.R
+import kotlinx.coroutines.launch
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -65,6 +76,21 @@ fun WorkoutPreviewScreen(
     val requiresPremium = dayNumber > 3 && !isPremium
     val accessible = dayNumber <= currentDay
     var showCompleteFirstDialog by remember { mutableStateOf(false) }
+    val offlineUrls = remember(dayData) {
+        dayData.exercises.flatMap { exercise ->
+            listOfNotNull(exercise.videoUrl, exercise.stepsSpeechUrl)
+        }
+    }
+    var isDownloading by remember { mutableStateOf(false) }
+    var isDownloaded by remember(offlineUrls) { mutableStateOf(false) }
+    var downloadCompleted by remember { mutableIntStateOf(0) }
+    var downloadTotal by remember { mutableIntStateOf(0) }
+    val downloadScope = rememberCoroutineScope()
+    val context = LocalContext.current
+
+    LaunchedEffect(offlineUrls) {
+        isDownloaded = WorkoutMediaCache.areAllCached(context, offlineUrls)
+    }
 
     Box(
         modifier = Modifier
@@ -143,13 +169,77 @@ fun WorkoutPreviewScreen(
             }
             item { Spacer(modifier = Modifier.height(12.dp)) }
             item {
-                Text(
-                    "Exercises",
-                    modifier = Modifier.padding(horizontal = 20.dp, vertical = 16.dp),
-                    style = MaterialTheme.typography.titleMedium,
-                    fontWeight = FontWeight.Bold
-                )
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 20.dp, vertical = 16.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        "Exercises",
+                        style = MaterialTheme.typography.titleMedium,
+                        fontWeight = FontWeight.Bold,
+                        modifier = Modifier.weight(1f)
+                    )
+                    Text(
+                        text = stringResource(R.string.workout_item_count, dayData.exercises.size),
+                        style = MaterialTheme.typography.titleMedium,
+                        color = TaiChiGreen,
+                        fontWeight = FontWeight.SemiBold
+                    )
+                }
             }
+            // Offline pre-fetch, in the same place iOS puts "Download for Offline": above the
+            // exercise list, not stacked under the start button where it crowded the CTA.
+            item {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 20.dp)
+                        .clip(RoundedCornerShape(22.dp))
+                        .background(Color.White)
+                        .border(1.dp, TaiChiGreen.copy(alpha = 0.35f), RoundedCornerShape(22.dp))
+                        .clickable(enabled = !isDownloading && !isDownloaded) {
+                            isDownloading = true
+                            downloadScope.launch {
+                                WorkoutMediaCache.prefetch(context, offlineUrls) { done, total ->
+                                    downloadCompleted = done
+                                    downloadTotal = total
+                                }
+                                isDownloading = false
+                                // Re-read from disk rather than assuming success: prefetch skips
+                                // individual failures, so the day may still be incomplete.
+                                isDownloaded = WorkoutMediaCache.areAllCached(context, offlineUrls)
+                            }
+                        }
+                        .padding(vertical = 12.dp),
+                    horizontalArrangement = Arrangement.Center,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Icon(
+                        imageVector = if (isDownloaded) Icons.Default.CheckCircle else Icons.Default.Download,
+                        contentDescription = null,
+                        tint = TaiChiGreen,
+                        modifier = Modifier.size(18.dp)
+                    )
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Text(
+                        text = when {
+                            isDownloaded -> stringResource(R.string.workout_ready_offline)
+                            isDownloading -> stringResource(
+                                R.string.workout_downloading,
+                                downloadCompleted,
+                                downloadTotal
+                            )
+                            else -> stringResource(R.string.workout_download_offline)
+                        },
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = TaiChiGreen,
+                        fontWeight = FontWeight.SemiBold
+                    )
+                }
+            }
+            item { Spacer(modifier = Modifier.height(8.dp)) }
             itemsIndexed(dayData.exercises) { _, ex ->
                 Row(
                     modifier = Modifier
@@ -242,6 +332,7 @@ fun WorkoutPreviewScreen(
                     fontWeight = FontWeight.Bold
                 )
             }
+
         }
     }
 
