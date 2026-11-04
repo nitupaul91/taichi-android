@@ -1,5 +1,7 @@
 package taichi.walking.seniors.beginners.taichi.ui.home.workout
 
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.getValue
 import androidx.activity.ComponentActivity
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -29,11 +31,9 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
@@ -55,11 +55,11 @@ import taichi.walking.seniors.beginners.taichi.ui.progress.data.PracticeCompleti
 import taichi.walking.seniors.beginners.taichi.ui.progress.data.PracticeKind
 import taichi.walking.seniors.beginners.taichi.ui.reminder.PracticeReminderPromptScreen
 import taichi.walking.seniors.beginners.taichi.ui.reminder.PracticeReminderViewModel
-import taichi.walking.seniors.beginners.util.InAppReviewHelper
 import taichi.walking.seniors.beginners.util.sharePlainText
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.time.ZonedDateTime
+import taichi.walking.seniors.beginners.util.ReviewPromptService
 
 @Composable
 fun WorkoutCompletionScreen(
@@ -99,10 +99,11 @@ fun WorkoutCompletionScreen(
         append(context.getString(R.string.app_link))
     }
 
+    // iOS WorkoutCompletionView: finishing the first session is the engagement worth a rating ask;
+    // the once-per-version gate in ReviewPromptService keeps this and the Home ask from both firing.
     LaunchedEffect(Unit) {
-        delay(1_500)
-        if (activity != null) {
-            InAppReviewHelper.launchIfAvailable(activity)
+        if (dayNumber == 1 && activity != null) {
+            ReviewPromptService.requestIfNeeded(activity, surface = "completion", delayMillis = 1_500)
         }
     }
 

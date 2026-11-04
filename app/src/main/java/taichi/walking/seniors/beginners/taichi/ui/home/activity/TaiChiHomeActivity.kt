@@ -1,5 +1,7 @@
 package taichi.walking.seniors.beginners.taichi.ui.home.activity
 
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.getValue
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
@@ -9,13 +11,15 @@ import taichi.walking.seniors.beginners.util.AppFontScale
 import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import taichi.walking.seniors.beginners.taichi.notifications.reminder.ReminderNotificationTapTracker
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import taichi.walking.seniors.beginners.taichi.onboarding.ui.theme.TaiChiTheme
 import taichi.walking.seniors.beginners.taichi.ui.home.screen.TaiChiHomeRoot
 import taichi.walking.seniors.beginners.ui.paywall.RemotePaywallVariant
+import taichi.walking.seniors.beginners.util.ReviewPromptService
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -52,6 +56,28 @@ class TaiChiHomeActivity : ComponentActivity() {
                         intent.removeExtra(EXTRA_PAYWALL_VARIANT)
                     }
                 )
+            }
+        }
+        if (savedInstanceState == null) onHomeVisit()
+    }
+
+    override fun onRestart() {
+        super.onRestart()
+        // Back from the background: iOS counts this as another Home visit too.
+        onHomeVisit()
+    }
+
+    /**
+     * iOS JourneyHomeView.requestReviewIfAppropriate: a rating is asked from the second visit to
+     * Home onwards (the first lands straight out of onboarding), 2.5 s in, and never on top of a
+     * paywall.
+     */
+    private fun onHomeVisit() {
+        if (ReviewPromptService.recordHomeVisit(this) < 2 || pendingPaywallRequest != null) return
+        lifecycleScope.launch {
+            delay(2_500)
+            if (pendingPaywallRequest == null) {
+                ReviewPromptService.requestIfNeeded(this@TaiChiHomeActivity, surface = "home")
             }
         }
     }

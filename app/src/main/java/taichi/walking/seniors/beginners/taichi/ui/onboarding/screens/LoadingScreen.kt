@@ -50,17 +50,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.platform.LocalContext
-import taichi.walking.seniors.beginners.util.InAppReviewHelper
-import taichi.walking.seniors.beginners.util.findActivity
 
 @Composable
 fun LoadingScreen(
     onContinue: () -> Unit
 ) {
-    val context = LocalContext.current
-    val activity = remember(context) { context.findActivity() }
-    var hasAttemptedInAppReview by rememberSaveable { mutableStateOf(false) }
     var secondsRemaining by rememberSaveable { mutableIntStateOf(10) }
     var showCountdown by rememberSaveable { mutableStateOf(false) }
 
@@ -74,12 +68,8 @@ fun LoadingScreen(
         onContinue()
     }
 
-    LaunchedEffect(activity) {
-        if (activity == null || hasAttemptedInAppReview) return@LaunchedEffect
-        kotlinx.coroutines.delay(3_500)
-        hasAttemptedInAppReview = true
-        InAppReviewHelper.launchIfAvailable(activity)
-    }
+    // No rating request here: iOS took it out of onboarding (874528f). It is asked after the first
+    // completed session and on a later visit to Home instead (ReviewPromptService).
 
     QuestionScaffold(
         progress = progressFor(OnboardingRoutes.Loading),
