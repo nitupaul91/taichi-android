@@ -72,6 +72,7 @@ import taichi.walking.seniors.beginners.taichi.ui.home.model.WorkoutDayDto
 import taichi.walking.seniors.beginners.taichi.ui.home.workout.WorkoutCompletionScreen
 import taichi.walking.seniors.beginners.taichi.ui.home.workout.WorkoutPreviewScreen
 import taichi.walking.seniors.beginners.taichi.ui.home.workout.WorkoutScreen
+import taichi.walking.seniors.beginners.taichi.ui.home.workout.WorkoutAnalyticsContext
 import taichi.walking.seniors.beginners.taichi.ui.onboarding.screens.PaywallScreen
 import taichi.walking.seniors.beginners.taichi.ui.progress.data.PracticeKind
 import taichi.walking.seniors.beginners.ui.rateapp.RateAppDialogView
@@ -280,7 +281,11 @@ private fun PracticeJourneyHomeScreen(
             onClose = { workoutDay = null },
             onComplete = { workoutDay = null; completedDay = day; viewModel.completeWorkoutFlow(day) },
             musicOnByDefault = state.musicOnByDefault,
-            resolveMusicTrackUrl = viewModel::musicTrackUrl
+            resolveMusicTrackUrl = viewModel::musicTrackUrl,
+            analyticsContext = WorkoutAnalyticsContext(
+                isPremium = state.isPremium,
+                intensity = state.workoutIntensity.orEmpty()
+            )
         )
     }
     completedDay?.let { day ->

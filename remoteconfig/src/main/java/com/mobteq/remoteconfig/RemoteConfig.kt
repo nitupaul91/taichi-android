@@ -25,5 +25,8 @@ class RemoteConfig @Inject constructor(
         /** For code that runs before injection is available (an activity's attachBaseContext). */
         fun peekBoolean(key: String): Boolean =
             runCatching { FirebaseRemoteConfig.getInstance().getBoolean(key) }.getOrDefault(false)
+
+        fun peekLong(key: String): Long =
+            runCatching { FirebaseRemoteConfig.getInstance().getLong(key) }.getOrDefault(0L)
     }
 }

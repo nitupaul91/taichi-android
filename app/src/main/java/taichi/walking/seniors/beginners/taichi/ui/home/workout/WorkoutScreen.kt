@@ -52,6 +52,9 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import taichi.walking.seniors.beginners.taichi.ui.video.WorkoutMediaCache
+import kotlinx.coroutines.launch
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -92,10 +95,20 @@ fun WorkoutScreen(
     onClose: () -> Unit,
     onComplete: () -> Unit,
     musicOnByDefault: Boolean = false,
-    resolveMusicTrackUrl: suspend (WorkoutMusicTrack) -> String? = { null }
+    resolveMusicTrackUrl: suspend (WorkoutMusicTrack) -> String? = { null },
+    analyticsContext: WorkoutAnalyticsContext = WorkoutAnalyticsContext()
 ) {
     val model = remember(dayData.id) { WorkoutViewModel(dayNumber, dayData) }
     val context = LocalContext.current
+    val sessionAnalytics = remember(model) {
+        WorkoutSessionAnalytics(context, model, analyticsContext).also { model.sessionListener = it }
+    }
+    // Every way the workout finishes (last video ends, Next on the last exercise) goes through here.
+    val analyticsScope = rememberCoroutineScope()
+    val finishWorkout: () -> Unit = {
+        sessionAnalytics.onCompleted(exitEarly = false)
+        onComplete()
+    }
     var cuePlayer by remember { mutableStateOf<MediaPlayer?>(null) }
     val musicPlayerRef = remember { mutableStateOf<ExoPlayer?>(null) }
     var showMusicPicker by remember { mutableStateOf(false) }
@@ -113,6 +126,7 @@ fun WorkoutScreen(
             navigationBarStyle = SystemBarStyle.dark(AndroidColor.TRANSPARENT)
         )
         onDispose {
+            sessionAnalytics.onAbandoned(WorkoutSessionAnalytics.REASON_DISAPPEAR)
             model.stop()
             activity?.enableEdgeToEdge(
                 statusBarStyle = SystemBarStyle.light(AndroidColor.TRANSPARENT, AndroidColor.TRANSPARENT),
@@ -124,9 +138,12 @@ fun WorkoutScreen(
     DisposableEffect(lifecycleOwner) {
         val observer = LifecycleEventObserver { _, event ->
             if (event == Lifecycle.Event.ON_STOP) {
+                sessionAnalytics.onBackgrounded()
                 model.pauseForBackground()
                 cuePlayer?.release()
                 cuePlayer = null
+            } else if (event == Lifecycle.Event.ON_START) {
+                sessionAnalytics.onResumed()
             }
         }
         lifecycleOwner.lifecycle.addObserver(observer)
@@ -187,7 +204,7 @@ fun WorkoutScreen(
         )
         model.start(
             onTick = { },
-            onComplete = onComplete
+            onComplete = finishWorkout
         )
     }
 
@@ -229,7 +246,14 @@ fun WorkoutScreen(
                 isStalled = model.isVideoStalled,
                 resetToken = model.videoResetTrigger,
                 onInstructionDurationResolved = model::updateInstructionAudioDuration,
-                onStalledChanged = model::onVideoStalledChanged
+                onStalledChanged = model::onVideoStalledChanged,
+                onPlaybackStarted = sessionAnalytics::onPlaybackStarted,
+                onVideoLoadFailed = { error ->
+                    analyticsScope.launch {
+                        val cached = WorkoutMediaCache.isDayReady(context, listOf(currentVideo))
+                        sessionAnalytics.onVideoLoadFailed(error, cached)
+                    }
+                }
             )
         }
 
@@ -352,8 +376,10 @@ fun WorkoutScreen(
                 CircleIcon(icon = Icons.Default.Close) {
                     if (model.shouldCompleteOnExit) {
                         model.completeEarly()
+                        sessionAnalytics.onCompleted(exitEarly = true)
                         onComplete()
                     } else {
+                        sessionAnalytics.onAbandoned(WorkoutSessionAnalytics.REASON_CLOSE_BUTTON)
                         onClose()
                     }
                 }
@@ -449,7 +475,7 @@ fun WorkoutScreen(
             if (model.isShowingPreview) {
                 Spacer(modifier = Modifier.weight(1f))
                 PreviewOverlay(
-                    onStart = { model.finishPreview(onTick = { }, onComplete = onComplete) }
+                    onStart = { model.finishPreview(onTick = { }, onComplete = finishWorkout, countdownSkipped = true) }
                 )
             } else {
                 Spacer(modifier = Modifier.weight(1f))
@@ -460,7 +486,7 @@ fun WorkoutScreen(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     CircleIcon(icon = Icons.Default.FastRewind) {
-                        model.previousOrRestart(onTick = { }, onComplete = onComplete)
+                        model.previousOrRestart(onTick = { }, onComplete = finishWorkout)
                     }
                     CircleIcon(
                         icon = if (model.isPaused) Icons.Default.PlayArrow else Icons.Default.Pause,
@@ -469,8 +495,8 @@ fun WorkoutScreen(
                         model.togglePause()
                     }
                     CircleIcon(icon = Icons.Default.FastForward) {
-                        val done = model.nextExercise(onTick = { }, onComplete = onComplete)
-                        if (done) onComplete()
+                        val done = model.onNextTapped(onTick = { }, onComplete = finishWorkout)
+                        if (done) finishWorkout()
                     }
                 }
 
@@ -577,7 +603,9 @@ private fun WorkoutVideoPlayer(
     isStalled: Boolean,
     resetToken: Int,
     onInstructionDurationResolved: (Int?) -> Unit,
-    onStalledChanged: (Boolean) -> Unit
+    onStalledChanged: (Boolean) -> Unit,
+    onPlaybackStarted: () -> Unit = {},
+    onVideoLoadFailed: (String) -> Unit = {}
 ) {
     val playerState = rememberUpdatedState(isPlaying)
     val mutedState = rememberUpdatedState(isMuted)
@@ -640,12 +668,16 @@ private fun WorkoutVideoPlayer(
         val listener = object : Listener {
             override fun onIsPlayingChanged(playing: Boolean) {
                 isRenderingVideo = playing
-                if (playing) hasPlaybackError = false
+                if (playing) {
+                    hasPlaybackError = false
+                    onPlaybackStarted()
+                }
             }
 
             override fun onPlayerError(error: PlaybackException) {
                 hasPlaybackError = true
                 isRenderingVideo = false
+                onVideoLoadFailed("${error.errorCodeName}: ${error.message.orEmpty()}")
             }
 
             override fun onVideoSizeChanged(videoSize: VideoSize) {

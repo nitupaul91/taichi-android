@@ -88,6 +88,9 @@ class WorkoutViewModel(
     var activeMusicTrack by mutableStateOf<WorkoutMusicTrack?>(null)
         private set
 
+    /** Analytics hooks (WorkoutSessionAnalytics); nothing here depends on them. */
+    var sessionListener: WorkoutSessionListener? = null
+
     /** True once the first preview has ended, i.e. the user actually began exercising. */
     private var hasStartedExercises = false
 
@@ -146,10 +149,12 @@ class WorkoutViewModel(
                 delay(1000)
                 if (isClockBlocked) continue
                 exerciseElapsedSeconds += 1
+                sessionListener?.onWatchSecond()
                 triggerExerciseCueIfNeeded()
                 onTick()
                 val duration = currentExercise?.duration ?: 0
                 if (duration > 0 && exerciseElapsedSeconds >= duration) {
+                    sessionListener?.onExerciseCompleted(WorkoutSessionAnalytics.ENDED_BY_AUTO)
                     val done = nextExercise(onTick = onTick, onComplete = onComplete)
                     if (done) {
                         isWorkoutComplete = true
@@ -198,7 +203,8 @@ class WorkoutViewModel(
         }
     }
 
-    fun finishPreview(onTick: () -> Unit, onComplete: () -> Unit) {
+    /** [countdownSkipped]: the user tapped Start instead of letting the countdown run out. */
+    fun finishPreview(onTick: () -> Unit, onComplete: () -> Unit, countdownSkipped: Boolean = false) {
         previewJob?.cancel()
         cancelAudioCues()
         hasStartedExercises = true
@@ -208,6 +214,7 @@ class WorkoutViewModel(
         isPaused = false
         isVideoPlaying = true
         videoResetTrigger += 1
+        sessionListener?.onExerciseStarted(countdownSkipped)
         startExerciseTimer(onTick = onTick, onComplete = onComplete)
     }
 
@@ -236,11 +243,19 @@ class WorkoutViewModel(
     fun togglePause() {
         isPaused = !isPaused
         isVideoPlaying = !isPaused
+        if (isPaused) sessionListener?.onUserPaused()
     }
 
     fun toggleVideoPlayback() {
         isVideoPlaying = !isVideoPlaying
         isPaused = !isVideoPlaying
+        if (isPaused) sessionListener?.onUserPaused()
+    }
+
+    /** The Next button: during an exercise (not its countdown) that ends the exercise early. */
+    fun onNextTapped(onTick: () -> Unit, onComplete: () -> Unit): Boolean {
+        if (!isShowingPreview) sessionListener?.onExerciseCompleted(WorkoutSessionAnalytics.ENDED_BY_NEXT_TAP)
+        return nextExercise(onTick = onTick, onComplete = onComplete)
     }
 
     /**

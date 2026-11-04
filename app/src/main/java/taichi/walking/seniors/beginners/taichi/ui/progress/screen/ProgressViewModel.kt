@@ -18,6 +18,8 @@ import java.time.format.TextStyle
 import java.time.temporal.WeekFields
 import java.util.Locale
 import javax.inject.Inject
+import androidx.core.os.bundleOf
+import com.mobteq.analytics.logAppEvent
 
 @HiltViewModel
 class ProgressViewModel @Inject constructor(
@@ -61,8 +63,29 @@ class ProgressViewModel @Inject constructor(
                         currentTitle = PracticeTitleService.getTitle(snapshot.totalDaysPracticed)
                     )
                 }
+                trackProgressViewOnce(_state.value)
             }
         }
+    }
+
+    /** iOS progress_view: the first time the Progress tab shows in this process. */
+    private fun trackProgressViewOnce(state: UiState) {
+        if (hasTrackedProgressView) return
+        hasTrackedProgressView = true
+        logAppEvent(
+            "progress_view",
+            bundleOf(
+                "days_practiced" to state.totalDaysPracticed,
+                "current_streak" to state.currentStreak,
+                "total_minutes" to state.totalMinutesPracticed,
+                "has_title" to (state.currentTitle != null)
+            )
+        )
+    }
+
+    private companion object {
+        /** Process-wide, like iOS: re-creating the tab does not log it again. */
+        var hasTrackedProgressView = false
     }
 
     private fun buildWeeklyProgress(summaries: List<PracticeDaySummary>): List<DayProgress> {

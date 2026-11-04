@@ -9,6 +9,7 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ProcessLifecycleOwner
 import com.mobteq.analytics.AnalyticsMirror
 import taichi.walking.seniors.beginners.taichi.analytics.AppEventUploader
+import taichi.walking.seniors.beginners.taichi.analytics.AppOpenAnalytics
 import androidx.hilt.work.HiltWorkerFactory
 import androidx.work.Configuration
 import com.mobteq.analytics.FacebookAnalyticsTracker
@@ -81,9 +82,17 @@ class StradaApp : Application(), Configuration.Provider {
         // AppEventUploader). Registered before anything logs, so no early event is missed.
         AnalyticsMirror.sink = appEventUploader::enqueue
         appEventUploader.startSession()
+        val appOpenAnalytics = AppOpenAnalytics(this)
         ProcessLifecycleOwner.get().lifecycle.addObserver(object : DefaultLifecycleObserver {
-            override fun onStart(owner: LifecycleOwner) = appEventUploader.resumeSession()
-            override fun onStop(owner: LifecycleOwner) = appEventUploader.enterBackground()
+            override fun onStart(owner: LifecycleOwner) {
+                appEventUploader.resumeSession()
+                appOpenAnalytics.onForeground()
+            }
+
+            override fun onStop(owner: LifecycleOwner) {
+                appOpenAnalytics.onBackground()
+                appEventUploader.enterBackground()
+            }
         })
 
         // Warm up BillingClient and product cache as early as possible.
