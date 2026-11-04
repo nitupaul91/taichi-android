@@ -13,10 +13,16 @@ import androidx.media3.datasource.cache.SimpleCache
 import androidx.media3.database.StandaloneDatabaseProvider
 import androidx.media3.datasource.DataSpec
 import androidx.core.net.toUri
+import androidx.media3.datasource.DataSourceInputStream
+import androidx.media3.datasource.HttpDataSource
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.withContext
+import taichi.walking.seniors.beginners.taichi.ui.home.model.ExerciseDto
 import timber.log.Timber
 import java.io.File
+import java.util.concurrent.ConcurrentHashMap
+import kotlin.coroutines.coroutineContext
 
 /**
  * On-disk cache for workout videos, giving both offline playback and the "download this workout"
@@ -107,4 +113,117 @@ object WorkoutMediaCache {
             onProgress(index + 1, urls.size)
         }
     }
+
+    // --- Whole-day download for the workout preparation screen (iOS WorkoutMediaCacheService) ---
+
+    /** Result of [downloadAll]. A file the CDN does not have (403/404) is skipped, not failed. */
+    data class DownloadOutcome(val completed: Int, val failed: Int, val skipped: Int, val total: Int) {
+        val succeeded: Boolean get() = failed == 0
+    }
+
+    /**
+     * URLs the CDN answered 403/404 for in this process. A missing spoken track must not block the
+     * workout (iOS b9d27f5): the session plays without that narration.
+     */
+    private val missingUrls: MutableSet<String> = ConcurrentHashMap.newKeySet()
+
+    /** Video, spoken name and spoken steps of each exercise, in playback order, without repeats. */
+    fun mediaUrls(exercises: List<ExerciseDto>): List<String> =
+        exercises.flatMap { listOf(it.videoUrl, it.nameSpeechUrl, it.stepsSpeechUrl) }
+            .filter { it.isNotBlank() }
+            .distinct()
+
+    /** Every file of the day is on disk (or known missing), so the preparation step can be skipped. */
+    suspend fun isDayReady(context: Context, urls: List<String>): Boolean = withContext(Dispatchers.IO) {
+        urls.isNotEmpty() && urls.all { url ->
+            url in missingUrls || runCatching { partsOf(context, url, offlineOnly = true) }
+                .getOrNull()
+                ?.all { isFullyCached(context, it) } == true
+        }
+    }
+
+    /**
+     * Downloads every file of [urls] into the cache. HLS playlists are expanded into their init and
+     * media segments: caching only the .m3u8 (what [prefetch] does) leaves nothing playable offline.
+     * [onProgress] gets a 0..1 fraction weighted like iOS: a video counts 10, a speech file 1.
+     */
+    suspend fun downloadAll(
+        context: Context,
+        urls: List<String>,
+        onProgress: (Float) -> Unit
+    ): DownloadOutcome = withContext(Dispatchers.IO) {
+        val factory = dataSourceFactory(context)
+        val totalWeight = urls.sumOf { weightOf(it) }.coerceAtLeast(1.0)
+        var doneWeight = 0.0
+        var completed = 0
+        var failed = 0
+        var skipped = 0
+        for (url in urls) {
+            coroutineContext.ensureActive()
+            val weight = weightOf(url)
+            if (url in missingUrls) {
+                skipped++
+            } else {
+                try {
+                    val parts = partsOf(context, url, offlineOnly = false)
+                    parts.forEachIndexed { index, part ->
+                        coroutineContext.ensureActive()
+                        // Progress within this file: earlier parts (playlist, init) are tiny, so
+                        // the last part (the media segment) carries the file's whole weight.
+                        val isLast = index == parts.lastIndex
+                        CacheWriter(factory.createDataSource(), DataSpec(part.toUri()), null) { length, cached, _ ->
+                            if (isLast && length > 0) {
+                                onProgress(((doneWeight + weight * cached / length) / totalWeight).toFloat())
+                            }
+                        }.cache()
+                    }
+                    completed++
+                } catch (throwable: Throwable) {
+                    coroutineContext.ensureActive() // leaving the screen is not a failed file
+                    if (throwable.isMissingOnCdn()) {
+                        missingUrls += url
+                        skipped++
+                    } else {
+                        Timber.w(throwable, "Workout media download failed for %s", url)
+                        failed++
+                    }
+                }
+            }
+            doneWeight += weight
+            onProgress((doneWeight / totalWeight).toFloat())
+        }
+        DownloadOutcome(completed = completed, failed = failed, skipped = skipped, total = urls.size)
+    }
+
+    /** [url] itself, plus the init and media segments it references when it is an HLS playlist. */
+    private fun partsOf(context: Context, url: String, offlineOnly: Boolean): List<String> {
+        if (!isHls(url)) return listOf(url)
+        val factory = dataSourceFactory(context)
+        if (offlineOnly) {
+            if (!isFullyCached(context, url)) return listOf(url)
+        } else {
+            CacheWriter(factory.createDataSource(), DataSpec(url.toUri()), null, null).cache()
+        }
+        val playlist = DataSourceInputStream(factory.createDataSource(), DataSpec(url.toUri()))
+            .use { it.readBytes().decodeToString() }
+        val base = url.substringBefore('?').substringBeforeLast('/') + "/"
+        val referenced = playlist.lineSequence().mapNotNull { raw ->
+            val line = raw.trim()
+            when {
+                line.startsWith("#EXT-X-MAP:") -> line.substringAfter("URI=\"", "").substringBefore('"')
+                line.isEmpty() || line.startsWith("#") -> null
+                else -> line
+            }?.takeIf { it.isNotEmpty() }
+        }.map { if (it.contains("://")) it else base + it }.distinct().toList()
+        return listOf(url) + referenced
+    }
+
+    private fun isHls(url: String) = url.substringBefore('?').endsWith(".m3u8", ignoreCase = true)
+
+    private fun weightOf(url: String): Double = if (isHls(url) || url.substringBefore('?').endsWith(".mp4")) 10.0 else 1.0
+
+    private fun Throwable.isMissingOnCdn(): Boolean =
+        generateSequence(this) { it.cause }
+            .filterIsInstance<HttpDataSource.InvalidResponseCodeException>()
+            .any { it.responseCode == 403 || it.responseCode == 404 }
 }

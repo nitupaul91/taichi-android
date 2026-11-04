@@ -60,6 +60,11 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import taichi.walking.seniors.beginners.R
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.platform.LocalContext
+import kotlinx.coroutines.launch
+import taichi.walking.seniors.beginners.taichi.ui.home.workout.WorkoutPreparationScreen
+import taichi.walking.seniors.beginners.taichi.ui.video.WorkoutMediaCache
 import coil.compose.AsyncImage
 import taichi.walking.seniors.beginners.taichi.ui.home.model.WorkoutDayDto
 import taichi.walking.seniors.beginners.taichi.ui.home.workout.WorkoutCompletionScreen
@@ -125,6 +130,9 @@ private fun PracticeJourneyHomeScreen(
     val state by viewModel.state.collectAsState()
     var previewDay by remember { mutableStateOf<WorkoutDayDto?>(null) }
     var workoutDay by remember { mutableStateOf<WorkoutDayDto?>(null) }
+    var preparingDay by remember { mutableStateOf<WorkoutDayDto?>(null) }
+    val beginScope = rememberCoroutineScope()
+    val context = LocalContext.current
     var completedDay by remember { mutableStateOf<WorkoutDayDto?>(null) }
     var showPaywall by remember { mutableStateOf(false) }
 
@@ -132,8 +140,9 @@ private fun PracticeJourneyHomeScreen(
         if (state.workoutPlan == null) viewModel.fetchWorkoutPlan()
     }
 
-    LaunchedEffect(previewDay, workoutDay, completedDay, showPaywall) {
+    LaunchedEffect(previewDay, preparingDay, workoutDay, completedDay, showPaywall) {
         val showBottomBar = previewDay == null &&
+            preparingDay == null &&
             workoutDay == null &&
             completedDay == null &&
             !showPaywall
@@ -226,8 +235,23 @@ private fun PracticeJourneyHomeScreen(
             currentDay = state.currentDay,
             isPremium = state.isPremium,
             onClose = { previewDay = null },
-            onBegin = { previewDay = null; workoutDay = day },
+            onBegin = {
+                previewDay = null
+                beginScope.launch {
+                    // A day already on disk skips the preparation screen instead of flashing it.
+                    val ready = WorkoutMediaCache.isDayReady(context, WorkoutMediaCache.mediaUrls(day.exercises))
+                    if (ready) workoutDay = day else preparingDay = day
+                }
+            },
             onOpenPaywall = { showPaywall = true }
+        )
+    }
+    preparingDay?.let { day ->
+        WorkoutPreparationScreen(
+            dayNumber = day.day,
+            dayData = day,
+            onReady = { preparingDay = null; workoutDay = day },
+            onClose = { preparingDay = null; previewDay = day }
         )
     }
     workoutDay?.let { day ->

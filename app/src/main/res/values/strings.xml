@@ -319,8 +319,14 @@
     <string name="music_off">Off</string>
     <string name="music_shuffle">Shuffle</string>
     <string name="music_title">Background music</string>
-    <string name="workout_download_offline">Download for offline use</string>
-    <string name="workout_downloading">Downloading %1$d of %2$d…</string>
     <string name="workout_item_count">%1$d Items</string>
-    <string name="workout_ready_offline">Ready for offline</string>
+
+    <!-- Workout preparation (iOS WorkoutPreparationView) -->
+    <string name="workout_preparation_day">Day %1$d</string>
+    <string name="workout_preparation_title">Preparing your workout</string>
+    <string name="workout_preparation_subtitle">Downloading today\'s videos so your practice plays smoothly.</string>
+    <string name="workout_preparation_slow_hint">This is taking a little longer than usual. A stronger Wi-Fi connection will help it go faster.</string>
+    <string name="workout_preparation_failed">The workout couldn\'t be downloaded. Check your connection and try again.</string>
+    <string name="workout_preparation_try_again">Try Again</string>
+    <string name="workout_preparation_go_back">Go Back</string>
 </resources>
