@@ -15,7 +15,10 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -26,23 +29,35 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.core.app.ActivityCompat
+import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
+import taichi.walking.seniors.beginners.util.findActivity
 import taichi.walking.seniors.beginners.R
 import taichi.walking.seniors.beginners.taichi.onboarding.nav.OnboardingRoutes
 import taichi.walking.seniors.beginners.taichi.onboarding.state.OnboardingState
 import taichi.walking.seniors.beginners.taichi.onboarding.ui.components.QuestionScaffold
 import taichi.walking.seniors.beginners.taichi.onboarding.ui.util.progressFor
 
+/**
+ * @param onPermissionResult analytics (iOS `notification_permission_result`): whether the system
+ *   prompt was shown, whether notifications are allowed afterwards, and the status before, in iOS's
+ *   vocabulary ("authorized", "denied", "notDetermined").
+ */
 @Composable
 fun NotificationPermissionScreen(
     state: OnboardingState,
     onBack: () -> Unit,
+    onPermissionResult: (promptShown: Boolean, authorized: Boolean, previousStatus: String) -> Unit = { _, _, _ -> },
     onContinue: () -> Unit
 ) {
     val context = LocalContext.current
+    val activity = remember(context) { context.findActivity() }
+    var previousStatus by remember { mutableStateOf("notDetermined") }
     val launcher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.RequestPermission()
-    ) {
+    ) { granted ->
+        onPermissionResult(true, granted, previousStatus)
         onContinue()
     }
 
@@ -55,6 +70,9 @@ fun NotificationPermissionScreen(
     val requestNotifications = remember(context, launcher) {
         {
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
+                // No runtime permission below Android 13: notifications are on unless switched off.
+                val enabled = NotificationManagerCompat.from(context).areNotificationsEnabled()
+                onPermissionResult(false, enabled, if (enabled) "authorized" else "denied")
                 onContinue()
             } else {
                 val granted = ContextCompat.checkSelfPermission(
@@ -62,8 +80,13 @@ fun NotificationPermissionScreen(
                     Manifest.permission.POST_NOTIFICATIONS
                 ) == PackageManager.PERMISSION_GRANTED
                 if (granted) {
+                    onPermissionResult(false, true, "authorized")
                     onContinue()
                 } else {
+                    // A rationale is offered only after an earlier refusal.
+                    val deniedBefore = activity != null &&
+                        ActivityCompat.shouldShowRequestPermissionRationale(activity, Manifest.permission.POST_NOTIFICATIONS)
+                    previousStatus = if (deniedBefore) "denied" else "notDetermined"
                     launcher.launch(Manifest.permission.POST_NOTIFICATIONS)
                 }
             }

@@ -16,6 +16,7 @@ import androidx.navigation.compose.rememberNavController
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import taichi.walking.seniors.beginners.taichi.onboarding.analytics.OnboardingAnalyticsTracker
+import taichi.walking.seniors.beginners.taichi.onboarding.analytics.OnboardingAnswerSummary
 import taichi.walking.seniors.beginners.taichi.onboarding.state.OnboardingState
 import taichi.walking.seniors.beginners.taichi.onboarding.ui.util.LocalOnboardingChrome
 import taichi.walking.seniors.beginners.taichi.onboarding.viewmodel.OnboardingViewModel
@@ -76,15 +77,25 @@ fun OnboardingNavGraph(
         shapeUpEventId = state.shapeUpEventId
     )
 
+    // Who started the next backward move: the on-screen arrow, or (when unset) the system back.
+    val backSource = remember { BackSource() }
+
     // Track screen views and upload the profile snapshot on every step, as iOS does from
     // onChange(of: currentStep).
     val currentBackStackEntry by navController.currentBackStackEntryAsState()
     LaunchedEffect(currentBackStackEntry) {
         val route = OnboardingRoutes.fromRoute(currentBackStackEntry?.destination?.route) ?: return@LaunchedEffect
-        analyticsTracker.trackScreenView(
-            screenIndex = viewModel.navigationSteps().indexOf(route).coerceAtLeast(0),
-            stepName = route.analyticsStepName
-        )
+        val steps = viewModel.navigationSteps()
+        val ordered = viewModel.orderedSteps()
+        val previous = analyticsTracker.lastTrackedStep
+        val isBackward = previous != null && previous != route && ordered.indexOf(route) < ordered.indexOf(previous)
+        if (isBackward && previous != null) {
+            analyticsTracker.trackBackTap(from = previous, to = route, navigationSteps = steps, source = backSource.take())
+        }
+        analyticsTracker.trackScreenView(route, steps, direction = if (isBackward) "backward" else "forward")
+        if (route == OnboardingRoutes.Paywall) {
+            analyticsTracker.trackOnboardingCompleted(practiceKind = viewModel.analyticsPracticeKind())
+        }
         viewModel.persistSnapshot(completedStep = route.analyticsStepName)
     }
 
@@ -93,10 +104,25 @@ fun OnboardingNavGraph(
     val goForward: (OnboardingRoutes) -> Unit = { from ->
         if (navController.currentDestination?.route == from.route) {
             if (from == OnboardingRoutes.Welcome) viewModel.decideStepOrder()
-            viewModel.stepAfter(from)?.let { next -> navController.navigate(next.route) }
+            viewModel.stepAfter(from)?.let { next ->
+                OnboardingAnswerSummary.of(from, viewModel.state.value)?.let { summary ->
+                    analyticsTracker.trackAnswerSubmitted(
+                        step = from,
+                        navigationSteps = viewModel.navigationSteps(),
+                        summary = summary,
+                        autoContinued = viewModel.isAutoContinued(from),
+                        practiceKind = viewModel.analyticsPracticeKind(),
+                        answerPosition = if (from == OnboardingRoutes.HeardAboutUs) viewModel.discoverySourcePosition() else null
+                    )
+                }
+                navController.navigate(next.route)
+            }
         }
     }
-    val goBack: () -> Unit = { navController.popBackStack() }
+    val goBack: () -> Unit = {
+        backSource.button()
+        navController.popBackStack()
+    }
 
     CompositionLocalProvider(LocalOnboardingChrome provides viewModel.chrome(navigationSteps)) {
         OnboardingNavHost(
@@ -110,6 +136,17 @@ fun OnboardingNavGraph(
             goBack = goBack
         )
     }
+}
+
+/** Remembers that the on-screen back arrow started a pop; any other pop is the system back. */
+private class BackSource {
+    private var fromButton = false
+
+    fun button() {
+        fromButton = true
+    }
+
+    fun take(): String = (if (fromButton) "button" else "system").also { fromButton = false }
 }
 
 @Composable
@@ -384,6 +421,14 @@ private fun OnboardingNavHost(
             NotificationPermissionScreen(
                 state = state,
                 onBack = goBack,
+                onPermissionResult = { promptShown, authorized, previousStatus ->
+                    analyticsTracker.trackNotificationPermissionResult(
+                        action = "continue",
+                        promptShown = promptShown,
+                        authorized = authorized,
+                        previousStatus = previousStatus
+                    )
+                },
                 onContinue = { goForward(OnboardingRoutes.NotificationPermission) }
             )
         }
@@ -401,7 +446,13 @@ private fun OnboardingNavHost(
         }
         composable(OnboardingRoutes.Loading.route) {
             LoadingScreen(
-                onContinue = { goForward(OnboardingRoutes.Loading) }
+                onContinue = {
+                    // iOS reports the CTA it was left by; Android's plan screen moves on by itself.
+                    if (navController.currentDestination?.route == OnboardingRoutes.Loading.route) {
+                        analyticsTracker.trackPlanLoadingDone(cta = "auto_continue")
+                    }
+                    goForward(OnboardingRoutes.Loading)
+                }
             )
         }
         composable(OnboardingRoutes.Paywall.route) {

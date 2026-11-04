@@ -11,6 +11,7 @@ import taichi.walking.seniors.beginners.taichi.onboarding.state.OnboardingAction
 import taichi.walking.seniors.beginners.taichi.onboarding.state.OnboardingState
 import taichi.walking.seniors.beginners.taichi.onboarding.ui.util.OnboardingChrome
 import taichi.walking.seniors.beginners.taichi.program.ProgramPreference
+import taichi.walking.seniors.beginners.taichi.ui.progress.data.PracticeKind
 import taichi.walking.seniors.beginners.util.AiAssistantRemoteConfig
 import com.sageai.id.IDService
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -56,6 +57,20 @@ class OnboardingViewModel @Inject constructor(
         selectedSource = _state.value.discoverySourceId,
         orderSeed = _discoveryOrderSeed.value
     )
+
+    /**
+     * iOS `analyticsPracticeKind` ("tai_chi", "walking", "chair"): the program the user came for,
+     * walking only while the walking experiment is on.
+     */
+    fun analyticsPracticeKind(): String = when {
+        programPreference.isChairKeyword -> PracticeKind.CHAIR
+        programPreference.isWalkingKeyword && remoteConfig.onboardingWalkingExperimentEnabled() -> PracticeKind.WALKING
+        else -> PracticeKind.TAI_CHI
+    }.storageValue
+
+    /** iOS reports a single-choice answer as auto-continued whenever the flag hides its button. */
+    fun isAutoContinued(step: OnboardingRoutes): Boolean =
+        step in OnboardingSteps.autoContinueSteps && remoteConfig.onboardingHideContinueOnSingleChoiceEnabled()
 
     /** 1-based row the chosen source sat on; measures position bias in the answer event. */
     fun discoverySourcePosition(): Int? =

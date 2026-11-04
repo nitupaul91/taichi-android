@@ -86,6 +86,18 @@ object OnboardingSteps {
         steps
     }
 
+    /**
+     * iOS `autoContinueSteps`: the single-choice questions that move on by themselves when
+     * `onboarding_hide_continue_on_single_choice_enabled` hides their Continue button.
+     */
+    val autoContinueSteps: Set<OnboardingRoutes> by lazy {
+        setOf(
+            ProgramSelection, HeardAboutUs, Gender, Familiarity, CurrentBodyType, TargetBodyType,
+            ActivityLevel, WalkDaily, StairsFeeling, SquatAbility, RotateHead, ArmsForward,
+            TaiChiLevel, BetweenMeals, SleepAmount, WaterIntake, ShapeUpEvent, Motivation
+        )
+    }
+
     /** Skipped together by `onboarding_skip_lifestyle_questions_enabled`. */
     val lifestyleSteps: Set<OnboardingRoutes> by lazy { setOf(BetweenMeals, SleepAmount, WaterIntake, DietType) }
 
