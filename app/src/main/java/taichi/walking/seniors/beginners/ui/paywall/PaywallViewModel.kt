@@ -70,9 +70,9 @@ class PaywallViewModel @Inject constructor(
     val userId: StateFlow<String?> = _userId
 
     /**
-     * The product last sent to Play from this paywall. Only this ViewModel's own purchase starts a
-     * trial here: the purchase status is shared by every paywall instance, and a restore is not a
-     * trial start.
+     * The product of the purchase sheet this paywall opened, until Play reports back. Only this
+     * ViewModel's own purchase starts a trial here: the purchase status is shared by every paywall
+     * instance, and a restore is not a trial start.
      */
     @Volatile
     private var purchaseAttemptProduct: Product? = null
@@ -102,7 +102,9 @@ class PaywallViewModel @Inject constructor(
                             _isRestoring.value = false
                             _errorMessage.value = null
 
-                            onPurchaseAcknowledged(it.productId)
+                            onPurchaseAcknowledged(it.productId)?.let { details ->
+                                events.emit(PaywallEvents.TrialPurchased(details))
+                            }
                             events.emit(PaywallEvents.PurchaseIsAcknowledged)
 
 //                            garageRepository.trainModel()
@@ -111,6 +113,7 @@ class PaywallViewModel @Inject constructor(
                         }
 
                         PurchaseStatus.SubNotValid -> {
+                            purchaseAttemptProduct = null
                             _isPurchaseInProgress.value = false
                             _errorMessage.value = if (_isRestoring.value) {
                                 "No previous purchases found."
@@ -126,10 +129,20 @@ class PaywallViewModel @Inject constructor(
         }
     }
 
-    private fun onPurchaseAcknowledged(productId: String?) {
-        val product = purchaseAttemptProduct?.takeIf { it.productId == productId } ?: return
+    /**
+     * A purchase this paywall launched was acknowledged: schedules the trial reminders and returns
+     * the trial it started, if the product's Play offer is a free trial (iOS
+     * PaywallView.isConfirmedFreeTrial). Play only offers trials the user is eligible for, and the
+     * purchase used that offer's token. The end date is projected from the offer: Play Billing
+     * gives the client no expiry time.
+     */
+    private fun onPurchaseAcknowledged(acknowledgedProductId: String?): TrialTimelineDetails? {
+        val product = purchaseAttemptProduct
+            ?.takeIf { acknowledgedProductId == null || it.productId == acknowledgedProductId }
+            ?: return null
         purchaseAttemptProduct = null
         trialStartReminders.onPurchaseAcknowledged(product)
+        return TrialTimelineDetails.make(product, System.currentTimeMillis())
     }
 
     private fun closeScreen() {
@@ -366,4 +379,7 @@ sealed class PaywallEvents {
     object PurchaseNotValid : PaywallEvents()
     object SelectProduct : PaywallEvents()
     object PurchaseIsAcknowledged : PaywallEvents()
+
+    /** A purchase from this paywall started a free trial; sent just before [PurchaseIsAcknowledged]. */
+    data class TrialPurchased(val details: TrialTimelineDetails) : PaywallEvents()
 }

@@ -5,11 +5,16 @@
     <!-- Free-trial timeline (iOS TrialTimelineView) -->
     <string name="trial_timeline_title_pre_purchase">Your free trial, step by step</string>
     <string name="trial_timeline_subtitle_pre_purchase">Here is exactly what happens if you start your free trial today.</string>
+    <string name="trial_timeline_title_confirmation">Your free trial has started</string>
+    <!-- %1$s is the short date the trial ends, such as "Nov 11". -->
+    <string name="trial_timeline_subtitle_confirmation">Enjoy Premium free until %1$s.</string>
+    <string name="trial_timeline_button_confirmation">Start Session</string>
     <string name="trial_timeline_progress_accessibility">Onboarding progress</string>
     <string name="trial_timeline_plan_ready_title">Your plan is ready</string>
     <string name="trial_timeline_plan_ready_subtitle">Your personalized Tai Chi program is ready to begin.</string>
     <string name="trial_timeline_today_title">Today</string>
     <string name="trial_timeline_today_start">Start your free trial and unlock every Premium session.</string>
+    <string name="trial_timeline_today_active">Your free trial is active. Enjoy every Premium session.</string>
     <!-- %1$s is a short date such as "Nov 6". -->
     <string name="trial_timeline_reminder_title">%1$s — Trial reminder</string>
     <string name="trial_timeline_reminder_authorized">We\'ll remind you when your trial ends.</string>

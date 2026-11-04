@@ -30,6 +30,15 @@ sealed interface OnboardingPaywallPhase {
     ) : OnboardingPaywallPhase
 
     object Paywall : OnboardingPaywallPhase
+
+    /** After a trial purchase (`show_post_purchase_trial_confirmation`): the trial has started. */
+    data class TrialConfirmation(
+        val details: TrialTimelineDetails,
+        val reminderMessaging: TrialReminderMessaging
+    ) : OnboardingPaywallPhase
+
+    /** The step is over; the caller moves on to home. */
+    object Finished : OnboardingPaywallPhase
 }
 
 @HiltViewModel
@@ -44,6 +53,9 @@ class OnboardingPaywallStepViewModel @Inject constructor(
     val phase: StateFlow<OnboardingPaywallPhase> = _phase.asStateFlow()
 
     private var reminderMessaging = TrialReminderMessaging.UNAVAILABLE
+
+    /** Set by a trial purchase; shown once the paywall has finished (iOS pendingTrialConfirmation). */
+    private var pendingTrialConfirmation: TrialTimelineDetails? = null
 
     init {
         viewModelScope.launch { startPaywallStep() }
@@ -85,6 +97,38 @@ class OnboardingPaywallStepViewModel @Inject constructor(
         _phase.value = OnboardingPaywallPhase.Paywall
     }
 
+    fun onTrialPurchased(details: TrialTimelineDetails) {
+        if (!remoteConfig.showPostPurchaseTrialConfirmation()) return
+        pendingTrialConfirmation = details
+    }
+
+    /**
+     * Every way the paywall ends (closed, purchased, restored) comes through here; only a trial
+     * purchase inserts its confirmation before home (iOS continueAfterPaywallDismissal).
+     */
+    fun onPaywallFinished() {
+        if (_phase.value != OnboardingPaywallPhase.Paywall) return
+        val details = pendingTrialConfirmation
+        pendingTrialConfirmation = null
+        if (details == null) {
+            _phase.value = OnboardingPaywallPhase.Finished
+            return
+        }
+        // Resolved again: the timeline may not have been shown, and the permission can have changed.
+        reminderMessaging = TrialReminderMessaging.current(context, remoteConfig.showTrialEndingReminder())
+        _phase.value = OnboardingPaywallPhase.TrialConfirmation(details, reminderMessaging)
+    }
+
+    fun onTrialConfirmationViewed(details: TrialTimelineDetails) {
+        trackTrialEvent(EVENT_TRIAL_CONFIRMATION_VIEWED, details)
+    }
+
+    fun onTrialConfirmationContinued(details: TrialTimelineDetails) {
+        if (_phase.value !is OnboardingPaywallPhase.TrialConfirmation) return
+        trackTrialEvent(EVENT_TRIAL_CONFIRMATION_CONTINUED, details)
+        _phase.value = OnboardingPaywallPhase.Finished
+    }
+
     /** iOS OnboardingRootView.trialAnalyticsParams. */
     private fun trackTrialEvent(name: String, details: TrialTimelineDetails) {
         firebaseAnalytics.logEvent(
@@ -102,5 +146,7 @@ class OnboardingPaywallStepViewModel @Inject constructor(
         const val PRODUCTS_WAIT_MILLIS = 1_500L
         const val EVENT_TRIAL_TIMELINE_VIEWED = "trial_timeline_viewed"
         const val EVENT_TRIAL_TIMELINE_CONTINUED = "trial_timeline_continued"
+        const val EVENT_TRIAL_CONFIRMATION_VIEWED = "trial_confirmation_viewed"
+        const val EVENT_TRIAL_CONFIRMATION_CONTINUED = "trial_confirmation_continued"
     }
 }

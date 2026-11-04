@@ -53,7 +53,10 @@ import taichi.walking.seniors.beginners.taichi.onboarding.ui.components.PrimaryB
 /** Which moment the timeline explains (iOS TrialTimelineMode). */
 enum class TrialTimelineMode {
     /** Before the onboarding paywall: what happens if the user starts the trial today. */
-    PRE_PURCHASE
+    PRE_PURCHASE,
+
+    /** After a trial purchase: the trial has started and when it ends. */
+    POST_PURCHASE_CONFIRMATION
 }
 
 // iOS SeniorDesign colours, so the screen reads the same on both platforms.
@@ -384,21 +387,28 @@ private fun CancellationCard() {
 @Composable
 private fun TrialTimelineMode.title(): String = when (this) {
     TrialTimelineMode.PRE_PURCHASE -> stringResource(R.string.trial_timeline_title_pre_purchase)
+    TrialTimelineMode.POST_PURCHASE_CONFIRMATION -> stringResource(R.string.trial_timeline_title_confirmation)
 }
 
 @Composable
 private fun TrialTimelineMode.subtitle(details: TrialTimelineDetails): String = when (this) {
     TrialTimelineMode.PRE_PURCHASE -> stringResource(R.string.trial_timeline_subtitle_pre_purchase)
+    TrialTimelineMode.POST_PURCHASE_CONFIRMATION -> stringResource(
+        R.string.trial_timeline_subtitle_confirmation,
+        formatShortTrialDate(details.trialEndMillis)
+    )
 }
 
 @Composable
 private fun TrialTimelineMode.todaySubtitle(): String = when (this) {
-    TrialTimelineMode.PRE_PURCHASE -> stringResource(R.string.trial_timeline_today_start)
+    TrialTimelineMode.POST_PURCHASE_CONFIRMATION -> stringResource(R.string.trial_timeline_today_active)
+    else -> stringResource(R.string.trial_timeline_today_start)
 }
 
 @Composable
 private fun TrialTimelineMode.primaryButtonTitle(): String = when (this) {
     TrialTimelineMode.PRE_PURCHASE -> stringResource(R.string.continue_button)
+    TrialTimelineMode.POST_PURCHASE_CONFIRMATION -> stringResource(R.string.trial_timeline_button_confirmation)
 }
 
 @Composable

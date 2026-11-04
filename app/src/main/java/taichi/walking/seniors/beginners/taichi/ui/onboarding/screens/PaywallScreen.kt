@@ -49,6 +49,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -79,6 +80,7 @@ import taichi.walking.seniors.beginners.ui.paywall.PaywallEvents
 import taichi.walking.seniors.beginners.ui.paywall.RemotePaywallVariant
 import taichi.walking.seniors.beginners.ui.paywall.RemotePaywallWebView
 import taichi.walking.seniors.beginners.ui.paywall.PaywallViewModel
+import taichi.walking.seniors.beginners.ui.paywall.TrialTimelineDetails
 import taichi.walking.seniors.beginners.ui.paywall.UIProduct
 import java.util.Locale
 
@@ -91,6 +93,8 @@ fun PaywallScreen(
     onClose: () -> Unit,
     onComplete: () -> Unit,
     paywallVariant: RemotePaywallVariant = RemotePaywallVariant.PRIMARY,
+    /** Called before [onComplete] when a purchase here started a free trial (iOS onTrialPurchased). */
+    onTrialPurchased: ((TrialTimelineDetails) -> Unit)? = null,
     viewModel: PaywallViewModel = hiltViewModel()
 ) {
     val context = LocalContext.current
@@ -120,6 +124,7 @@ fun PaywallScreen(
     }
 
     var purchaseDialogState by remember { mutableStateOf(PurchaseDialogState.Hidden) }
+    val currentOnTrialPurchased by rememberUpdatedState(onTrialPurchased)
 
     val genderId = onboardingState?.genderId
     val useRemotePaywall = cachedRemotePaywall != null
@@ -161,6 +166,7 @@ fun PaywallScreen(
                         purchaseDialogState = PurchaseDialogState.Failed
                     }
                 }
+                is PaywallEvents.TrialPurchased -> currentOnTrialPurchased?.invoke(event.details)
                 PaywallEvents.CloseScreen -> onComplete()
                 else -> Unit
             }
