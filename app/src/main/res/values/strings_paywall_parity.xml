@@ -30,7 +30,8 @@
     <string name="trial_timeline_end_title">%1$s — Trial ends</string>
     <string name="trial_timeline_end_subtitle">Your subscription renews unless you cancel.</string>
     <string name="trial_timeline_cancel_question">How do I cancel my subscription?</string>
-    <string name="trial_timeline_cancel_answer">Open Settings in the app and tap Cancel Subscription. We\'ll take you straight to your Google Play subscription page.</string>
+    <!-- Settings only has a Cancel Subscription row while show_settings_cancel_subscription_flow is on, so the answer points at Google Play, which always works. -->
+    <string name="trial_timeline_cancel_answer">In the Google Play Store, tap your profile picture, then Payments &amp; subscriptions, then Subscriptions. It only takes a few taps.</string>
     <string name="trial_timeline_not_now">Not now</string>
     <!-- Native fallback paywall (iOS PaywallView, matching the HTML paywall) -->
     <!-- %1$s is the app's Google Play rating, such as "4.9". -->
