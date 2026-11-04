@@ -6,6 +6,7 @@ import taichi.walking.seniors.beginners.taichi.onboarding.data.OnboardingReposit
 import taichi.walking.seniors.beginners.taichi.onboarding.data.OnboardingRepositoryImpl
 import android.content.Context
 import com.sageai.notifications.worker.ConfigUploadWorkScheduler
+import taichi.walking.seniors.beginners.taichi.music.WorkoutMusicService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -27,7 +28,13 @@ object OnboardingModule {
     fun provideOnboardingRepository(
         prefs: OnboardingPrefs,
         configUploadWorkScheduler: ConfigUploadWorkScheduler,
-        onboardingProfileSyncService: OnboardingProfileSyncService
+        onboardingProfileSyncService: OnboardingProfileSyncService,
+        workoutMusicService: WorkoutMusicService
     ): OnboardingRepository =
-        OnboardingRepositoryImpl(prefs, configUploadWorkScheduler, onboardingProfileSyncService)
+        OnboardingRepositoryImpl(
+            prefs,
+            configUploadWorkScheduler,
+            onboardingProfileSyncService,
+            workoutMusicService
+        )
 }

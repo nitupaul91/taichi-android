@@ -1,25 +1,25 @@
 package taichi.walking.seniors.beginners.taichi.ui.home.workout
 
-import androidx.annotation.RawRes
 import androidx.annotation.StringRes
 import taichi.walking.seniors.beginners.R
 
 /**
- * Background music for a workout session, mirroring iOS's `WorkoutMusicTrack`. The raw resource
- * names match the iOS bundle names so the two platforms stay comparable when a track is added,
- * removed or re-cut.
+ * Background music for a workout session, mirroring iOS's `WorkoutMusicTrack`. The [id]s are the
+ * wire contract with the backend's `GET music/tracks` catalog (and match the iOS bundle names):
+ * the tracks are no longer bundled in the APK — they live on the CDN and are prefetched during
+ * onboarding by `WorkoutMusicService`.
  */
 enum class WorkoutMusicTrack(
-    @RawRes val resId: Int,
+    val id: String,
     @StringRes val titleRes: Int
 ) {
-    MORNING_MIST_ON_STONE(R.raw.morning_mist_on_stone, R.string.music_morning_mist_on_stone),
-    STRIKE_OF_THE_BAMBOO_BLADE(R.raw.strike_of_the_bamboo_blade, R.string.music_strike_of_the_bamboo_blade),
-    IRON_BAMBOO(R.raw.iron_bamboo, R.string.music_iron_bamboo),
-    SWORD_THROUGH_MORNING_MIST(R.raw.sword_through_morning_mist, R.string.music_sword_through_morning_mist),
-    ECHOES_OF_THE_JADE_COURTYARD(R.raw.echoes_of_the_jade_courtyard, R.string.music_echoes_of_the_jade_courtyard),
-    LANTERNS_OVER_QUIET_WATER(R.raw.lanterns_over_quiet_water, R.string.music_lanterns_over_quiet_water),
-    STILLNESS_BENEATH_THE_PINES(R.raw.stillness_beneath_the_pines, R.string.music_stillness_beneath_the_pines)
+    MORNING_MIST_ON_STONE("morning_mist_on_stone", R.string.music_morning_mist_on_stone),
+    STRIKE_OF_THE_BAMBOO_BLADE("strike_of_the_bamboo_blade", R.string.music_strike_of_the_bamboo_blade),
+    IRON_BAMBOO("iron_bamboo", R.string.music_iron_bamboo),
+    SWORD_THROUGH_MORNING_MIST("sword_through_morning_mist", R.string.music_sword_through_morning_mist),
+    ECHOES_OF_THE_JADE_COURTYARD("echoes_of_the_jade_courtyard", R.string.music_echoes_of_the_jade_courtyard),
+    LANTERNS_OVER_QUIET_WATER("lanterns_over_quiet_water", R.string.music_lanterns_over_quiet_water),
+    STILLNESS_BENEATH_THE_PINES("stillness_beneath_the_pines", R.string.music_stillness_beneath_the_pines)
 }
 
 /** Off, shuffle through everything, or lock to one track — the three iOS modes. */

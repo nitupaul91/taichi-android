@@ -73,7 +73,6 @@ import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.media3.common.PlaybackException
 import androidx.media3.common.Player.Listener
-import androidx.core.net.toUri
 import androidx.media3.common.MediaItem
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.common.Player
@@ -90,7 +89,8 @@ fun WorkoutScreen(
     dayData: WorkoutDayDto,
     onClose: () -> Unit,
     onComplete: () -> Unit,
-    musicOnByDefault: Boolean = false
+    musicOnByDefault: Boolean = false,
+    resolveMusicTrackUrl: suspend (WorkoutMusicTrack) -> String? = { null }
 ) {
     val model = remember(dayData.id) { WorkoutViewModel(dayNumber, dayData) }
     val context = LocalContext.current
@@ -140,19 +140,26 @@ fun WorkoutScreen(
         }
     }
 
-    // Background music: one looping player for the session. Keyed on the resolved track so a mode
-    // change swaps it, and it follows pause/stall so it never plays over a frozen workout.
+    // Background music: one looping player for the session. Tracks live on the CDN (prefetched
+    // into WorkoutMediaCache during onboarding), so the track first resolves to a URL and the
+    // player reads through the cache — no URL (catalog never fetched, offline) means no music.
+    // Keyed on the resolved URL so a mode change swaps the player, and it follows pause/stall so
+    // it never plays over a frozen workout.
     val musicTrack = model.activeMusicTrack
-    DisposableEffect(musicTrack) {
-        val track = musicTrack
-        if (track == null) {
+    var musicTrackUrl by remember { mutableStateOf<String?>(null) }
+    LaunchedEffect(musicTrack) {
+        musicTrackUrl = musicTrack?.let { resolveMusicTrackUrl(it) }
+    }
+    DisposableEffect(musicTrackUrl) {
+        val url = musicTrackUrl
+        if (url == null) {
             onDispose { }
         } else {
-            val musicPlayer = buildAppExoPlayer(context).apply {
+            val musicPlayer = buildAppExoPlayer(context, cached = true).apply {
                 repeatMode = Player.REPEAT_MODE_ONE
                 volume = WORKOUT_MUSIC_VOLUME
                 runCatching {
-                    setMediaItem(MediaItem.fromUri(rawResourceUri(context, track.resId)))
+                    setMediaItem(MediaItem.fromUri(url))
                     prepare()
                 }
                 playWhenReady = true
@@ -165,7 +172,7 @@ fun WorkoutScreen(
         }
     }
 
-    LaunchedEffect(model.isPaused, model.isVideoStalled, musicTrack) {
+    LaunchedEffect(model.isPaused, model.isVideoStalled, musicTrackUrl) {
         val musicPlayer = musicPlayerRef.value ?: return@LaunchedEffect
         val shouldPlay = !model.isPaused && !model.isVideoStalled
         musicPlayer.playWhenReady = shouldPlay
@@ -766,10 +773,6 @@ private const val STALL_GRACE_MILLIS = 2_000L
 
 /** Backoff between recovery attempts after a playback error. */
 private const val PLAYBACK_RETRY_MILLIS = 3_000L
-
-/** `android.resource://` URI for a bundled track, which ExoPlayer reads directly. */
-private fun rawResourceUri(context: android.content.Context, resId: Int) =
-    "android.resource://${context.packageName}/$resId".toUri()
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

@@ -16,6 +16,8 @@ import taichi.walking.seniors.beginners.taichi.ui.home.model.WorkoutPlanDto
 import taichi.walking.seniors.beginners.taichi.ui.progress.data.ExerciseProgressSyncService
 import taichi.walking.seniors.beginners.taichi.ui.progress.data.PracticeCompletionResult
 import taichi.walking.seniors.beginners.taichi.ui.progress.data.PracticeKind
+import taichi.walking.seniors.beginners.taichi.music.WorkoutMusicService
+import taichi.walking.seniors.beginners.taichi.ui.home.workout.WorkoutMusicTrack
 import taichi.walking.seniors.beginners.util.AiAssistantRemoteConfig
 import taichi.walking.seniors.beginners.taichi.ui.progress.data.PracticeRepository
 import taichi.walking.seniors.beginners.util.RateAppDialogHandler
@@ -28,8 +30,13 @@ open class BaseJourneyHomeViewModel(
     private val purchaseManager: PurchaseManager,
     private val rateAppDialogHandler: RateAppDialogHandler,
     private val remoteConfig: AiAssistantRemoteConfig,
-    private val exerciseProgressSyncService: ExerciseProgressSyncService
+    private val exerciseProgressSyncService: ExerciseProgressSyncService,
+    private val workoutMusicService: WorkoutMusicService
 ) : ViewModel() {
+
+    /** CDN URL for a music track; null when the catalog is unavailable, which keeps music off. */
+    suspend fun musicTrackUrl(track: WorkoutMusicTrack): String? =
+        workoutMusicService.urlFor(track)
 
     data class UiState(
         val workoutPlan: WorkoutPlanDto? = null,
@@ -156,7 +163,8 @@ class JourneyHomeViewModel @Inject constructor(
     purchaseManager: PurchaseManager,
     rateAppDialogHandler: RateAppDialogHandler,
     remoteConfig: AiAssistantRemoteConfig,
-    exerciseProgressSyncService: ExerciseProgressSyncService
+    exerciseProgressSyncService: ExerciseProgressSyncService,
+    workoutMusicService: WorkoutMusicService
 ) : BaseJourneyHomeViewModel(
     practiceKind = PracticeKind.TAI_CHI,
     workoutPlanService = workoutPlanService,
@@ -164,7 +172,8 @@ class JourneyHomeViewModel @Inject constructor(
     purchaseManager = purchaseManager,
     rateAppDialogHandler = rateAppDialogHandler,
     remoteConfig = remoteConfig,
-    exerciseProgressSyncService = exerciseProgressSyncService
+    exerciseProgressSyncService = exerciseProgressSyncService,
+    workoutMusicService = workoutMusicService
 )
 
 @HiltViewModel
@@ -174,7 +183,8 @@ class WalkingHomeViewModel @Inject constructor(
     purchaseManager: PurchaseManager,
     rateAppDialogHandler: RateAppDialogHandler,
     remoteConfig: AiAssistantRemoteConfig,
-    exerciseProgressSyncService: ExerciseProgressSyncService
+    exerciseProgressSyncService: ExerciseProgressSyncService,
+    workoutMusicService: WorkoutMusicService
 ) : BaseJourneyHomeViewModel(
     practiceKind = PracticeKind.WALKING,
     workoutPlanService = workoutPlanService,
@@ -182,7 +192,8 @@ class WalkingHomeViewModel @Inject constructor(
     purchaseManager = purchaseManager,
     rateAppDialogHandler = rateAppDialogHandler,
     remoteConfig = remoteConfig,
-    exerciseProgressSyncService = exerciseProgressSyncService
+    exerciseProgressSyncService = exerciseProgressSyncService,
+    workoutMusicService = workoutMusicService
 )
 
 @HiltViewModel
@@ -192,7 +203,8 @@ class ChairHomeViewModel @Inject constructor(
     purchaseManager: PurchaseManager,
     rateAppDialogHandler: RateAppDialogHandler,
     remoteConfig: AiAssistantRemoteConfig,
-    exerciseProgressSyncService: ExerciseProgressSyncService
+    exerciseProgressSyncService: ExerciseProgressSyncService,
+    workoutMusicService: WorkoutMusicService
 ) : BaseJourneyHomeViewModel(
     practiceKind = PracticeKind.CHAIR,
     workoutPlanService = workoutPlanService,
@@ -200,5 +212,6 @@ class ChairHomeViewModel @Inject constructor(
     purchaseManager = purchaseManager,
     rateAppDialogHandler = rateAppDialogHandler,
     remoteConfig = remoteConfig,
-    exerciseProgressSyncService = exerciseProgressSyncService
+    exerciseProgressSyncService = exerciseProgressSyncService,
+    workoutMusicService = workoutMusicService
 )

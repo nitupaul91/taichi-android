@@ -10,7 +10,7 @@ import taichi.walking.seniors.beginners.R
 
 /**
  * @param cached routes media through [WorkoutMediaCache] so playback works offline and watching a
- *   workout populates the cache. Left off for bundled resources (music), which need no cache.
+ *   workout populates the cache — workout videos, speech audio and background music all use it.
  */
 fun buildAppExoPlayer(context: Context, cached: Boolean = false): ExoPlayer {
     val renderersFactory = DefaultRenderersFactory(context)

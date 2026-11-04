@@ -236,7 +236,8 @@ private fun PracticeJourneyHomeScreen(
             dayData = day,
             onClose = { workoutDay = null },
             onComplete = { workoutDay = null; completedDay = day; viewModel.completeWorkoutFlow(day) },
-            musicOnByDefault = state.musicOnByDefault
+            musicOnByDefault = state.musicOnByDefault,
+            resolveMusicTrackUrl = viewModel::musicTrackUrl
         )
     }
     completedDay?.let { day ->

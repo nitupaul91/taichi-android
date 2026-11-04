@@ -2,6 +2,7 @@ package taichi.walking.seniors.beginners.di
 
 import taichi.walking.seniors.beginners.BuildConfig
 import taichi.walking.seniors.beginners.data.api.UserApi
+import taichi.walking.seniors.beginners.taichi.music.MusicApi
 import taichi.walking.seniors.beginners.taichi.onboarding.data.OnboardingProfileApi
 import taichi.walking.seniors.beginners.taichi.ui.progress.data.ExerciseProgressApi
 import taichi.walking.seniors.beginners.taichi.ui.home.data.WorkoutApi
@@ -60,6 +61,12 @@ class AppModule {
     @Singleton
     fun provideOnboardingProfileApi(retrofit: Retrofit): OnboardingProfileApi {
         return retrofit.create(OnboardingProfileApi::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideMusicApi(retrofit: Retrofit): MusicApi {
+        return retrofit.create(MusicApi::class.java)
     }
 
     @Provides
