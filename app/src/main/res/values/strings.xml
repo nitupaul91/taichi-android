@@ -276,13 +276,13 @@
     <string name="onboarding_loading_members">Join 100,000+ happy members</string>
 
     <!-- Paywall Screen -->
-    <string name="onboarding_paywall_title">Your Personalized Path\nto Vitality!</string>
+    <string name="onboarding_paywall_title">Work toward your target weight</string>
     <string name="onboarding_paywall_trust_message">Trusted by thousands of beginners</string>
     <string name="onboarding_paywall_cta_trial">Start %s-Day Free Trial</string>
     <string name="onboarding_paywall_no_payment_now">No payment now</string>
     <string name="onboarding_paywall_cancel_anytime">Cancel anytime</string>
-    <string name="onboarding_paywall_trial_then_yearly">then %2$s/year</string>
-    <string name="onboarding_paywall_trial_then_monthly">then %2$s/month</string>
+    <string name="onboarding_paywall_trial_then_yearly">%1$s-day free trial, then %2$s/year. Auto-renews.</string>
+    <string name="onboarding_paywall_trial_then_monthly">%1$s-day free trial, then %2$s/month. Auto-renews.</string>
     <string name="onboarding_paywall_loading_offers">Loading offers…</string>
     <string name="onboarding_paywall_billed_yearly">%s billed yearly</string>
     <string name="onboarding_paywall_best_value">BEST VALUE</string>

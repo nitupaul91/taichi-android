@@ -32,4 +32,27 @@
     <string name="trial_timeline_cancel_question">How do I cancel my subscription?</string>
     <string name="trial_timeline_cancel_answer">Open Settings in the app and tap Cancel Subscription. We\'ll take you straight to your Google Play subscription page.</string>
     <string name="trial_timeline_not_now">Not now</string>
+    <!-- Native fallback paywall (iOS PaywallView, matching the HTML paywall) -->
+    <!-- %1$s is the app's Google Play rating, such as "4.9". -->
+    <string name="paywall_rating_badge_title">Rated %1$s on Google Play</string>
+    <!-- %1$s is a ratings count, such as "1,200". -->
+    <string name="paywall_rating_badge_count">%1$s+ ratings</string>
+    <!-- %1$s is the localized price that is charged. -->
+    <string name="paywall_billed_annually">%1$s billed annually</string>
+    <string name="paywall_billed_monthly">%1$s billed monthly</string>
+    <string name="paywall_billed_weekly">%1$s billed weekly</string>
+    <string name="paywall_per_week">per week</string>
+    <!-- %1$s is the number of trial days, %2$s the localized weekly price. -->
+    <string name="paywall_trial_then_weekly">%1$s-day free trial, then %2$s/week. Auto-renews.</string>
+    <!-- %1$s is the localized price. -->
+    <string name="paywall_recurring_yearly">%1$s/year. Cancel anytime.</string>
+    <string name="paywall_recurring_monthly">%1$s/month. Cancel anytime.</string>
+    <string name="paywall_recurring_weekly">%1$s/week. Cancel anytime.</string>
+    <string name="paywall_secure_payment_google_play">Secure payment through Google Play</string>
+    <!-- Real App Store reviews of the app (US/RO storefronts, 30 Oct 2026), quoted as on iOS. -->
+    <string name="paywall_review_quote_1">I thought it would be much more difficult to follow and to do. It was great!</string>
+    <string name="paywall_review_quote_2">I am new to this but I am definitely seeing results. I wish I had found this a long time ago!</string>
+    <string name="paywall_review_quote_3">I like that the exercises in the first days are easy to follow and nothing too complicated for seniors like myself.</string>
+    <!-- %1$s is the reviewer's store nickname. The reviews come from the App Store, so the label names it. -->
+    <string name="paywall_review_attribution">— %1$s, App Store review</string>
 </resources>

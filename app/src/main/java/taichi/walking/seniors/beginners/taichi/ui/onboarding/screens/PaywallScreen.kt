@@ -6,7 +6,6 @@ import android.content.ContextWrapper
 import android.content.Intent
 import android.net.Uri
 import androidx.activity.compose.BackHandler
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -27,16 +26,17 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.GraphicEq
+import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.filled.SelfImprovement
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.filled.TrendingUp
+import androidx.compose.material.icons.filled.VerifiedUser
 import androidx.compose.material3.Card
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
@@ -55,6 +55,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -126,19 +128,6 @@ fun PaywallScreen(
     // As on iOS, a variant that is not cached yet falls back to the main web paywall, then native.
     val cachedRemotePaywall = cachedVariantPaywall ?: cachedPrimaryPaywall
     val purchaseRecovery by viewModel.purchaseRecovery.collectAsState()
-    val hasFreeTrial = !selectedProduct?.freeTrial.isNullOrBlank()
-    val trialDays = selectedProduct?.freeTrial.orEmpty()
-    val isYearlyProduct = selectedProduct?.productId?.contains("yearly", ignoreCase = true) == true
-    val ctaTrialText = stringResource(R.string.onboarding_paywall_cta_trial, trialDays)
-    val ctaContinueText = stringResource(R.string.continue_button)
-    val ctaText = if (hasFreeTrial) ctaTrialText else ctaContinueText
-    val trialSubtitleYearly = stringResource(R.string.onboarding_paywall_trial_then_yearly, trialDays, selectedProduct?.displayPrice.orEmpty())
-    val trialSubtitleMonthly = stringResource(R.string.onboarding_paywall_trial_then_monthly, trialDays, selectedProduct?.displayPrice.orEmpty())
-    val ctaSubtitle = when {
-        hasFreeTrial && isYearlyProduct -> trialSubtitleYearly
-        hasFreeTrial -> trialSubtitleMonthly
-        else -> stringResource(R.string.onboarding_paywall_cancel_anytime)
-    }
 
     var purchaseDialogState by remember { mutableStateOf(PurchaseDialogState.Hidden) }
     val currentOnTrialPurchased by rememberUpdatedState(onTrialPurchased)
@@ -258,8 +247,6 @@ fun PaywallScreen(
                 products = products,
                 selectedProduct = selectedProduct,
                 genderId = genderId,
-                ctaText = ctaText,
-                ctaSubtitle = ctaSubtitle,
                 statusBarPadding = statusBarPadding,
                 navBarPadding = navBarPadding,
                 onPurchase = { if (activity != null) viewModel.makePurchase(activity) },
@@ -286,13 +273,16 @@ fun PaywallScreen(
     }
 }
 
+/**
+ * The native fallback, laid out like the HTML paywall (iOS f2cba97): title, store rating badge,
+ * plan cards with the billed amount and the per-month figure, benefits, real reviews, then the
+ * button with the reassurance line above the subscription terms.
+ */
 @Composable
 private fun NativePaywall(
     products: List<UIProduct>,
     selectedProduct: Product?,
     genderId: String?,
-    ctaText: String,
-    ctaSubtitle: String,
     statusBarPadding: Dp,
     navBarPadding: Dp,
     onPurchase: () -> Unit,
@@ -300,6 +290,13 @@ private fun NativePaywall(
     onClose: () -> Unit
 ) {
     val context = LocalContext.current
+    val trialDays = selectedProduct?.freeTrial?.takeIf { it.isNotBlank() }
+    val ctaText = if (trialDays != null) {
+        stringResource(R.string.onboarding_paywall_cta_trial, trialDays)
+    } else {
+        stringResource(R.string.continue_button)
+    }
+
     Scaffold(
         containerColor = MaterialTheme.colorScheme.background,
         contentWindowInsets = WindowInsets(0, 0, 0, 0),
@@ -307,9 +304,9 @@ private fun NativePaywall(
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .background(MaterialTheme.colorScheme.background)
-                    .padding(horizontal = 20.dp)
-                    .padding(top = 10.dp, bottom = navBarPadding),
+                    .background(Color.White)
+                    .padding(horizontal = 24.dp)
+                    .padding(top = 10.dp, bottom = navBarPadding + 8.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 PrimaryButton(
@@ -317,34 +314,47 @@ private fun NativePaywall(
                     enabled = selectedProduct != null,
                     onClick = onPurchase
                 )
-                Spacer(modifier = Modifier.height(10.dp))
-                Text(
-                    text = ctaSubtitle,
-                    style = MaterialTheme.typography.bodyMedium.copy(fontSize = 14.sp),
-                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.65f)
-                )
-                Spacer(modifier = Modifier.height(8.dp))
+                Spacer(modifier = Modifier.height(14.dp))
+                ReassuranceLine(hasFreeTrial = trialDays != null)
+                selectedProduct?.let { product ->
+                    Spacer(modifier = Modifier.height(4.dp))
+                    Text(
+                        text = subscriptionTermsText(product, trialDays),
+                        fontSize = 12.sp,
+                        lineHeight = 16.sp,
+                        fontWeight = FontWeight.Medium,
+                        color = PaywallTextSecondary,
+                        textAlign = TextAlign.Center
+                    )
+                }
+                Spacer(modifier = Modifier.height(4.dp))
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
                     Text(
                         text = stringResource(R.string.onboarding_paywall_terms_of_use),
-                        style = MaterialTheme.typography.bodySmall.copy(fontSize = 12.sp),
-                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.45f),
-                        modifier = Modifier.clickable {
-                            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(context.getString(R.string.terms_of_use_link)))
-                            context.startActivity(intent)
-                        }
+                        fontSize = 12.sp,
+                        fontWeight = FontWeight.Medium,
+                        color = PaywallTextMuted,
+                        modifier = Modifier
+                            .clickable {
+                                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(context.getString(R.string.terms_of_use_link)))
+                                context.startActivity(intent)
+                            }
+                            .padding(vertical = 8.dp)
                     )
                     Text(
                         text = stringResource(R.string.onboarding_paywall_privacy_policy),
-                        style = MaterialTheme.typography.bodySmall.copy(fontSize = 12.sp),
-                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.45f),
-                        modifier = Modifier.clickable {
-                            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(context.getString(R.string.privacy_policy_link)))
-                            context.startActivity(intent)
-                        }
+                        fontSize = 12.sp,
+                        fontWeight = FontWeight.Medium,
+                        color = PaywallTextMuted,
+                        modifier = Modifier
+                            .clickable {
+                                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(context.getString(R.string.privacy_policy_link)))
+                                context.startActivity(intent)
+                            }
+                            .padding(vertical = 8.dp)
                     )
                 }
             }
@@ -354,8 +364,8 @@ private fun NativePaywall(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(innerPadding),
-            contentPadding = PaddingValues(start = 20.dp, end = 20.dp, top = statusBarPadding, bottom = 20.dp),
-            verticalArrangement = Arrangement.spacedBy(14.dp)
+            contentPadding = PaddingValues(start = 24.dp, end = 24.dp, top = statusBarPadding + 8.dp, bottom = 24.dp),
+            verticalArrangement = Arrangement.spacedBy(24.dp)
         ) {
             item {
                 BeforeAfterHeader(
@@ -364,49 +374,91 @@ private fun NativePaywall(
                 )
             }
             item {
-                CenteredTitle()
+                TitleSection()
             }
-            if (products.isEmpty()) {
-                item {
-                    Text(
-                        text = stringResource(R.string.onboarding_paywall_loading_offers),
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f),
-                        modifier = Modifier.fillMaxWidth(),
-                        textAlign = TextAlign.Center
-                    )
-                }
-            } else {
-                items(products) { product ->
-                    val isYearly = product.product.productId.contains("yearly", ignoreCase = true)
-                    val billedYearlyText = stringResource(R.string.onboarding_paywall_billed_yearly, product.product.displayPrice)
-                    val bestValueText = stringResource(R.string.onboarding_paywall_best_value)
-                    val freeTrialText = product.product.freeTrial?.let { stringResource(R.string.onboarding_paywall_free_trial_days, it) }
-                    val perMonthText = stringResource(R.string.per_month)
-                    PlanOption(
-                        title = product.title.ifBlank { product.product.productId },
-                        subtitle = if (isYearly) billedYearlyText else product.subtitleForCard(),
-                        highlight = if (isYearly) bestValueText else null,
-                        trialText = if (isYearly) null else freeTrialText,
-                        rightMain = if (isYearly) product.monthlyBreakdownPrice() else product.product.displayPrice,
-                        rightSub = perMonthText,
-                        selected = selectedProduct?.productId == product.product.productId,
-                        onClick = { onSelectProduct(product.product) }
-                    )
+            item {
+                Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
+                    if (products.isEmpty()) {
+                        Text(
+                            text = stringResource(R.string.onboarding_paywall_loading_offers),
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f),
+                            modifier = Modifier.fillMaxWidth(),
+                            textAlign = TextAlign.Center
+                        )
+                    }
+                    products.forEach { product ->
+                        PlanCard(
+                            product = product,
+                            selected = selectedProduct?.productId == product.product.productId,
+                            onClick = { onSelectProduct(product.product) }
+                        )
+                    }
                 }
             }
             item {
                 BenefitsCard()
             }
-            items(
-                listOf(
-                    "I've tried many exercise apps, but this is the first one designed with people my age in mind. The pace is perfect." to "— Helen, 69",
-                    "After just two weeks, I noticed improved balance and less stiffness in my joints. The gentle movements are exactly what I needed." to "— Robert, 72",
-                    "My doctor recommended Tai Chi for stress relief. This app made it so easy to start. I practice every day now." to "— Patricia, 75"
-                )
-            ) { (quote, author) ->
-                TestimonialCard(quote = quote, author = author)
+            item {
+                Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
+                    // Real App Store reviews (US/RO storefronts, pulled 30 Oct 2026), the same set as
+                    // the iOS paywall; Android has no reviews of its own to quote yet.
+                    ReviewCard(stringResource(R.string.paywall_review_quote_1), "rosynise")
+                    ReviewCard(stringResource(R.string.paywall_review_quote_2), "Mermaidlady23")
+                    ReviewCard(stringResource(R.string.paywall_review_quote_3), "Becks591")
+                }
             }
+        }
+    }
+}
+
+// iOS SeniorDesign colours used by the native paywall.
+private val PaywallTextPrimary = Color(0xFF2F3C42)
+private val PaywallTextSecondary = Color(0xFF6A7B82)
+private val PaywallTextMuted = Color(0xFF9AA8AD)
+private val PaywallCardBorder = Color(0xFFE8EEF0)
+private val PaywallRadioBorder = Color(0xFFD9E5DE)
+private val PaywallBestValue = Color(0xFFF5A623)
+
+/**
+ * Number of Google Play ratings for the badge's second line ("4,400+ ratings" on iOS). Unset: there
+ * is no verified Play Console figure in the project, so only the rating itself is shown. Set it to
+ * the Play Console count (for example "1,200") to show the line.
+ */
+private val PLAY_STORE_RATINGS_COUNT: String? = null
+
+/** The plan's billing period, from Play's subscription period (product ids as a fallback). */
+private enum class PlanPeriod { YEAR, MONTH, WEEK }
+
+private val Product.planPeriod: PlanPeriod
+    get() = when (subscriptionPeriodUnit) {
+        "year" -> PlanPeriod.YEAR
+        "month" -> PlanPeriod.MONTH
+        "week" -> PlanPeriod.WEEK
+        else -> if (productId.contains("yearly", ignoreCase = true)) PlanPeriod.YEAR else PlanPeriod.MONTH
+    }
+
+/** Per-month equivalent of a yearly price (iOS PaywallProductCard.pricePerMonth). */
+private fun Product.monthlyBreakdownPrice(): String {
+    if (price <= 0L) return displayPrice
+    return formatWithProductCurrency((price / 1_000_000.0) / 12.0, displayPrice)
+}
+
+/** "7-day free trial, then €49.99/year. Auto-renews." or "€9.99/month. Cancel anytime." */
+@Composable
+private fun subscriptionTermsText(product: Product, trialDays: String?): String {
+    val price = product.displayPrice
+    return if (trialDays != null) {
+        when (product.planPeriod) {
+            PlanPeriod.YEAR -> stringResource(R.string.onboarding_paywall_trial_then_yearly, trialDays, price)
+            PlanPeriod.MONTH -> stringResource(R.string.onboarding_paywall_trial_then_monthly, trialDays, price)
+            PlanPeriod.WEEK -> stringResource(R.string.paywall_trial_then_weekly, trialDays, price)
+        }
+    } else {
+        when (product.planPeriod) {
+            PlanPeriod.YEAR -> stringResource(R.string.paywall_recurring_yearly, price)
+            PlanPeriod.MONTH -> stringResource(R.string.paywall_recurring_monthly, price)
+            PlanPeriod.WEEK -> stringResource(R.string.paywall_recurring_weekly, price)
         }
     }
 }
@@ -415,17 +467,6 @@ private fun NativePaywall(
 private fun CachedRemotePaywall.analyticsVariantName(): String {
     val withoutSuffix = identifier.split('#', '?').first()
     return withoutSuffix.substringAfterLast('/').take(100).ifEmpty { "unknown" }
-}
-
-private fun UIProduct.subtitleForCard(): String? {
-    if (!product.freeTrial.isNullOrBlank()) return null
-    return description.takeIf { it.isNotBlank() }
-}
-
-private fun UIProduct.monthlyBreakdownPrice(): String {
-    if (product.price <= 0L) return product.displayPrice
-    val monthlyPrice = (product.price / 1_000_000.0) / 12.0
-    return formatWithProductCurrency(monthlyPrice, product.displayPrice)
 }
 
 private fun buildRemotePaywallStorePayload(
@@ -555,108 +596,180 @@ private fun BeforeAfterHeader(genderId: String?, onClose: () -> Unit) {
 }
 
 @Composable
-private fun CenteredTitle() {
-    Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.fillMaxWidth()) {
+private fun TitleSection() {
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.spacedBy(14.dp),
+        modifier = Modifier.fillMaxWidth()
+    ) {
         Text(
             text = stringResource(R.string.onboarding_paywall_title),
-            style = MaterialTheme.typography.titleLarge.copy(fontSize = 21.sp),
-            textAlign = TextAlign.Center,
-            fontWeight = FontWeight.Bold
+            fontSize = 28.sp,
+            lineHeight = 34.sp,
+            fontWeight = FontWeight.Bold,
+            color = PaywallTextPrimary,
+            textAlign = TextAlign.Center
         )
-        Spacer(modifier = Modifier.height(8.dp))
-        Row(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
-            repeat(5) {
-                Icon(Icons.Default.Star, contentDescription = null, tint = Color(0xFFF6B12D), modifier = Modifier.size(28.dp))
-            }
-        }
-        Spacer(modifier = Modifier.height(6.dp))
-        Text(
-            text = stringResource(R.string.onboarding_paywall_trust_message),
-            style = MaterialTheme.typography.bodyMedium.copy(fontSize = 15.sp),
-            color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.62f)
-        )
+        RatingBadge()
     }
 }
 
+/** Store rating badge, as on the HTML paywall (iOS: "Rated 4.7 on the App Store"). */
 @Composable
-private fun PlanOption(
-    title: String,
-    subtitle: String?,
-    highlight: String? = null,
-    trialText: String? = null,
-    rightMain: String,
-    rightSub: String,
+private fun RatingBadge() {
+    val shape = RoundedCornerShape(14.dp)
+    Row(
+        modifier = Modifier
+            .clip(shape)
+            .background(Brush.linearGradient(listOf(Color(0xFFFBF0C8), Color(0xFFF2DC93))))
+            .border(1.dp, Color(0xFFE3C66A), shape)
+            .padding(horizontal = 18.dp, vertical = 10.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(10.dp)
+    ) {
+        Icon(
+            imageVector = Icons.Default.Star,
+            contentDescription = null,
+            tint = Color(0xFFC99A2E),
+            modifier = Modifier.size(24.dp)
+        )
+        Column(verticalArrangement = Arrangement.spacedBy(2.dp)) {
+            Text(
+                text = stringResource(
+                    R.string.paywall_rating_badge_title,
+                    stringResource(R.string.onboarding_welcome_rating_value)
+                ).uppercase(),
+                fontSize = 13.sp,
+                fontWeight = FontWeight.ExtraBold,
+                letterSpacing = 0.6.sp,
+                color = Color(0xFF4A3A0E)
+            )
+            PLAY_STORE_RATINGS_COUNT?.let { count ->
+                Text(
+                    text = stringResource(R.string.paywall_rating_badge_count, count).uppercase(),
+                    fontSize = 11.sp,
+                    fontWeight = FontWeight.Bold,
+                    letterSpacing = 0.6.sp,
+                    color = Color(0xFF7A6424)
+                )
+            }
+        }
+    }
+}
+
+/**
+ * One plan (iOS PaywallProductCard): the billed amount on the left, at least as prominent as the
+ * per-month figure on the right, and the trial length when the plan has one.
+ */
+@Composable
+private fun PlanCard(
+    product: UIProduct,
     selected: Boolean,
     onClick: () -> Unit
 ) {
-    val borderColor = if (selected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.outline.copy(alpha = 0.4f)
+    val primary = MaterialTheme.colorScheme.primary
+    val storeProduct = product.product
+    val period = storeProduct.planPeriod
+    val price = storeProduct.displayPrice
+    val shape = RoundedCornerShape(16.dp)
+    val billedText = when (period) {
+        PlanPeriod.YEAR -> stringResource(R.string.paywall_billed_annually, price)
+        PlanPeriod.MONTH -> stringResource(R.string.paywall_billed_monthly, price)
+        PlanPeriod.WEEK -> stringResource(R.string.paywall_billed_weekly, price)
+    }
+    val periodPrice = if (period == PlanPeriod.YEAR) storeProduct.monthlyBreakdownPrice() else price
+    val periodCaption = if (period == PlanPeriod.WEEK) {
+        stringResource(R.string.paywall_per_week)
+    } else {
+        stringResource(R.string.per_month)
+    }
+    val trialDays = storeProduct.freeTrial?.takeIf { it.isNotBlank() }
+
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .clip(RoundedCornerShape(24.dp))
-            .border(BorderStroke(2.dp, borderColor), RoundedCornerShape(24.dp))
-            .background(MaterialTheme.colorScheme.surface)
+            .shadow(
+                elevation = if (selected) 6.dp else 3.dp,
+                shape = shape,
+                ambientColor = if (selected) primary.copy(alpha = 0.15f) else Color.Black.copy(alpha = 0.04f),
+                spotColor = if (selected) primary.copy(alpha = 0.15f) else Color.Black.copy(alpha = 0.04f)
+            )
+            .clip(shape)
+            .background(Color.White)
+            .border(if (selected) 2.dp else 1.dp, if (selected) primary else PaywallCardBorder, shape)
             .clickable { onClick() }
-            .padding(horizontal = 14.dp, vertical = 12.dp),
+            .padding(horizontal = 16.dp, vertical = 14.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(12.dp)
     ) {
         Box(
             modifier = Modifier
-                .size(32.dp)
-                .border(BorderStroke(3.dp, if (selected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.outline.copy(alpha = 0.5f)), CircleShape)
-                .padding(5.dp)
-                .background(if (selected) MaterialTheme.colorScheme.primary else Color.Transparent, CircleShape)
-        )
-        Column(modifier = Modifier.weight(1f)) {
-            Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                Text(
-                    text = title,
-                    style = MaterialTheme.typography.bodyLarge.copy(fontSize = 18.sp, lineHeight = 22.sp),
-                    fontWeight = FontWeight.Bold
-                )
-                if (highlight != null) {
-                    Box(
-                        modifier = Modifier
-                            .clip(RoundedCornerShape(12.dp))
-                            .background(Color(0xFFF5B028))
-                            .padding(horizontal = 8.dp, vertical = 3.dp)
-                    ) {
-                        Text(
-                            text = highlight,
-                            style = MaterialTheme.typography.bodyMedium.copy(fontSize = 11.sp),
-                            color = Color.White,
-                            fontWeight = FontWeight.Bold
-                        )
-                    }
-                }
-            }
-            if (subtitle != null) {
-                Text(
-                    text = subtitle,
-                    style = MaterialTheme.typography.bodyLarge.copy(fontSize = 18.sp, lineHeight = 22.sp),
-                    fontWeight = FontWeight.Bold
-                )
-            }
-            if (trialText != null) {
-                Text(
-                    text = trialText,
-                    style = MaterialTheme.typography.bodyMedium.copy(fontSize = 13.sp),
-                    color = MaterialTheme.colorScheme.primary,
-                    fontWeight = FontWeight.SemiBold
+                .size(24.dp)
+                .border(2.dp, if (selected) primary else PaywallRadioBorder, CircleShape),
+            contentAlignment = Alignment.Center
+        ) {
+            if (selected) {
+                Box(
+                    modifier = Modifier
+                        .size(14.dp)
+                        .background(primary, CircleShape)
                 )
             }
         }
-        Column(horizontalAlignment = Alignment.End) {
+        Column(
+            modifier = Modifier.weight(1f),
+            verticalArrangement = Arrangement.spacedBy(3.dp)
+        ) {
+            Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                Text(
+                    text = product.title.ifBlank { storeProduct.productId },
+                    fontSize = 17.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = PaywallTextPrimary
+                )
+                if (period == PlanPeriod.YEAR) {
+                    Text(
+                        text = stringResource(R.string.onboarding_paywall_best_value),
+                        fontSize = 9.sp,
+                        fontWeight = FontWeight.ExtraBold,
+                        letterSpacing = 0.3.sp,
+                        color = Color.White,
+                        modifier = Modifier
+                            .clip(RoundedCornerShape(6.dp))
+                            .background(PaywallBestValue)
+                            .padding(horizontal = 6.dp, vertical = 3.dp)
+                    )
+                }
+            }
             Text(
-                text = rightMain,
-                style = MaterialTheme.typography.bodyLarge.copy(fontSize = 18.sp, lineHeight = 22.sp),
-                fontWeight = FontWeight.Bold
+                text = billedText,
+                fontSize = 16.sp,
+                lineHeight = 20.sp,
+                fontWeight = FontWeight.Bold,
+                color = PaywallTextPrimary
+            )
+            if (trialDays != null) {
+                Text(
+                    text = stringResource(R.string.onboarding_paywall_free_trial_days, trialDays),
+                    fontSize = 12.sp,
+                    fontWeight = FontWeight.SemiBold,
+                    color = primary
+                )
+            }
+        }
+        Column(horizontalAlignment = Alignment.End, verticalArrangement = Arrangement.spacedBy(2.dp)) {
+            Text(
+                text = periodPrice,
+                fontSize = 17.sp,
+                fontWeight = FontWeight.Bold,
+                color = PaywallTextPrimary,
+                maxLines = 1
             )
             Text(
-                text = rightSub,
-                style = MaterialTheme.typography.bodyMedium.copy(fontSize = 13.sp),
-                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.65f)
+                text = periodCaption,
+                fontSize = 12.sp,
+                fontWeight = FontWeight.Medium,
+                color = PaywallTextSecondary
             )
         }
     }
@@ -664,64 +777,95 @@ private fun PlanOption(
 
 @Composable
 private fun BenefitsCard() {
-    Card(shape = RoundedCornerShape(24.dp), modifier = Modifier.fillMaxWidth()) {
-        Column(
-            modifier = Modifier.padding(horizontal = 18.dp, vertical = 16.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
-        ) {
-            BenefitLine(Icons.Default.SelfImprovement, "Unlimited access to all Tai Chi sessions")
-            BenefitLine(Icons.Default.GraphicEq, "Calm voice guidance through every movement")
-            BenefitLine(Icons.Default.TrendingUp, "Track your progress and celebrate milestones")
-            BenefitLine(Icons.Default.Notifications, "Gentle daily reminders to keep you on track")
-        }
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .shadow(3.dp, RoundedCornerShape(18.dp), ambientColor = Color.Black.copy(alpha = 0.04f), spotColor = Color.Black.copy(alpha = 0.04f))
+            .clip(RoundedCornerShape(18.dp))
+            .background(Color.White)
+            .padding(20.dp),
+        verticalArrangement = Arrangement.spacedBy(14.dp)
+    ) {
+        BenefitLine(Icons.Default.SelfImprovement, stringResource(R.string.onboarding_paywall_benefit_1))
+        BenefitLine(Icons.Default.GraphicEq, stringResource(R.string.onboarding_paywall_benefit_2))
+        BenefitLine(Icons.Default.TrendingUp, stringResource(R.string.onboarding_paywall_benefit_3))
+        BenefitLine(Icons.Default.Notifications, stringResource(R.string.onboarding_paywall_benefit_4))
     }
 }
 
 @Composable
 private fun BenefitLine(icon: androidx.compose.ui.graphics.vector.ImageVector, text: String) {
-    Row(horizontalArrangement = Arrangement.spacedBy(14.dp), verticalAlignment = Alignment.Top) {
-        Icon(icon, contentDescription = null, tint = MaterialTheme.colorScheme.primary, modifier = Modifier.size(26.dp))
+    Row(horizontalArrangement = Arrangement.spacedBy(14.dp), verticalAlignment = Alignment.CenterVertically) {
+        Icon(icon, contentDescription = null, tint = MaterialTheme.colorScheme.primary, modifier = Modifier.size(24.dp))
         Text(
             text = text,
-            style = MaterialTheme.typography.bodyMedium.copy(fontSize = 14.sp, lineHeight = 18.sp),
+            fontSize = 16.sp,
+            lineHeight = 22.sp,
+            fontWeight = FontWeight.Medium,
+            color = PaywallTextPrimary,
             modifier = Modifier.weight(1f)
         )
     }
 }
 
+/** A quoted store review (iOS TestimonialCard), attributed to its reviewer and store. */
 @Composable
-private fun TestimonialCard(quote: String, author: String) {
-    Card(
-        shape = RoundedCornerShape(24.dp),
-        modifier = Modifier.fillMaxWidth(),
+private fun ReviewCard(quote: String, author: String) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clip(RoundedCornerShape(14.dp))
+            .background(Color(0xFFFFFBF5))
+            .padding(16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.spacedBy(10.dp)
     ) {
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .background(Color(0xFFFFFCF6))
-                .padding(18.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Row(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
-                repeat(5) {
-                    Icon(Icons.Default.Star, contentDescription = null, tint = Color(0xFFF6B12D), modifier = Modifier.size(22.dp))
-                }
+        Row(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
+            repeat(5) {
+                Icon(Icons.Default.Star, contentDescription = null, tint = PaywallBestValue, modifier = Modifier.size(14.dp))
             }
-            Spacer(modifier = Modifier.height(10.dp))
-            Text(
-                text = "\"$quote\"",
-                style = MaterialTheme.typography.bodyMedium.copy(fontSize = 14.sp, lineHeight = 18.sp),
-                textAlign = TextAlign.Center,
-                fontStyle = FontStyle.Italic
-            )
-            Spacer(modifier = Modifier.height(10.dp))
-            Text(
-                text = author,
-                style = MaterialTheme.typography.bodyMedium.copy(fontSize = 13.sp),
-                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.65f),
-                fontWeight = FontWeight.SemiBold
-            )
         }
+        Text(
+            text = "\"$quote\"",
+            fontSize = 14.sp,
+            lineHeight = 20.sp,
+            fontWeight = FontWeight.Medium,
+            fontStyle = FontStyle.Italic,
+            color = PaywallTextPrimary,
+            textAlign = TextAlign.Center
+        )
+        Text(
+            text = stringResource(R.string.paywall_review_attribution, author),
+            fontSize = 13.sp,
+            fontWeight = FontWeight.SemiBold,
+            color = PaywallTextSecondary
+        )
+    }
+}
+
+/** "No payment now" with a trial, otherwise where the payment goes (iOS: through the App Store). */
+@Composable
+private fun ReassuranceLine(hasFreeTrial: Boolean) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(6.dp)
+    ) {
+        Icon(
+            imageVector = if (hasFreeTrial) Icons.Default.VerifiedUser else Icons.Default.Lock,
+            contentDescription = null,
+            tint = MaterialTheme.colorScheme.primary,
+            modifier = Modifier.size(16.dp)
+        )
+        Text(
+            text = if (hasFreeTrial) {
+                stringResource(R.string.onboarding_paywall_no_payment_now)
+            } else {
+                stringResource(R.string.paywall_secure_payment_google_play)
+            },
+            fontSize = 15.sp,
+            fontWeight = FontWeight.Bold,
+            color = PaywallTextPrimary
+        )
     }
 }
 
