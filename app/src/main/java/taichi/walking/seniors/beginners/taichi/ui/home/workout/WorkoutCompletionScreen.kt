@@ -64,6 +64,11 @@ fun WorkoutCompletionScreen(
     practiceKind: PracticeKind,
     completionResult: PracticeCompletionResult?,
     onReturnHome: () -> Unit,
+    /**
+     * Runs on Done before the reminder prompt, like iOS handleDoneTap: the host may show the
+     * post-workout paywall first and call [continueFlow] when it closes.
+     */
+    beforeReminderPrompt: (continueFlow: () -> Unit) -> Unit = { it() },
     reminderViewModel: PracticeReminderViewModel = hiltViewModel()
 ) {
     val context = LocalContext.current
@@ -225,7 +230,7 @@ fun WorkoutCompletionScreen(
                 }
 
                 Button(
-                    onClick = finishOrPromptForReminder,
+                    onClick = { beforeReminderPrompt(finishOrPromptForReminder) },
                     modifier = Modifier.weight(1f),
                     shape = RoundedCornerShape(16.dp),
                     colors = ButtonDefaults.buttonColors(

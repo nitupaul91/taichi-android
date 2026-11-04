@@ -145,6 +145,8 @@ private fun PracticeJourneyHomeScreen(
     var completedDay by remember { mutableStateOf<WorkoutDayDto?>(null) }
     var showPostWorkoutPaywall by remember { mutableStateOf(false) }
     var showPaywall by remember { mutableStateOf(false) }
+    // The completion screen's next step (reminder prompt, then home) once the post-workout paywall closes.
+    var afterPostWorkoutPaywall by remember { mutableStateOf<(() -> Unit)?>(null) }
     var paywallSource by remember { mutableStateOf(PaywallSource.WORKOUT_PREVIEW) }
     var showIntensitySheet by remember { mutableStateOf(false) }
 
@@ -319,22 +321,28 @@ private fun PracticeJourneyHomeScreen(
             practiceKind = practiceKind,
             completionResult = state.completionResult,
             onReturnHome = {
-                // iOS WorkoutCompletionView.handleDoneTap: a non-premium user gets the paywall first.
+                completedDay = null
+                viewModel.clearCompletionResult()
+            },
+            beforeReminderPrompt = { continueFlow ->
+                // iOS WorkoutCompletionView.handleDoneTap: a non-premium user gets the paywall
+                // first; the reminder prompt (and then home) follows when it closes.
                 if (!state.isPremium && viewModel.shouldShowPostWorkoutPaywall()) {
                     logAppEvent(POST_WORKOUT_PAYWALL_SHOWN, bundleOf("day_number" to day.day))
+                    afterPostWorkoutPaywall = continueFlow
                     showPostWorkoutPaywall = true
                 } else {
-                    completedDay = null
-                    viewModel.clearCompletionResult()
+                    continueFlow()
                 }
             }
         )
     }
     if (showPostWorkoutPaywall) {
-        val leavePostWorkoutPaywall = {
+        val leavePostWorkoutPaywall: () -> Unit = {
             showPostWorkoutPaywall = false
-            completedDay = null
-            viewModel.clearCompletionResult()
+            val next = afterPostWorkoutPaywall
+            afterPostWorkoutPaywall = null
+            next?.invoke()
         }
         BackHandler(onBack = leavePostWorkoutPaywall)
         PaywallScreen(
