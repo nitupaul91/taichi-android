@@ -60,6 +60,9 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import taichi.walking.seniors.beginners.R
+import androidx.core.os.bundleOf
+import com.google.firebase.analytics.ktx.analytics
+import com.google.firebase.ktx.Firebase
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.platform.LocalContext
 import kotlinx.coroutines.launch
@@ -135,6 +138,7 @@ private fun PracticeJourneyHomeScreen(
     val context = LocalContext.current
     var completedDay by remember { mutableStateOf<WorkoutDayDto?>(null) }
     var showPaywall by remember { mutableStateOf(false) }
+    var showIntensitySheet by remember { mutableStateOf(false) }
 
     LaunchedEffect(Unit) {
         if (state.workoutPlan == null) viewModel.fetchWorkoutPlan()
@@ -185,6 +189,22 @@ private fun PracticeJourneyHomeScreen(
                             color = Color(0xFF1A1A1A)
                         )
                         Spacer(modifier = Modifier.height(16.dp))
+                    }
+
+                    if (state.showIntensityWidget) {
+                        item {
+                            WorkoutIntensityWidget(intensity = state.workoutIntensity) {
+                                showIntensitySheet = true
+                                Firebase.analytics.logEvent(
+                                    "workout_intensity_widget_tap",
+                                    bundleOf(
+                                        "practice_kind" to viewModel.analyticsPracticeKind,
+                                        "is_premium" to state.isPremium,
+                                        "current_intensity" to WorkoutIntensityLevel.normalized(state.workoutIntensity).value
+                                    )
+                                )
+                            }
+                        }
                     }
 
                     item {
@@ -274,6 +294,26 @@ private fun PracticeJourneyHomeScreen(
                 completedDay = null
                 viewModel.clearCompletionResult()
             }
+        )
+    }
+    if (showIntensitySheet) {
+        WorkoutIntensitySheet(
+            currentIntensity = state.workoutIntensity,
+            isApplying = state.isLoadingPlan,
+            onApply = { intensity ->
+                Firebase.analytics.logEvent(
+                    "workout_intensity_apply_tap",
+                    bundleOf(
+                        "practice_kind" to viewModel.analyticsPracticeKind,
+                        "is_premium" to state.isPremium,
+                        "new_intensity" to intensity,
+                        "previous_intensity" to WorkoutIntensityLevel.normalized(state.workoutIntensity).value
+                    )
+                )
+                showIntensitySheet = false
+                viewModel.applyWorkoutIntensity(intensity)
+            },
+            onDismiss = { showIntensitySheet = false }
         )
     }
     if (showPaywall) {

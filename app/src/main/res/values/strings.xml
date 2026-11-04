@@ -329,4 +329,17 @@
     <string name="workout_preparation_failed">The workout couldn\'t be downloaded. Check your connection and try again.</string>
     <string name="workout_preparation_try_again">Try Again</string>
     <string name="workout_preparation_go_back">Go Back</string>
+
+    <!-- Workout intensity widget and sheet (iOS WorkoutIntensityPickerSheet) -->
+    <string name="intensity_widget_title">Workout Intensity</string>
+    <string name="intensity_value">%1$d/5 · %2$s</string>
+    <string name="intensity_recommended">Recommended</string>
+    <string name="intensity_sheet_title">Adjust Intensity</string>
+    <string name="intensity_sheet_subtitle">Choose how challenging your daily plan should feel.</string>
+    <string name="intensity_apply">Apply Intensity %1$d</string>
+    <string name="intensity_very_gentle">Very Gentle</string>
+    <string name="intensity_gentle">Gentle</string>
+    <string name="intensity_moderate">Moderate</string>
+    <string name="intensity_challenging">Challenging</string>
+    <string name="intensity_intense">Intense</string>
 </resources>

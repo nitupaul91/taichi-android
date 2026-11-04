@@ -48,7 +48,10 @@ open class BaseJourneyHomeViewModel(
         val isPremium: Boolean = false,
         val musicOnByDefault: Boolean = false,
         val showRateDialog: Boolean = false,
-        val completionResult: PracticeCompletionResult? = null
+        val completionResult: PracticeCompletionResult? = null,
+        /** Stored level "1".."5"; null until the first plan sets it. */
+        val workoutIntensity: String? = null,
+        val showIntensityWidget: Boolean = false
     )
 
     private val _state = MutableStateFlow(UiState())
@@ -61,7 +64,17 @@ open class BaseJourneyHomeViewModel(
         // Pull server-side progress once per ViewModel so a reinstall or a new device recovers the
         // user's streak instead of silently restarting at day 1.
         viewModelScope.launch { restoreProgressFromBackend() }
-        _state.update { it.copy(musicOnByDefault = remoteConfig.musicOnByDefault()) }
+        _state.update {
+            it.copy(
+                musicOnByDefault = remoteConfig.musicOnByDefault(),
+                showIntensityWidget = remoteConfig.showWorkoutIntensityWidget()
+            )
+        }
+        viewModelScope.launch {
+            practiceRepository.workoutIntensity().collect { intensity ->
+                _state.update { it.copy(workoutIntensity = intensity) }
+            }
+        }
 
         viewModelScope.launch {
             combine(
@@ -115,6 +128,16 @@ open class BaseJourneyHomeViewModel(
                 )
             }
             exerciseProgressSyncService.uploadProgress()
+        }
+    }
+
+    val analyticsPracticeKind: String get() = practiceKind.storageValue
+
+    /** iOS applyWorkoutIntensity: store the level, then regenerate the plan with it. */
+    fun applyWorkoutIntensity(intensity: String) {
+        viewModelScope.launch {
+            practiceRepository.setWorkoutIntensity(intensity)
+            loadWorkoutPlan(intensityOverride = intensity)
         }
     }
 
