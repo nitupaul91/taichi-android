@@ -1,6 +1,13 @@
 package taichi.walking.seniors.beginners.taichi.ui.home.screen
 
 import androidx.activity.compose.BackHandler
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.ViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
+import taichi.walking.seniors.beginners.taichi.program.ProgramPreference
+import taichi.walking.seniors.beginners.taichi.ui.progress.data.PracticeKind
+import taichi.walking.seniors.beginners.util.AiAssistantRemoteConfig
 import androidx.compose.foundation.background
 import taichi.walking.seniors.beginners.taichi.ui.progress.screen.ProgressTabScreen
 import taichi.walking.seniors.beginners.taichi.ui.settings.screen.TaiChiSettingsScreen
@@ -33,7 +40,7 @@ import androidx.compose.ui.unit.dp
 import taichi.walking.seniors.beginners.taichi.ui.home.activity.PaywallLaunchRequest
 import taichi.walking.seniors.beginners.taichi.ui.onboarding.screens.PaywallScreen
 
-private enum class HomeTab(val title: String, val icon: androidx.compose.ui.graphics.vector.ImageVector) {
+internal enum class HomeTab(val title: String, val icon: androidx.compose.ui.graphics.vector.ImageVector) {
     TaiChi("Tai Chi", Icons.Default.AccessibilityNew),
     Chair("Chair", Icons.Default.EventSeat),
     Walking("Walking", Icons.Default.DirectionsWalk),
@@ -46,7 +53,9 @@ fun TaiChiHomeRoot(
     pendingPaywallRequest: PaywallLaunchRequest? = null,
     onPaywallRequestConsumed: () -> Unit = {}
 ) {
-    var selected by remember { mutableStateOf(HomeTab.TaiChi) }
+    val tabsViewModel: HomeTabsViewModel = hiltViewModel()
+    val visibleTabs = remember { tabsViewModel.visibleTabs() }
+    var selected by remember { mutableStateOf(visibleTabs.first()) }
     var showBottomBar by remember { mutableStateOf(true) }
     var activePaywallRequest by remember { mutableStateOf<PaywallLaunchRequest?>(null) }
 
@@ -78,7 +87,7 @@ fun TaiChiHomeRoot(
                     containerColor = Color(0xFFFDFEFD),
                     tonalElevation = 0.dp
                 ) {
-                    VISIBLE_TABS.forEach { tab ->
+                    visibleTabs.forEach { tab ->
                         NavigationBarItem(
                             selected = selected == tab,
                             onClick = { selected = tab },
@@ -147,11 +156,22 @@ fun TaiChiHomeRoot(
 private val PRACTICE_TABS = setOf(HomeTab.TaiChi, HomeTab.Chair, HomeTab.Walking)
 
 /**
- * The seated program is fully wired (endpoint, progress, journey screen) but its videos exist only
- * in the v2 media set, which is Apple HEVC-with-alpha and renders as a blue matte on Android. Hide
- * the entry point until an Android-decodable rendition ships; flip this to true to re-enable.
+ * Tab order follows iOS ContentView: the program picked in onboarding leads, then the other two
+ * practice tabs, then Progress and Settings. Read once per home screen so tabs never reorder
+ * under the user.
  */
-private const val CHAIR_TAB_ENABLED = false
-
-private val VISIBLE_TABS: List<HomeTab> =
-    HomeTab.entries.filter { CHAIR_TAB_ENABLED || it != HomeTab.Chair }
+@HiltViewModel
+class HomeTabsViewModel @Inject constructor(
+    private val programPreference: ProgramPreference,
+    private val remoteConfig: AiAssistantRemoteConfig
+) : ViewModel() {
+    internal fun visibleTabs(): List<HomeTab> =
+        programPreference.practiceTabOrder(remoteConfig.onboardingWalkingExperimentEnabled())
+            .map { kind ->
+                when (kind) {
+                    PracticeKind.TAI_CHI -> HomeTab.TaiChi
+                    PracticeKind.CHAIR -> HomeTab.Chair
+                    PracticeKind.WALKING -> HomeTab.Walking
+                }
+            } + listOf(HomeTab.Progress, HomeTab.Settings)
+}

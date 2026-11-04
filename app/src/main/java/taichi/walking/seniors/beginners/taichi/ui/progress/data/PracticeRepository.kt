@@ -7,6 +7,7 @@ import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import com.google.gson.Gson
+import taichi.walking.seniors.beginners.taichi.program.ProgramPreference
 import com.google.gson.annotations.SerializedName
 import com.google.gson.reflect.TypeToken
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -25,7 +26,8 @@ private val Context.practiceDataStore by preferencesDataStore(name = "taichi_pra
 @Singleton
 class PracticeRepository @Inject constructor(
     @ApplicationContext private val context: Context,
-    private val gson: Gson
+    private val gson: Gson,
+    private val programPreference: ProgramPreference
 ) {
     private object Keys {
         val legacyCurrentDay = intPreferencesKey("current_day")
@@ -243,7 +245,8 @@ class PracticeRepository @Inject constructor(
             taiChiCurrentDay = max(preferences[Keys.taiChiCurrentDay] ?: legacyCurrentDay(preferences), 1),
             walkingCurrentDay = max(preferences[Keys.walkingCurrentDay] ?: legacyCurrentDay(preferences), 1),
             chairCurrentDay = max(preferences[Keys.chairCurrentDay] ?: 1, 1),
-            programVariant = PracticeProgramVariant.TAI_CHI_WALKING
+            // The program the user picked in onboarding, as iOS reports it.
+            programVariant = programPreference.programVariant
         )
     }
 
