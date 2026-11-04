@@ -21,6 +21,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.ui.draw.clip
 import androidx.compose.runtime.Composable
+import taichi.walking.seniors.beginners.R
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -83,7 +84,7 @@ fun ImageGridQuestion(
                                         .background(Color(0xFFE9F2EF), MaterialTheme.shapes.medium),
                                     contentAlignment = Alignment.Center
                                 ) {
-                                    Text(text = "Image", style = MaterialTheme.typography.bodyMedium)
+                                    Text(text = stringResource(R.string.image_placeholder), style = MaterialTheme.typography.bodyMedium)
                                 }
                             }
                             if (option.imageRes == null) {

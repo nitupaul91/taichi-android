@@ -19,6 +19,9 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import taichi.walking.seniors.beginners.R
+import androidx.annotation.StringRes
+import androidx.compose.ui.res.stringResource
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -60,7 +63,7 @@ fun BmiScreen(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                text = "Your Health Status",
+                text = stringResource(R.string.bmi_health_status_title),
                 style = MaterialTheme.typography.headlineMedium.copy(fontSize = 38.sp),
                 color = MaterialTheme.colorScheme.onSurface,
                 fontWeight = FontWeight.Bold,
@@ -68,7 +71,7 @@ fun BmiScreen(
             )
             Spacer(modifier = Modifier.height(8.dp))
             Text(
-                text = "Based on your BMI and activity level",
+                text = stringResource(R.string.bmi_health_status_subtitle),
                 style = MaterialTheme.typography.bodyLarge,
                 color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.55f),
                 textAlign = TextAlign.Center
@@ -77,8 +80,8 @@ fun BmiScreen(
             BmiResultRing(bmi = bmi, category = category)
             Spacer(modifier = Modifier.height(24.dp))
             BmiInsightCard(
-                title = insight.title,
-                message = insight.message,
+                title = stringResource(insight.title),
+                message = stringResource(insight.message),
                 statusColor = bmiStatusColor(category)
             )
         }
@@ -135,13 +138,13 @@ private fun BmiResultRing(
                 fontWeight = FontWeight.Bold
             )
             Text(
-                text = "BMI",
+                text = stringResource(R.string.bmi_label),
                 style = MaterialTheme.typography.titleMedium,
                 color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f)
             )
             Spacer(modifier = Modifier.height(4.dp))
             Text(
-                text = category,
+                text = stringResource(bmiCategoryLabel(category)),
                 style = MaterialTheme.typography.headlineMedium.copy(fontSize = 34.sp),
                 color = statusColor,
                 fontWeight = FontWeight.Bold
@@ -188,8 +191,8 @@ private fun BmiInsightCard(
 }
 
 private data class BmiInsight(
-    val title: String,
-    val message: String
+    @StringRes val title: Int,
+    @StringRes val message: Int
 )
 
 private fun bmiCategory(bmi: Double): String {
@@ -204,20 +207,20 @@ private fun bmiCategory(bmi: Double): String {
 private fun bmiInsight(category: String): BmiInsight {
     return when (category) {
         "Healthy" -> BmiInsight(
-            title = "Your BMI is healthy.",
-            message = "Maintaining muscle mass and staying active can help preserve your energy, balance, and long-term health."
+            title = R.string.bmi_insight_healthy_title,
+            message = R.string.bmi_insight_healthy_message
         )
         "Underweight" -> BmiInsight(
-            title = "Your BMI is low.",
-            message = "Building strength and healthy body mass can improve resilience, mobility, and day-to-day energy."
+            title = R.string.bmi_insight_underweight_title,
+            message = R.string.bmi_insight_underweight_message
         )
         "Overweight" -> BmiInsight(
-            title = "Your BMI is above average.",
-            message = "Increasing daily movement and improving body composition can help lower strain on your joints and metabolism."
+            title = R.string.bmi_insight_overweight_title,
+            message = R.string.bmi_insight_overweight_message
         )
         else -> BmiInsight(
-            title = "Your BMI is elevated.",
-            message = "Improving muscle mass and daily activity can significantly reduce health risks."
+            title = R.string.bmi_insight_elevated_title,
+            message = R.string.bmi_insight_elevated_message
         )
     }
 }
@@ -238,4 +241,13 @@ private fun bmiRingProgress(bmi: Double): Float {
         bmi < 30.0 -> 0.62f + (((bmi - 25.0) / 5.0) * 0.16).toFloat()
         else -> minOf(0.90f, 0.78f + (((bmi - 30.0) / 10.0) * 0.12).toFloat())
     }
+}
+
+/** The category keys above are internal; this is the label the ring shows. */
+@StringRes
+private fun bmiCategoryLabel(category: String): Int = when (category) {
+    "Underweight" -> R.string.bmi_category_underweight
+    "Healthy" -> R.string.bmi_category_healthy
+    "Overweight" -> R.string.bmi_category_overweight
+    else -> R.string.bmi_category_elevated
 }

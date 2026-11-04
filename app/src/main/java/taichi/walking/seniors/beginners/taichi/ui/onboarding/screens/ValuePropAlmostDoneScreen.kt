@@ -53,7 +53,7 @@ fun ValuePropAlmostDoneScreen(
             ) {
                 Icon(
                     imageVector = Icons.Default.Flag,
-                    contentDescription = "Finish flag",
+                    contentDescription = null,
                     tint = MaterialTheme.colorScheme.primary,
                     modifier = Modifier.size(86.dp)
                 )

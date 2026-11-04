@@ -24,6 +24,8 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import taichi.walking.seniors.beginners.R
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -84,7 +86,7 @@ fun QuestionScaffold(
                             IconButton(onClick = { backAction?.invoke() }) {
                                 Icon(
                                     imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                                    contentDescription = "Back",
+                                    contentDescription = stringResource(R.string.back),
                                     tint = MaterialTheme.colorScheme.onSurface
                                 )
                             }
@@ -106,7 +108,7 @@ fun QuestionScaffold(
                             IconButton(onClick = { backAction?.invoke() }) {
                                 Icon(
                                     imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                                    contentDescription = "Back",
+                                    contentDescription = stringResource(R.string.back),
                                     tint = MaterialTheme.colorScheme.onSurface
                                 )
                             }
@@ -155,7 +157,7 @@ fun QuestionScaffold(
                 IconButton(onClick = backAction) {
                     Icon(
                         imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                        contentDescription = "Back",
+                        contentDescription = stringResource(R.string.back),
                         tint = MaterialTheme.colorScheme.onSurface
                     )
                 }

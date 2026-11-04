@@ -10,6 +10,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.annotation.StringRes
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -101,14 +102,14 @@ fun TargetWeightScreen(
                 )
                 Spacer(modifier = Modifier.height(8.dp))
                 Text(
-                    text = insight.title,
+                    text = stringResource(insight.title, insight.percentText),
                     style = MaterialTheme.typography.titleLarge,
                     color = MaterialTheme.colorScheme.onSurface,
                     fontWeight = FontWeight.SemiBold
                 )
                 Spacer(modifier = Modifier.height(10.dp))
                 Text(
-                    text = insight.message,
+                    text = stringResource(insight.message),
                     style = MaterialTheme.typography.bodyLarge,
                     color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.72f)
                 )
@@ -119,8 +120,10 @@ fun TargetWeightScreen(
 
 private data class TargetWeightInsight(
     val emoji: String,
-    val title: String,
-    val message: String
+    /** Format resource taking the percentage, e.g. "Easy win: lose %1$s of your weight". */
+    @StringRes val title: Int,
+    @StringRes val message: Int,
+    val percentText: String
 )
 
 private fun targetWeightInsight(currentWeightKg: Double, targetWeightKg: Double): TargetWeightInsight {
@@ -132,46 +135,54 @@ private fun targetWeightInsight(currentWeightKg: Double, targetWeightKg: Double)
         when {
             goalChangePercent <= 5 -> TargetWeightInsight(
                 emoji = "\uD83C\uDFC6",
-                title = "Easy win: lose $percentText of your weight",
-                message = "You’re choosing a smart, achievable target. Consistent daily movement can trim body fat, lift your energy, and build momentum you’ll want to keep."
+                title = R.string.target_weight_lose_easy_title,
+                message = R.string.target_weight_lose_easy_message,
+                percentText = percentText
             )
             goalChangePercent <= 10 -> TargetWeightInsight(
                 emoji = "\uD83D\uDC4C",
-                title = "Realistic target: lose $percentText of your weight",
-                message = "This is a strong transformation zone. Steady progress here is linked to better heart health, improved blood sugar control, and sustainable long-term results."
+                title = R.string.target_weight_lose_realistic_title,
+                message = R.string.target_weight_lose_realistic_message,
+                percentText = percentText
             )
             goalChangePercent <= 20 -> TargetWeightInsight(
                 emoji = "\uD83D\uDC9A",
-                title = "Health benefits: lose $percentText of your weight",
-                message = "Major upside ahead. Reaching this goal can lower inflammation, support healthier blood pressure and glucose levels, and noticeably improve day-to-day wellbeing."
+                title = R.string.target_weight_lose_health_title,
+                message = R.string.target_weight_lose_health_message,
+                percentText = percentText
             )
             else -> TargetWeightInsight(
                 emoji = "\uD83D\uDCAA",
-                title = "Challenging goal: lose $percentText of your weight",
-                message = "This is a bold commitment, and it can be life-changing. With consistency in training, nutrition, and recovery, you can dramatically improve metabolic health and vitality."
+                title = R.string.target_weight_lose_challenging_title,
+                message = R.string.target_weight_lose_challenging_message,
+                percentText = percentText
             )
         }
     } else {
         when {
             goalChangePercent <= 5 -> TargetWeightInsight(
                 emoji = "\uD83C\uDFC6",
-                title = "Easy win: build $percentText more muscle",
-                message = "Great place to start strong. Even modest muscle gain can boost stability, daily strength, and confidence in how your body moves."
+                title = R.string.target_weight_build_easy_title,
+                message = R.string.target_weight_build_easy_message,
+                percentText = percentText
             )
             goalChangePercent <= 10 -> TargetWeightInsight(
                 emoji = "\uD83D\uDC4C",
-                title = "Realistic target: build $percentText more muscle",
-                message = "You’re aiming high in the right way. This range can increase metabolic burn, improve posture, and make everyday activities feel easier."
+                title = R.string.target_weight_build_realistic_title,
+                message = R.string.target_weight_build_realistic_message,
+                percentText = percentText
             )
             goalChangePercent <= 20 -> TargetWeightInsight(
                 emoji = "\uD83D\uDC9A",
-                title = "Health benefits: build $percentText more muscle",
-                message = "Excellent health-focused target. Stronger muscle supports stronger bones, better balance, and lower risk of frailty and injury over time."
+                title = R.string.target_weight_build_health_title,
+                message = R.string.target_weight_build_health_message,
+                percentText = percentText
             )
             else -> TargetWeightInsight(
                 emoji = "\uD83D\uDD25",
-                title = "Challenging goal: build $percentText more muscle",
-                message = "Elite mindset. This goal demands commitment, but it can reshape your strength, body composition, and resilience with progressive training and recovery."
+                title = R.string.target_weight_build_challenging_title,
+                message = R.string.target_weight_build_challenging_message,
+                percentText = percentText
             )
         }
     }

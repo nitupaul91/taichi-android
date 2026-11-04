@@ -99,7 +99,7 @@ fun LoadingScreen(
         if (showCountdown) {
             Spacer(modifier = Modifier.height(10.dp))
             Text(
-                text = "Finalizing your plan in ${secondsRemaining}s",
+                text = stringResource(R.string.loading_finalizing_plan, secondsRemaining),
                 modifier = Modifier.fillMaxWidth(),
                 textAlign = TextAlign.Center,
                 style = MaterialTheme.typography.titleMedium,

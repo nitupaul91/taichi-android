@@ -216,7 +216,7 @@ fun WorkoutCompletionScreen(
                     iconColor = Color(0xFF5C6BC0),
                     iconBackground = Color(0xFFE8EAF6),
                     value = dayData.durationInMinutes.toString(),
-                    label = "min"
+                    label = stringResource(R.string.completion_stat_minutes)
                 )
                 VerticalDivider()
                 StatColumn(
@@ -224,7 +224,7 @@ fun WorkoutCompletionScreen(
                     iconColor = Color(0xFFEF5350),
                     iconBackground = Color(0xFFFDECEA),
                     value = calories.toString(),
-                    label = "cal"
+                    label = stringResource(R.string.completion_stat_calories)
                 )
                 VerticalDivider()
                 StatColumn(
@@ -232,7 +232,7 @@ fun WorkoutCompletionScreen(
                     iconColor = Color(0xFF0BA56B),
                     iconBackground = Color(0xFFE6F5EE),
                     value = dayData.exercises.size.toString(),
-                    label = "moves"
+                    label = stringResource(R.string.completion_stat_moves)
                 )
             }
 

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="bmi_health_status_title">Your Health Status</string>
+    <string name="bmi_health_status_subtitle">Based on your BMI and activity level</string>
+    <string name="bmi_label">BMI</string>
+    <string name="bmi_insight_healthy_title">Your BMI is healthy.</string>
+    <string name="bmi_insight_healthy_message">Maintaining muscle mass and staying active can help preserve your energy, balance, and long-term health.</string>
+    <string name="bmi_insight_underweight_title">Your BMI is low.</string>
+    <string name="bmi_insight_underweight_message">Building strength and healthy body mass can improve resilience, mobility, and day-to-day energy.</string>
+    <string name="bmi_insight_overweight_title">Your BMI is above average.</string>
+    <string name="bmi_insight_overweight_message">Increasing daily movement and improving body composition can help lower strain on your joints and metabolism.</string>
+    <string name="bmi_insight_elevated_title">Your BMI is elevated.</string>
+    <string name="bmi_insight_elevated_message">Improving muscle mass and daily activity can significantly reduce health risks.</string>
+    <string name="bmi_category_underweight">Underweight</string>
+    <string name="bmi_category_healthy">Healthy</string>
+    <string name="bmi_category_overweight">Overweight</string>
+    <string name="bmi_category_elevated">Elevated</string>
+    <string name="target_weight_lose_easy_title">Easy win: lose %1$s of your weight</string>
+    <string name="target_weight_lose_easy_message">You’re choosing a smart, achievable target. Consistent daily movement can trim body fat, lift your energy, and build momentum you’ll want to keep.</string>
+    <string name="target_weight_lose_realistic_title">Realistic target: lose %1$s of your weight</string>
+    <string name="target_weight_lose_realistic_message">This is a strong transformation zone. Steady progress here is linked to better heart health, improved blood sugar control, and sustainable long-term results.</string>
+    <string name="target_weight_lose_health_title">Health benefits: lose %1$s of your weight</string>
+    <string name="target_weight_lose_health_message">Major upside ahead. Reaching this goal can lower inflammation, support healthier blood pressure and glucose levels, and noticeably improve day-to-day wellbeing.</string>
+    <string name="target_weight_lose_challenging_title">Challenging goal: lose %1$s of your weight</string>
+    <string name="target_weight_lose_challenging_message">This is a bold commitment, and it can be life-changing. With consistency in training, nutrition, and recovery, you can dramatically improve metabolic health and vitality.</string>
+    <string name="target_weight_build_easy_title">Easy win: build %1$s more muscle</string>
+    <string name="target_weight_build_easy_message">Great place to start strong. Even modest muscle gain can boost stability, daily strength, and confidence in how your body moves.</string>
+    <string name="target_weight_build_realistic_title">Realistic target: build %1$s more muscle</string>
+    <string name="target_weight_build_realistic_message">You’re aiming high in the right way. This range can increase metabolic burn, improve posture, and make everyday activities feel easier.</string>
+    <string name="target_weight_build_health_title">Health benefits: build %1$s more muscle</string>
+    <string name="target_weight_build_health_message">Excellent health-focused target. Stronger muscle supports stronger bones, better balance, and lower risk of frailty and injury over time.</string>
+    <string name="target_weight_build_challenging_title">Challenging goal: build %1$s more muscle</string>
+    <string name="target_weight_build_challenging_message">Elite mindset. This goal demands commitment, but it can reshape your strength, body composition, and resilience with progressive training and recovery.</string>
+    <string name="loading_finalizing_plan">Finalizing your plan in %1$ds</string>
+    <string name="purchase_dialog_validating_title">Validating your purchase…</string>
+    <string name="purchase_dialog_validating_message">Please wait and don\'t close this screen</string>
+    <string name="purchase_dialog_success_title">Welcome to Premium!</string>
+    <string name="purchase_dialog_success_message">Your purchase was successful. Enjoy all premium features!</string>
+    <string name="purchase_dialog_failed_title">Purchase Failed</string>
+    <string name="purchase_dialog_failed_message">Something went wrong. Please try again.</string>
+    <string name="back">Back</string>
+    <string name="image_placeholder">Image</string>
+    <string name="completion_stat_minutes">min</string>
+    <string name="completion_stat_calories">cal</string>
+    <string name="completion_stat_moves">moves</string>
+</resources>

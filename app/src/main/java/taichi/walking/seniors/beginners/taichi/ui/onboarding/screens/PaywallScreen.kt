@@ -587,7 +587,7 @@ private fun BeforeAfterHeader(genderId: String?, onClose: () -> Unit) {
         ) {
             Icon(
                 imageVector = Icons.Default.Close,
-                contentDescription = "Close",
+                contentDescription = stringResource(R.string.close),
                 tint = Color.White,
                 modifier = Modifier.size(24.dp)
             )
@@ -901,13 +901,13 @@ private fun PurchaseStatusDialog(
                             color = Color(0xFF0BA56B)
                         )
                         Text(
-                            text = "Validating your purchase...",
+                            text = stringResource(R.string.purchase_dialog_validating_title),
                             style = MaterialTheme.typography.titleMedium,
                             fontWeight = FontWeight.SemiBold,
                             textAlign = TextAlign.Center
                         )
                         Text(
-                            text = "Please wait and don't close this screen",
+                            text = stringResource(R.string.purchase_dialog_validating_message),
                             style = MaterialTheme.typography.bodyMedium,
                             color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f),
                             textAlign = TextAlign.Center
@@ -921,13 +921,13 @@ private fun PurchaseStatusDialog(
                             modifier = Modifier.size(48.dp)
                         )
                         Text(
-                            text = "Welcome to Premium!",
+                            text = stringResource(R.string.purchase_dialog_success_title),
                             style = MaterialTheme.typography.titleMedium,
                             fontWeight = FontWeight.Bold,
                             textAlign = TextAlign.Center
                         )
                         Text(
-                            text = "Your purchase was successful. Enjoy all premium features!",
+                            text = stringResource(R.string.purchase_dialog_success_message),
                             style = MaterialTheme.typography.bodyMedium,
                             color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f),
                             textAlign = TextAlign.Center
@@ -943,7 +943,7 @@ private fun PurchaseStatusDialog(
                             contentAlignment = Alignment.Center
                         ) {
                             Text(
-                                text = "Okay",
+                                text = stringResource(R.string.okay),
                                 color = Color.White,
                                 fontWeight = FontWeight.Bold,
                                 style = MaterialTheme.typography.titleMedium
@@ -958,13 +958,13 @@ private fun PurchaseStatusDialog(
                             modifier = Modifier.size(48.dp)
                         )
                         Text(
-                            text = "Purchase Failed",
+                            text = stringResource(R.string.purchase_dialog_failed_title),
                             style = MaterialTheme.typography.titleMedium,
                             fontWeight = FontWeight.Bold,
                             textAlign = TextAlign.Center
                         )
                         Text(
-                            text = "Something went wrong. Please try again.",
+                            text = stringResource(R.string.purchase_dialog_failed_message),
                             style = MaterialTheme.typography.bodyMedium,
                             color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f),
                             textAlign = TextAlign.Center
@@ -980,7 +980,7 @@ private fun PurchaseStatusDialog(
                             contentAlignment = Alignment.Center
                         ) {
                             Text(
-                                text = "Retry",
+                                text = stringResource(R.string.retry),
                                 color = Color.White,
                                 fontWeight = FontWeight.Bold,
                                 style = MaterialTheme.typography.titleMedium
