@@ -17,4 +17,7 @@ class RemoteConfig @Inject constructor(
     fun getBoolean(key: String) = firebaseRemoteConfig.getBoolean(key)
     fun getString(key: String) = firebaseRemoteConfig.getString(key)
     fun getLong(key: String) = firebaseRemoteConfig.getLong(key)
+
+    /** Every key's current value (remote, else default) as a string. */
+    fun allValues(): Map<String, String> = firebaseRemoteConfig.all.mapValues { it.value.asString() }
 }

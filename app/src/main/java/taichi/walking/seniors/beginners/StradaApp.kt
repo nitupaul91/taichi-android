@@ -4,7 +4,11 @@ import taichi.walking.seniors.beginners.util.FirebaseAppCheckUtil
 import taichi.walking.seniors.beginners.util.ThemeHelper
 import taichi.walking.seniors.beginners.util.AiAssistantRemoteConfig
 import android.app.Application
+import androidx.lifecycle.DefaultLifecycleObserver
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ProcessLifecycleOwner
+import com.mobteq.analytics.AnalyticsMirror
+import taichi.walking.seniors.beginners.taichi.analytics.AppEventUploader
 import androidx.hilt.work.HiltWorkerFactory
 import androidx.work.Configuration
 import com.mobteq.analytics.FacebookAnalyticsTracker
@@ -56,6 +60,9 @@ class StradaApp : Application(), Configuration.Provider {
     @Inject
     lateinit var facebookAnalyticsTracker: FacebookAnalyticsTracker
 
+    @Inject
+    lateinit var appEventUploader: AppEventUploader
+
     override fun getWorkManagerConfiguration(): Configuration =
         Configuration.Builder()
             .setWorkerFactory(workerFactory)
@@ -70,6 +77,15 @@ class StradaApp : Application(), Configuration.Provider {
 
         loggingInitializer.init()
 
+        // Our own copy of every analytics event, for the backend user-journey dashboard (iOS
+        // AppEventUploader). Registered before anything logs, so no early event is missed.
+        AnalyticsMirror.sink = appEventUploader::enqueue
+        appEventUploader.startSession()
+        ProcessLifecycleOwner.get().lifecycle.addObserver(object : DefaultLifecycleObserver {
+            override fun onStart(owner: LifecycleOwner) = appEventUploader.resumeSession()
+            override fun onStop(owner: LifecycleOwner) = appEventUploader.enterBackground()
+        })
+
         // Warm up BillingClient and product cache as early as possible.
         CoroutineScope(Dispatchers.IO).launch {
             purchasesRepository.queryPurchases()
@@ -77,6 +93,7 @@ class StradaApp : Application(), Configuration.Provider {
         }
 
         remoteConfig.fetchAndActivate {
+            appEventUploader.recordRemoteConfigSnapshotIfNeeded(remoteConfig.snapshotValues())
             CoroutineScope(Dispatchers.IO).launch {
                 remotePaywallCache.prefetchAll()
             }

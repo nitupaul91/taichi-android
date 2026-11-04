@@ -46,8 +46,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.os.bundleOf
 import coil.compose.AsyncImage
-import com.google.firebase.analytics.ktx.analytics
-import com.google.firebase.ktx.Firebase
+import com.mobteq.analytics.logAppEvent
 import kotlinx.coroutines.delay
 import taichi.walking.seniors.beginners.R
 import taichi.walking.seniors.beginners.taichi.ui.home.model.WorkoutDayDto
@@ -80,7 +79,7 @@ fun WorkoutPreparationScreen(
     val animatedFraction by animateFloatAsState(fraction, label = "preparation")
 
     fun track(result: String, failedCount: Int = 0, skippedCount: Int = 0) {
-        Firebase.analytics.logEvent(
+        logAppEvent(
             EVENT_WORKOUT_PREPARATION,
             bundleOf(
                 "day_number" to dayNumber,

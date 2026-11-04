@@ -41,6 +41,14 @@ class AiAssistantRemoteConfig @Inject constructor(
             .addOnCompleteListener { onComplete?.invoke() }
     }
 
+    /**
+     * The values experiments read, for the per-session `remote_config_snapshot` journey event
+     * (iOS RemoteConfigService.snapshotValues). Leftover AI-assistant keys from the app template
+     * are left out; they carry no experiment and some are kilobytes long.
+     */
+    fun snapshotValues(): Map<String, String> =
+        remoteConfig.allValues().filterKeys { it !in LEGACY_TEMPLATE_KEYS }
+
     /** A/B test: whether a workout session starts with background music playing (iOS parity). */
     fun musicOnByDefault(): Boolean = remoteConfig.getBoolean(MUSIC_ON_BY_DEFAULT)
 
@@ -105,6 +113,11 @@ class AiAssistantRemoteConfig @Inject constructor(
     fun dynamicTypeEnabled(): Boolean = remoteConfig.getBoolean("dynamic_type_enabled")
 
     companion object {
+        private val LEGACY_TEMPLATE_KEYS = setOf(
+            "showOnboardingVariant", "adsCapTimeInMillis", "chatPromptCategories", "showPaywallWithRewardedAds",
+            "dailyMessageQuota", "messagesPerAd", "showMonthlyTrial", "isTTSActive", "promotedApps",
+            "visibleProducts", "allowImageQueries"
+        )
         const val PROMOTED_APPS = "promotedApps"
         const val PAYWALL_HTML_URL = "paywall_html_url"
         const val PAYWALL_HTML_ANDROID_URL = "paywall_html_android"

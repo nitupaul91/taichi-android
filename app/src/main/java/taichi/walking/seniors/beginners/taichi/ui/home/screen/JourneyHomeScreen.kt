@@ -61,8 +61,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import taichi.walking.seniors.beginners.R
 import androidx.core.os.bundleOf
-import com.google.firebase.analytics.ktx.analytics
-import com.google.firebase.ktx.Firebase
+import com.mobteq.analytics.logAppEvent
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.platform.LocalContext
 import kotlinx.coroutines.launch
@@ -195,7 +194,7 @@ private fun PracticeJourneyHomeScreen(
                         item {
                             WorkoutIntensityWidget(intensity = state.workoutIntensity) {
                                 showIntensitySheet = true
-                                Firebase.analytics.logEvent(
+                                logAppEvent(
                                     "workout_intensity_widget_tap",
                                     bundleOf(
                                         "practice_kind" to viewModel.analyticsPracticeKind,
@@ -301,7 +300,7 @@ private fun PracticeJourneyHomeScreen(
             currentIntensity = state.workoutIntensity,
             isApplying = state.isLoadingPlan,
             onApply = { intensity ->
-                Firebase.analytics.logEvent(
+                logAppEvent(
                     "workout_intensity_apply_tap",
                     bundleOf(
                         "practice_kind" to viewModel.analyticsPracticeKind,
