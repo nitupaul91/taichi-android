@@ -75,6 +75,8 @@ import taichi.walking.seniors.beginners.taichi.ui.home.workout.WorkoutScreen
 import taichi.walking.seniors.beginners.taichi.ui.home.workout.WorkoutAnalyticsContext
 import taichi.walking.seniors.beginners.taichi.ui.onboarding.screens.PaywallScreen
 import taichi.walking.seniors.beginners.ui.paywall.PaywallSource
+import taichi.walking.seniors.beginners.ui.paywall.RemotePaywallVariant
+import androidx.activity.compose.BackHandler
 import taichi.walking.seniors.beginners.taichi.ui.progress.data.PracticeKind
 import taichi.walking.seniors.beginners.ui.rateapp.RateAppDialogView
 
@@ -84,6 +86,8 @@ private val CompletedCircleBackground = Color(0xFFE6F5EE)
 private val TimelineLineColor = Color(0xFFCFDED5)
 private val FutureCircleBorder = Color(0xFFCFDED5)
 private val FutureDayTextColor = Color(0xFF9AA8AD)
+
+private const val POST_WORKOUT_PAYWALL_SHOWN = "post_workout_paywall_shown"
 
 @Composable
 fun JourneyHomeScreen(
@@ -138,6 +142,7 @@ private fun PracticeJourneyHomeScreen(
     val beginScope = rememberCoroutineScope()
     val context = LocalContext.current
     var completedDay by remember { mutableStateOf<WorkoutDayDto?>(null) }
+    var showPostWorkoutPaywall by remember { mutableStateOf(false) }
     var showPaywall by remember { mutableStateOf(false) }
     var showIntensitySheet by remember { mutableStateOf(false) }
 
@@ -297,9 +302,29 @@ private fun PracticeJourneyHomeScreen(
             practiceKind = practiceKind,
             completionResult = state.completionResult,
             onReturnHome = {
-                completedDay = null
-                viewModel.clearCompletionResult()
+                // iOS WorkoutCompletionView.handleDoneTap: a non-premium user gets the paywall first.
+                if (!state.isPremium && viewModel.shouldShowPostWorkoutPaywall()) {
+                    logAppEvent(POST_WORKOUT_PAYWALL_SHOWN, bundleOf("day_number" to day.day))
+                    showPostWorkoutPaywall = true
+                } else {
+                    completedDay = null
+                    viewModel.clearCompletionResult()
+                }
             }
+        )
+    }
+    if (showPostWorkoutPaywall) {
+        val leavePostWorkoutPaywall = {
+            showPostWorkoutPaywall = false
+            completedDay = null
+            viewModel.clearCompletionResult()
+        }
+        BackHandler(onBack = leavePostWorkoutPaywall)
+        PaywallScreen(
+            onClose = leavePostWorkoutPaywall,
+            onComplete = leavePostWorkoutPaywall,
+            paywallVariant = RemotePaywallVariant.ONBOARDING_LIMITED_OFFER,
+            source = PaywallSource.POST_WORKOUT
         )
     }
     if (showIntensitySheet) {

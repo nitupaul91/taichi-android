@@ -139,6 +139,9 @@ open class BaseJourneyHomeViewModel(
      */
     fun freeDaysCount(): Int = remoteConfig.freeDaysCount()
 
+    /** Remote Config `should_show_post_workout_paywall`, read when the completed workout is left. */
+    fun shouldShowPostWorkoutPaywall(): Boolean = remoteConfig.shouldShowPostWorkoutPaywall()
+
     /** iOS applyWorkoutIntensity: store the level, then regenerate the plan with it. */
     fun applyWorkoutIntensity(intensity: String) {
         viewModelScope.launch {
