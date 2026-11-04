@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="settings_account_section">CONTA</string>
+    <string name="settings_delete_account_title">Excluir conta</string>
+    <string name="settings_delete_account_subtitle">Remover seus dados permanentemente</string>
+    <string name="settings_delete_account_dialog_title">Deseja excluir sua conta?</string>
+    <string name="settings_delete_account_dialog_message">Isso exclui permanentemente seu perfil, seu progresso e seu e-mail dos nossos servidores. Não é possível desfazer.</string>
+    <string name="settings_delete_account_dialog_subscriber_note">Isso não cancela sua assinatura do Google Play. Você pode gerenciá-la no Google Play.</string>
+    <string name="settings_delete_account_manage_subscription">Gerenciar assinatura</string>
+    <string name="settings_delete_account_cancel">Cancelar</string>
+    <string name="settings_delete_account_confirm">Excluir</string>
+    <string name="settings_delete_account_failed_title">Não foi possível excluir sua conta</string>
+    <string name="settings_delete_account_failed_message">Verifique sua conexão e tente novamente.</string>
+    <string name="settings_account_ok">OK</string>
+    <string name="cancel_flow_title">Cancelar assinatura</string>
+    <string name="cancel_flow_settings_subtitle">Conte o motivo antes de continuar</string>
+    <string name="cancel_flow_reason_title">Por que você quer cancelar?</string>
+    <string name="cancel_flow_reason_subtitle">Sua resposta nos ajuda a melhorar nosso app.</string>
+    <string name="cancel_flow_keep_subscription">Manter minha assinatura</string>
+    <string name="cancel_flow_cancel_anyway">Quero cancelar mesmo assim</string>
+    <string name="cancel_flow_reason_too_expensive">Caro demais</string>
+    <string name="cancel_flow_reason_exercises_too_hard">Os exercícios são difíceis demais</string>
+    <string name="cancel_flow_reason_exercises_too_easy">Os exercícios são fáceis demais</string>
+    <string name="cancel_flow_reason_other">Outro motivo</string>
+    <string name="cancel_flow_easier_offer_title">Exercícios mais suaves ajudariam?</string>
+    <string name="cancel_flow_easier_offer_subtitle">Podemos ajustar suas sessões para o ritmo mais suave. Você mantém tudo o que já fez.</string>
+    <string name="cancel_flow_easier_accept">Quero tentar exercícios mais fáceis</string>
+    <string name="cancel_flow_easier_confirmation_title">Suas sessões agora estão mais suaves</string>
+    <string name="cancel_flow_easier_confirmation_body">Definimos o ritmo mais suave para você. Sua próxima sessão será mais fácil.</string>
+    <string name="cancel_flow_harder_offer_title">Quer um desafio maior?</string>
+    <string name="cancel_flow_harder_offer_subtitle">Podemos ajustar suas sessões para o ritmo mais intenso. Você mantém tudo o que já fez.</string>
+    <string name="cancel_flow_harder_accept">Tentar exercícios mais difíceis</string>
+    <string name="cancel_flow_harder_confirmation_title">Suas sessões agora estão mais desafiadoras</string>
+    <string name="cancel_flow_harder_confirmation_body">Definimos o ritmo mais intenso para você. Sua próxima sessão vai desafiar você mais.</string>
+    <string name="cancel_flow_ready_title">Quer mesmo cancelar?</string>
+    <string name="cancel_flow_ready_subtitle">Vamos abrir a página de assinaturas do Google Play. Seu acesso Premium continua ativo até o fim do período que você já pagou.</string>
+    <string name="cancel_flow_feedback_title">O que deu errado?</string>
+    <string name="cancel_flow_feedback_subtitle">Conte em poucas palavras, se quiser. É opcional.</string>
+    <string name="cancel_flow_applying">Ajustando seu programa</string>
+    <string name="cancel_flow_play_fallback_title">Não foi possível abrir as opções de cancelamento</string>
+    <string name="cancel_flow_play_fallback_message">Entre em contato com %1$s e ajudaremos você a cancelar sua assinatura.</string>
+    <string name="cancel_flow_copy_support_email">Copiar e-mail de suporte</string>
+</resources>

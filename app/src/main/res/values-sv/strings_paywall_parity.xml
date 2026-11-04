@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="trial_timeline_title_pre_purchase">Din gratis provperiod, steg för steg</string>
+    <string name="trial_timeline_subtitle_pre_purchase">Så här går det till om du startar din gratis provperiod idag.</string>
+    <string name="trial_timeline_title_cancellation">Du betalar ingenting idag</string>
+    <string name="trial_timeline_subtitle_cancellation_authorized">Din provperiod är gratis till %1$s, och vi påminner dig innan den slutar.</string>
+    <string name="trial_timeline_subtitle_cancellation_permission_needed">Din provperiod är gratis till %1$s. Vi frågar om vi får påminna dig innan den slutar.</string>
+    <string name="trial_timeline_subtitle_cancellation_unavailable">Din provperiod är gratis till %1$s. Ingenting dras innan dess.</string>
+    <string name="trial_timeline_button_cancellation">Starta gratis provperiod</string>
+    <string name="trial_timeline_title_confirmation">Din gratis provperiod har börjat</string>
+    <string name="trial_timeline_subtitle_confirmation">Njut av Premium gratis till %1$s.</string>
+    <string name="trial_timeline_button_confirmation">Starta passet</string>
+    <string name="trial_timeline_progress_accessibility">Förlopp i introduktionen</string>
+    <string name="trial_timeline_plan_ready_title">Din plan är klar</string>
+    <string name="trial_timeline_plan_ready_subtitle">Ditt personliga Tai Chi-program är redo att börja.</string>
+    <string name="trial_timeline_today_title">Idag</string>
+    <string name="trial_timeline_today_start">Starta din gratis provperiod och lås upp alla Premium-pass.</string>
+    <string name="trial_timeline_today_active">Din gratis provperiod är igång. Njut av alla Premium-pass.</string>
+    <string name="trial_timeline_reminder_title">%1$s – Påminnelse</string>
+    <string name="trial_timeline_reminder_authorized">Vi påminner dig när din provperiod slutar.</string>
+    <string name="trial_timeline_reminder_permission_needed">Vi frågar om vi får påminna dig när provperioden slutar.</string>
+    <string name="trial_timeline_reminder_unavailable">Det är 2 dagar innan din provperiod slutar.</string>
+    <string name="trial_timeline_end_title">%1$s – Provperioden slutar</string>
+    <string name="trial_timeline_end_subtitle">Din prenumeration förnyas om du inte avslutar den.</string>
+    <string name="trial_timeline_cancel_question">Hur avslutar jag min prenumeration?</string>
+    <string name="trial_timeline_cancel_answer">I Google Play Butik trycker du på din profilbild, sedan på ”Betalningar och prenumerationer” och sist på ”Prenumerationer”. Det tar bara några tryck.</string>
+    <string name="trial_timeline_not_now">Inte nu</string>
+    <string name="paywall_rating_badge_title">Betyg %1$s på Google Play</string>
+    <string name="paywall_rating_badge_count">Över %1$s betyg</string>
+    <string name="paywall_billed_annually">%1$s per år</string>
+    <string name="paywall_billed_monthly">%1$s per månad</string>
+    <string name="paywall_billed_weekly">%1$s per vecka</string>
+    <string name="paywall_per_week">per vecka</string>
+    <string name="paywall_trial_then_weekly">%1$s dagars gratis provperiod, sedan %2$s/vecka. Förnyas automatiskt.</string>
+    <string name="paywall_recurring_yearly">%1$s/år. Avsluta när du vill.</string>
+    <string name="paywall_recurring_monthly">%1$s/månad. Avsluta när du vill.</string>
+    <string name="paywall_recurring_weekly">%1$s/vecka. Avsluta när du vill.</string>
+    <string name="paywall_secure_payment_google_play">Säker betalning via Google Play</string>
+    <string name="paywall_review_quote_1">Jag trodde det skulle vara mycket svårare att följa och göra. Det var toppen!</string>
+    <string name="paywall_review_quote_2">Jag är ny på det här men ser definitivt resultat. Önskar att jag hittat detta för länge sedan!</string>
+    <string name="paywall_review_quote_3">Jag gillar att övningarna de första dagarna är lätta att följa och inte för komplicerade för seniorer som jag.</string>
+    <string name="paywall_review_attribution">— %1$s, App Store-recension</string>
+</resources>

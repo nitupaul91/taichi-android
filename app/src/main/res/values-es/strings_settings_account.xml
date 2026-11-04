@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="settings_account_section">CUENTA</string>
+    <string name="settings_delete_account_title">Eliminar cuenta</string>
+    <string name="settings_delete_account_subtitle">Eliminar sus datos de forma permanente</string>
+    <string name="settings_delete_account_dialog_title">¿Desea eliminar su cuenta?</string>
+    <string name="settings_delete_account_dialog_message">Esto elimina de forma permanente su perfil, su progreso y su correo electrónico de nuestros servidores. No se puede deshacer.</string>
+    <string name="settings_delete_account_dialog_subscriber_note">Esto no cancela su suscripción de Google Play. Puede gestionarla en Google Play.</string>
+    <string name="settings_delete_account_manage_subscription">Gestionar suscripción</string>
+    <string name="settings_delete_account_cancel">Cancelar</string>
+    <string name="settings_delete_account_confirm">Eliminar</string>
+    <string name="settings_delete_account_failed_title">No se pudo eliminar su cuenta</string>
+    <string name="settings_delete_account_failed_message">Compruebe su conexión e inténtelo de nuevo.</string>
+    <string name="settings_account_ok">Aceptar</string>
+    <string name="cancel_flow_title">Cancelar suscripción</string>
+    <string name="cancel_flow_settings_subtitle">Díganos por qué antes de continuar</string>
+    <string name="cancel_flow_reason_title">¿Por qué desea cancelar?</string>
+    <string name="cancel_flow_reason_subtitle">Su respuesta nos ayuda a mejorar nuestra app.</string>
+    <string name="cancel_flow_keep_subscription">Mantener mi suscripción</string>
+    <string name="cancel_flow_cancel_anyway">Quiero cancelar de todos modos</string>
+    <string name="cancel_flow_reason_too_expensive">Demasiado caro</string>
+    <string name="cancel_flow_reason_exercises_too_hard">Los ejercicios son demasiado difíciles</string>
+    <string name="cancel_flow_reason_exercises_too_easy">Los ejercicios son demasiado fáciles</string>
+    <string name="cancel_flow_reason_other">Otra cosa</string>
+    <string name="cancel_flow_easier_offer_title">¿Le ayudarían unos ejercicios más suaves?</string>
+    <string name="cancel_flow_easier_offer_subtitle">Podemos ajustar sus sesiones al ritmo más suave. Conservará todo su progreso.</string>
+    <string name="cancel_flow_easier_accept">Quiero probar ejercicios más fáciles</string>
+    <string name="cancel_flow_easier_confirmation_title">Sus sesiones ahora son más suaves</string>
+    <string name="cancel_flow_easier_confirmation_body">Hemos ajustado el ritmo más suave para usted. Su próxima sesión será más fácil.</string>
+    <string name="cancel_flow_harder_offer_title">¿Quiere más desafío?</string>
+    <string name="cancel_flow_harder_offer_subtitle">Podemos ajustar sus sesiones al ritmo más exigente. Conservará todo su progreso.</string>
+    <string name="cancel_flow_harder_accept">Probar ejercicios más difíciles</string>
+    <string name="cancel_flow_harder_confirmation_title">Sus sesiones ahora son más exigentes</string>
+    <string name="cancel_flow_harder_confirmation_body">Hemos ajustado el ritmo más exigente para usted. Su próxima sesión le exigirá más.</string>
+    <string name="cancel_flow_ready_title">¿Seguro que quiere cancelar?</string>
+    <string name="cancel_flow_ready_subtitle">Abriremos la página de suscripciones de Google Play. Su acceso Premium seguirá activo hasta el final del periodo que ya ha pagado.</string>
+    <string name="cancel_flow_feedback_title">¿Qué ha fallado?</string>
+    <string name="cancel_flow_feedback_subtitle">Cuéntenos en unas palabras si lo desea. Es opcional.</string>
+    <string name="cancel_flow_applying">Ajustando su programa</string>
+    <string name="cancel_flow_play_fallback_title">No se han podido abrir las opciones de cancelación</string>
+    <string name="cancel_flow_play_fallback_message">Póngase en contacto con %1$s y le ayudaremos a cancelar su suscripción.</string>
+    <string name="cancel_flow_copy_support_email">Copiar correo de soporte</string>
+</resources>

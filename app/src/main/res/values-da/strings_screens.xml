@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="bmi_health_status_title">Din sundhedsstatus</string>
+    <string name="bmi_health_status_subtitle">Baseret på dit BMI og dit aktivitetsniveau</string>
+    <string name="bmi_label">BMI</string>
+    <string name="bmi_insight_healthy_title">Dit BMI er sundt.</string>
+    <string name="bmi_insight_healthy_message">At holde muskelmassen og forblive aktiv kan hjælpe dig med at bevare energi, balance og et godt helbred på lang sigt.</string>
+    <string name="bmi_insight_underweight_title">Dit BMI er lavt.</string>
+    <string name="bmi_insight_underweight_message">Mere styrke og en sund kropsvægt kan forbedre din modstandskraft, bevægelighed og energi i hverdagen.</string>
+    <string name="bmi_insight_overweight_title">Dit BMI er over gennemsnittet.</string>
+    <string name="bmi_insight_overweight_message">Mere daglig bevægelse og en bedre kropssammensætning kan aflaste dine led og dit stofskifte.</string>
+    <string name="bmi_insight_elevated_title">Dit BMI er forhøjet.</string>
+    <string name="bmi_insight_elevated_message">Mere muskelmasse og daglig aktivitet kan nedsætte helbredsrisici betydeligt.</string>
+    <string name="bmi_category_underweight">Undervægt</string>
+    <string name="bmi_category_healthy">Sund</string>
+    <string name="bmi_category_overweight">Overvægt</string>
+    <string name="bmi_category_elevated">Forhøjet</string>
+    <string name="target_weight_lose_easy_title">Let at nå: tab %1$s af din vægt</string>
+    <string name="target_weight_lose_easy_message">Du vælger et klogt og opnåeligt mål. Daglig bevægelse kan mindske kropsfedt, give dig mere energi og skabe en fremdrift, du gerne vil holde fast i.</string>
+    <string name="target_weight_lose_realistic_title">Realistisk mål: tab %1$s af din vægt</string>
+    <string name="target_weight_lose_realistic_message">Dette mål kan gøre en stor forskel. Stabile fremskridt her hænger sammen med et sundere hjerte, bedre blodsukker og varige resultater.</string>
+    <string name="target_weight_lose_health_title">Godt for sundheden: tab %1$s af din vægt</string>
+    <string name="target_weight_lose_health_message">Dette mål har store fordele. Det kan mindske betændelsestilstande, støtte et sundere blodtryk og blodsukker og mærkbart forbedre dit velvære i hverdagen.</string>
+    <string name="target_weight_lose_challenging_title">Udfordrende mål: tab %1$s af din vægt</string>
+    <string name="target_weight_lose_challenging_message">Det er et modigt mål, og det kan forandre meget. Med regelmæssig træning, god kost og hvile kan du forbedre dit stofskifte og din vitalitet betydeligt.</string>
+    <string name="target_weight_build_easy_title">Let at nå: opbyg %1$s mere muskelmasse</string>
+    <string name="target_weight_build_easy_message">Et godt sted at begynde. Selv en beskeden muskelopbygning kan give bedre stabilitet, mere styrke i hverdagen og større tillid til din krop.</string>
+    <string name="target_weight_build_realistic_title">Realistisk mål: opbyg %1$s mere muskelmasse</string>
+    <string name="target_weight_build_realistic_message">Du sætter dig et højt og fornuftigt mål. Dette niveau kan øge forbrændingen, forbedre din holdning og gøre hverdagens gøremål lettere.</string>
+    <string name="target_weight_build_health_title">Godt for sundheden: opbyg %1$s mere muskelmasse</string>
+    <string name="target_weight_build_health_message">Et fremragende mål for din sundhed. Stærkere muskler støtter stærkere knogler, bedre balance og mindre risiko for skrøbelighed og skader med tiden.</string>
+    <string name="target_weight_build_challenging_title">Udfordrende mål: opbyg %1$s mere muskelmasse</string>
+    <string name="target_weight_build_challenging_message">Dette mål kræver vedholdenhed. Med gradvist øget træning og god hvile kan det styrke din kraft, kropssammensætning og modstandskraft markant.</string>
+    <string name="loading_finalizing_plan">Din plan bliver færdig om %1$d sek.</string>
+    <string name="purchase_dialog_validating_title">Dit køb bekræftes…</string>
+    <string name="purchase_dialog_validating_message">Vent et øjeblik, og luk ikke skærmen</string>
+    <string name="purchase_dialog_success_title">Velkommen til Premium!</string>
+    <string name="purchase_dialog_success_message">Dit køb er gennemført. God fornøjelse med alle Premium-funktionerne!</string>
+    <string name="purchase_dialog_failed_title">Købet mislykkedes</string>
+    <string name="purchase_dialog_failed_message">Noget gik galt. Prøv igen.</string>
+    <string name="back">Ryg</string>
+    <string name="image_placeholder">Billede</string>
+    <string name="completion_stat_minutes">min</string>
+    <string name="completion_stat_calories">kcal</string>
+    <string name="completion_stat_moves">bevægelser</string>
+    <plurals name="preview_stat_calories">
+        <item quantity="one">kalorie</item>
+        <item quantity="other">kalorier</item>
+    </plurals>
+    <plurals name="preview_stat_exercises">
+        <item quantity="one">øvelse</item>
+        <item quantity="other">øvelser</item>
+    </plurals>
+    <string name="difficulty_low">Lav</string>
+    <string name="difficulty_medium">Middel</string>
+    <string name="difficulty_high">Høj</string>
+</resources>

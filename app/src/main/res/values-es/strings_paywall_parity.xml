@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="trial_timeline_title_pre_purchase">Su prueba gratuita, paso a paso</string>
+    <string name="trial_timeline_subtitle_pre_purchase">Esto es lo que ocurre si empieza hoy su prueba gratuita.</string>
+    <string name="trial_timeline_title_cancellation">Hoy no se le cobrará nada</string>
+    <string name="trial_timeline_subtitle_cancellation_authorized">Su prueba es gratuita hasta el %1$s y le avisaremos antes de que termine.</string>
+    <string name="trial_timeline_subtitle_cancellation_permission_needed">Su prueba es gratuita hasta el %1$s. Le pediremos permiso para avisarle antes de que termine.</string>
+    <string name="trial_timeline_subtitle_cancellation_unavailable">Su prueba es gratuita hasta el %1$s. No se le cobrará nada antes.</string>
+    <string name="trial_timeline_button_cancellation">Iniciar prueba gratuita</string>
+    <string name="trial_timeline_title_confirmation">Su prueba gratuita ha comenzado</string>
+    <string name="trial_timeline_subtitle_confirmation">Disfrute de Premium gratis hasta el %1$s.</string>
+    <string name="trial_timeline_button_confirmation">Empezar sesión</string>
+    <string name="trial_timeline_progress_accessibility">Progreso de la configuración</string>
+    <string name="trial_timeline_plan_ready_title">Su plan está listo</string>
+    <string name="trial_timeline_plan_ready_subtitle">Su programa personalizado de Tai Chi está listo para empezar.</string>
+    <string name="trial_timeline_today_title">Hoy</string>
+    <string name="trial_timeline_today_start">Inicie su prueba gratuita y desbloquee todas las sesiones Premium.</string>
+    <string name="trial_timeline_today_active">Su prueba gratuita está activa. Disfrute de todas las sesiones Premium.</string>
+    <string name="trial_timeline_reminder_title">%1$s: recordatorio</string>
+    <string name="trial_timeline_reminder_authorized">Le avisaremos cuando termine su prueba.</string>
+    <string name="trial_timeline_reminder_permission_needed">Le pediremos permiso para avisarle cuando termine su prueba.</string>
+    <string name="trial_timeline_reminder_unavailable">Esto es 2 días antes de que termine su prueba.</string>
+    <string name="trial_timeline_end_title">%1$s: termina la prueba</string>
+    <string name="trial_timeline_end_subtitle">Su suscripción se renovará salvo que la cancele.</string>
+    <string name="trial_timeline_cancel_question">¿Cómo cancelo mi suscripción?</string>
+    <string name="trial_timeline_cancel_answer">En Google Play Store, toque su foto de perfil, luego Pagos y suscripciones y después Suscripciones. Solo hacen falta unos pocos toques.</string>
+    <string name="trial_timeline_not_now">Ahora no</string>
+    <string name="paywall_rating_badge_title">Valoración de %1$s en Google Play</string>
+    <string name="paywall_rating_badge_count">%1$s+ valoraciones</string>
+    <string name="paywall_billed_annually">%1$s al año</string>
+    <string name="paywall_billed_monthly">%1$s al mes</string>
+    <string name="paywall_billed_weekly">%1$s a la semana</string>
+    <string name="paywall_per_week">a la semana</string>
+    <string name="paywall_trial_then_weekly">Prueba gratuita de %1$s días, después %2$s/semana. Renovación automática.</string>
+    <string name="paywall_recurring_yearly">%1$s/año. Cancele cuando quiera.</string>
+    <string name="paywall_recurring_monthly">%1$s/mes. Cancele cuando quiera.</string>
+    <string name="paywall_recurring_weekly">%1$s/semana. Cancele cuando quiera.</string>
+    <string name="paywall_secure_payment_google_play">Pago seguro a través de Google Play</string>
+    <string name="paywall_review_quote_1">Pensé que sería mucho más difícil de seguir y de hacer. ¡Fue genial!</string>
+    <string name="paywall_review_quote_2">Soy nueva en esto, pero sin duda veo resultados. ¡Ojalá lo hubiera encontrado hace mucho!</string>
+    <string name="paywall_review_quote_3">Me gusta que los ejercicios de los primeros días sean fáciles de seguir y nada complicados para mayores como yo.</string>
+    <string name="paywall_review_attribution">— %1$s, reseña en el App Store</string>
+</resources>

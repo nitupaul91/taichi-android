@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="bmi_health_status_title">Helsestatusen din</string>
+    <string name="bmi_health_status_subtitle">Basert på BMI og aktivitetsnivået ditt</string>
+    <string name="bmi_label">BMI</string>
+    <string name="bmi_insight_healthy_title">BMI-en din er sunn.</string>
+    <string name="bmi_insight_healthy_message">Å holde på muskelmassen og være aktiv kan bevare energien, balansen og helsen din på lang sikt.</string>
+    <string name="bmi_insight_underweight_title">BMI-en din er lav.</string>
+    <string name="bmi_insight_underweight_message">Mer styrke og en sunn kroppsmasse kan gi bedre motstandskraft, bevegelighet og energi i hverdagen.</string>
+    <string name="bmi_insight_overweight_title">BMI-en din er over gjennomsnittet.</string>
+    <string name="bmi_insight_overweight_message">Mer bevegelse i hverdagen og en bedre kroppssammensetning kan avlaste både ledd og stoffskifte.</string>
+    <string name="bmi_insight_elevated_title">BMI-en din er forhøyet.</string>
+    <string name="bmi_insight_elevated_message">Mer muskelmasse og daglig aktivitet kan redusere helserisikoen betydelig.</string>
+    <string name="bmi_category_underweight">Undervekt</string>
+    <string name="bmi_category_healthy">Sunn</string>
+    <string name="bmi_category_overweight">Overvekt</string>
+    <string name="bmi_category_elevated">Forhøyet</string>
+    <string name="target_weight_lose_easy_title">Lett å nå: gå ned %1$s av vekten din</string>
+    <string name="target_weight_lose_easy_message">Du velger et klokt og oppnåelig mål. Jevn daglig bevegelse kan redusere kroppsfettet, gi mer energi og gi deg et godt driv du vil holde fast ved.</string>
+    <string name="target_weight_lose_realistic_title">Realistisk mål: gå ned %1$s av vekten din</string>
+    <string name="target_weight_lose_realistic_message">Dette målet kan gjøre en stor forskjell. Jevn fremgang her henger sammen med bedre hjertehelse, bedre blodsukkerkontroll og varige resultater.</string>
+    <string name="target_weight_lose_health_title">Bra for helsen: gå ned %1$s av vekten din</string>
+    <string name="target_weight_lose_health_message">Dette målet gir store fordeler for helsen. Det kan dempe betennelse, bidra til sunnere blodtrykk og blodsukker og merkbart bedre hverdagen din.</string>
+    <string name="target_weight_lose_challenging_title">Krevende mål: gå ned %1$s av vekten din</string>
+    <string name="target_weight_lose_challenging_message">Dette er et modig mål som kan forandre mye. Med jevn trening, godt kosthold og nok hvile kan du bedre stoffskiftet og vitaliteten betydelig.</string>
+    <string name="target_weight_build_easy_title">Lett å nå: bygg %1$s mer muskler</string>
+    <string name="target_weight_build_easy_message">Et godt sted å begynne. Selv litt mer muskler kan gi bedre stabilitet, mer styrke i hverdagen og større trygghet i bevegelsene.</string>
+    <string name="target_weight_build_realistic_title">Realistisk mål: bygg %1$s mer muskler</string>
+    <string name="target_weight_build_realistic_message">Du setter deg et høyt, men fornuftig mål. Dette kan øke forbrenningen, bedre holdningen og gjøre hverdagens gjøremål lettere.</string>
+    <string name="target_weight_build_health_title">Bra for helsen: bygg %1$s mer muskler</string>
+    <string name="target_weight_build_health_message">Et utmerket mål for helsen. Sterkere muskler gir sterkere knokler, bedre balanse og lavere risiko for skrøpelighet og skader over tid.</string>
+    <string name="target_weight_build_challenging_title">Krevende mål: bygg %1$s mer muskler</string>
+    <string name="target_weight_build_challenging_message">Dette målet krever innsats, men med gradvis trening og god hvile kan det gi deg markert bedre styrke, kroppssammensetning og motstandskraft.</string>
+    <string name="loading_finalizing_plan">Planen din blir ferdig om %1$d sek</string>
+    <string name="purchase_dialog_validating_title">Bekrefter kjøpet ditt …</string>
+    <string name="purchase_dialog_validating_message">Vent litt, og ikke lukk dette skjermbildet</string>
+    <string name="purchase_dialog_success_title">Velkommen til Premium!</string>
+    <string name="purchase_dialog_success_message">Kjøpet er fullført. Nyt alle Premium-funksjonene!</string>
+    <string name="purchase_dialog_failed_title">Kjøpet mislyktes</string>
+    <string name="purchase_dialog_failed_message">Noe gikk galt. Prøv igjen.</string>
+    <string name="back">Rygg</string>
+    <string name="image_placeholder">Bilde</string>
+    <string name="completion_stat_minutes">min</string>
+    <string name="completion_stat_calories">kcal</string>
+    <string name="completion_stat_moves">bevegelser</string>
+    <plurals name="preview_stat_calories">
+        <item quantity="one">kalori</item>
+        <item quantity="other">kalorier</item>
+    </plurals>
+    <plurals name="preview_stat_exercises">
+        <item quantity="one">øvelse</item>
+        <item quantity="other">øvelser</item>
+    </plurals>
+    <string name="difficulty_low">Lav</string>
+    <string name="difficulty_medium">Middels</string>
+    <string name="difficulty_high">Høy</string>
+</resources>

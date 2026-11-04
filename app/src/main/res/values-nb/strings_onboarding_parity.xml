@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="onboarding_program_title">Velg treningsform</string>
+    <string name="onboarding_program_subtitle">Velg programmet som passer best til hverdagen din.</string>
+    <string name="onboarding_program_tai_chi_title">Tai Chi</string>
+    <string name="onboarding_program_tai_chi_subtitle">Tradisjonelle, flytende bevegelser for balanse og ro</string>
+    <string name="onboarding_program_walking_title">Tai Chi Walking</string>
+    <string name="onboarding_program_walking_subtitle">Skånsomme gåøvelser kombinert med Tai Chi</string>
+    <string name="onboarding_program_chair_title">Tai Chi på stol</string>
+    <string name="onboarding_program_chair_subtitle">Sittende øvelser ved nedsatt bevegelighet</string>
+    <string name="onboarding_program_let_us_decide_title">La oss velge</string>
+    <string name="onboarding_program_let_us_decide_subtitle">Vi velger det beste programmet ut fra profilen din</string>
+    <string name="onboarding_discovery_tv_commercial">TV-reklame</string>
+    <string name="onboarding_discovery_trainer_therapist">Anbefalt av trener eller terapeut</string>
+    <string name="onboarding_discovery_friends_family">Venner / familie</string>
+    <string name="onboarding_discovery_other">Annet</string>
+    <string name="onboarding_welcome_promise_line_1">Gå ned i *vekt*</string>
+    <string name="onboarding_welcome_promise_line_2">Bedre *balanse*</string>
+    <string name="onboarding_welcome_get_started">Kom i gang</string>
+    <string name="onboarding_welcome_members_caption">medlemmer</string>
+    <string name="onboarding_welcome_minutes_value">10 min</string>
+    <string name="onboarding_welcome_minutes_caption">om dagen</string>
+    <string name="onboarding_welcome_rating_format">Vurdering %1$s</string>
+    <string name="onboarding_social_proof_rating_caption">Google Play-vurdering fra bekreftede brukere</string>
+    <string name="onboarding_social_proof_active_members">Tusenvis av aktive medlemmer</string>
+    <string name="onboarding_loading_rating_count">%1$s  •  %2$s vurderinger</string>
+    <string name="onboarding_loading_members_thousands">Bli med tusenvis av fornøyde medlemmer</string>
+</resources>

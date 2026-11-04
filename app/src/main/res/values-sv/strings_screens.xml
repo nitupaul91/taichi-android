@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="bmi_health_status_title">Din hälsostatus</string>
+    <string name="bmi_health_status_subtitle">Baserat på ditt BMI och din aktivitetsnivå</string>
+    <string name="bmi_label">BMI</string>
+    <string name="bmi_insight_healthy_title">Ditt BMI är hälsosamt.</string>
+    <string name="bmi_insight_healthy_message">Att behålla muskelmassan och hålla sig aktiv kan bevara din energi, balans och hälsa på lång sikt.</string>
+    <string name="bmi_insight_underweight_title">Ditt BMI är lågt.</string>
+    <string name="bmi_insight_underweight_message">Mer styrka och en hälsosam kroppsmassa kan ge bättre motståndskraft, rörlighet och energi i vardagen.</string>
+    <string name="bmi_insight_overweight_title">Ditt BMI ligger över genomsnittet.</string>
+    <string name="bmi_insight_overweight_message">Mer rörelse i vardagen och en bättre kroppssammansättning kan minska belastningen på leder och ämnesomsättning.</string>
+    <string name="bmi_insight_elevated_title">Ditt BMI är förhöjt.</string>
+    <string name="bmi_insight_elevated_message">Mer muskelmassa och daglig aktivitet kan minska hälsoriskerna avsevärt.</string>
+    <string name="bmi_category_underweight">Undervikt</string>
+    <string name="bmi_category_healthy">Hälsosam</string>
+    <string name="bmi_category_overweight">Övervikt</string>
+    <string name="bmi_category_elevated">Förhöjt</string>
+    <string name="target_weight_lose_easy_title">Lätt att nå: gå ner %1$s av din vikt</string>
+    <string name="target_weight_lose_easy_message">Du väljer ett klokt och nåbart mål. Regelbunden daglig rörelse kan minska kroppsfettet, ge dig mer energi och skapa en god vana som du vill behålla.</string>
+    <string name="target_weight_lose_realistic_title">Realistiskt mål: gå ner %1$s av din vikt</string>
+    <string name="target_weight_lose_realistic_message">Det här målet kan göra stor skillnad. Jämna framsteg här hänger ihop med bättre hjärthälsa, stabilare blodsocker och hållbara resultat på lång sikt.</string>
+    <string name="target_weight_lose_health_title">Bra för hälsan: gå ner %1$s av din vikt</string>
+    <string name="target_weight_lose_health_message">Stora fördelar väntar. Att nå det här målet kan minska inflammation, ge bättre blodtryck och blodsocker och märkbart förbättra ditt välbefinnande i vardagen.</string>
+    <string name="target_weight_lose_challenging_title">Utmanande mål: gå ner %1$s av din vikt</string>
+    <string name="target_weight_lose_challenging_message">Det här är ett modigt beslut som kan förändra mycket. Med regelbunden träning, bra kost och god återhämtning kan du förbättra din ämnesomsättning och livskraft påtagligt.</string>
+    <string name="target_weight_build_easy_title">Lätt att nå: bygg %1$s mer muskler</string>
+    <string name="target_weight_build_easy_message">En bra start. Även en måttlig muskelökning kan ge bättre stabilitet, mer styrka i vardagen och större tilltro till hur din kropp rör sig.</string>
+    <string name="target_weight_build_realistic_title">Realistiskt mål: bygg %1$s mer muskler</string>
+    <string name="target_weight_build_realistic_message">Du siktar högt, och klokt. Det här målet kan öka din förbränning, förbättra hållningen och göra vardagens aktiviteter lättare.</string>
+    <string name="target_weight_build_health_title">Bra för hälsan: bygg %1$s mer muskler</string>
+    <string name="target_weight_build_health_message">Ett utmärkt mål för hälsan. Starkare muskler ger starkare skelett, bättre balans och lägre risk för skörhet och skador med tiden.</string>
+    <string name="target_weight_build_challenging_title">Utmanande mål: bygg %1$s mer muskler</string>
+    <string name="target_weight_build_challenging_message">Ett ambitiöst mål. Det kräver engagemang, men med stegvis ökad träning och god återhämtning kan det förändra din styrka, kroppssammansättning och motståndskraft.</string>
+    <string name="loading_finalizing_plan">Din plan blir klar om %1$d sek</string>
+    <string name="purchase_dialog_validating_title">Ditt köp verifieras …</string>
+    <string name="purchase_dialog_validating_message">Vänta lite och stäng inte skärmen</string>
+    <string name="purchase_dialog_success_title">Välkommen till Premium!</string>
+    <string name="purchase_dialog_success_message">Ditt köp har genomförts. Njut av alla Premium-funktioner!</string>
+    <string name="purchase_dialog_failed_title">Köpet misslyckades</string>
+    <string name="purchase_dialog_failed_message">Något gick fel. Försök igen.</string>
+    <string name="back">Rygg</string>
+    <string name="image_placeholder">Bild</string>
+    <string name="completion_stat_minutes">min</string>
+    <string name="completion_stat_calories">kcal</string>
+    <string name="completion_stat_moves">rörelser</string>
+    <plurals name="preview_stat_calories">
+        <item quantity="one">kalori</item>
+        <item quantity="other">kalorier</item>
+    </plurals>
+    <plurals name="preview_stat_exercises">
+        <item quantity="one">övning</item>
+        <item quantity="other">övningar</item>
+    </plurals>
+    <string name="difficulty_low">Låg</string>
+    <string name="difficulty_medium">Medel</string>
+    <string name="difficulty_high">Hög</string>
+</resources>

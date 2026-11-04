@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="settings_account_section">KONTO</string>
+    <string name="settings_delete_account_title">Radera konto</string>
+    <string name="settings_delete_account_subtitle">Ta bort dina uppgifter permanent</string>
+    <string name="settings_delete_account_dialog_title">Vill du radera ditt konto?</string>
+    <string name="settings_delete_account_dialog_message">Detta raderar din profil, dina framsteg och din e-postadress permanent från våra servrar. Det går inte att ångra.</string>
+    <string name="settings_delete_account_dialog_subscriber_note">Din Google Play-prenumeration avslutas inte av detta. Du kan hantera den i Google Play.</string>
+    <string name="settings_delete_account_manage_subscription">Hantera prenumeration</string>
+    <string name="settings_delete_account_cancel">Avbryt</string>
+    <string name="settings_delete_account_confirm">Radera</string>
+    <string name="settings_delete_account_failed_title">Ditt konto kunde inte raderas</string>
+    <string name="settings_delete_account_failed_message">Kontrollera din anslutning och försök igen.</string>
+    <string name="settings_account_ok">OK</string>
+    <string name="cancel_flow_title">Avsluta prenumeration</string>
+    <string name="cancel_flow_settings_subtitle">Berätta kort varför innan du går vidare</string>
+    <string name="cancel_flow_reason_title">Varför vill du avsluta?</string>
+    <string name="cancel_flow_reason_subtitle">Ditt svar hjälper oss att förbättra appen.</string>
+    <string name="cancel_flow_keep_subscription">Behåll min prenumeration</string>
+    <string name="cancel_flow_cancel_anyway">Jag vill ändå avsluta</string>
+    <string name="cancel_flow_reason_too_expensive">För dyrt</string>
+    <string name="cancel_flow_reason_exercises_too_hard">Övningarna är för svåra</string>
+    <string name="cancel_flow_reason_exercises_too_easy">Övningarna är för lätta</string>
+    <string name="cancel_flow_reason_other">Något annat</string>
+    <string name="cancel_flow_easier_offer_title">Skulle lugnare övningar hjälpa?</string>
+    <string name="cancel_flow_easier_offer_subtitle">Vi kan ställa in dina pass på det lugnaste tempot. Allt du redan har gjort finns kvar.</string>
+    <string name="cancel_flow_easier_accept">Jag vill prova lättare övningar</string>
+    <string name="cancel_flow_easier_confirmation_title">Dina pass är nu lugnare</string>
+    <string name="cancel_flow_easier_confirmation_body">Vi har ställt in det lugnaste tempot för dig. Ditt nästa pass blir lättare.</string>
+    <string name="cancel_flow_harder_offer_title">Vill du ha mer utmaning?</string>
+    <string name="cancel_flow_harder_offer_subtitle">Vi kan ställa in dina pass på det mest krävande tempot. Allt du redan har gjort finns kvar.</string>
+    <string name="cancel_flow_harder_accept">Prova svårare övningar</string>
+    <string name="cancel_flow_harder_confirmation_title">Dina pass är nu mer utmanande</string>
+    <string name="cancel_flow_harder_confirmation_body">Vi har ställt in det mest krävande tempot för dig. Ditt nästa pass utmanar dig mer.</string>
+    <string name="cancel_flow_ready_title">Vill du verkligen avsluta?</string>
+    <string name="cancel_flow_ready_subtitle">Vi tar dig till prenumerationssidan på Google Play. Du har kvar Premium till slutet av den period du redan har betalat för.</string>
+    <string name="cancel_flow_feedback_title">Vad gick fel?</string>
+    <string name="cancel_flow_feedback_subtitle">Berätta gärna med några ord. Det är frivilligt.</string>
+    <string name="cancel_flow_applying">Ditt program anpassas</string>
+    <string name="cancel_flow_play_fallback_title">Kunde inte öppna alternativen för att avsluta</string>
+    <string name="cancel_flow_play_fallback_message">Kontakta %1$s så hjälper vi dig att avsluta din prenumeration.</string>
+    <string name="cancel_flow_copy_support_email">Kopiera supportadressen</string>
+</resources>

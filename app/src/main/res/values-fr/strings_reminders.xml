@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="practice_reminder_prompt_title">Demain à la même heure ?</string>
+    <string name="practice_reminder_prompt_body">Gardez votre rythme de Tai Chi. Nous pouvons vous le rappeler demain à %1$s.</string>
+    <string name="practice_reminder_prompt_remind_me">Me le rappeler</string>
+    <string name="practice_reminder_prompt_change_time">Changer l\'heure</string>
+    <string name="practice_reminder_prompt_not_now">Pas maintenant</string>
+    <string name="practice_reminder_permission_denied_title">Les notifications sont désactivées</string>
+    <string name="practice_reminder_permission_denied_message">Activez les notifications pour %1$s dans Paramètres, et nous pourrons vous envoyer des rappels.</string>
+    <string name="practice_reminder_permission_open_settings">Ouvrir Paramètres</string>
+    <string name="notification_practice_reminder_title">C\'est l\'heure de votre séance de Tai Chi</string>
+    <string name="notification_practice_reminder_body">Vous étiez là hier. Quelques minutes en douceur suffisent pour continuer.</string>
+    <string name="notification_practice_reminder_first_session_body">Quelques minutes en douceur suffisent pour commencer.</string>
+    <string name="notification_practice_reminder_second_chance_title">Votre tapis vous attend toujours</string>
+    <string name="notification_practice_reminder_second_chance_body">Cela fait quelques jours. Même cinq minutes en douceur vous remettront en mouvement.</string>
+    <string name="notification_trial_reminder_title">Votre essai gratuit se termine dans 2 jours</string>
+    <plurals name="notification_trial_reminder_body_practiced">
+        <item quantity="one">Vous avez pratiqué une fois cette semaine. Votre essai se termine le %2$s — continuez ainsi, ou gérez votre abonnement à tout moment dans Paramètres.</item>
+        <item quantity="many">Vous avez pratiqué %1$d fois cette semaine. Votre essai se termine le %2$s — continuez ainsi, ou gérez votre abonnement à tout moment dans Paramètres.</item>
+        <item quantity="other">Vous avez pratiqué %1$d fois cette semaine. Votre essai se termine le %2$s — continuez ainsi, ou gérez votre abonnement à tout moment dans Paramètres.</item>
+    </plurals>
+    <string name="notification_trial_reminder_body_not_practiced">Votre essai se termine le %1$s. Il est encore temps pour une séance douce de 5 minutes — et vous pouvez gérer votre abonnement à tout moment dans Paramètres.</string>
+</resources>

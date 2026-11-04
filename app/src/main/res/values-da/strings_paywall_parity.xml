@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="trial_timeline_title_pre_purchase">Din gratis prøveperiode, trin for trin</string>
+    <string name="trial_timeline_subtitle_pre_purchase">Sådan foregår det, hvis du starter din gratis prøveperiode i dag.</string>
+    <string name="trial_timeline_title_cancellation">Du bliver ikke opkrævet noget i dag</string>
+    <string name="trial_timeline_subtitle_cancellation_authorized">Din prøveperiode er gratis indtil %1$s, og vi minder dig om det, før den slutter.</string>
+    <string name="trial_timeline_subtitle_cancellation_permission_needed">Din prøveperiode er gratis indtil %1$s. Vi spørger, om vi må minde dig om det, før den slutter.</string>
+    <string name="trial_timeline_subtitle_cancellation_unavailable">Din prøveperiode er gratis indtil %1$s. Du bliver ikke opkrævet noget før da.</string>
+    <string name="trial_timeline_button_cancellation">Start gratis prøveperiode</string>
+    <string name="trial_timeline_title_confirmation">Din gratis prøveperiode er begyndt</string>
+    <string name="trial_timeline_subtitle_confirmation">Nyd Premium gratis indtil %1$s.</string>
+    <string name="trial_timeline_button_confirmation">Start session</string>
+    <string name="trial_timeline_progress_accessibility">Fremskridt i opsætningen</string>
+    <string name="trial_timeline_plan_ready_title">Din plan er klar</string>
+    <string name="trial_timeline_plan_ready_subtitle">Dit personlige Tai Chi-program er klar til at begynde.</string>
+    <string name="trial_timeline_today_title">I dag</string>
+    <string name="trial_timeline_today_start">Start din gratis prøveperiode, og få adgang til alle Premium-sessioner.</string>
+    <string name="trial_timeline_today_active">Din gratis prøveperiode er aktiv. Nyd alle Premium-sessioner.</string>
+    <string name="trial_timeline_reminder_title">%1$s – Påmindelse</string>
+    <string name="trial_timeline_reminder_authorized">Vi minder dig om det, når din prøveperiode slutter.</string>
+    <string name="trial_timeline_reminder_permission_needed">Vi spørger, om vi må minde dig om det, når din prøveperiode slutter.</string>
+    <string name="trial_timeline_reminder_unavailable">Det er 2 dage, før din prøveperiode slutter.</string>
+    <string name="trial_timeline_end_title">%1$s – Prøveperiode slutter</string>
+    <string name="trial_timeline_end_subtitle">Dit abonnement fornyes, medmindre du opsiger det.</string>
+    <string name="trial_timeline_cancel_question">Hvordan opsiger jeg mit abonnement?</string>
+    <string name="trial_timeline_cancel_answer">I Google Play Butik trykker du på dit profilbillede, derefter på ”Betalinger og abonnementer” og til sidst på ”Abonnementer”. Det kræver kun nogle få tryk.</string>
+    <string name="trial_timeline_not_now">Ikke nu</string>
+    <string name="paywall_rating_badge_title">Vurderet %1$s på Google Play</string>
+    <string name="paywall_rating_badge_count">Over %1$s vurderinger</string>
+    <string name="paywall_billed_annually">%1$s om året</string>
+    <string name="paywall_billed_monthly">%1$s om måneden</string>
+    <string name="paywall_billed_weekly">%1$s pr. uge</string>
+    <string name="paywall_per_week">pr. uge</string>
+    <string name="paywall_trial_then_weekly">%1$s dages gratis prøveperiode, derefter %2$s/uge. Fornyes automatisk.</string>
+    <string name="paywall_recurring_yearly">%1$s/år. Opsig når som helst.</string>
+    <string name="paywall_recurring_monthly">%1$s/måned. Opsig når som helst.</string>
+    <string name="paywall_recurring_weekly">%1$s/uge. Opsig når som helst.</string>
+    <string name="paywall_secure_payment_google_play">Sikker betaling via Google Play</string>
+    <string name="paywall_review_quote_1">Jeg troede, det ville være meget sværere at følge og udføre. Det var fantastisk!</string>
+    <string name="paywall_review_quote_2">Jeg er ny i det her, men jeg ser helt sikkert resultater. Gid jeg havde fundet det for længe siden!</string>
+    <string name="paywall_review_quote_3">Jeg kan lide, at øvelserne de første dage er lette at følge og ikke for komplicerede for seniorer som mig.</string>
+    <string name="paywall_review_attribution">— %1$s, App Store-anmeldelse</string>
+</resources>

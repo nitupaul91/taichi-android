@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="onboarding_program_title">Choisissez votre style de pratique</string>
+    <string name="onboarding_program_subtitle">Choisissez le programme qui convient le mieux à votre mode de vie.</string>
+    <string name="onboarding_program_tai_chi_title">Tai Chi</string>
+    <string name="onboarding_program_tai_chi_subtitle">Des mouvements fluides et traditionnels pour l\'équilibre et le calme</string>
+    <string name="onboarding_program_walking_title">Tai Chi Walking</string>
+    <string name="onboarding_program_walking_subtitle">Des exercices de marche en douceur, associés au Tai Chi</string>
+    <string name="onboarding_program_chair_title">Tai Chi sur chaise</string>
+    <string name="onboarding_program_chair_subtitle">Des exercices assis en cas de mobilité réduite</string>
+    <string name="onboarding_program_let_us_decide_title">Laissez-nous choisir</string>
+    <string name="onboarding_program_let_us_decide_subtitle">Nous choisirons le programme le mieux adapté à votre profil</string>
+    <string name="onboarding_discovery_tv_commercial">Publicité télévisée</string>
+    <string name="onboarding_discovery_trainer_therapist">Conseillé par un coach ou un thérapeute</string>
+    <string name="onboarding_discovery_friends_family">Amis / Famille</string>
+    <string name="onboarding_discovery_other">Autre</string>
+    <string name="onboarding_welcome_promise_line_1">Perdez du *poids*</string>
+    <string name="onboarding_welcome_promise_line_2">Améliorez votre *équilibre*</string>
+    <string name="onboarding_welcome_get_started">Commencer</string>
+    <string name="onboarding_welcome_members_caption">membres</string>
+    <string name="onboarding_welcome_minutes_value">10 min</string>
+    <string name="onboarding_welcome_minutes_caption">par jour</string>
+    <string name="onboarding_welcome_rating_format">Note %1$s</string>
+    <string name="onboarding_social_proof_rating_caption">Note Google Play d\'utilisateurs vérifiés</string>
+    <string name="onboarding_social_proof_active_members">Des milliers de membres actifs</string>
+    <string name="onboarding_loading_rating_count">%1$s  •  %2$s avis</string>
+    <string name="onboarding_loading_members_thousands">Rejoignez des milliers de membres satisfaits</string>
+</resources>

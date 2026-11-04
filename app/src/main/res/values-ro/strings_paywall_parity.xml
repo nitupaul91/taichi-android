@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="trial_timeline_title_pre_purchase">Perioada de probă gratuită, pas cu pas</string>
+    <string name="trial_timeline_subtitle_pre_purchase">Iată ce se întâmplă dacă începeți astăzi perioada de probă gratuită.</string>
+    <string name="trial_timeline_title_cancellation">Astăzi nu veți plăti nimic</string>
+    <string name="trial_timeline_subtitle_cancellation_authorized">Perioada de probă este gratuită până la %1$s și vă vom reaminti înainte să se încheie.</string>
+    <string name="trial_timeline_subtitle_cancellation_permission_needed">Perioada de probă este gratuită până la %1$s. Vă vom cere permisiunea să vă reamintim înainte să se încheie.</string>
+    <string name="trial_timeline_subtitle_cancellation_unavailable">Perioada de probă este gratuită până la %1$s. Nu se percepe nicio plată până atunci.</string>
+    <string name="trial_timeline_button_cancellation">Începeți proba gratuită</string>
+    <string name="trial_timeline_title_confirmation">Perioada de probă gratuită a început</string>
+    <string name="trial_timeline_subtitle_confirmation">Bucurați-vă de Premium gratuit până la %1$s.</string>
+    <string name="trial_timeline_button_confirmation">Începeți sesiunea</string>
+    <string name="trial_timeline_progress_accessibility">Progresul configurării</string>
+    <string name="trial_timeline_plan_ready_title">Planul este gata</string>
+    <string name="trial_timeline_plan_ready_subtitle">Programul dumneavoastră personalizat de Tai Chi este gata de început.</string>
+    <string name="trial_timeline_today_title">Astăzi</string>
+    <string name="trial_timeline_today_start">Începeți perioada de probă gratuită și deblocați toate sesiunile Premium.</string>
+    <string name="trial_timeline_today_active">Perioada de probă gratuită este activă. Bucurați-vă de toate sesiunile Premium.</string>
+    <string name="trial_timeline_reminder_title">%1$s – Memento</string>
+    <string name="trial_timeline_reminder_authorized">Vă vom reaminti când se încheie perioada de probă gratuită.</string>
+    <string name="trial_timeline_reminder_permission_needed">Vă vom întreba dacă doriți un memento la sfârșitul probei.</string>
+    <string name="trial_timeline_reminder_unavailable">Cu 2 zile înainte de sfârșitul perioadei de probă gratuite.</string>
+    <string name="trial_timeline_end_title">%1$s – Sfârșitul probei</string>
+    <string name="trial_timeline_end_subtitle">Abonamentul se reînnoiește dacă nu îl anulați.</string>
+    <string name="trial_timeline_cancel_question">Cum îmi anulez abonamentul?</string>
+    <string name="trial_timeline_cancel_answer">În Google Play Store, atingeți fotografia de profil, apoi „Plăți și abonamente” și apoi „Abonamente”. Este nevoie doar de câteva atingeri.</string>
+    <string name="trial_timeline_not_now">Nu acum</string>
+    <string name="paywall_rating_badge_title">Notă %1$s pe Google Play</string>
+    <string name="paywall_rating_badge_count">%1$s+ evaluări</string>
+    <string name="paywall_billed_annually">%1$s pe an</string>
+    <string name="paywall_billed_monthly">%1$s pe lună</string>
+    <string name="paywall_billed_weekly">%1$s pe săptămână</string>
+    <string name="paywall_per_week">pe săptămână</string>
+    <string name="paywall_trial_then_weekly">Probă gratuită de %1$s zile, apoi %2$s/săptămână. Se reînnoiește automat.</string>
+    <string name="paywall_recurring_yearly">%1$s/an. Puteți anula oricând.</string>
+    <string name="paywall_recurring_monthly">%1$s/lună. Puteți anula oricând.</string>
+    <string name="paywall_recurring_weekly">%1$s/săptămână. Puteți anula oricând.</string>
+    <string name="paywall_secure_payment_google_play">Plată securizată prin Google Play</string>
+    <string name="paywall_review_quote_1">Credeam că va fi mult mai greu de urmărit și de făcut. A fost grozav!</string>
+    <string name="paywall_review_quote_2">Sunt nouă în asta, dar văd clar rezultate. Ce bine ar fi fost să fi găsit asta cu mult timp în urmă!</string>
+    <string name="paywall_review_quote_3">Îmi place că exercițiile din primele zile sunt ușor de urmărit și nimic prea complicat pentru seniori ca mine.</string>
+    <string name="paywall_review_attribution">— %1$s, recenzie din App Store</string>
+</resources>

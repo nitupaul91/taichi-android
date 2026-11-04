@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="trial_timeline_title_pre_purchase">Votre essai gratuit, étape par étape</string>
+    <string name="trial_timeline_subtitle_pre_purchase">Voici exactement ce qui se passe si vous commencez votre essai gratuit aujourd\'hui.</string>
+    <string name="trial_timeline_title_cancellation">Rien ne vous sera facturé aujourd\'hui</string>
+    <string name="trial_timeline_subtitle_cancellation_authorized">Votre essai est gratuit jusqu\'au %1$s, et nous vous préviendrons avant la fin.</string>
+    <string name="trial_timeline_subtitle_cancellation_permission_needed">Votre essai est gratuit jusqu\'au %1$s. Nous vous demanderons la permission de vous prévenir avant la fin.</string>
+    <string name="trial_timeline_subtitle_cancellation_unavailable">Votre essai est gratuit jusqu\'au %1$s. Rien ne vous sera facturé avant cette date.</string>
+    <string name="trial_timeline_button_cancellation">Commencer l\'essai gratuit</string>
+    <string name="trial_timeline_title_confirmation">Votre essai gratuit a commencé</string>
+    <string name="trial_timeline_subtitle_confirmation">Profitez de Premium gratuitement jusqu\'au %1$s.</string>
+    <string name="trial_timeline_button_confirmation">Commencer la séance</string>
+    <string name="trial_timeline_progress_accessibility">Progression de la configuration</string>
+    <string name="trial_timeline_plan_ready_title">Votre plan est prêt</string>
+    <string name="trial_timeline_plan_ready_subtitle">Votre programme de Tai Chi personnalisé est prêt à commencer.</string>
+    <string name="trial_timeline_today_title">Aujourd\'hui</string>
+    <string name="trial_timeline_today_start">Commencez votre essai gratuit et débloquez toutes les séances Premium.</string>
+    <string name="trial_timeline_today_active">Votre essai gratuit est actif. Profitez de toutes les séances Premium.</string>
+    <string name="trial_timeline_reminder_title">%1$s – Rappel</string>
+    <string name="trial_timeline_reminder_authorized">Nous vous préviendrons à la fin de votre essai.</string>
+    <string name="trial_timeline_reminder_permission_needed">Nous vous proposerons un rappel à la fin de votre essai.</string>
+    <string name="trial_timeline_reminder_unavailable">Soit 2 jours avant la fin de votre essai.</string>
+    <string name="trial_timeline_end_title">%1$s – Fin de l\'essai</string>
+    <string name="trial_timeline_end_subtitle">Votre abonnement se renouvelle, sauf si vous l\'annulez.</string>
+    <string name="trial_timeline_cancel_question">Comment annuler mon abonnement ?</string>
+    <string name="trial_timeline_cancel_answer">Dans le Google Play Store, appuyez sur votre photo de profil, puis sur Paiements et abonnements, puis sur Abonnements. Quelques gestes suffisent.</string>
+    <string name="trial_timeline_not_now">Pas maintenant</string>
+    <string name="paywall_rating_badge_title">Note de %1$s sur Google Play</string>
+    <string name="paywall_rating_badge_count">%1$s+ avis</string>
+    <string name="paywall_billed_annually">%1$s par an</string>
+    <string name="paywall_billed_monthly">%1$s par mois</string>
+    <string name="paywall_billed_weekly">%1$s par semaine</string>
+    <string name="paywall_per_week">par semaine</string>
+    <string name="paywall_trial_then_weekly">Essai gratuit de %1$s jours, puis %2$s/semaine. Renouvellement automatique.</string>
+    <string name="paywall_recurring_yearly">%1$s/an. Annulable à tout moment.</string>
+    <string name="paywall_recurring_monthly">%1$s/mois. Annulable à tout moment.</string>
+    <string name="paywall_recurring_weekly">%1$s/semaine. Annulable à tout moment.</string>
+    <string name="paywall_secure_payment_google_play">Paiement sécurisé via Google Play</string>
+    <string name="paywall_review_quote_1">Je pensais que ce serait bien plus difficile à suivre et à faire. C\'était super !</string>
+    <string name="paywall_review_quote_2">Je débute, mais je vois clairement des résultats. Si seulement j\'avais trouvé ça plus tôt !</string>
+    <string name="paywall_review_quote_3">J\'aime que les exercices des premiers jours soient faciles à suivre et pas trop compliqués pour des seniors comme moi.</string>
+    <string name="paywall_review_attribution">— %1$s, avis sur l\'App Store</string>
+</resources>

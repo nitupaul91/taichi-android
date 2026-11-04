@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="bmi_health_status_title">Gesundheitsstatus</string>
+    <string name="bmi_health_status_subtitle">Auf Grundlage Ihres BMI und Ihres Aktivitätsniveaus</string>
+    <string name="bmi_label">BMI</string>
+    <string name="bmi_insight_healthy_title">Ihr BMI liegt im gesunden Bereich.</string>
+    <string name="bmi_insight_healthy_message">Muskelmasse zu erhalten und aktiv zu bleiben kann Ihre Energie, Balance und langfristige Gesundheit unterstützen.</string>
+    <string name="bmi_insight_underweight_title">Ihr BMI ist niedrig.</string>
+    <string name="bmi_insight_underweight_message">Mehr Kraft und eine gesunde Körpermasse können Ihre Belastbarkeit, Beweglichkeit und Energie im Alltag verbessern.</string>
+    <string name="bmi_insight_overweight_title">Ihr BMI liegt über dem Durchschnitt.</string>
+    <string name="bmi_insight_overweight_message">Mehr Bewegung im Alltag und eine günstigere Körperzusammensetzung können Gelenke und Stoffwechsel entlasten.</string>
+    <string name="bmi_insight_elevated_title">Ihr BMI ist erhöht.</string>
+    <string name="bmi_insight_elevated_message">Mehr Muskelmasse und tägliche Aktivität können Gesundheitsrisiken deutlich verringern.</string>
+    <string name="bmi_category_underweight">Untergewicht</string>
+    <string name="bmi_category_healthy">Gesund</string>
+    <string name="bmi_category_overweight">Übergewicht</string>
+    <string name="bmi_category_elevated">Erhöht</string>
+    <string name="target_weight_lose_easy_title">Gut erreichbar: %1$s Gewichtsabnahme</string>
+    <string name="target_weight_lose_easy_message">Sie wählen ein sinnvolles, erreichbares Ziel. Regelmäßige tägliche Bewegung kann Körperfett reduzieren, Ihre Energie steigern und Ihnen helfen, dauerhaft dranzubleiben.</string>
+    <string name="target_weight_lose_realistic_title">Realistisches Ziel: %1$s Ihres Gewichts abnehmen</string>
+    <string name="target_weight_lose_realistic_message">Dieses Ziel kann viel bewirken. Gleichmäßiger Fortschritt unterstützt die Herzgesundheit, die Blutzuckerregulation und langfristig stabile Ergebnisse.</string>
+    <string name="target_weight_lose_health_title">Gut für die Gesundheit: %1$s Ihres Gewichts abnehmen</string>
+    <string name="target_weight_lose_health_message">Dieses Ziel bietet große gesundheitliche Vorteile. Es kann Entzündungen verringern, gesunde Blutdruck- und Blutzuckerwerte unterstützen und Ihr Wohlbefinden im Alltag spürbar verbessern.</string>
+    <string name="target_weight_lose_challenging_title">Anspruchsvolles Ziel: %1$s Ihres Gewichts abnehmen</string>
+    <string name="target_weight_lose_challenging_message">Das ist ein mutiges Vorhaben, das viel verändern kann. Mit regelmäßigem Training, ausgewogener Ernährung und guter Erholung können Sie Stoffwechselgesundheit und Vitalität deutlich verbessern.</string>
+    <string name="target_weight_build_easy_title">Gut erreichbar: %1$s mehr Muskeln aufbauen</string>
+    <string name="target_weight_build_easy_message">Das ist ein guter Einstieg. Schon ein mäßiger Muskelaufbau kann Stabilität, Kraft im Alltag und Vertrauen in Ihre Bewegungen stärken.</string>
+    <string name="target_weight_build_realistic_title">Realistisches Ziel: %1$s mehr Muskeln aufbauen</string>
+    <string name="target_weight_build_realistic_message">Sie setzen sich ein ehrgeiziges und sinnvolles Ziel. Dieser Bereich kann den Energieverbrauch erhöhen, die Haltung verbessern und alltägliche Aktivitäten erleichtern.</string>
+    <string name="target_weight_build_health_title">Gut für die Gesundheit: %1$s mehr Muskeln aufbauen</string>
+    <string name="target_weight_build_health_message">Ein ausgezeichnetes Ziel für Ihre Gesundheit. Kräftigere Muskeln unterstützen stabile Knochen, eine bessere Balance und können langfristig das Risiko für Gebrechlichkeit und Verletzungen senken.</string>
+    <string name="target_weight_build_challenging_title">Anspruchsvolles Ziel: %1$s mehr Muskeln aufbauen</string>
+    <string name="target_weight_build_challenging_message">Dieses Ziel erfordert Ausdauer. Mit schrittweise gesteigertem Training und guter Erholung können Sie Kraft, Körperzusammensetzung und Belastbarkeit deutlich verbessern.</string>
+    <string name="loading_finalizing_plan">Ihr Plan ist in %1$d Sek. fertig</string>
+    <string name="purchase_dialog_validating_title">Ihr Kauf wird überprüft …</string>
+    <string name="purchase_dialog_validating_message">Bitte warten Sie und schließen Sie diesen Bildschirm nicht</string>
+    <string name="purchase_dialog_success_title">Willkommen bei Premium!</string>
+    <string name="purchase_dialog_success_message">Ihr Kauf war erfolgreich. Viel Freude mit allen Premium-Funktionen!</string>
+    <string name="purchase_dialog_failed_title">Kauf fehlgeschlagen</string>
+    <string name="purchase_dialog_failed_message">Etwas ist schiefgelaufen. Bitte versuchen Sie es erneut.</string>
+    <string name="back">Rücken</string>
+    <string name="image_placeholder">Bild</string>
+    <string name="completion_stat_minutes">Min.</string>
+    <string name="completion_stat_calories">kcal</string>
+    <string name="completion_stat_moves">Übungen</string>
+    <plurals name="preview_stat_calories">
+        <item quantity="one">Kalorie</item>
+        <item quantity="other">Kalorien</item>
+    </plurals>
+    <plurals name="preview_stat_exercises">
+        <item quantity="one">Übung</item>
+        <item quantity="other">Übungen</item>
+    </plurals>
+    <string name="difficulty_low">Niedrig</string>
+    <string name="difficulty_medium">Mittel</string>
+    <string name="difficulty_high">Hoch</string>
+</resources>

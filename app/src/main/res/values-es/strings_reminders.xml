@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="practice_reminder_prompt_title">¿Mañana a la misma hora?</string>
+    <string name="practice_reminder_prompt_body">Mantenga su rutina de Tai Chi. Podemos avisarle mañana a las %1$s.</string>
+    <string name="practice_reminder_prompt_remind_me">Avíseme</string>
+    <string name="practice_reminder_prompt_change_time">Cambiar hora</string>
+    <string name="practice_reminder_prompt_not_now">Ahora no</string>
+    <string name="practice_reminder_permission_denied_title">Las notificaciones están desactivadas</string>
+    <string name="practice_reminder_permission_denied_message">Active las notificaciones de %1$s en Ajustes y podremos recordárselo.</string>
+    <string name="practice_reminder_permission_open_settings">Abrir Ajustes</string>
+    <string name="notification_practice_reminder_title">Es hora de su sesión de Tai Chi</string>
+    <string name="notification_practice_reminder_body">Ayer estuvo ahí. Bastan unos minutos suaves para seguir adelante.</string>
+    <string name="notification_practice_reminder_first_session_body">Bastan unos minutos suaves para empezar.</string>
+    <string name="notification_practice_reminder_second_chance_title">Su esterilla sigue esperando</string>
+    <string name="notification_practice_reminder_second_chance_body">Han pasado un par de días. Solo cinco minutos suaves le pondrán en movimiento otra vez.</string>
+    <string name="notification_trial_reminder_title">Su prueba gratuita termina en 2 días</string>
+    <plurals name="notification_trial_reminder_body_practiced">
+        <item quantity="one">Esta semana ha practicado una vez. Su prueba termina el %2$s. Siga así o gestione su plan cuando quiera en Ajustes.</item>
+        <item quantity="other">Esta semana ha practicado %1$d veces. Su prueba termina el %2$s. Siga así o gestione su plan cuando quiera en Ajustes.</item>
+    </plurals>
+    <string name="notification_trial_reminder_body_not_practiced">Su prueba termina el %1$s. Aún hay tiempo para una sesión suave de 5 minutos. Gestione su plan en Ajustes cuando quiera.</string>
+</resources>

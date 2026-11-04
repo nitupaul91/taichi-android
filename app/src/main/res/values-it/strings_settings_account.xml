@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="settings_account_section">ACCOUNT</string>
+    <string name="settings_delete_account_title">Elimina account</string>
+    <string name="settings_delete_account_subtitle">Rimozione definitiva dei Suoi dati</string>
+    <string name="settings_delete_account_dialog_title">Vuole eliminare il Suo account?</string>
+    <string name="settings_delete_account_dialog_message">Il Suo profilo, i Suoi progressi e la Sua e-mail verranno eliminati definitivamente dai nostri server. L\'operazione non può essere annullata.</string>
+    <string name="settings_delete_account_dialog_subscriber_note">Questa operazione non annulla il Suo abbonamento Google Play: può gestirlo su Google Play.</string>
+    <string name="settings_delete_account_manage_subscription">Gestisci abbonamento</string>
+    <string name="settings_delete_account_cancel">Annulla</string>
+    <string name="settings_delete_account_confirm">Elimina</string>
+    <string name="settings_delete_account_failed_title">Impossibile eliminare il Suo account</string>
+    <string name="settings_delete_account_failed_message">Controlli la connessione e riprovi.</string>
+    <string name="settings_account_ok">OK</string>
+    <string name="cancel_flow_title">Annulla abbonamento</string>
+    <string name="cancel_flow_settings_subtitle">Ci dica il motivo prima di continuare</string>
+    <string name="cancel_flow_reason_title">Perché desidera annullare?</string>
+    <string name="cancel_flow_reason_subtitle">La Sua risposta ci aiuta a migliorare l\'app.</string>
+    <string name="cancel_flow_keep_subscription">Mantieni l\'abbonamento</string>
+    <string name="cancel_flow_cancel_anyway">Voglio annullare comunque</string>
+    <string name="cancel_flow_reason_too_expensive">Troppo caro</string>
+    <string name="cancel_flow_reason_exercises_too_hard">Gli esercizi sono troppo difficili</string>
+    <string name="cancel_flow_reason_exercises_too_easy">Gli esercizi sono troppo facili</string>
+    <string name="cancel_flow_reason_other">Altro motivo</string>
+    <string name="cancel_flow_easier_offer_title">Esercizi più dolci potrebbero aiutare?</string>
+    <string name="cancel_flow_easier_offer_subtitle">Possiamo impostare le Sue sessioni al ritmo più dolce. Tutto ciò che ha già fatto resta salvato.</string>
+    <string name="cancel_flow_easier_accept">Voglio provare esercizi più facili</string>
+    <string name="cancel_flow_easier_confirmation_title">Le Sue sessioni ora sono più dolci</string>
+    <string name="cancel_flow_easier_confirmation_body">Abbiamo impostato per Lei il ritmo più dolce. La Sua prossima sessione sarà più facile.</string>
+    <string name="cancel_flow_harder_offer_title">Vuole una sfida in più?</string>
+    <string name="cancel_flow_harder_offer_subtitle">Possiamo impostare le Sue sessioni al ritmo più impegnativo. Tutto ciò che ha già fatto resta salvato.</string>
+    <string name="cancel_flow_harder_accept">Voglio provare esercizi più impegnativi</string>
+    <string name="cancel_flow_harder_confirmation_title">Le Sue sessioni ora sono più impegnative</string>
+    <string name="cancel_flow_harder_confirmation_body">Abbiamo impostato per Lei il ritmo più impegnativo. La Sua prossima sessione La metterà più alla prova.</string>
+    <string name="cancel_flow_ready_title">Vuole davvero annullare?</string>
+    <string name="cancel_flow_ready_subtitle">Apriremo la pagina degli abbonamenti di Google Play. Il Suo accesso Premium resta attivo fino alla fine del periodo già pagato.</string>
+    <string name="cancel_flow_feedback_title">Cosa non ha funzionato?</string>
+    <string name="cancel_flow_feedback_subtitle">Se vuole, ce lo racconti in poche parole. È facoltativo.</string>
+    <string name="cancel_flow_applying">Adattamento del programma</string>
+    <string name="cancel_flow_play_fallback_title">Impossibile aprire le opzioni di annullamento</string>
+    <string name="cancel_flow_play_fallback_message">Contatti %1$s e L\'aiuteremo ad annullare l\'abbonamento.</string>
+    <string name="cancel_flow_copy_support_email">Copia email di assistenza</string>
+</resources>

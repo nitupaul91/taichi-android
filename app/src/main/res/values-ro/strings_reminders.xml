@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="practice_reminder_prompt_title">Mâine, la aceeași oră?</string>
+    <string name="practice_reminder_prompt_body">Continuați rutina de Tai Chi. Vă putem reaminti mâine la %1$s.</string>
+    <string name="practice_reminder_prompt_remind_me">Reamintiți-mi</string>
+    <string name="practice_reminder_prompt_change_time">Schimbați ora</string>
+    <string name="practice_reminder_prompt_not_now">Nu acum</string>
+    <string name="practice_reminder_permission_denied_title">Notificările sunt dezactivate</string>
+    <string name="practice_reminder_permission_denied_message">Activați notificările pentru %1$s din Setări și vă vom putea reaminti.</string>
+    <string name="practice_reminder_permission_open_settings">Deschideți Setări</string>
+    <string name="notification_practice_reminder_title">Ora sesiunii de Tai Chi</string>
+    <string name="notification_practice_reminder_body">Ați practicat ieri. Câteva minute blânde sunt de ajuns pentru a continua.</string>
+    <string name="notification_practice_reminder_first_session_body">Câteva minute blânde sunt de ajuns pentru a începe.</string>
+    <string name="notification_practice_reminder_second_chance_title">Covorașul vă așteaptă încă</string>
+    <string name="notification_practice_reminder_second_chance_body">Au trecut câteva zile. Chiar și cinci minute blânde vă pun din nou în mișcare.</string>
+    <string name="notification_trial_reminder_title">Perioada de probă gratuită se încheie în 2 zile</string>
+    <plurals name="notification_trial_reminder_body_practiced">
+        <item quantity="one">Ați practicat o dată săptămâna aceasta. Perioada de probă gratuită se încheie pe %2$s – continuați așa sau gestionați-vă abonamentul oricând din Setări.</item>
+        <item quantity="few">Ați practicat de %1$d ori săptămâna aceasta. Perioada de probă gratuită se încheie pe %2$s – continuați așa sau gestionați-vă abonamentul oricând din Setări.</item>
+        <item quantity="other">Ați practicat de %1$d de ori săptămâna aceasta. Perioada de probă gratuită se încheie pe %2$s – continuați așa sau gestionați-vă abonamentul oricând din Setări.</item>
+    </plurals>
+    <string name="notification_trial_reminder_body_not_practiced">Perioada de probă gratuită se încheie %1$s. Mai aveți timp pentru o sesiune blândă de 5 minute – iar abonamentul îl puteți gestiona oricând în Setări.</string>
+</resources>

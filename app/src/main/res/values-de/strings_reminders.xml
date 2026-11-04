@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="practice_reminder_prompt_title">Morgen zur gleichen Zeit?</string>
+    <string name="practice_reminder_prompt_body">Bleiben Sie bei Ihrer Tai-Chi-Routine. Wir können Sie morgen um %1$s erinnern.</string>
+    <string name="practice_reminder_prompt_remind_me">Erinnere mich</string>
+    <string name="practice_reminder_prompt_change_time">Zeit ändern</string>
+    <string name="practice_reminder_prompt_not_now">Nicht jetzt</string>
+    <string name="practice_reminder_permission_denied_title">Benachrichtigungen sind ausgeschaltet</string>
+    <string name="practice_reminder_permission_denied_message">Schalten Sie in den Einstellungen die Benachrichtigungen für %1$s ein, dann können wir Sie erinnern.</string>
+    <string name="practice_reminder_permission_open_settings">Einstellungen öffnen</string>
+    <string name="notification_practice_reminder_title">Zeit für Ihre Tai-Chi-Einheit</string>
+    <string name="notification_practice_reminder_body">Gestern waren Sie dabei. Ein paar sanfte Minuten genügen, um dranzubleiben.</string>
+    <string name="notification_practice_reminder_first_session_body">Ein paar sanfte Minuten genügen, um anzufangen.</string>
+    <string name="notification_practice_reminder_second_chance_title">Ihre Matte wartet noch</string>
+    <string name="notification_practice_reminder_second_chance_body">Es sind ein paar Tage vergangen. Schon fünf sanfte Minuten bringen Sie wieder in Bewegung.</string>
+    <string name="notification_trial_reminder_title">Ihre kostenlose Testphase endet in 2 Tagen</string>
+    <plurals name="notification_trial_reminder_body_practiced">
+        <item quantity="one">Sie haben diese Woche einmal geübt. Ihre Testphase endet am %2$s – bleiben Sie dran oder verwalten Sie Ihr Abo jederzeit in den Einstellungen.</item>
+        <item quantity="other">Sie haben diese Woche %1$d-mal geübt. Ihre Testphase endet am %2$s – bleiben Sie dran oder verwalten Sie Ihr Abo jederzeit in den Einstellungen.</item>
+    </plurals>
+    <string name="notification_trial_reminder_body_not_practiced">Ihre Testphase endet am %1$s. Noch Zeit für eine sanfte 5-Minuten-Übung – Ihr Abo verwalten Sie jederzeit in den Einstellungen.</string>
+</resources>

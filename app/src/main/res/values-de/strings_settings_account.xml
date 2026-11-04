@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="settings_account_section">KONTO</string>
+    <string name="settings_delete_account_title">Konto löschen</string>
+    <string name="settings_delete_account_subtitle">Ihre Daten dauerhaft entfernen</string>
+    <string name="settings_delete_account_dialog_title">Möchten Sie Ihr Konto löschen?</string>
+    <string name="settings_delete_account_dialog_message">Damit werden Ihr Profil, Ihr Fortschritt und Ihre E-Mail-Adresse dauerhaft von unseren Servern gelöscht. Das lässt sich nicht rückgängig machen.</string>
+    <string name="settings_delete_account_dialog_subscriber_note">Ihr Abo bei Google Play wird dadurch nicht gekündigt – verwalten Sie es direkt bei Google Play.</string>
+    <string name="settings_delete_account_manage_subscription">Abo verwalten</string>
+    <string name="settings_delete_account_cancel">Abbrechen</string>
+    <string name="settings_delete_account_confirm">Löschen</string>
+    <string name="settings_delete_account_failed_title">Ihr Konto konnte nicht gelöscht werden</string>
+    <string name="settings_delete_account_failed_message">Bitte prüfen Sie Ihre Verbindung und versuchen Sie es erneut.</string>
+    <string name="settings_account_ok">OK</string>
+    <string name="cancel_flow_title">Abo kündigen</string>
+    <string name="cancel_flow_settings_subtitle">Sagen Sie uns kurz, warum</string>
+    <string name="cancel_flow_reason_title">Warum möchten Sie kündigen?</string>
+    <string name="cancel_flow_reason_subtitle">Ihre Antwort hilft uns, unsere App zu verbessern.</string>
+    <string name="cancel_flow_keep_subscription">Abo behalten</string>
+    <string name="cancel_flow_cancel_anyway">Ich möchte trotzdem kündigen</string>
+    <string name="cancel_flow_reason_too_expensive">Zu teuer</string>
+    <string name="cancel_flow_reason_exercises_too_hard">Die Übungen sind zu schwer</string>
+    <string name="cancel_flow_reason_exercises_too_easy">Die Übungen sind zu leicht</string>
+    <string name="cancel_flow_reason_other">Etwas anderes</string>
+    <string name="cancel_flow_easier_offer_title">Würden sanftere Übungen helfen?</string>
+    <string name="cancel_flow_easier_offer_subtitle">Wir können Ihre Einheiten auf das sanfteste Tempo einstellen. Ihr bisheriger Fortschritt bleibt erhalten.</string>
+    <string name="cancel_flow_easier_accept">Ich möchte leichtere Übungen ausprobieren</string>
+    <string name="cancel_flow_easier_confirmation_title">Ihre Einheiten sind jetzt sanfter</string>
+    <string name="cancel_flow_easier_confirmation_body">Wir haben das sanfteste Tempo für Sie eingestellt. Ihre nächste Einheit wird leichter.</string>
+    <string name="cancel_flow_harder_offer_title">Möchten Sie mehr gefordert werden?</string>
+    <string name="cancel_flow_harder_offer_subtitle">Wir können Ihre Einheiten auf das anspruchsvollste Tempo einstellen. Ihr bisheriger Fortschritt bleibt erhalten.</string>
+    <string name="cancel_flow_harder_accept">Anspruchsvollere Übungen ausprobieren</string>
+    <string name="cancel_flow_harder_confirmation_title">Ihre Einheiten sind jetzt anspruchsvoller</string>
+    <string name="cancel_flow_harder_confirmation_body">Wir haben das anspruchsvollste Tempo für Sie eingestellt. Ihre nächste Einheit fordert Sie mehr.</string>
+    <string name="cancel_flow_ready_title">Möchten Sie wirklich kündigen?</string>
+    <string name="cancel_flow_ready_subtitle">Wir leiten Sie zur Abo-Seite von Google Play weiter. Ihr Premium-Zugang bleibt bis zum Ende des bereits bezahlten Zeitraums aktiv.</string>
+    <string name="cancel_flow_feedback_title">Was ist schiefgelaufen?</string>
+    <string name="cancel_flow_feedback_subtitle">Sagen Sie es uns gern in ein paar Worten. Das ist freiwillig.</string>
+    <string name="cancel_flow_applying">Ihr Programm wird angepasst</string>
+    <string name="cancel_flow_play_fallback_title">Kündigungsoptionen konnten nicht geöffnet werden</string>
+    <string name="cancel_flow_play_fallback_message">Bitte wenden Sie sich an %1$s, wir helfen Ihnen bei der Kündigung Ihres Abos.</string>
+    <string name="cancel_flow_copy_support_email">Support-E-Mail kopieren</string>
+</resources>

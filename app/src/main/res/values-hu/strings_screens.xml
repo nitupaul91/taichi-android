@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="bmi_health_status_title">Egészségi állapota</string>
+    <string name="bmi_health_status_subtitle">Testtömegindexe és aktivitási szintje alapján</string>
+    <string name="bmi_label">BMI</string>
+    <string name="bmi_insight_healthy_title">Testtömegindexe egészséges.</string>
+    <string name="bmi_insight_healthy_message">Az izomtömeg megőrzése és a mozgásban maradás segíthet megőrizni energiáját, egyensúlyát és hosszú távú egészségét.</string>
+    <string name="bmi_insight_underweight_title">Testtömegindexe alacsony.</string>
+    <string name="bmi_insight_underweight_message">Az izomerő és az egészséges testtömeg építése javíthatja ellenálló képességét, mozgékonyságát és napi energiáját.</string>
+    <string name="bmi_insight_overweight_title">Testtömegindexe az átlag fölött van.</string>
+    <string name="bmi_insight_overweight_message">A napi mozgás növelése és a testösszetétel javítása csökkentheti ízületei és anyagcseréje terhelését.</string>
+    <string name="bmi_insight_elevated_title">Testtömegindexe magas.</string>
+    <string name="bmi_insight_elevated_message">Az izomtömeg növelése és a napi aktivitás jelentősen csökkentheti az egészségügyi kockázatokat.</string>
+    <string name="bmi_category_underweight">Alacsony testsúly</string>
+    <string name="bmi_category_healthy">Egészséges</string>
+    <string name="bmi_category_overweight">Túlsúly</string>
+    <string name="bmi_category_elevated">Magas</string>
+    <string name="target_weight_lose_easy_title">Könnyen elérhető cél: %1$s testsúlycsökkenés</string>
+    <string name="target_weight_lose_easy_message">Okos, elérhető célt választott. A következetes napi mozgás csökkentheti a testzsírt, növelheti energiáját, és lendületet adhat, amelyet érdemes megtartania.</string>
+    <string name="target_weight_lose_realistic_title">Reális cél: %1$s testsúlycsökkenés</string>
+    <string name="target_weight_lose_realistic_message">Ez ideális tartomány az átalakuláshoz. Az egyenletes haladás itt jobb szívegészséggel, kiegyensúlyozottabb vércukorszinttel és tartós, hosszú távú eredményekkel jár együtt.</string>
+    <string name="target_weight_lose_health_title">Egészségügyi előnyök: %1$s testsúlycsökkenés</string>
+    <string name="target_weight_lose_health_message">Nagy előnyök várnak Önre. E cél elérése csökkentheti a gyulladást, támogathatja az egészségesebb vérnyomás- és vércukorszintet, és érezhetően javíthatja mindennapi közérzetét.</string>
+    <string name="target_weight_lose_challenging_title">Kihívást jelentő cél: %1$s testsúlycsökkenés</string>
+    <string name="target_weight_lose_challenging_message">Ez bátor elhatározás, és megváltoztathatja az életét. Ha következetes marad a mozgásban, a táplálkozásban és a pihenésben, látványosan javíthatja anyagcsere-egészségét és életerejét.</string>
+    <string name="target_weight_build_easy_title">Könnyen elérhető cél: %1$s több izomtömeg</string>
+    <string name="target_weight_build_easy_message">Remek kiindulópont. Már a szerény izomtömeg-növekedés is javíthatja a stabilitást, a mindennapi erőt és a mozgás magabiztosságát.</string>
+    <string name="target_weight_build_realistic_title">Reális cél: %1$s több izomtömeg</string>
+    <string name="target_weight_build_realistic_message">Nagy, de jól megválasztott célt tűzött ki. Ez a tartomány fokozhatja az energiafelhasználást, javíthatja testtartását, és megkönnyítheti a mindennapi tevékenységeket.</string>
+    <string name="target_weight_build_health_title">Egészségügyi előnyök: %1$s több izomtömeg</string>
+    <string name="target_weight_build_health_message">Kiváló, egészséget szolgáló cél. Az erősebb izomzat hosszú távon erősebb csontokat és jobb egyensúlyt jelent, és csökkenti a legyengülés és a sérülések kockázatát.</string>
+    <string name="target_weight_build_challenging_title">Kihívást jelentő cél: %1$s több izomtömeg</string>
+    <string name="target_weight_build_challenging_message">Igazi bajnoki hozzáállás. Ez a cél elkötelezettséget kíván, de fokozatos gyakorlással és pihenéssel átalakíthatja erejét, testösszetételét és ellenálló képességét.</string>
+    <string name="loading_finalizing_plan">Terve %1$d mp múlva elkészül</string>
+    <string name="purchase_dialog_validating_title">Vásárlását ellenőrizzük…</string>
+    <string name="purchase_dialog_validating_message">Kérjük, várjon, és ne zárja be ezt a képernyőt</string>
+    <string name="purchase_dialog_success_title">Üdvözöljük a Premiumban!</string>
+    <string name="purchase_dialog_success_message">A vásárlás sikeres volt. Élvezze az összes Premium funkciót!</string>
+    <string name="purchase_dialog_failed_title">Sikertelen vásárlás</string>
+    <string name="purchase_dialog_failed_message">Valami hiba történt. Kérjük, próbálja újra.</string>
+    <string name="back">Hát</string>
+    <string name="image_placeholder">Kép</string>
+    <string name="completion_stat_minutes">perc</string>
+    <string name="completion_stat_calories">kcal</string>
+    <string name="completion_stat_moves">mozdulat</string>
+    <plurals name="preview_stat_calories">
+        <item quantity="one">kalória</item>
+        <item quantity="other">kalória</item>
+    </plurals>
+    <plurals name="preview_stat_exercises">
+        <item quantity="one">gyakorlat</item>
+        <item quantity="other">gyakorlat</item>
+    </plurals>
+    <string name="difficulty_low">Alacsony</string>
+    <string name="difficulty_medium">Közepes</string>
+    <string name="difficulty_high">Magas</string>
+</resources>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="practice_reminder_prompt_title">Samme tid i morgen?</string>
+    <string name="practice_reminder_prompt_body">Hold din Tai Chi-rutine i gang. Vi kan minde dig om det i morgen kl. %1$s.</string>
+    <string name="practice_reminder_prompt_remind_me">Mind mig om det</string>
+    <string name="practice_reminder_prompt_change_time">Skift tidspunkt</string>
+    <string name="practice_reminder_prompt_not_now">Ikke nu</string>
+    <string name="practice_reminder_permission_denied_title">Notifikationer er slået fra</string>
+    <string name="practice_reminder_permission_denied_message">Slå notifikationer til for %1$s i Indstillinger, så kan vi minde dig om det.</string>
+    <string name="practice_reminder_permission_open_settings">Åbn Indstillinger</string>
+    <string name="notification_practice_reminder_title">Tid til din Tai Chi-session</string>
+    <string name="notification_practice_reminder_body">Du var med i går. Et par blide minutter er alt, hvad der skal til for at holde det i gang.</string>
+    <string name="notification_practice_reminder_first_session_body">Et par blide minutter er alt, hvad der skal til for at komme i gang.</string>
+    <string name="notification_practice_reminder_second_chance_title">Din måtte venter stadig</string>
+    <string name="notification_practice_reminder_second_chance_body">Der er gået et par dage. Selv fem blide minutter får dig i gang igen.</string>
+    <string name="notification_trial_reminder_title">Din gratis prøveperiode slutter om 2 dage</string>
+    <plurals name="notification_trial_reminder_body_practiced">
+        <item quantity="one">Du har trænet én gang i denne uge. Din prøveperiode slutter %2$s – fortsæt, eller administrér din plan når som helst i Indstillinger.</item>
+        <item quantity="other">Du har trænet %1$d gange i denne uge. Din prøveperiode slutter %2$s – fortsæt, eller administrér din plan når som helst i Indstillinger.</item>
+    </plurals>
+    <string name="notification_trial_reminder_body_not_practiced">Din prøveperiode slutter %1$s. Der er stadig tid til en blid session på 5 minutter – og du kan administrere din plan når som helst i Indstillinger.</string>
+</resources>

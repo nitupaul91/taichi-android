@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="bmi_health_status_title">Starea de sănătate</string>
+    <string name="bmi_health_status_subtitle">În funcție de IMC și de nivelul dumneavoastră de activitate</string>
+    <string name="bmi_label">IMC</string>
+    <string name="bmi_insight_healthy_title">IMC-ul este sănătos.</string>
+    <string name="bmi_insight_healthy_message">Păstrarea masei musculare și un stil de viață activ vă pot ajuta să vă păstrați energia, echilibrul și sănătatea pe termen lung.</string>
+    <string name="bmi_insight_underweight_title">IMC-ul este scăzut.</string>
+    <string name="bmi_insight_underweight_message">Mai multă forță și o masă corporală sănătoasă pot îmbunătăți rezistența, mobilitatea și energia de zi cu zi.</string>
+    <string name="bmi_insight_overweight_title">IMC-ul este peste medie.</string>
+    <string name="bmi_insight_overweight_message">Mai multă mișcare zilnică și o compoziție corporală mai bună pot reduce încărcarea articulațiilor și a metabolismului.</string>
+    <string name="bmi_insight_elevated_title">IMC-ul este crescut.</string>
+    <string name="bmi_insight_elevated_message">Mai multă masă musculară și activitate zilnică pot reduce semnificativ riscurile pentru sănătate.</string>
+    <string name="bmi_category_underweight">Subponderal</string>
+    <string name="bmi_category_healthy">Sănătos</string>
+    <string name="bmi_category_overweight">Supraponderal</string>
+    <string name="bmi_category_elevated">Crescut</string>
+    <string name="target_weight_lose_easy_title">Obiectiv ușor: să pierdeți %1$s din greutate</string>
+    <string name="target_weight_lose_easy_message">Alegeți un obiectiv înțelept și realizabil. Mișcarea zilnică constantă poate reduce grăsimea corporală, vă poate da energie și un elan pe care veți dori să-l păstrați.</string>
+    <string name="target_weight_lose_realistic_title">Obiectiv realist: să pierdeți %1$s din greutate</string>
+    <string name="target_weight_lose_realistic_message">Este un obiectiv cu efecte mari. Un progres constant aici este legat de o inimă mai sănătoasă, o glicemie mai bine controlată și rezultate durabile.</string>
+    <string name="target_weight_lose_health_title">Beneficii pentru sănătate: să pierdeți %1$s din greutate</string>
+    <string name="target_weight_lose_health_message">Vă așteaptă beneficii mari. Atingerea acestui obiectiv poate reduce inflamația, poate sprijini o tensiune și o glicemie mai sănătoase și poate îmbunătăți vizibil starea de bine de zi cu zi.</string>
+    <string name="target_weight_lose_challenging_title">Obiectiv ambițios: să pierdeți %1$s din greutate</string>
+    <string name="target_weight_lose_challenging_message">Este un angajament curajos, care vă poate schimba viața. Cu regularitate în exerciții, alimentație și odihnă, puteți îmbunătăți mult sănătatea metabolică și vitalitatea.</string>
+    <string name="target_weight_build_easy_title">Obiectiv ușor: cu %1$s mai multă masă musculară</string>
+    <string name="target_weight_build_easy_message">Un început bun. Chiar și o creștere modestă a masei musculare poate îmbunătăți stabilitatea, forța de zi cu zi și încrederea în felul în care se mișcă corpul dumneavoastră.</string>
+    <string name="target_weight_build_realistic_title">Obiectiv realist: cu %1$s mai multă masă musculară</string>
+    <string name="target_weight_build_realistic_message">Vă propuneți mult, și pe bună dreptate. Acest interval poate crește consumul de energie, poate îmbunătăți postura și poate face activitățile de zi cu zi mai ușoare.</string>
+    <string name="target_weight_build_health_title">Beneficii pentru sănătate: cu %1$s mai multă masă musculară</string>
+    <string name="target_weight_build_health_message">Un obiectiv excelent pentru sănătate. Mușchii mai puternici sprijină oasele, echilibrul și reduc în timp riscul de fragilitate și de accidentări.</string>
+    <string name="target_weight_build_challenging_title">Obiectiv ambițios: cu %1$s mai multă masă musculară</string>
+    <string name="target_weight_build_challenging_message">Un obiectiv ambițios. Acesta cere angajament, dar, prin exerciții treptate și odihnă bună, vă poate schimba forța, compoziția corporală și rezistența.</string>
+    <string name="loading_finalizing_plan">Planul va fi gata în %1$d sec</string>
+    <string name="purchase_dialog_validating_title">Se verifică achiziția…</string>
+    <string name="purchase_dialog_validating_message">Vă rugăm să așteptați și să nu închideți acest ecran</string>
+    <string name="purchase_dialog_success_title">Bun venit la Premium!</string>
+    <string name="purchase_dialog_success_message">Achiziția s-a realizat cu succes. Bucurați-vă de toate funcțiile Premium!</string>
+    <string name="purchase_dialog_failed_title">Achiziția a eșuat</string>
+    <string name="purchase_dialog_failed_message">Ceva nu a funcționat. Vă rugăm să încercați din nou.</string>
+    <string name="back">Spate</string>
+    <string name="image_placeholder">Imagine</string>
+    <string name="completion_stat_minutes">min</string>
+    <string name="completion_stat_calories">kcal</string>
+    <string name="completion_stat_moves">mișcări</string>
+    <plurals name="preview_stat_calories">
+        <item quantity="one">calorie</item>
+        <item quantity="few">calorii</item>
+        <item quantity="other">de calorii</item>
+    </plurals>
+    <plurals name="preview_stat_exercises">
+        <item quantity="one">exercițiu</item>
+        <item quantity="few">exerciții</item>
+        <item quantity="other">de exerciții</item>
+    </plurals>
+    <string name="difficulty_low">Scăzută</string>
+    <string name="difficulty_medium">Medie</string>
+    <string name="difficulty_high">Ridicată</string>
+</resources>

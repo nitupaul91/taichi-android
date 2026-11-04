@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="trial_timeline_title_pre_purchase">Ihre kostenlose Testphase Schritt für Schritt</string>
+    <string name="trial_timeline_subtitle_pre_purchase">So läuft es ab, wenn Sie Ihre kostenlose Testphase heute starten.</string>
+    <string name="trial_timeline_title_cancellation">Heute wird Ihnen nichts berechnet</string>
+    <string name="trial_timeline_subtitle_cancellation_authorized">Ihre Testphase ist bis zum %1$s kostenlos, und wir erinnern Sie, bevor sie endet.</string>
+    <string name="trial_timeline_subtitle_cancellation_permission_needed">Ihre Testphase ist bis zum %1$s kostenlos. Wir fragen Sie, ob wir Sie vorher erinnern dürfen.</string>
+    <string name="trial_timeline_subtitle_cancellation_unavailable">Ihre Testphase ist bis zum %1$s kostenlos. Vorher wird Ihnen nichts berechnet.</string>
+    <string name="trial_timeline_button_cancellation">Kostenlose Testphase starten</string>
+    <string name="trial_timeline_title_confirmation">Ihre kostenlose Testphase hat begonnen</string>
+    <string name="trial_timeline_subtitle_confirmation">Genießen Sie Premium kostenlos bis zum %1$s.</string>
+    <string name="trial_timeline_button_confirmation">Einheit starten</string>
+    <string name="trial_timeline_progress_accessibility">Fortschritt der Einrichtung</string>
+    <string name="trial_timeline_plan_ready_title">Ihr Plan ist fertig</string>
+    <string name="trial_timeline_plan_ready_subtitle">Ihr persönliches Tai-Chi-Programm kann beginnen.</string>
+    <string name="trial_timeline_today_title">Heute</string>
+    <string name="trial_timeline_today_start">Starten Sie Ihre kostenlose Testphase und schalten Sie alle Premium-Einheiten frei.</string>
+    <string name="trial_timeline_today_active">Ihre kostenlose Testphase läuft. Genießen Sie alle Premium-Einheiten.</string>
+    <string name="trial_timeline_reminder_title">%1$s – Erinnerung</string>
+    <string name="trial_timeline_reminder_authorized">Wir erinnern Sie, wenn Ihre Testphase endet.</string>
+    <string name="trial_timeline_reminder_permission_needed">Wir fragen Sie, ob wir Sie an das Ende der Testphase erinnern dürfen.</string>
+    <string name="trial_timeline_reminder_unavailable">Das ist 2 Tage, bevor Ihre Testphase endet.</string>
+    <string name="trial_timeline_end_title">%1$s – Testphase endet</string>
+    <string name="trial_timeline_end_subtitle">Ihr Abo verlängert sich, sofern Sie nicht kündigen.</string>
+    <string name="trial_timeline_cancel_question">Wie kündige ich mein Abo?</string>
+    <string name="trial_timeline_cancel_answer">Tippen Sie im Google Play Store auf Ihr Profilbild, dann auf „Zahlungen &amp; Abos“ und danach auf „Abos“. Das geht mit wenigen Fingertipps.</string>
+    <string name="trial_timeline_not_now">Nicht jetzt</string>
+    <string name="paywall_rating_badge_title">Mit %1$s bei Google Play bewertet</string>
+    <string name="paywall_rating_badge_count">%1$s+ Bewertungen</string>
+    <string name="paywall_billed_annually">%1$s pro Jahr</string>
+    <string name="paywall_billed_monthly">%1$s pro Monat</string>
+    <string name="paywall_billed_weekly">%1$s pro Woche</string>
+    <string name="paywall_per_week">pro Woche</string>
+    <string name="paywall_trial_then_weekly">%1$s-tägige kostenlose Testphase, danach %2$s/Woche. Verlängert sich automatisch.</string>
+    <string name="paywall_recurring_yearly">%1$s/Jahr. Jederzeit kündbar.</string>
+    <string name="paywall_recurring_monthly">%1$s/Monat. Jederzeit kündbar.</string>
+    <string name="paywall_recurring_weekly">%1$s/Woche. Jederzeit kündbar.</string>
+    <string name="paywall_secure_payment_google_play">Sichere Zahlung über Google Play</string>
+    <string name="paywall_review_quote_1">Ich dachte, es wäre viel schwieriger zu folgen und mitzumachen. Es war großartig!</string>
+    <string name="paywall_review_quote_2">Ich bin neu dabei, aber ich sehe definitiv Ergebnisse. Hätte ich das nur schon viel früher entdeckt!</string>
+    <string name="paywall_review_quote_3">Mir gefällt, dass die Übungen der ersten Tage leicht zu folgen sind und nichts zu Kompliziertes für Senioren wie mich dabei ist.</string>
+    <string name="paywall_review_attribution">— %1$s, Bewertung im App Store</string>
+</resources>

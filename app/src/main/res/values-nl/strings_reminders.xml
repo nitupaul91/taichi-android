@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="practice_reminder_prompt_title">Morgen op dezelfde tijd?</string>
+    <string name="practice_reminder_prompt_body">Houd uw Tai Chi-routine vol. Wij kunnen u morgen om %1$s herinneren.</string>
+    <string name="practice_reminder_prompt_remind_me">Herinner mij</string>
+    <string name="practice_reminder_prompt_change_time">Tijd wijzigen</string>
+    <string name="practice_reminder_prompt_not_now">Niet nu</string>
+    <string name="practice_reminder_permission_denied_title">Meldingen staan uit</string>
+    <string name="practice_reminder_permission_denied_message">Zet meldingen voor %1$s aan in Instellingen, dan kunnen wij u een herinnering sturen.</string>
+    <string name="practice_reminder_permission_open_settings">Instellingen openen</string>
+    <string name="notification_practice_reminder_title">Tijd voor uw Tai Chi-sessie</string>
+    <string name="notification_practice_reminder_body">Gisteren was u erbij. Een paar rustige minuten zijn genoeg om door te gaan.</string>
+    <string name="notification_practice_reminder_first_session_body">Een paar rustige minuten zijn genoeg om te beginnen.</string>
+    <string name="notification_practice_reminder_second_chance_title">Uw plekje wacht nog op u</string>
+    <string name="notification_practice_reminder_second_chance_body">Het is een paar dagen geleden. Vijf rustige minuten brengen u alweer in beweging.</string>
+    <string name="notification_trial_reminder_title">Uw gratis proefperiode eindigt over 2 dagen</string>
+    <plurals name="notification_trial_reminder_body_practiced">
+        <item quantity="one">U heeft deze week één keer geoefend. Uw proefperiode eindigt op %2$s – ga zo door, of beheer uw abonnement wanneer u wilt via Instellingen.</item>
+        <item quantity="other">U heeft deze week %1$d keer geoefend. Uw proefperiode eindigt op %2$s – ga zo door, of beheer uw abonnement wanneer u wilt via Instellingen.</item>
+    </plurals>
+    <string name="notification_trial_reminder_body_not_practiced">Uw proefperiode eindigt op %1$s. Er is nog tijd voor één rustige sessie van 5 minuten – en u kunt uw abonnement altijd beheren via Instellingen.</string>
+</resources>

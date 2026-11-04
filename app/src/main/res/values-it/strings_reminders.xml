@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="practice_reminder_prompt_title">Domani alla stessa ora?</string>
+    <string name="practice_reminder_prompt_body">Mantenga la Sua abitudine al Tai Chi. Possiamo ricordarglielo domani alle %1$s.</string>
+    <string name="practice_reminder_prompt_remind_me">Ricordamelo</string>
+    <string name="practice_reminder_prompt_change_time">Cambia orario</string>
+    <string name="practice_reminder_prompt_not_now">Non ora</string>
+    <string name="practice_reminder_permission_denied_title">Le notifiche sono disattivate</string>
+    <string name="practice_reminder_permission_denied_message">Attivi le notifiche per %1$s in Impostazioni e potremo ricordarglielo.</string>
+    <string name="practice_reminder_permission_open_settings">Apri Impostazioni</string>
+    <string name="notification_practice_reminder_title">È ora della Sua sessione di Tai Chi</string>
+    <string name="notification_practice_reminder_body">Ieri ha praticato. Bastano pochi minuti dolci per continuare.</string>
+    <string name="notification_practice_reminder_first_session_body">Bastano pochi minuti dolci per iniziare.</string>
+    <string name="notification_practice_reminder_second_chance_title">Il Suo tappetino La sta ancora aspettando</string>
+    <string name="notification_practice_reminder_second_chance_body">Sono passati un paio di giorni. Bastano cinque minuti dolci per rimettersi in movimento.</string>
+    <string name="notification_trial_reminder_title">La Sua prova gratuita finisce tra 2 giorni</string>
+    <plurals name="notification_trial_reminder_body_practiced">
+        <item quantity="one">Questa settimana ha praticato una volta. La Sua prova finisce il %2$s: continui così, oppure gestisca il Suo piano quando vuole in Impostazioni.</item>
+        <item quantity="many">Questa settimana ha praticato %1$d volte. La Sua prova finisce il %2$s: continui così, oppure gestisca il Suo piano quando vuole in Impostazioni.</item>
+        <item quantity="other">Questa settimana ha praticato %1$d volte. La Sua prova finisce il %2$s: continui così, oppure gestisca il Suo piano quando vuole in Impostazioni.</item>
+    </plurals>
+    <string name="notification_trial_reminder_body_not_practiced">La Sua prova finisce il %1$s. C\'è ancora tempo per una sessione dolce di 5 minuti. Può gestire il Suo piano in qualsiasi momento in Impostazioni.</string>
+</resources>

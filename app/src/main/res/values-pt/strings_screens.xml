@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="bmi_health_status_title">Seu estado de saúde</string>
+    <string name="bmi_health_status_subtitle">Com base no seu IMC e no seu nível de atividade</string>
+    <string name="bmi_label">IMC</string>
+    <string name="bmi_insight_healthy_title">Seu IMC está saudável.</string>
+    <string name="bmi_insight_healthy_message">Manter a massa muscular e continuar ativo pode ajudar a preservar sua energia, seu equilíbrio e sua saúde a longo prazo.</string>
+    <string name="bmi_insight_underweight_title">Seu IMC está baixo.</string>
+    <string name="bmi_insight_underweight_message">Ganhar força e massa corporal saudável pode melhorar a resistência, a mobilidade e a energia no dia a dia.</string>
+    <string name="bmi_insight_overweight_title">Seu IMC está acima da média.</string>
+    <string name="bmi_insight_overweight_message">Aumentar o movimento diário e melhorar a composição corporal pode ajudar a reduzir a sobrecarga nas articulações e no metabolismo.</string>
+    <string name="bmi_insight_elevated_title">Seu IMC está elevado.</string>
+    <string name="bmi_insight_elevated_message">Aumentar a massa muscular e a atividade diária pode reduzir bastante os riscos para a saúde.</string>
+    <string name="bmi_category_underweight">Abaixo do peso</string>
+    <string name="bmi_category_healthy">Saudável</string>
+    <string name="bmi_category_overweight">Sobrepeso</string>
+    <string name="bmi_category_elevated">Elevado</string>
+    <string name="target_weight_lose_easy_title">Meta fácil: perder %1$s do seu peso</string>
+    <string name="target_weight_lose_easy_message">Você está escolhendo uma meta inteligente e alcançável. Movimento diário constante pode reduzir a gordura corporal, aumentar sua energia e criar um ritmo que você vai querer manter.</string>
+    <string name="target_weight_lose_realistic_title">Meta realista: perder %1$s do seu peso</string>
+    <string name="target_weight_lose_realistic_message">Esta é uma faixa de grande transformação. Um progresso constante nela está ligado a uma saúde do coração melhor, maior controle do açúcar no sangue e resultados duradouros.</string>
+    <string name="target_weight_lose_health_title">Benefícios para a saúde: perder %1$s do seu peso</string>
+    <string name="target_weight_lose_health_message">Grandes benefícios à vista. Alcançar essa meta pode reduzir a inflamação, ajudar a manter a pressão arterial e a glicose em níveis mais saudáveis e melhorar de forma notável o bem-estar no dia a dia.</string>
+    <string name="target_weight_lose_challenging_title">Meta desafiadora: perder %1$s do seu peso</string>
+    <string name="target_weight_lose_challenging_message">É um compromisso ousado e pode mudar sua vida. Com constância no treino, na alimentação e na recuperação, você pode melhorar muito a saúde metabólica e a vitalidade.</string>
+    <string name="target_weight_build_easy_title">Meta fácil: ganhar %1$s de massa muscular</string>
+    <string name="target_weight_build_easy_message">Ótimo ponto de partida. Mesmo um ganho modesto de músculo pode melhorar a estabilidade, a força no dia a dia e a confiança no seu jeito de se mover.</string>
+    <string name="target_weight_build_realistic_title">Meta realista: ganhar %1$s de massa muscular</string>
+    <string name="target_weight_build_realistic_message">Você está mirando alto, e do jeito certo. Essa faixa pode aumentar o gasto de energia, melhorar a postura e tornar as atividades do dia a dia mais fáceis.</string>
+    <string name="target_weight_build_health_title">Benefícios para a saúde: ganhar %1$s de massa muscular</string>
+    <string name="target_weight_build_health_message">Uma meta excelente para a saúde. Músculos mais fortes ajudam a manter ossos mais fortes, melhor equilíbrio e menor risco de fragilidade e lesões ao longo do tempo.</string>
+    <string name="target_weight_build_challenging_title">Meta desafiadora: ganhar %1$s de massa muscular</string>
+    <string name="target_weight_build_challenging_message">Mentalidade de elite. Esta meta exige compromisso, mas pode transformar sua força, sua composição corporal e sua resistência com treino progressivo e boa recuperação.</string>
+    <string name="loading_finalizing_plan">Seu plano estará pronto em %1$d s</string>
+    <string name="purchase_dialog_validating_title">Validando sua compra…</string>
+    <string name="purchase_dialog_validating_message">Aguarde e não feche esta tela</string>
+    <string name="purchase_dialog_success_title">Boas-vindas ao Premium!</string>
+    <string name="purchase_dialog_success_message">Sua compra foi concluída. Aproveite todos os recursos Premium!</string>
+    <string name="purchase_dialog_failed_title">Falha na compra</string>
+    <string name="purchase_dialog_failed_message">Algo deu errado. Tente novamente.</string>
+    <string name="back">Costas</string>
+    <string name="image_placeholder">Imagem</string>
+    <string name="completion_stat_minutes">min</string>
+    <string name="completion_stat_calories">cal</string>
+    <string name="completion_stat_moves">movimentos</string>
+    <plurals name="preview_stat_calories">
+        <item quantity="one">caloria</item>
+        <item quantity="many">calorias</item>
+        <item quantity="other">calorias</item>
+    </plurals>
+    <plurals name="preview_stat_exercises">
+        <item quantity="one">exercício</item>
+        <item quantity="many">exercícios</item>
+        <item quantity="other">exercícios</item>
+    </plurals>
+    <string name="difficulty_low">Baixa</string>
+    <string name="difficulty_medium">Média</string>
+    <string name="difficulty_high">Alta</string>
+</resources>

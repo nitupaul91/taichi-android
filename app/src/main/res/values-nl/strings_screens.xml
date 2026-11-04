@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="bmi_health_status_title">Uw gezondheid</string>
+    <string name="bmi_health_status_subtitle">Op basis van uw BMI en activiteitsniveau</string>
+    <string name="bmi_label">BMI</string>
+    <string name="bmi_insight_healthy_title">Uw BMI is gezond.</string>
+    <string name="bmi_insight_healthy_message">Spiermassa behouden en actief blijven helpt u om uw energie, evenwicht en gezondheid op de lange termijn te bewaren.</string>
+    <string name="bmi_insight_underweight_title">Uw BMI is laag.</string>
+    <string name="bmi_insight_underweight_message">Meer spierkracht en een gezond lichaamsgewicht kunnen uw weerstand, beweeglijkheid en dagelijkse energie verbeteren.</string>
+    <string name="bmi_insight_overweight_title">Uw BMI ligt boven het gemiddelde.</string>
+    <string name="bmi_insight_overweight_message">Meer dagelijkse beweging en een betere lichaamssamenstelling kunnen de belasting van uw gewrichten en stofwisseling verminderen.</string>
+    <string name="bmi_insight_elevated_title">Uw BMI is verhoogd.</string>
+    <string name="bmi_insight_elevated_message">Meer spiermassa en dagelijkse beweging kunnen gezondheidsrisico’s aanzienlijk verkleinen.</string>
+    <string name="bmi_category_underweight">Ondergewicht</string>
+    <string name="bmi_category_healthy">Gezond</string>
+    <string name="bmi_category_overweight">Overgewicht</string>
+    <string name="bmi_category_elevated">Verhoogd</string>
+    <string name="target_weight_lose_easy_title">Goed haalbaar: %1$s van uw gewicht verliezen</string>
+    <string name="target_weight_lose_easy_message">U kiest een verstandig, haalbaar doel. Dagelijkse beweging kan lichaamsvet verminderen, uw energie verhogen en u een ritme geven dat u graag vasthoudt.</string>
+    <string name="target_weight_lose_realistic_title">Realistisch doel: %1$s van uw gewicht verliezen</string>
+    <string name="target_weight_lose_realistic_message">Dit doel kan veel voor u betekenen. Gestage vooruitgang hangt samen met een gezonder hart, een betere bloedsuikerregeling en blijvende resultaten op de lange termijn.</string>
+    <string name="target_weight_lose_health_title">Goed voor uw gezondheid: %1$s van uw gewicht verliezen</string>
+    <string name="target_weight_lose_health_message">Dit doel levert veel op. Het kan ontstekingen verminderen, een gezondere bloeddruk en bloedsuiker ondersteunen en uw dagelijks welzijn merkbaar verbeteren.</string>
+    <string name="target_weight_lose_challenging_title">Uitdagend doel: %1$s van uw gewicht verliezen</string>
+    <string name="target_weight_lose_challenging_message">Dit is een moedig voornemen dat veel kan veranderen. Met regelmatige beweging, goede voeding en voldoende rust kunt u uw stofwisseling en vitaliteit sterk verbeteren.</string>
+    <string name="target_weight_build_easy_title">Goed haalbaar: %1$s meer spiermassa opbouwen</string>
+    <string name="target_weight_build_easy_message">Een goed begin. Zelfs een bescheiden toename van spiermassa kan uw stabiliteit, dagelijkse kracht en vertrouwen in uw bewegingen vergroten.</string>
+    <string name="target_weight_build_realistic_title">Realistisch doel: %1$s meer spiermassa opbouwen</string>
+    <string name="target_weight_build_realistic_message">U legt de lat hoog, en op de juiste manier. Dit bereik kan uw verbranding verhogen, uw houding verbeteren en dagelijkse bezigheden lichter maken.</string>
+    <string name="target_weight_build_health_title">Goed voor uw gezondheid: %1$s meer spiermassa opbouwen</string>
+    <string name="target_weight_build_health_message">Een uitstekend doel voor uw gezondheid. Sterkere spieren ondersteunen sterkere botten, een beter evenwicht en op termijn een kleiner risico op kwetsbaarheid en blessures.</string>
+    <string name="target_weight_build_challenging_title">Uitdagend doel: %1$s meer spiermassa opbouwen</string>
+    <string name="target_weight_build_challenging_message">Dit doel vraagt inzet, maar met geleidelijk opgebouwde oefening en voldoende rust kan het uw kracht, lichaamssamenstelling en weerstand duidelijk verbeteren.</string>
+    <string name="loading_finalizing_plan">Uw plan is over %1$d sec klaar</string>
+    <string name="purchase_dialog_validating_title">Uw aankoop wordt gecontroleerd…</string>
+    <string name="purchase_dialog_validating_message">Even geduld en sluit dit scherm niet</string>
+    <string name="purchase_dialog_success_title">Welkom bij Premium!</string>
+    <string name="purchase_dialog_success_message">Uw aankoop is gelukt. Veel plezier met alle Premium-functies!</string>
+    <string name="purchase_dialog_failed_title">Aankoop mislukt</string>
+    <string name="purchase_dialog_failed_message">Er is iets misgegaan. Probeer het opnieuw.</string>
+    <string name="back">Rug</string>
+    <string name="image_placeholder">Afbeelding</string>
+    <string name="completion_stat_minutes">min</string>
+    <string name="completion_stat_calories">kcal</string>
+    <string name="completion_stat_moves">oefeningen</string>
+    <plurals name="preview_stat_calories">
+        <item quantity="one">calorie</item>
+        <item quantity="other">calorieën</item>
+    </plurals>
+    <plurals name="preview_stat_exercises">
+        <item quantity="one">oefening</item>
+        <item quantity="other">oefeningen</item>
+    </plurals>
+    <string name="difficulty_low">Laag</string>
+    <string name="difficulty_medium">Gemiddeld</string>
+    <string name="difficulty_high">Hoog</string>
+</resources>

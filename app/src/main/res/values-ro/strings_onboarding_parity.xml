@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="onboarding_program_title">Alegeți stilul de practică</string>
+    <string name="onboarding_program_subtitle">Alegeți programul potrivit stilului dumneavoastră de viață.</string>
+    <string name="onboarding_program_tai_chi_title">Tai Chi</string>
+    <string name="onboarding_program_tai_chi_subtitle">Mișcări tradiționale, line, pentru echilibru și calm</string>
+    <string name="onboarding_program_walking_title">Tai Chi Walking</string>
+    <string name="onboarding_program_walking_subtitle">Exerciții blânde de mers, îmbinate cu Tai Chi</string>
+    <string name="onboarding_program_chair_title">Tai Chi pe scaun</string>
+    <string name="onboarding_program_chair_subtitle">Exerciții șezând, pentru mobilitate redusă</string>
+    <string name="onboarding_program_let_us_decide_title">Lăsați-ne să alegem noi</string>
+    <string name="onboarding_program_let_us_decide_subtitle">Vom alege cel mai bun program, pe baza profilului dumneavoastră</string>
+    <string name="onboarding_discovery_tv_commercial">Reclamă la TV</string>
+    <string name="onboarding_discovery_trainer_therapist">Recomandat de un antrenor / terapeut</string>
+    <string name="onboarding_discovery_friends_family">Prieteni / Familie</string>
+    <string name="onboarding_discovery_other">Altă variantă</string>
+    <string name="onboarding_welcome_promise_line_1">Pierdeți din *greutate*</string>
+    <string name="onboarding_welcome_promise_line_2">Îmbunătățiți-vă *echilibrul*</string>
+    <string name="onboarding_welcome_get_started">Începeți</string>
+    <string name="onboarding_welcome_members_caption">de membri</string>
+    <string name="onboarding_welcome_minutes_value">10 min</string>
+    <string name="onboarding_welcome_minutes_caption">pe zi</string>
+    <string name="onboarding_welcome_rating_format">Notă %1$s</string>
+    <string name="onboarding_social_proof_rating_caption">Notă pe Google Play de la utilizatori verificați</string>
+    <string name="onboarding_social_proof_active_members">Mii de membri activi</string>
+    <string name="onboarding_loading_rating_count">%1$s  •  %2$s evaluări</string>
+    <string name="onboarding_loading_members_thousands">Alătură-te miilor de membri mulțumiți</string>
+</resources>

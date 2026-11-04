@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="practice_reminder_prompt_title">Amanhã, no mesmo horário?</string>
+    <string name="practice_reminder_prompt_body">Mantenha sua rotina de Tai Chi. Podemos lembrar você amanhã às %1$s.</string>
+    <string name="practice_reminder_prompt_remind_me">Lembre-me</string>
+    <string name="practice_reminder_prompt_change_time">Alterar horário</string>
+    <string name="practice_reminder_prompt_not_now">Agora não</string>
+    <string name="practice_reminder_permission_denied_title">As notificações estão desativadas</string>
+    <string name="practice_reminder_permission_denied_message">Ative as notificações do %1$s em Configurações para que possamos lembrar você.</string>
+    <string name="practice_reminder_permission_open_settings">Abrir Configurações</string>
+    <string name="notification_practice_reminder_title">Hora da sua sessão de Tai Chi</string>
+    <string name="notification_practice_reminder_body">Você praticou ontem. Alguns minutos suaves bastam para continuar.</string>
+    <string name="notification_practice_reminder_first_session_body">Alguns minutos suaves bastam para começar.</string>
+    <string name="notification_practice_reminder_second_chance_title">Seu Tai Chi está esperando por você</string>
+    <string name="notification_practice_reminder_second_chance_body">Já faz alguns dias. Até cinco minutos suaves já colocam você em movimento de novo.</string>
+    <string name="notification_trial_reminder_title">Seu teste grátis termina em 2 dias</string>
+    <plurals name="notification_trial_reminder_body_practiced">
+        <item quantity="one">Você praticou uma vez nesta semana. Seu teste grátis termina em %2$s. Continue assim ou gerencie seu plano quando quiser em Configurações.</item>
+        <item quantity="many">Você praticou %1$d vezes nesta semana. Seu teste grátis termina em %2$s. Continue assim ou gerencie seu plano quando quiser em Configurações.</item>
+        <item quantity="other">Você praticou %1$d vezes nesta semana. Seu teste grátis termina em %2$s. Continue assim ou gerencie seu plano quando quiser em Configurações.</item>
+    </plurals>
+    <string name="notification_trial_reminder_body_not_practiced">Seu teste grátis termina em %1$s. Ainda há tempo para uma sessão suave de 5 minutos, e você pode gerenciar seu plano a qualquer momento em Configurações.</string>
+</resources>

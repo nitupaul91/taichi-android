@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="trial_timeline_title_pre_purchase">Uw gratis proefperiode, stap voor stap</string>
+    <string name="trial_timeline_subtitle_pre_purchase">Dit is precies wat er gebeurt als u vandaag uw gratis proefperiode start.</string>
+    <string name="trial_timeline_title_cancellation">Vandaag wordt er niets afgeschreven</string>
+    <string name="trial_timeline_subtitle_cancellation_authorized">Uw proefperiode is gratis tot %1$s en wij herinneren u voordat deze eindigt.</string>
+    <string name="trial_timeline_subtitle_cancellation_permission_needed">Uw proefperiode is gratis tot %1$s. Wij vragen of wij u vooraf mogen herinneren.</string>
+    <string name="trial_timeline_subtitle_cancellation_unavailable">Uw proefperiode is gratis tot %1$s. Tot die tijd wordt er niets afgeschreven.</string>
+    <string name="trial_timeline_button_cancellation">Proefperiode starten</string>
+    <string name="trial_timeline_title_confirmation">Uw gratis proefperiode is begonnen</string>
+    <string name="trial_timeline_subtitle_confirmation">Geniet gratis van Premium tot %1$s.</string>
+    <string name="trial_timeline_button_confirmation">Sessie starten</string>
+    <string name="trial_timeline_progress_accessibility">Voortgang van de kennismaking</string>
+    <string name="trial_timeline_plan_ready_title">Uw plan is klaar</string>
+    <string name="trial_timeline_plan_ready_subtitle">Uw persoonlijke Tai Chi-programma kan beginnen.</string>
+    <string name="trial_timeline_today_title">Vandaag</string>
+    <string name="trial_timeline_today_start">Start uw gratis proefperiode en ontgrendel alle Premium-sessies.</string>
+    <string name="trial_timeline_today_active">Uw gratis proefperiode loopt. Geniet van alle Premium-sessies.</string>
+    <string name="trial_timeline_reminder_title">%1$s — Herinnering</string>
+    <string name="trial_timeline_reminder_authorized">Wij herinneren u wanneer uw proefperiode eindigt.</string>
+    <string name="trial_timeline_reminder_permission_needed">Wij vragen of wij u mogen herinneren als uw proefperiode eindigt.</string>
+    <string name="trial_timeline_reminder_unavailable">Dit is 2 dagen voordat uw proefperiode eindigt.</string>
+    <string name="trial_timeline_end_title">%1$s — Einde proefperiode</string>
+    <string name="trial_timeline_end_subtitle">Uw abonnement wordt verlengd, tenzij u opzegt.</string>
+    <string name="trial_timeline_cancel_question">Hoe zeg ik mijn abonnement op?</string>
+    <string name="trial_timeline_cancel_answer">Tik in de Google Play Store op uw profielfoto, daarna op “Betalingen en abonnementen” en dan op “Abonnementen”. Het is met een paar tikken gedaan.</string>
+    <string name="trial_timeline_not_now">Niet nu</string>
+    <string name="paywall_rating_badge_title">Beoordeeld met %1$s op Google Play</string>
+    <string name="paywall_rating_badge_count">%1$s+ beoordelingen</string>
+    <string name="paywall_billed_annually">%1$s per jaar</string>
+    <string name="paywall_billed_monthly">%1$s per maand</string>
+    <string name="paywall_billed_weekly">%1$s per week</string>
+    <string name="paywall_per_week">per week</string>
+    <string name="paywall_trial_then_weekly">%1$s-daagse gratis proefperiode, daarna %2$s/week. Wordt automatisch verlengd.</string>
+    <string name="paywall_recurring_yearly">%1$s/jaar. Altijd opzegbaar.</string>
+    <string name="paywall_recurring_monthly">%1$s/maand. Altijd opzegbaar.</string>
+    <string name="paywall_recurring_weekly">%1$s/week. Altijd opzegbaar.</string>
+    <string name="paywall_secure_payment_google_play">Veilig betalen via Google Play</string>
+    <string name="paywall_review_quote_1">Ik dacht dat het veel moeilijker zou zijn om te volgen en te doen. Het was geweldig!</string>
+    <string name="paywall_review_quote_2">Ik ben hier nieuw in, maar ik zie zeker resultaat. Had ik dit maar veel eerder gevonden!</string>
+    <string name="paywall_review_quote_3">Ik vind het fijn dat de oefeningen van de eerste dagen makkelijk te volgen zijn en niet te ingewikkeld voor senioren zoals ik.</string>
+    <string name="paywall_review_attribution">— %1$s, recensie in de App Store</string>
+</resources>

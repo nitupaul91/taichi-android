@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="bmi_health_status_title">Su estado de salud</string>
+    <string name="bmi_health_status_subtitle">Según su IMC y su nivel de actividad</string>
+    <string name="bmi_label">IMC</string>
+    <string name="bmi_insight_healthy_title">Su IMC es saludable.</string>
+    <string name="bmi_insight_healthy_message">Mantener la masa muscular y seguir en movimiento puede ayudarle a conservar la energía, el equilibrio y la salud a largo plazo.</string>
+    <string name="bmi_insight_underweight_title">Su IMC es bajo.</string>
+    <string name="bmi_insight_underweight_message">Desarrollar la fuerza y una masa corporal saludable puede mejorar la resistencia, la movilidad y la energía diaria.</string>
+    <string name="bmi_insight_overweight_title">Su IMC está por encima de la media.</string>
+    <string name="bmi_insight_overweight_message">Aumentar el movimiento diario y mejorar la composición corporal puede ayudar a reducir la carga sobre sus articulaciones y su metabolismo.</string>
+    <string name="bmi_insight_elevated_title">Su IMC es elevado.</string>
+    <string name="bmi_insight_elevated_message">Aumentar la masa muscular y la actividad diaria puede reducir considerablemente los riesgos para la salud.</string>
+    <string name="bmi_category_underweight">Peso insuficiente</string>
+    <string name="bmi_category_healthy">Saludable</string>
+    <string name="bmi_category_overweight">Sobrepeso</string>
+    <string name="bmi_category_elevated">Elevado</string>
+    <string name="target_weight_lose_easy_title">Objetivo asequible: perder un %1$s de su peso</string>
+    <string name="target_weight_lose_easy_message">Está eligiendo un objetivo sensato y alcanzable. El movimiento diario constante puede reducir la grasa corporal, aumentar su energía y ayudarle a adquirir un ritmo que querrá mantener.</string>
+    <string name="target_weight_lose_realistic_title">Objetivo realista: perder un %1$s de su peso</string>
+    <string name="target_weight_lose_realistic_message">Este es un objetivo con gran capacidad de transformación. Un progreso constante se asocia con una mejor salud cardiovascular, un mayor control del azúcar en sangre y resultados sostenibles a largo plazo.</string>
+    <string name="target_weight_lose_health_title">Beneficios para la salud: perder %1$s de su peso</string>
+    <string name="target_weight_lose_health_message">Le esperan grandes beneficios. Alcanzar este objetivo puede reducir la inflamación, favorecer unos niveles más saludables de presión arterial y glucosa, y mejorar notablemente su bienestar diario.</string>
+    <string name="target_weight_lose_challenging_title">Objetivo exigente: perder %1$s de su peso</string>
+    <string name="target_weight_lose_challenging_message">Es un compromiso ambicioso que puede cambiarle la vida. Con constancia en el entrenamiento, la nutrición y la recuperación, puede mejorar notablemente su salud metabólica y su vitalidad.</string>
+    <string name="target_weight_build_easy_title">Objetivo asequible: aumentar un %1$s la masa muscular</string>
+    <string name="target_weight_build_easy_message">Un excelente punto de partida para ganar fuerza. Incluso un aumento moderado de la masa muscular puede mejorar la estabilidad, la fuerza diaria y la confianza al moverse.</string>
+    <string name="target_weight_build_realistic_title">Objetivo realista: aumentar un %1$s la masa muscular</string>
+    <string name="target_weight_build_realistic_message">Se ha marcado un objetivo ambicioso y acertado. Este intervalo puede aumentar el gasto metabólico, mejorar la postura y facilitar las actividades cotidianas.</string>
+    <string name="target_weight_build_health_title">Beneficios para la salud: aumentar un %1$s la masa muscular</string>
+    <string name="target_weight_build_health_message">Un objetivo excelente para cuidar su salud. Una musculatura más fuerte favorece unos huesos más resistentes, un mejor equilibrio y un menor riesgo de fragilidad y lesiones con el tiempo.</string>
+    <string name="target_weight_build_challenging_title">Objetivo exigente: aumentar un %1$s la masa muscular</string>
+    <string name="target_weight_build_challenging_message">Una mentalidad excepcional. Este objetivo exige compromiso, pero puede transformar su fuerza, composición corporal y resistencia mediante un entrenamiento progresivo y una recuperación adecuada.</string>
+    <string name="loading_finalizing_plan">Su plan estará listo en %1$d s</string>
+    <string name="purchase_dialog_validating_title">Validando su compra…</string>
+    <string name="purchase_dialog_validating_message">Espere un momento y no cierre esta pantalla</string>
+    <string name="purchase_dialog_success_title">¡Le damos la bienvenida a Premium!</string>
+    <string name="purchase_dialog_success_message">Su compra se ha realizado correctamente. ¡Disfrute de todas las funciones Premium!</string>
+    <string name="purchase_dialog_failed_title">Error en la compra</string>
+    <string name="purchase_dialog_failed_message">Se produjo un error. Inténtelo de nuevo.</string>
+    <string name="back">Espalda</string>
+    <string name="image_placeholder">Imagen</string>
+    <string name="completion_stat_minutes">min</string>
+    <string name="completion_stat_calories">cal</string>
+    <string name="completion_stat_moves">movimientos</string>
+    <plurals name="preview_stat_calories">
+        <item quantity="one">caloría</item>
+        <item quantity="other">calorías</item>
+    </plurals>
+    <plurals name="preview_stat_exercises">
+        <item quantity="one">ejercicio</item>
+        <item quantity="other">ejercicios</item>
+    </plurals>
+    <string name="difficulty_low">Baja</string>
+    <string name="difficulty_medium">Media</string>
+    <string name="difficulty_high">Alta</string>
+</resources>

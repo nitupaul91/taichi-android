@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="trial_timeline_title_pre_purchase">Így működik ingyenes próbaidőszaka</string>
+    <string name="trial_timeline_subtitle_pre_purchase">Pontosan ez történik, ha ma elindítja ingyenes próbaidőszakát.</string>
+    <string name="trial_timeline_title_cancellation">Ma nem kell fizetnie</string>
+    <string name="trial_timeline_subtitle_cancellation_authorized">Ingyenes próbaidőszaka eddig tart: %1$s, és a vége előtt emlékeztetjük.</string>
+    <string name="trial_timeline_subtitle_cancellation_permission_needed">Ingyenes próbaidőszaka eddig tart: %1$s. A vége előtt engedélyt kérünk az emlékeztetéshez.</string>
+    <string name="trial_timeline_subtitle_cancellation_unavailable">Ingyenes próbaidőszaka eddig tart: %1$s. Addig semmit nem számlázunk.</string>
+    <string name="trial_timeline_button_cancellation">Kipróbálom ingyen</string>
+    <string name="trial_timeline_title_confirmation">Ingyenes próbaidőszaka elkezdődött</string>
+    <string name="trial_timeline_subtitle_confirmation">Ingyenesen használhatja a Premiumot eddig: %1$s.</string>
+    <string name="trial_timeline_button_confirmation">Gyakorlás indítása</string>
+    <string name="trial_timeline_progress_accessibility">Beállítás előrehaladása</string>
+    <string name="trial_timeline_plan_ready_title">Terve készen áll</string>
+    <string name="trial_timeline_plan_ready_subtitle">Személyre szabott Tai Chi programja készen áll a kezdésre.</string>
+    <string name="trial_timeline_today_title">Ma</string>
+    <string name="trial_timeline_today_start">Indítsa el ingyenes próbaidőszakát, és oldja fel az összes Premium gyakorlást.</string>
+    <string name="trial_timeline_today_active">Ingyenes próbaidőszaka aktív. Élvezze az összes Premium gyakorlást.</string>
+    <string name="trial_timeline_reminder_title">%1$s – Emlékeztető</string>
+    <string name="trial_timeline_reminder_authorized">Emlékeztetjük, mikor ér véget ingyenes próbaidőszaka.</string>
+    <string name="trial_timeline_reminder_permission_needed">Engedélyt kérünk, hogy értesíthessük a próbaidőszak végéről.</string>
+    <string name="trial_timeline_reminder_unavailable">Ez 2 nappal az ingyenes próbaidőszak vége előtt van.</string>
+    <string name="trial_timeline_end_title">%1$s – Próbaidőszak vége</string>
+    <string name="trial_timeline_end_subtitle">Előfizetése megújul, ha nem mondja le.</string>
+    <string name="trial_timeline_cancel_question">Hogyan mondhatom le az előfizetésemet?</string>
+    <string name="trial_timeline_cancel_answer">A Google Play Áruházban koppintson a profilképére, majd a „Fizetések és előfizetések”, végül az „Előfizetések” menüpontra. Csak néhány koppintás az egész.</string>
+    <string name="trial_timeline_not_now">Most nem</string>
+    <string name="paywall_rating_badge_title">Google Play értékelés: %1$s</string>
+    <string name="paywall_rating_badge_count">%1$s+ értékelés</string>
+    <string name="paywall_billed_annually">%1$s évente</string>
+    <string name="paywall_billed_monthly">%1$s havonta</string>
+    <string name="paywall_billed_weekly">%1$s hetente</string>
+    <string name="paywall_per_week">hetente</string>
+    <string name="paywall_trial_then_weekly">%1$s napos ingyenes próbaidőszak, utána %2$s/hét. Automatikusan megújul.</string>
+    <string name="paywall_recurring_yearly">%1$s/év. Bármikor lemondható.</string>
+    <string name="paywall_recurring_monthly">%1$s/hónap. Bármikor lemondható.</string>
+    <string name="paywall_recurring_weekly">%1$s/hét. Bármikor lemondható.</string>
+    <string name="paywall_secure_payment_google_play">Biztonságos fizetés a Google Play révén</string>
+    <string name="paywall_review_quote_1">Azt hittem, sokkal nehezebb lesz követni és megcsinálni. Nagyszerű volt!</string>
+    <string name="paywall_review_quote_2">Új vagyok ebben, de határozottan látom az eredményt. Bárcsak sokkal korábban megtaláltam volna!</string>
+    <string name="paywall_review_quote_3">Tetszik, hogy az első napok gyakorlatai könnyen követhetők, és semmi túl bonyolult nincs bennük a magamfajta idősebbeknek.</string>
+    <string name="paywall_review_attribution">— %1$s, értékelés az App Store-ban</string>
+</resources>

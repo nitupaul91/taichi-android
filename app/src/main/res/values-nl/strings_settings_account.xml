@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="settings_account_section">ACCOUNT</string>
+    <string name="settings_delete_account_title">Account verwijderen</string>
+    <string name="settings_delete_account_subtitle">Uw gegevens definitief verwijderen</string>
+    <string name="settings_delete_account_dialog_title">Wilt u uw account verwijderen?</string>
+    <string name="settings_delete_account_dialog_message">Hiermee worden uw profiel, uw voortgang en uw e-mailadres definitief van onze servers verwijderd. Dit kan niet ongedaan worden gemaakt.</string>
+    <string name="settings_delete_account_dialog_subscriber_note">Uw abonnement via Google Play wordt hiermee niet opgezegd – dat beheert u in Google Play.</string>
+    <string name="settings_delete_account_manage_subscription">Abonnement beheren</string>
+    <string name="settings_delete_account_cancel">Annuleren</string>
+    <string name="settings_delete_account_confirm">Verwijderen</string>
+    <string name="settings_delete_account_failed_title">Uw account kon niet worden verwijderd</string>
+    <string name="settings_delete_account_failed_message">Controleer uw verbinding en probeer het opnieuw.</string>
+    <string name="settings_account_ok">OK</string>
+    <string name="cancel_flow_title">Abonnement opzeggen</string>
+    <string name="cancel_flow_settings_subtitle">Vertel ons eerst kort waarom</string>
+    <string name="cancel_flow_reason_title">Waarom wilt u opzeggen?</string>
+    <string name="cancel_flow_reason_subtitle">Uw antwoord helpt ons de app te verbeteren.</string>
+    <string name="cancel_flow_keep_subscription">Abonnement behouden</string>
+    <string name="cancel_flow_cancel_anyway">Ik wil toch opzeggen</string>
+    <string name="cancel_flow_reason_too_expensive">Te duur</string>
+    <string name="cancel_flow_reason_exercises_too_hard">De oefeningen zijn te zwaar</string>
+    <string name="cancel_flow_reason_exercises_too_easy">De oefeningen zijn te makkelijk</string>
+    <string name="cancel_flow_reason_other">Iets anders</string>
+    <string name="cancel_flow_easier_offer_title">Zouden rustigere oefeningen helpen?</string>
+    <string name="cancel_flow_easier_offer_subtitle">Wij kunnen uw sessies op het rustigste tempo zetten. Alles wat u al heeft gedaan, blijft bewaard.</string>
+    <string name="cancel_flow_easier_accept">Ik wil lichtere oefeningen proberen</string>
+    <string name="cancel_flow_easier_confirmation_title">Uw sessies zijn nu rustiger</string>
+    <string name="cancel_flow_easier_confirmation_body">Wij hebben het rustigste tempo voor u ingesteld. Uw volgende sessie wordt lichter.</string>
+    <string name="cancel_flow_harder_offer_title">Wilt u meer uitdaging?</string>
+    <string name="cancel_flow_harder_offer_subtitle">Wij kunnen uw sessies op het meest uitdagende tempo zetten. Alles wat u al heeft gedaan, blijft bewaard.</string>
+    <string name="cancel_flow_harder_accept">Zwaardere oefeningen proberen</string>
+    <string name="cancel_flow_harder_confirmation_title">Uw sessies zijn nu uitdagender</string>
+    <string name="cancel_flow_harder_confirmation_body">Wij hebben het meest uitdagende tempo voor u ingesteld. Uw volgende sessie vraagt meer van u.</string>
+    <string name="cancel_flow_ready_title">Wilt u echt opzeggen?</string>
+    <string name="cancel_flow_ready_subtitle">Wij sturen u door naar de abonnementspagina van Google Play. Uw Premium-toegang blijft actief tot het einde van de periode waarvoor u al heeft betaald.</string>
+    <string name="cancel_flow_feedback_title">Wat ging er mis?</string>
+    <string name="cancel_flow_feedback_subtitle">Vertel het ons gerust in een paar woorden. Dit is niet verplicht.</string>
+    <string name="cancel_flow_applying">Uw programma wordt aangepast</string>
+    <string name="cancel_flow_play_fallback_title">Opzegopties konden niet worden geopend</string>
+    <string name="cancel_flow_play_fallback_message">Neem contact op via %1$s, dan helpen wij u met het opzeggen van uw abonnement.</string>
+    <string name="cancel_flow_copy_support_email">E-mailadres kopiëren</string>
+</resources>

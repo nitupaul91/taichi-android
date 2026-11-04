@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="onboarding_program_title">Válassza ki a gyakorlás módját</string>
+    <string name="onboarding_program_subtitle">Válassza ki az életmódjához legjobban illő programot.</string>
+    <string name="onboarding_program_tai_chi_title">Tai Chi</string>
+    <string name="onboarding_program_tai_chi_subtitle">Hagyományos, folyamatos mozdulatok az egyensúlyért és a nyugalomért</string>
+    <string name="onboarding_program_walking_title">Tai Chi Walking</string>
+    <string name="onboarding_program_walking_subtitle">Szelíd sétagyakorlatok és Tai Chi együtt</string>
+    <string name="onboarding_program_chair_title">Ülő Tai Chi</string>
+    <string name="onboarding_program_chair_subtitle">Ülő gyakorlatok korlátozott mozgásképességhez</string>
+    <string name="onboarding_program_let_us_decide_title">Döntsenek helyettem</string>
+    <string name="onboarding_program_let_us_decide_subtitle">Profilja alapján kiválasztjuk a legjobb programot</string>
+    <string name="onboarding_discovery_tv_commercial">TV-reklám</string>
+    <string name="onboarding_discovery_trainer_therapist">Edző / terapeuta ajánlása</string>
+    <string name="onboarding_discovery_friends_family">Barátok / Család</string>
+    <string name="onboarding_discovery_other">Egyéb</string>
+    <string name="onboarding_welcome_promise_line_1">Csökkentse *testsúlyát*</string>
+    <string name="onboarding_welcome_promise_line_2">Javítsa *egyensúlyát*</string>
+    <string name="onboarding_welcome_get_started">Kezdjük</string>
+    <string name="onboarding_welcome_members_caption">ember csatlakozott</string>
+    <string name="onboarding_welcome_minutes_value">10 perc</string>
+    <string name="onboarding_welcome_minutes_caption">naponta</string>
+    <string name="onboarding_welcome_rating_format">Értékelés: %1$s</string>
+    <string name="onboarding_social_proof_rating_caption">Ellenőrzött felhasználók értékelése a Google Play áruházban</string>
+    <string name="onboarding_social_proof_active_members">Több ezer aktív tag</string>
+    <string name="onboarding_loading_rating_count">%1$s  •  %2$s értékelés</string>
+    <string name="onboarding_loading_members_thousands">Csatlakozzon több ezer elégedett taghoz</string>
+</resources>

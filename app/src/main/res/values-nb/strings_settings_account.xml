@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="settings_account_section">KONTO</string>
+    <string name="settings_delete_account_title">Slett konto</string>
+    <string name="settings_delete_account_subtitle">Fjern dataene dine permanent</string>
+    <string name="settings_delete_account_dialog_title">Vil du slette kontoen din?</string>
+    <string name="settings_delete_account_dialog_message">Dette sletter profilen din, framgangen din og e-posten din permanent fra serverne våre. Det kan ikke angres.</string>
+    <string name="settings_delete_account_dialog_subscriber_note">Google Play-abonnementet ditt blir ikke sagt opp av dette. Du kan administrere det i Google Play.</string>
+    <string name="settings_delete_account_manage_subscription">Administrer abonnement</string>
+    <string name="settings_delete_account_cancel">Avbryt</string>
+    <string name="settings_delete_account_confirm">Slett</string>
+    <string name="settings_delete_account_failed_title">Kontoen din kunne ikke slettes</string>
+    <string name="settings_delete_account_failed_message">Sjekk tilkoblingen din og prøv igjen.</string>
+    <string name="settings_account_ok">OK</string>
+    <string name="cancel_flow_title">Si opp abonnementet</string>
+    <string name="cancel_flow_settings_subtitle">Fortell oss kort hvorfor</string>
+    <string name="cancel_flow_reason_title">Hvorfor vil du si opp?</string>
+    <string name="cancel_flow_reason_subtitle">Svaret ditt hjelper oss å gjøre appen bedre.</string>
+    <string name="cancel_flow_keep_subscription">Behold abonnementet</string>
+    <string name="cancel_flow_cancel_anyway">Jeg vil si opp likevel</string>
+    <string name="cancel_flow_reason_too_expensive">For dyrt</string>
+    <string name="cancel_flow_reason_exercises_too_hard">Øvelsene er for vanskelige</string>
+    <string name="cancel_flow_reason_exercises_too_easy">Øvelsene er for lette</string>
+    <string name="cancel_flow_reason_other">Noe annet</string>
+    <string name="cancel_flow_easier_offer_title">Ville det hjelpe med lettere øvelser?</string>
+    <string name="cancel_flow_easier_offer_subtitle">Vi kan sette øktene dine til det mest skånsomme tempoet. Alt du allerede har gjort, beholder du.</string>
+    <string name="cancel_flow_easier_accept">Jeg vil prøve lettere øvelser</string>
+    <string name="cancel_flow_easier_confirmation_title">Øktene dine er nå lettere</string>
+    <string name="cancel_flow_easier_confirmation_body">Vi har satt det mest skånsomme tempoet for deg. Neste økt blir lettere.</string>
+    <string name="cancel_flow_harder_offer_title">Ønsker du en større utfordring?</string>
+    <string name="cancel_flow_harder_offer_subtitle">Vi kan sette øktene dine til det mest krevende tempoet. Alt du allerede har gjort, beholder du.</string>
+    <string name="cancel_flow_harder_accept">Prøv mer krevende øvelser</string>
+    <string name="cancel_flow_harder_confirmation_title">Øktene dine er nå mer krevende</string>
+    <string name="cancel_flow_harder_confirmation_body">Vi har satt det mest krevende tempoet for deg. Neste økt utfordrer deg mer.</string>
+    <string name="cancel_flow_ready_title">Vil du virkelig si opp?</string>
+    <string name="cancel_flow_ready_subtitle">Vi tar deg til abonnementssiden på Google Play. Premium-tilgangen din varer til slutten av perioden du allerede har betalt for.</string>
+    <string name="cancel_flow_feedback_title">Hva gikk galt?</string>
+    <string name="cancel_flow_feedback_subtitle">Fortell oss gjerne med noen få ord. Dette er frivillig.</string>
+    <string name="cancel_flow_applying">Programmet ditt tilpasses</string>
+    <string name="cancel_flow_play_fallback_title">Kunne ikke åpne oppsigelsesvalgene</string>
+    <string name="cancel_flow_play_fallback_message">Ta kontakt med %1$s, så hjelper vi deg å si opp abonnementet.</string>
+    <string name="cancel_flow_copy_support_email">Kopier e-postadresse</string>
+</resources>

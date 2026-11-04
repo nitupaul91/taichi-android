@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="practice_reminder_prompt_title">Samma tid i morgon?</string>
+    <string name="practice_reminder_prompt_body">Håll din Tai Chi-rutin igång. Vi kan påminna dig i morgon kl. %1$s.</string>
+    <string name="practice_reminder_prompt_remind_me">Påminn mig</string>
+    <string name="practice_reminder_prompt_change_time">Ändra tid</string>
+    <string name="practice_reminder_prompt_not_now">Inte nu</string>
+    <string name="practice_reminder_permission_denied_title">Notiser är avstängda</string>
+    <string name="practice_reminder_permission_denied_message">Slå på notiser för %1$s i Inställningar så kan vi påminna dig.</string>
+    <string name="practice_reminder_permission_open_settings">Öppna Inställningar</string>
+    <string name="notification_practice_reminder_title">Dags för ditt Tai Chi-pass</string>
+    <string name="notification_practice_reminder_body">Du var med igår. Några lugna minuter räcker för att hålla igång.</string>
+    <string name="notification_practice_reminder_first_session_body">Några lugna minuter räcker för att komma igång.</string>
+    <string name="notification_practice_reminder_second_chance_title">Din matta väntar fortfarande</string>
+    <string name="notification_practice_reminder_second_chance_body">Det har gått ett par dagar. Redan fem lugna minuter får dig i rörelse igen.</string>
+    <string name="notification_trial_reminder_title">Din gratis provperiod slutar om 2 dagar</string>
+    <plurals name="notification_trial_reminder_body_practiced">
+        <item quantity="one">Du har övat en gång den här veckan. Din provperiod slutar %2$s – fortsätt så, eller hantera din prenumeration när du vill i Inställningar.</item>
+        <item quantity="other">Du har övat %1$d gånger den här veckan. Din provperiod slutar %2$s – fortsätt så, eller hantera din prenumeration när du vill i Inställningar.</item>
+    </plurals>
+    <string name="notification_trial_reminder_body_not_practiced">Din provperiod slutar %1$s. Det finns fortfarande tid för ett lugnt 5-minuterspass – och du kan hantera din prenumeration när du vill i Inställningar.</string>
+</resources>

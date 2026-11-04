@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="practice_reminder_prompt_title">Holnap ugyanekkor?</string>
+    <string name="practice_reminder_prompt_body">Tartsa fenn Tai Chi rutinját. Holnap ekkor emlékeztethetjük: %1$s.</string>
+    <string name="practice_reminder_prompt_remind_me">Emlékeztessen</string>
+    <string name="practice_reminder_prompt_change_time">Időpont módosítása</string>
+    <string name="practice_reminder_prompt_not_now">Most nem</string>
+    <string name="practice_reminder_permission_denied_title">Az értesítések ki vannak kapcsolva</string>
+    <string name="practice_reminder_permission_denied_message">Kapcsolja be a Beállításokban a %1$s alkalmazás értesítéseit, és akkor emlékeztetni tudjuk.</string>
+    <string name="practice_reminder_permission_open_settings">Beállítások megnyitása</string>
+    <string name="notification_practice_reminder_title">Ideje a Tai Chi gyakorlásnak</string>
+    <string name="notification_practice_reminder_body">Tegnap itt volt. Néhány szelíd perc is elég a folytatáshoz.</string>
+    <string name="notification_practice_reminder_first_session_body">Néhány szelíd perc is elég a kezdéshez.</string>
+    <string name="notification_practice_reminder_second_chance_title">Szőnyege még mindig várja</string>
+    <string name="notification_practice_reminder_second_chance_body">Eltelt néhány nap. Már öt szelíd perc is újra mozgásba hozza.</string>
+    <string name="notification_trial_reminder_title">Ingyenes próbaidőszaka 2 nap múlva véget ér</string>
+    <plurals name="notification_trial_reminder_body_practiced">
+        <item quantity="one">Ezen a héten egyszer gyakorolt. Ingyenes próbaidőszaka ekkor ér véget: %2$s – folytassa így, vagy kezelje előfizetését bármikor a Beállításokban.</item>
+        <item quantity="other">Ezen a héten %1$d alkalommal gyakorolt. Ingyenes próbaidőszaka ekkor ér véget: %2$s – folytassa így, vagy kezelje előfizetését bármikor a Beállításokban.</item>
+    </plurals>
+    <string name="notification_trial_reminder_body_not_practiced">Ingyenes próbaidőszaka ekkor ér véget: %1$s. Még van idő egy szelíd, 5 perces gyakorlásra – előfizetését pedig bármikor kezelheti a Beállításokban.</string>
+</resources>
