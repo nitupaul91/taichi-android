@@ -51,4 +51,7 @@
         <item quantity="one">exercise</item>
         <item quantity="other">exercises</item>
     </plurals>
+    <string name="difficulty_low">Low</string>
+    <string name="difficulty_medium">Medium</string>
+    <string name="difficulty_high">High</string>
 </resources>

@@ -58,6 +58,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.res.pluralStringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import taichi.walking.seniors.beginners.R
 import androidx.compose.ui.platform.LocalLifecycleOwner
@@ -562,9 +563,12 @@ private fun JourneyDayRow(
 
                 // Glass Badges
                 Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                    GlassBadge(icon = Icons.Default.Schedule, text = day.durationFormatted)
-                    if (day.difficultyText.isNotEmpty()) {
-                        GlassBadge(icon = Icons.Default.SignalCellularAlt, text = day.difficultyText)
+                    GlassBadge(
+                        icon = Icons.Default.Schedule,
+                        text = pluralStringResource(R.plurals.printable_plan_pdf_day_minutes, day.durationInMinutes, day.durationInMinutes)
+                    )
+                    day.difficultyRes?.let { difficulty ->
+                        GlassBadge(icon = Icons.Default.SignalCellularAlt, text = stringResource(difficulty))
                     }
                 }
 

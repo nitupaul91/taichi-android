@@ -2,6 +2,7 @@ package taichi.walking.seniors.beginners.taichi.ui.home.model
 
 import androidx.annotation.Keep
 import com.google.gson.annotations.SerializedName
+import taichi.walking.seniors.beginners.R
 
 @Keep
 enum class ExerciseLimitation {
@@ -77,16 +78,15 @@ data class WorkoutDayDto(
 ) {
     val id: Int get() = day
     val durationInMinutes: Int get() = lengthSeconds / 60
-    val durationFormatted: String
-        get() = "${durationInMinutes} Min${if (durationInMinutes == 1) "" else "s"}"
     val firstExerciseName: String get() = exercises.firstOrNull()?.name ?: "Workout"
     val coverUrl: String get() = heroImageUrl
-    val difficultyText: String
+    /** Day badge label resource; null when the day has no exercises. */
+    val difficultyRes: Int?
         get() = when (exercises.firstOrNull()?.intensity) {
-            ExerciseDifficulty.LIGHT -> "Low"
-            ExerciseDifficulty.MODERATE -> "Medium"
-            ExerciseDifficulty.CHALLENGING -> "High"
-            null -> ""
+            ExerciseDifficulty.LIGHT -> R.string.difficulty_low
+            ExerciseDifficulty.MODERATE -> R.string.difficulty_medium
+            ExerciseDifficulty.CHALLENGING -> R.string.difficulty_high
+            null -> null
         }
 }
 

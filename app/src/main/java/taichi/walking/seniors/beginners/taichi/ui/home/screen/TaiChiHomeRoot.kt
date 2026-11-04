@@ -41,6 +41,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import taichi.walking.seniors.beginners.taichi.ui.home.activity.PaywallLaunchRequest
 import taichi.walking.seniors.beginners.taichi.ui.onboarding.screens.PaywallScreen
 import taichi.walking.seniors.beginners.ui.paywall.HomeEntryPaywallViewModel
@@ -130,7 +131,17 @@ fun TaiChiHomeRoot(
                                 selected = tab
                             },
                             icon = { Icon(tab.icon, contentDescription = stringResource(tab.titleRes)) },
-                            label = { Text(stringResource(tab.titleRes)) },
+                            label = {
+                                // One line in every language: long labels (de "Einstellungen") shrink
+                                // instead of breaking mid-word under five tabs.
+                                val label = stringResource(tab.titleRes)
+                                Text(
+                                    text = label,
+                                    maxLines = 1,
+                                    softWrap = false,
+                                    fontSize = if (label.length > 10) 10.sp else 12.sp
+                                )
+                            },
                             colors = NavigationBarItemDefaults.colors(
                                 selectedIconColor = Color(0xFF2FA36B),
                                 selectedTextColor = Color(0xFF2FA36B),
