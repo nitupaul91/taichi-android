@@ -24,13 +24,22 @@ class ReminderNotificationTapTracker @Inject constructor(
         // iOS reports "active" for a tap while the app is on screen and "inactive" while it is
         // being brought up from the background or launched.
         val isForeground = ProcessLifecycleOwner.get().lifecycle.currentState.isAtLeast(Lifecycle.State.STARTED)
+        // The conversion notification opens a paywall, like iOS's taichi://paywall?source= link.
+        val paywallSource = intent.getStringExtra(EXTRA_PAYWALL_SOURCE)
         analytics.trackNotificationTapped(
             notificationId = notificationId,
+            hasDeeplink = paywallSource != null,
+            deeplinkSource = paywallSource.orEmpty(),
             appState = if (isForeground) {
                 ReminderAnalyticsTracker.APP_STATE_ACTIVE
             } else {
                 ReminderAnalyticsTracker.APP_STATE_INACTIVE
             }
         )
+    }
+
+    private companion object {
+        /** TaiChiHomeActivity's paywall-source extra, set by the conversion notification. */
+        const val EXTRA_PAYWALL_SOURCE = "extra_paywall_source"
     }
 }

@@ -1,6 +1,7 @@
 package taichi.walking.seniors.beginners.taichi.notifications
 
 import android.app.PendingIntent
+import taichi.walking.seniors.beginners.taichi.notifications.reminder.ReminderNotificationWorker
 import android.content.Context
 import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
@@ -48,7 +49,10 @@ class ConversionNotificationWorker @AssistedInject constructor(
                 source = source,
                 variant = variant
             )
-        )
+        ).apply {
+            // iOS's identifier for this local notification, for notification_tapped.
+            putExtra(ReminderNotificationWorker.EXTRA_NOTIFICATION_ID, CONVERSION_NOTIFICATION_ID)
+        }
 
         val pendingIntent = PendingIntent.getActivity(
             applicationContext,
@@ -74,6 +78,7 @@ class ConversionNotificationWorker @AssistedInject constructor(
         const val KEY_NOTIFICATION_TITLE = "notification_title"
         const val KEY_NOTIFICATION_SUBTITLE = "notification_subtitle"
         const val KEY_PAYWALL_SOURCE = "paywall_source"
+        const val CONVERSION_NOTIFICATION_ID = "conversion_paywall_1h"
         const val KEY_PAYWALL_VARIANT = "paywall_variant"
 
         private const val REQUEST_CODE_CONVERSION_NOTIFICATION = 501

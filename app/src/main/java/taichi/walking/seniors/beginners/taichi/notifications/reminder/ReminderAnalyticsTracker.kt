@@ -71,12 +71,17 @@ class ReminderAnalyticsTracker @Inject constructor(
     )
 
     /** iOS tracks every notification tap; here only the reminder notifications carry an id to report. */
-    fun trackNotificationTapped(notificationId: String, appState: String) = log(
+    fun trackNotificationTapped(
+        notificationId: String,
+        appState: String,
+        hasDeeplink: Boolean = false,
+        deeplinkSource: String = ""
+    ) = log(
         EVENT_NOTIFICATION_TAPPED,
         bundleOf(
             PARAM_NOTIFICATION_ID to notificationId,
-            PARAM_HAS_DEEPLINK to false,
-            PARAM_DEEPLINK_SOURCE to "",
+            PARAM_HAS_DEEPLINK to hasDeeplink,
+            PARAM_DEEPLINK_SOURCE to deeplinkSource,
             PARAM_APP_STATE to appState
         )
     )
