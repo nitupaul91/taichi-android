@@ -1,8 +1,13 @@
 package taichi.walking.seniors.beginners.taichi.onboarding.viewmodel
 
+import taichi.walking.seniors.beginners.taichi.onboarding.data.OnboardingFlowPreferences
 import taichi.walking.seniors.beginners.taichi.onboarding.data.OnboardingRepository
+import taichi.walking.seniors.beginners.taichi.onboarding.nav.OnboardingFlowFlags
+import taichi.walking.seniors.beginners.taichi.onboarding.nav.OnboardingRoutes
+import taichi.walking.seniors.beginners.taichi.onboarding.nav.OnboardingSteps
 import taichi.walking.seniors.beginners.taichi.onboarding.state.OnboardingAction
 import taichi.walking.seniors.beginners.taichi.onboarding.state.OnboardingState
+import taichi.walking.seniors.beginners.util.AiAssistantRemoteConfig
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -14,11 +19,50 @@ import androidx.lifecycle.viewModelScope
 
 @HiltViewModel
 class OnboardingViewModel @Inject constructor(
-    private val repository: OnboardingRepository
+    private val repository: OnboardingRepository,
+    private val remoteConfig: AiAssistantRemoteConfig,
+    private val flowPreferences: OnboardingFlowPreferences
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(OnboardingState())
     val state: StateFlow<OnboardingState> = _state
+
+    private val _usesGoalsFirstOrder = MutableStateFlow(flowPreferences.usesGoalsFirstOrder)
+
+    /** iOS `usesGoalsFirstOrder`; see [decideStepOrder]. */
+    val usesGoalsFirstOrder: StateFlow<Boolean> = _usesGoalsFirstOrder
+
+    /**
+     * Called on leaving the welcome screen: the goals-first test is decided once and persisted, so
+     * a config that activates mid-onboarding cannot reshuffle the screens still ahead.
+     */
+    fun decideStepOrder() {
+        val goalsFirst = remoteConfig.onboardingGoalsFirstEnabled()
+        flowPreferences.usesGoalsFirstOrder = goalsFirst
+        _usesGoalsFirstOrder.value = goalsFirst
+    }
+
+    /** Read live, as iOS reads RemoteConfigService on every navigation. */
+    fun flowFlags(): OnboardingFlowFlags = OnboardingFlowFlags(
+        bodyTypeScreensEnabled = remoteConfig.onboardingBodyTypeScreensEnabled(),
+        skipLifestyleQuestions = remoteConfig.onboardingSkipLifestyleQuestionsEnabled(),
+        showNotificationsPermission = remoteConfig.showNotificationsPermission()
+    )
+
+    fun orderedSteps(): List<OnboardingRoutes> = OnboardingSteps.orderedSteps(_usesGoalsFirstOrder.value)
+
+    /** The screens this user goes through, in order (iOS `navigationSteps`). */
+    fun navigationSteps(): List<OnboardingRoutes> = OnboardingSteps.navigationSteps(
+        goalsFirst = _usesGoalsFirstOrder.value,
+        flags = flowFlags(),
+        shapeUpEventId = _state.value.shapeUpEventId
+    )
+
+    fun stepAfter(step: OnboardingRoutes): OnboardingRoutes? =
+        OnboardingSteps.adjacentStep(step, forward = true, orderedSteps(), navigationSteps())
+
+    fun stepBefore(step: OnboardingRoutes): OnboardingRoutes? =
+        OnboardingSteps.adjacentStep(step, forward = false, orderedSteps(), navigationSteps())
 
     fun onAction(action: OnboardingAction) {
         when (action) {

@@ -16,6 +16,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.sp
 import taichi.walking.seniors.beginners.taichi.onboarding.ui.components.QuestionScaffold
+import taichi.walking.seniors.beginners.taichi.onboarding.nav.OnboardingRoutes
+import taichi.walking.seniors.beginners.taichi.onboarding.ui.util.progressFor
 
 @Composable
 fun ValuePropMeditationScreen(
@@ -24,14 +26,10 @@ fun ValuePropMeditationScreen(
     onContinue: () -> Unit
 ) {
     QuestionScaffold(
-        progress = 0f,
+        // iOS draws the progress header over every question and value screen.
+        progress = progressFor(OnboardingRoutes.ValuePropMeditation),
         title = "",
         subtitle = null,
-        showProgress = false,
-        applyTopInset = false,
-        overlayBackButton = true,
-        applyOverlayBackButtonInset = true,
-        contentTopSpacing = 106.dp,
         onBack = onBack,
         continueEnabled = true,
         onContinue = onContinue

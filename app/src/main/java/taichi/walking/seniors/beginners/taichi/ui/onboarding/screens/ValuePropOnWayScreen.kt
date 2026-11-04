@@ -17,6 +17,8 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import taichi.walking.seniors.beginners.taichi.onboarding.ui.components.QuestionScaffold
+import taichi.walking.seniors.beginners.taichi.onboarding.nav.OnboardingRoutes
+import taichi.walking.seniors.beginners.taichi.onboarding.ui.util.progressFor
 
 @Composable
 fun ValuePropOnWayScreen(
@@ -31,14 +33,10 @@ fun ValuePropOnWayScreen(
     }
 
     QuestionScaffold(
-        progress = 0f,
+        // iOS draws the progress header over every question and value screen.
+        progress = progressFor(OnboardingRoutes.ValuePropOnWay),
         title = "",
         subtitle = null,
-        showProgress = false,
-        applyTopInset = false,
-        overlayBackButton = true,
-        applyOverlayBackButtonInset = true,
-        contentTopSpacing = 106.dp,
         onBack = onBack,
         continueEnabled = true,
         onContinue = onContinue

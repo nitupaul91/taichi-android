@@ -1,6 +1,7 @@
 package taichi.walking.seniors.beginners.taichi.onboarding.nav
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -11,8 +12,12 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import taichi.walking.seniors.beginners.taichi.onboarding.analytics.OnboardingAnalyticsTracker
+import taichi.walking.seniors.beginners.taichi.onboarding.state.OnboardingState
+import taichi.walking.seniors.beginners.taichi.onboarding.ui.util.LocalOnboardingChrome
+import taichi.walking.seniors.beginners.taichi.onboarding.ui.util.OnboardingChrome
 import taichi.walking.seniors.beginners.taichi.onboarding.viewmodel.OnboardingViewModel
 import taichi.walking.seniors.beginners.taichi.ui.onboarding.screens.ActivityLevelScreen
 import taichi.walking.seniors.beginners.taichi.ui.onboarding.screens.AgeScreen
@@ -59,287 +64,331 @@ fun OnboardingNavGraph(
     onFinished: () -> Unit = {}
 ) {
     val state by viewModel.state.collectAsState()
+    val usesGoalsFirstOrder by viewModel.usesGoalsFirstOrder.collectAsState()
     val scope = rememberCoroutineScope()
 
-    // Track screen views
+    // This user's screens, recomputed like iOS's computed `navigationSteps`: the shape-up answer and
+    // live Remote Config flags both change it, and the progress bars are drawn against it.
+    val navigationSteps = OnboardingSteps.navigationSteps(
+        goalsFirst = usesGoalsFirstOrder,
+        flags = viewModel.flowFlags(),
+        shapeUpEventId = state.shapeUpEventId
+    )
+
+    // Track screen views and upload the profile snapshot on every step, as iOS does from
+    // onChange(of: currentStep).
     val currentBackStackEntry by navController.currentBackStackEntryAsState()
     LaunchedEffect(currentBackStackEntry) {
-        val currentRoute = currentBackStackEntry?.destination?.route
-        val route = OnboardingRoutes.all.find { it.route == currentRoute } ?: return@LaunchedEffect
+        val route = OnboardingRoutes.fromRoute(currentBackStackEntry?.destination?.route) ?: return@LaunchedEffect
         analyticsTracker.trackScreenView(
-            screenIndex = route.index,
+            screenIndex = viewModel.navigationSteps().indexOf(route).coerceAtLeast(0),
             stepName = route.analyticsStepName
         )
         viewModel.persistSnapshot(completedStep = route.analyticsStepName)
     }
 
+    // The next screen comes from the step list, never a fixed successor. Only the screen on top may
+    // advance, so a late callback (a double tap, a timer) cannot skip a screen.
+    val goForward: (OnboardingRoutes) -> Unit = { from ->
+        if (navController.currentDestination?.route == from.route) {
+            if (from == OnboardingRoutes.Welcome) viewModel.decideStepOrder()
+            viewModel.stepAfter(from)?.let { next -> navController.navigate(next.route) }
+        }
+    }
+    val goBack: () -> Unit = { navController.popBackStack() }
+
+    CompositionLocalProvider(LocalOnboardingChrome provides OnboardingChrome(navigationSteps)) {
+        OnboardingNavHost(
+            navController = navController,
+            viewModel = viewModel,
+            state = state,
+            scope = scope,
+            analyticsTracker = analyticsTracker,
+            onFinished = onFinished,
+            goForward = goForward,
+            goBack = goBack
+        )
+    }
+}
+
+@Composable
+private fun OnboardingNavHost(
+    navController: NavHostController,
+    viewModel: OnboardingViewModel,
+    state: OnboardingState,
+    scope: CoroutineScope,
+    analyticsTracker: OnboardingAnalyticsTracker,
+    onFinished: () -> Unit,
+    goForward: (OnboardingRoutes) -> Unit,
+    goBack: () -> Unit
+) {
     NavHost(
         navController = navController,
         startDestination = OnboardingRoutes.Welcome.route
     ) {
         composable(OnboardingRoutes.Welcome.route) {
             WelcomeScreen(
-                onContinue = { navController.navigateNext(OnboardingRoutes.Welcome, state.shapeUpEventId) }
+                onContinue = { goForward(OnboardingRoutes.Welcome) }
             )
         }
         composable(OnboardingRoutes.Gender.route) {
             GenderScreen(
                 state = state,
                 onSelect = { viewModel.onAction(it) },
-                onBack = { navController.popBackStack() },
-                onContinue = { navController.navigateNext(OnboardingRoutes.Gender, state.shapeUpEventId) }
+                onBack = goBack,
+                onContinue = { goForward(OnboardingRoutes.Gender) }
             )
         }
         composable(OnboardingRoutes.CurrentBodyType.route) {
             CurrentBodyTypeScreen(
                 state = state,
                 onSelect = { viewModel.onAction(it) },
-                onBack = { navController.popBackStack() },
-                onContinue = { navController.navigateNext(OnboardingRoutes.CurrentBodyType, state.shapeUpEventId) }
+                onBack = goBack,
+                onContinue = { goForward(OnboardingRoutes.CurrentBodyType) }
             )
         }
         composable(OnboardingRoutes.Goals.route) {
             GoalsScreen(
                 state = state,
                 onToggle = { viewModel.onAction(it) },
-                onBack = { navController.popBackStack() },
-                onContinue = { navController.navigateNext(OnboardingRoutes.Goals, state.shapeUpEventId) }
+                onBack = goBack,
+                onContinue = { goForward(OnboardingRoutes.Goals) }
             )
         }
         composable(OnboardingRoutes.TargetBodyType.route) {
             TargetBodyTypeScreen(
                 state = state,
                 onSelect = { viewModel.onAction(it) },
-                onBack = { navController.popBackStack() },
-                onContinue = { navController.navigateNext(OnboardingRoutes.TargetBodyType, state.shapeUpEventId) }
+                onBack = goBack,
+                onContinue = { goForward(OnboardingRoutes.TargetBodyType) }
             )
         }
         composable(OnboardingRoutes.TargetZones.route) {
             TargetZonesScreen(
                 state = state,
                 onToggle = { viewModel.onAction(it) },
-                onBack = { navController.popBackStack() },
-                onContinue = { navController.navigateNext(OnboardingRoutes.TargetZones, state.shapeUpEventId) }
+                onBack = goBack,
+                onContinue = { goForward(OnboardingRoutes.TargetZones) }
             )
         }
         composable(OnboardingRoutes.HeardAboutUs.route) {
             HeardAboutUsScreen(
                 state = state,
                 onSelect = { viewModel.onAction(it) },
-                onBack = { navController.popBackStack() },
-                onContinue = { navController.navigateNext(OnboardingRoutes.HeardAboutUs, state.shapeUpEventId) }
+                onBack = goBack,
+                onContinue = { goForward(OnboardingRoutes.HeardAboutUs) }
             )
         }
         composable(OnboardingRoutes.ValuePropOnWay.route) {
             ValuePropOnWayScreen(
                 state = state,
-                onBack = { navController.popBackStack() },
-                onContinue = { navController.navigateNext(OnboardingRoutes.ValuePropOnWay, state.shapeUpEventId) }
+                onBack = goBack,
+                onContinue = { goForward(OnboardingRoutes.ValuePropOnWay) }
             )
         }
         composable(OnboardingRoutes.Familiarity.route) {
             FamiliarityScreen(
                 state = state,
                 onSelect = { viewModel.onAction(it) },
-                onBack = { navController.popBackStack() },
-                onContinue = { navController.navigateNext(OnboardingRoutes.Familiarity, state.shapeUpEventId) }
+                onBack = goBack,
+                onContinue = { goForward(OnboardingRoutes.Familiarity) }
             )
         }
         composable(OnboardingRoutes.ValuePropMeditation.route) {
             ValuePropMeditationScreen(
                 state = state,
-                onBack = { navController.popBackStack() },
-                onContinue = { navController.navigateNext(OnboardingRoutes.ValuePropMeditation, state.shapeUpEventId) }
+                onBack = goBack,
+                onContinue = { goForward(OnboardingRoutes.ValuePropMeditation) }
             )
         }
         composable(OnboardingRoutes.ActivityLevel.route) {
             ActivityLevelScreen(
                 state = state,
                 onSelect = { viewModel.onAction(it) },
-                onBack = { navController.popBackStack() },
-                onContinue = { navController.navigateNext(OnboardingRoutes.ActivityLevel, state.shapeUpEventId) }
+                onBack = goBack,
+                onContinue = { goForward(OnboardingRoutes.ActivityLevel) }
             )
         }
         composable(OnboardingRoutes.WalkDaily.route) {
             WalkDailyScreen(
                 state = state,
                 onSelect = { viewModel.onAction(it) },
-                onBack = { navController.popBackStack() },
-                onContinue = { navController.navigateNext(OnboardingRoutes.WalkDaily, state.shapeUpEventId) }
+                onBack = goBack,
+                onContinue = { goForward(OnboardingRoutes.WalkDaily) }
             )
         }
         composable(OnboardingRoutes.StairsFeeling.route) {
             StairsFeelingScreen(
                 state = state,
                 onSelect = { viewModel.onAction(it) },
-                onBack = { navController.popBackStack() },
-                onContinue = { navController.navigateNext(OnboardingRoutes.StairsFeeling, state.shapeUpEventId) }
+                onBack = goBack,
+                onContinue = { goForward(OnboardingRoutes.StairsFeeling) }
             )
         }
         composable(OnboardingRoutes.SquatAbility.route) {
             SquatAbilityScreen(
                 state = state,
                 onSelect = { viewModel.onAction(it) },
-                onBack = { navController.popBackStack() },
-                onContinue = { navController.navigateNext(OnboardingRoutes.SquatAbility, state.shapeUpEventId) }
+                onBack = goBack,
+                onContinue = { goForward(OnboardingRoutes.SquatAbility) }
             )
         }
         composable(OnboardingRoutes.RotateHead.route) {
             RotateHeadScreen(
                 state = state,
                 onSelect = { viewModel.onAction(it) },
-                onBack = { navController.popBackStack() },
-                onContinue = { navController.navigateNext(OnboardingRoutes.RotateHead, state.shapeUpEventId) }
+                onBack = goBack,
+                onContinue = { goForward(OnboardingRoutes.RotateHead) }
             )
         }
         composable(OnboardingRoutes.ArmsForward.route) {
             ArmsForwardScreen(
                 state = state,
                 onSelect = { viewModel.onAction(it) },
-                onBack = { navController.popBackStack() },
-                onContinue = { navController.navigateNext(OnboardingRoutes.ArmsForward, state.shapeUpEventId) }
+                onBack = goBack,
+                onContinue = { goForward(OnboardingRoutes.ArmsForward) }
             )
         }
         composable(OnboardingRoutes.TaiChiLevel.route) {
             TaiChiLevelScreen(
                 state = state,
                 onSelect = { viewModel.onAction(it) },
-                onBack = { navController.popBackStack() },
-                onContinue = { navController.navigateNext(OnboardingRoutes.TaiChiLevel, state.shapeUpEventId) }
+                onBack = goBack,
+                onContinue = { goForward(OnboardingRoutes.TaiChiLevel) }
             )
         }
         composable(OnboardingRoutes.BetweenMeals.route) {
             BetweenMealsScreen(
                 state = state,
                 onSelect = { viewModel.onAction(it) },
-                onBack = { navController.popBackStack() },
-                onContinue = { navController.navigateNext(OnboardingRoutes.BetweenMeals, state.shapeUpEventId) }
+                onBack = goBack,
+                onContinue = { goForward(OnboardingRoutes.BetweenMeals) }
             )
         }
         composable(OnboardingRoutes.SleepAmount.route) {
             SleepAmountScreen(
                 state = state,
                 onSelect = { viewModel.onAction(it) },
-                onBack = { navController.popBackStack() },
-                onContinue = { navController.navigateNext(OnboardingRoutes.SleepAmount, state.shapeUpEventId) }
+                onBack = goBack,
+                onContinue = { goForward(OnboardingRoutes.SleepAmount) }
             )
         }
         composable(OnboardingRoutes.WaterIntake.route) {
             WaterIntakeScreen(
                 state = state,
                 onSelect = { viewModel.onAction(it) },
-                onBack = { navController.popBackStack() },
-                onContinue = { navController.navigateNext(OnboardingRoutes.WaterIntake, state.shapeUpEventId) }
+                onBack = goBack,
+                onContinue = { goForward(OnboardingRoutes.WaterIntake) }
             )
         }
         composable(OnboardingRoutes.DietType.route) {
             DietTypeScreen(
                 state = state,
                 onToggle = { viewModel.onAction(it) },
-                onBack = { navController.popBackStack() },
-                onContinue = { navController.navigateNext(OnboardingRoutes.DietType, state.shapeUpEventId) }
+                onBack = goBack,
+                onContinue = { goForward(OnboardingRoutes.DietType) }
             )
         }
         composable(OnboardingRoutes.Height.route) {
             HeightScreen(
                 state = state,
                 onChange = { viewModel.onAction(it) },
-                onBack = { navController.popBackStack() },
-                onContinue = { navController.navigateNext(OnboardingRoutes.Height, state.shapeUpEventId) }
+                onBack = goBack,
+                onContinue = { goForward(OnboardingRoutes.Height) }
             )
         }
         composable(OnboardingRoutes.Weight.route) {
             WeightScreen(
                 state = state,
                 onChange = { viewModel.onAction(it) },
-                onBack = { navController.popBackStack() },
-                onContinue = { navController.navigateNext(OnboardingRoutes.Weight, state.shapeUpEventId) }
+                onBack = goBack,
+                onContinue = { goForward(OnboardingRoutes.Weight) }
             )
         }
         composable(OnboardingRoutes.Bmi.route) {
             BmiScreen(
                 state = state,
-                onBack = { navController.popBackStack() },
-                onContinue = { navController.navigateNext(OnboardingRoutes.Bmi, state.shapeUpEventId) }
+                onBack = goBack,
+                onContinue = { goForward(OnboardingRoutes.Bmi) }
             )
         }
         composable(OnboardingRoutes.TargetWeight.route) {
             TargetWeightScreen(
                 state = state,
                 onChange = { viewModel.onAction(it) },
-                onBack = { navController.popBackStack() },
-                onContinue = { navController.navigateNext(OnboardingRoutes.TargetWeight, state.shapeUpEventId) }
+                onBack = goBack,
+                onContinue = { goForward(OnboardingRoutes.TargetWeight) }
             )
         }
         composable(OnboardingRoutes.Age.route) {
             AgeScreen(
                 state = state,
                 onChange = { viewModel.onAction(it) },
-                onBack = { navController.popBackStack() },
-                onContinue = { navController.navigateNext(OnboardingRoutes.Age, state.shapeUpEventId) }
+                onBack = goBack,
+                onContinue = { goForward(OnboardingRoutes.Age) }
             )
         }
         composable(OnboardingRoutes.ShapeUpEvent.route) {
             ShapeUpEventScreen(
                 state = state,
                 onSelect = { viewModel.onAction(it) },
-                onBack = { navController.popBackStack() },
-                onContinue = { navController.navigateNext(OnboardingRoutes.ShapeUpEvent, viewModel.state.value.shapeUpEventId) }
+                onBack = goBack,
+                onContinue = { goForward(OnboardingRoutes.ShapeUpEvent) }
             )
         }
         composable(OnboardingRoutes.ShapeUpEventDate.route) {
             ShapeUpEventDateScreen(
                 state = state,
                 onAction = { viewModel.onAction(it) },
-                onBack = { navController.popBackStack() },
-                onContinue = { navController.navigateNext(OnboardingRoutes.ShapeUpEventDate, state.shapeUpEventId) }
+                onBack = goBack,
+                onContinue = { goForward(OnboardingRoutes.ShapeUpEventDate) }
             )
         }
         composable(OnboardingRoutes.Motivation.route) {
             MotivationScreen(
                 state = state,
                 onSelect = { viewModel.onAction(it) },
-                onBack = { navController.popBackStack() },
-                onContinue = { navController.navigateNext(OnboardingRoutes.Motivation, state.shapeUpEventId) }
+                onBack = goBack,
+                onContinue = { goForward(OnboardingRoutes.Motivation) }
             )
         }
         composable(OnboardingRoutes.ExerciseBlockers.route) {
             ExerciseBlockersScreen(
                 state = state,
                 onToggle = { viewModel.onAction(it) },
-                onBack = { navController.popBackStack() },
-                onContinue = { navController.navigateNext(OnboardingRoutes.ExerciseBlockers, state.shapeUpEventId) }
+                onBack = goBack,
+                onContinue = { goForward(OnboardingRoutes.ExerciseBlockers) }
             )
         }
         composable(OnboardingRoutes.Summary.route) {
             SummaryScreen(
                 state = state,
-                onBack = { navController.popBackStack() },
-                onContinue = { navController.navigateNext(OnboardingRoutes.Summary, state.shapeUpEventId) }
+                onBack = goBack,
+                onContinue = { goForward(OnboardingRoutes.Summary) }
             )
         }
         composable(OnboardingRoutes.NotificationPermission.route) {
             NotificationPermissionScreen(
                 state = state,
-                onBack = { navController.popBackStack() },
-                onContinue = { navController.navigateNext(OnboardingRoutes.NotificationPermission, state.shapeUpEventId) }
+                onBack = goBack,
+                onContinue = { goForward(OnboardingRoutes.NotificationPermission) }
             )
         }
         composable(OnboardingRoutes.SocialProof.route) {
             SocialProofScreen(
-                onBack = { navController.popBackStack() },
-                onContinue = { navController.navigateNext(OnboardingRoutes.SocialProof, state.shapeUpEventId) }
+                onBack = goBack,
+                onContinue = { goForward(OnboardingRoutes.SocialProof) }
             )
         }
         composable(OnboardingRoutes.PlanReady.route) {
             PlanReadyScreen(
-                onBack = { navController.popBackStack() },
-                onContinue = { navController.navigateNext(OnboardingRoutes.PlanReady, state.shapeUpEventId) }
+                onBack = goBack,
+                onContinue = { goForward(OnboardingRoutes.PlanReady) }
             )
         }
         composable(OnboardingRoutes.Loading.route) {
             LoadingScreen(
-                onContinue = { navController.navigateNext(OnboardingRoutes.Loading, state.shapeUpEventId) }
+                onContinue = { goForward(OnboardingRoutes.Loading) }
             )
         }
         composable(OnboardingRoutes.Paywall.route) {
@@ -354,9 +403,4 @@ fun OnboardingNavGraph(
             )
         }
     }
-}
-
-private fun NavHostController.navigateNext(route: OnboardingRoutes, shapeUpEventId: String?) {
-    val next = OnboardingRoutes.nextOf(route.route, shapeUpEventId)
-    if (next != null) navigate(next.route)
 }

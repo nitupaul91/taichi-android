@@ -77,10 +77,6 @@
         <value>false</value>
     </entry>
     <entry>
-        <key>onboarding_order_2_enabled</key>
-        <value>false</value>
-    </entry>
-    <entry>
         <key>onboarding_goals_first_enabled</key>
         <value>false</value>
     </entry>
@@ -97,19 +93,11 @@
         <value>false</value>
     </entry>
     <entry>
-        <key>onboarding_shape_up_event_screens_enabled</key>
-        <value>false</value>
-    </entry>
-    <entry>
         <key>onboarding_body_type_screens_enabled</key>
         <value>true</value>
     </entry>
     <entry>
         <key>onboarding_walking_experiment_enabled</key>
-        <value>false</value>
-    </entry>
-    <entry>
-        <key>onboarding_bmi_two_category_enabled</key>
         <value>false</value>
     </entry>
     <entry>
