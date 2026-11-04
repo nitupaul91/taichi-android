@@ -68,6 +68,7 @@ import kotlinx.coroutines.launch
 import taichi.walking.seniors.beginners.taichi.ui.home.workout.WorkoutPreparationScreen
 import taichi.walking.seniors.beginners.taichi.ui.video.WorkoutMediaCache
 import coil.compose.AsyncImage
+import taichi.walking.seniors.beginners.taichi.printable.PrintablePlanCard
 import taichi.walking.seniors.beginners.taichi.ui.home.model.WorkoutDayDto
 import taichi.walking.seniors.beginners.taichi.ui.home.workout.WorkoutCompletionScreen
 import taichi.walking.seniors.beginners.taichi.ui.home.workout.WorkoutPreviewScreen
@@ -211,6 +212,15 @@ private fun PracticeJourneyHomeScreen(
                                 )
                             }
                         }
+                    }
+
+                    item {
+                        PrintablePlanCard(
+                            plan = plan,
+                            practiceKind = practiceKind,
+                            onOpenPaywall = { showPaywall = true },
+                            modifier = Modifier.padding(bottom = 24.dp)
+                        )
                     }
 
                     item {
