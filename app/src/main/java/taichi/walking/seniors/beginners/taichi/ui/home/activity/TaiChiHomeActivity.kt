@@ -5,6 +5,7 @@ import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import androidx.activity.ComponentActivity
+import taichi.walking.seniors.beginners.util.AppFontScale
 import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -18,6 +19,12 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class TaiChiHomeActivity : ComponentActivity() {
+
+    // dynamic_type_enabled: fixed text sizes, or the phone's font size capped (see AppFontScale).
+    override fun attachBaseContext(newBase: Context) {
+        super.attachBaseContext(AppFontScale.wrap(newBase))
+    }
+
     private var pendingPaywallRequest by mutableStateOf<PaywallLaunchRequest?>(null)
 
     override fun onCreate(savedInstanceState: Bundle?) {

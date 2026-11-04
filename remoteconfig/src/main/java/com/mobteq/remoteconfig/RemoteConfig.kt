@@ -20,4 +20,10 @@ class RemoteConfig @Inject constructor(
 
     /** Every key's current value (remote, else default) as a string. */
     fun allValues(): Map<String, String> = firebaseRemoteConfig.all.mapValues { it.value.asString() }
+
+    companion object {
+        /** For code that runs before injection is available (an activity's attachBaseContext). */
+        fun peekBoolean(key: String): Boolean =
+            runCatching { FirebaseRemoteConfig.getInstance().getBoolean(key) }.getOrDefault(false)
+    }
 }
