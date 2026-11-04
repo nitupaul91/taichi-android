@@ -206,8 +206,6 @@ class CancellationFlowViewModel @Inject constructor(
      * Every program is re-generated at the new intensity, not just the one the user has open, so a
      * tab switch never finds the old difficulty waiting. Runs concurrently so the loading step is
      * one round trip; the server keeps each plan per user, so the home tabs reload it from cache.
-     * Seated practice is left out while its tab is hidden on Android; its plan is fetched with the
-     * saved intensity whenever that tab is opened.
      */
     private suspend fun apply(adjustment: IntensityAdjustment) {
         practiceRepository.setWorkoutIntensity(adjustment.intensity)
@@ -223,7 +221,7 @@ class CancellationFlowViewModel @Inject constructor(
     }
 
     private companion object {
-        val REGENERATED_PROGRAMS = listOf(PracticeKind.TAI_CHI, PracticeKind.WALKING)
+        val REGENERATED_PROGRAMS = listOf(PracticeKind.TAI_CHI, PracticeKind.WALKING, PracticeKind.CHAIR)
 
         const val ACTION_DISCOUNT_PAYWALL = "discount_paywall"
         const val ACTION_DISCOUNT_PURCHASE = "discount_purchase"

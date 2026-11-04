@@ -62,6 +62,7 @@ import taichi.walking.seniors.beginners.MainActivity
 import taichi.walking.seniors.beginners.R
 import taichi.walking.seniors.beginners.taichi.ui.home.screen.JourneyHomeViewModel
 import taichi.walking.seniors.beginners.taichi.ui.home.screen.WalkingHomeViewModel
+import taichi.walking.seniors.beginners.taichi.ui.home.screen.ChairHomeViewModel
 import taichi.walking.seniors.beginners.taichi.ui.settings.cancellation.CancellationFlowScreen
 import taichi.walking.seniors.beginners.taichi.ui.settings.cancellation.CancellationFlowViewModel
 import taichi.walking.seniors.beginners.taichi.ui.onboarding.screens.PaywallScreen
@@ -350,6 +351,7 @@ private fun reloadPracticePlans(activity: ComponentActivity) {
     val viewModels = ViewModelProvider(activity)
     viewModels[JourneyHomeViewModel::class.java].fetchWorkoutPlan()
     viewModels[WalkingHomeViewModel::class.java].fetchWorkoutPlan()
+    viewModels[ChairHomeViewModel::class.java].fetchWorkoutPlan()
 }
 
 private tailrec fun Context.findComponentActivity(): ComponentActivity? = when (this) {
