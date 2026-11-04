@@ -113,7 +113,7 @@ private fun TargetBodyTypeRow(
                 verticalArrangement = Arrangement.Center
             ) {
                 Text(
-                    text = option.title,
+                    text = stringResource(option.title),
                     style = MaterialTheme.typography.titleMedium,
                     color = titleColor,
                     fontWeight = FontWeight.Bold
@@ -132,7 +132,7 @@ private fun TargetBodyTypeRow(
             ) {
                 Image(
                     painter = painterResource(id = option.imageRes ?: 0),
-                    contentDescription = option.title,
+                    contentDescription = stringResource(option.title),
                     modifier = Modifier
                         .fillMaxSize()
                         .graphicsLayer(

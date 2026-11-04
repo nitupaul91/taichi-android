@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.Modifier
 import taichi.walking.seniors.beginners.taichi.onboarding.ui.theme.Dimens
 
@@ -17,8 +18,8 @@ fun MultiSelectQuestion(
     Column {
         options.forEach { option ->
             OptionCard(
-                title = option.title,
-                subtitle = option.subtitle,
+                title = stringResource(option.title),
+                subtitle = option.subtitle?.let { stringResource(it) },
                 icon = option.icon,
                 imageRes = option.imageRes,
                 selected = selectedIds.contains(option.id),

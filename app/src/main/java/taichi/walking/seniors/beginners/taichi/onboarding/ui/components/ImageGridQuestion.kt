@@ -21,6 +21,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.ui.draw.clip
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -68,7 +69,7 @@ fun ImageGridQuestion(
                             if (option.imageRes != null) {
                                 Image(
                                     painter = painterResource(id = option.imageRes),
-                                    contentDescription = option.title,
+                                    contentDescription = stringResource(option.title),
                                     modifier = Modifier
                                         .fillMaxWidth()
                                         .weight(1f),
@@ -86,7 +87,7 @@ fun ImageGridQuestion(
                                 }
                             }
                             if (option.imageRes == null) {
-                                Text(text = option.title, style = MaterialTheme.typography.bodyLarge)
+                                Text(text = stringResource(option.title), style = MaterialTheme.typography.bodyLarge)
                             }
                         }
                     }
