@@ -85,7 +85,13 @@ class ReminderNotificationWorker @AssistedInject constructor(
     private fun content(reminder: ReminderNotification): Pair<String, String> = when (reminder) {
         ReminderNotification.PRACTICE_NEXT_DAY -> Pair(
             applicationContext.getString(R.string.notification_practice_reminder_title),
-            applicationContext.getString(R.string.notification_practice_reminder_body)
+            applicationContext.getString(
+                if (inputData.getBoolean(KEY_IS_FIRST_SESSION, false)) {
+                    R.string.notification_practice_reminder_first_session_body
+                } else {
+                    R.string.notification_practice_reminder_body
+                }
+            )
         )
         ReminderNotification.PRACTICE_SECOND_CHANCE -> Pair(
             applicationContext.getString(R.string.notification_practice_reminder_second_chance_title),
@@ -98,6 +104,11 @@ class ReminderNotificationWorker @AssistedInject constructor(
         const val EXTRA_NOTIFICATION_ID = "extra_reminder_notification_id"
 
         private const val KEY_REMINDER = "reminder"
+        private const val KEY_IS_FIRST_SESSION = "is_first_session"
+
+        /** A trial user who has not practised yet is invited to get started rather than to keep going. */
+        fun practiceExtras(isFirstSession: Boolean): Data =
+            Data.Builder().putBoolean(KEY_IS_FIRST_SESSION, isFirstSession).build()
 
         fun request(
             reminder: ReminderNotification,

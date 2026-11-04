@@ -1,11 +1,13 @@
 package taichi.walking.seniors.beginners.taichi.notifications.reminder
 
 import android.content.Context
+import androidx.work.Data
 import androidx.work.ExistingWorkPolicy
 import androidx.work.WorkManager
 import androidx.work.await
 import com.sageai.notifications.NotificationUtil
 import dagger.hilt.android.qualifiers.ApplicationContext
+import taichi.walking.seniors.beginners.taichi.ui.progress.data.PracticeRepository
 import taichi.walking.seniors.beginners.util.AiAssistantRemoteConfig
 import timber.log.Timber
 import java.time.ZonedDateTime
@@ -31,6 +33,7 @@ class PracticeReminderScheduler @Inject constructor(
     private val preferences: ReminderPreferences,
     private val remoteConfig: AiAssistantRemoteConfig,
     private val notificationUtil: NotificationUtil,
+    private val practiceRepository: PracticeRepository,
     private val analytics: ReminderAnalyticsTracker
 ) {
 
@@ -75,7 +78,24 @@ class PracticeReminderScheduler @Inject constructor(
 
         if (!reminderTime.isAfter(ZonedDateTime.now())) return ScheduleResult.FAILED
 
-        return enqueueReminders(firstFireAt = reminderTime, trigger = TRIGGER_PROMPT)
+        return enqueueReminders(firstFireAt = reminderTime, isFirstSession = false, trigger = TRIGGER_PROMPT)
+    }
+
+    /**
+     * A/B test `trial_practice_reminder_enabled`: the same two reminders for a new trial user who
+     * has never practised, without asking. It relies on the permission from onboarding and never
+     * prompts.
+     */
+    suspend fun scheduleAfterTrialStart(now: ZonedDateTime = ZonedDateTime.now()) {
+        if (!remoteConfig.trialPracticeReminderEnabled()) return
+        if (practiceRepository.currentSnapshot().summaries.isNotEmpty()) return
+        if (!notificationUtil.areNotificationsEnabled()) return
+
+        enqueueReminders(
+            firstFireAt = PracticeReminderTimes.timeAfterTrialStart(now, preferences.preferredTime()),
+            isFirstSession = true,
+            trigger = TRIGGER_TRIAL_START
+        )
     }
 
     /** Called whenever the user completes a session, so a returning user never receives the second chance. */
@@ -84,12 +104,17 @@ class PracticeReminderScheduler @Inject constructor(
         workManager.cancelUniqueWork(ReminderNotification.PRACTICE_SECOND_CHANCE.identifier)
     }
 
-    private suspend fun enqueueReminders(firstFireAt: ZonedDateTime, trigger: String): ScheduleResult {
+    private suspend fun enqueueReminders(
+        firstFireAt: ZonedDateTime,
+        isFirstSession: Boolean,
+        trigger: String
+    ): ScheduleResult {
         val secondChanceAt = firstFireAt.plusDays(1)
+        val extras = ReminderNotificationWorker.practiceExtras(isFirstSession)
 
         return try {
-            enqueue(ReminderNotification.PRACTICE_NEXT_DAY, firstFireAt)
-            enqueue(ReminderNotification.PRACTICE_SECOND_CHANCE, secondChanceAt)
+            enqueue(ReminderNotification.PRACTICE_NEXT_DAY, firstFireAt, extras)
+            enqueue(ReminderNotification.PRACTICE_SECOND_CHANCE, secondChanceAt, extras)
 
             analytics.trackPracticeReminderScheduled(
                 firstFireAt = firstFireAt,
@@ -104,11 +129,11 @@ class PracticeReminderScheduler @Inject constructor(
         }
     }
 
-    private suspend fun enqueue(reminder: ReminderNotification, fireAt: ZonedDateTime) {
+    private suspend fun enqueue(reminder: ReminderNotification, fireAt: ZonedDateTime, extras: Data) {
         workManager.enqueueUniqueWork(
             reminder.identifier,
             ExistingWorkPolicy.REPLACE,
-            ReminderNotificationWorker.request(reminder, fireAt)
+            ReminderNotificationWorker.request(reminder, fireAt, extras = extras)
         ).await()
     }
 
@@ -116,6 +141,7 @@ class PracticeReminderScheduler @Inject constructor(
 
     private companion object {
         const val TRIGGER_PROMPT = "prompt"
+        const val TRIGGER_TRIAL_START = "trial_start"
         const val SCHEDULED_COUNT = 2
     }
 }

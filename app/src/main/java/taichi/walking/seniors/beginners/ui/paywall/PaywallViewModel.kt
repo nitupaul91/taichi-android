@@ -23,6 +23,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import taichi.walking.seniors.beginners.R
 import taichi.walking.seniors.beginners.service.UserService
+import taichi.walking.seniors.beginners.taichi.notifications.reminder.TrialStartReminders
 import taichi.walking.seniors.beginners.taichi.onboarding.data.OnboardingPrefs
 import taichi.walking.seniors.beginners.taichi.onboarding.state.OnboardingState
 import taichi.walking.seniors.beginners.util.Strings
@@ -39,7 +40,8 @@ class PaywallViewModel @Inject constructor(
     private val onboardingPrefs: OnboardingPrefs,
     private val gson: Gson,
     private val idService: IDService,
-    private val remotePaywallCache: RemotePaywallCache
+    private val remotePaywallCache: RemotePaywallCache,
+    private val trialStartReminders: TrialStartReminders
 ) : ViewModel() {
 
     private val events = MutableSharedFlow<PaywallEvents>()
@@ -67,6 +69,14 @@ class PaywallViewModel @Inject constructor(
     private val _userId = MutableStateFlow<String?>(null)
     val userId: StateFlow<String?> = _userId
 
+    /**
+     * The product last sent to Play from this paywall. Only this ViewModel's own purchase starts a
+     * trial here: the purchase status is shared by every paywall instance, and a restore is not a
+     * trial start.
+     */
+    @Volatile
+    private var purchaseAttemptProduct: Product? = null
+
     init {
         getProducts()
         subscribeToPurchaseStatus()
@@ -92,6 +102,7 @@ class PaywallViewModel @Inject constructor(
                             _isRestoring.value = false
                             _errorMessage.value = null
 
+                            onPurchaseAcknowledged(it.productId)
                             events.emit(PaywallEvents.PurchaseIsAcknowledged)
 
 //                            garageRepository.trainModel()
@@ -113,6 +124,12 @@ class PaywallViewModel @Inject constructor(
                     }
                 }
         }
+    }
+
+    private fun onPurchaseAcknowledged(productId: String?) {
+        val product = purchaseAttemptProduct?.takeIf { it.productId == productId } ?: return
+        purchaseAttemptProduct = null
+        trialStartReminders.onPurchaseAcknowledged(product)
     }
 
     private fun closeScreen() {
@@ -265,6 +282,7 @@ class PaywallViewModel @Inject constructor(
             }
 
             _errorMessage.value = null
+            purchaseAttemptProduct = purchaseProduct
             purchasesRepository.makePurchase(activity, purchaseProduct)
         }
     }
@@ -313,6 +331,7 @@ class PaywallViewModel @Inject constructor(
         viewModelScope.launch {
             _isRestoring.value = true
             _errorMessage.value = null
+            purchaseAttemptProduct = null
             purchasesRepository.clearPurchaseStatus()
             purchasesRepository.queryPurchases()
             delay(1_500)

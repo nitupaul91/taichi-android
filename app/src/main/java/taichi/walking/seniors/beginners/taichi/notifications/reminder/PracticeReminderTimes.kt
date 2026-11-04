@@ -8,6 +8,8 @@ import kotlin.math.roundToInt
 internal object PracticeReminderTimes {
     private const val ROUNDING_MINUTES = 15
     private const val LATEST_ROUNDED_MINUTE = 45
+    private val DAYTIME_HOURS = 9 until 20
+    private const val MORNING_HOUR = 10
 
     /**
      * Roughly the same time tomorrow: the user's last chosen reminder time if they have one,
@@ -22,5 +24,12 @@ internal object PracticeReminderTimes {
 
         val rounded = (now.minute.toDouble() / ROUNDING_MINUTES).roundToInt() * ROUNDING_MINUTES
         return tomorrow.withHour(now.hour).withMinute(minOf(rounded, LATEST_ROUNDED_MINUTE))
+    }
+
+    /** Roughly the same time tomorrow; a trial started late at night is reminded in the morning instead. */
+    fun timeAfterTrialStart(now: ZonedDateTime, preferredTime: LocalTime?): ZonedDateTime {
+        val sameTime = suggestedTime(now, preferredTime)
+        if (sameTime.hour in DAYTIME_HOURS) return sameTime
+        return sameTime.withHour(MORNING_HOUR).withMinute(0)
     }
 }

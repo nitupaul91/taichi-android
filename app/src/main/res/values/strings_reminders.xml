@@ -20,6 +20,8 @@
     <!-- Practice reminder notifications: the next day, then one second chance the day after. -->
     <string name="notification_practice_reminder_title">Time for your Tai Chi session</string>
     <string name="notification_practice_reminder_body">You showed up yesterday. A few gentle minutes is all it takes to keep going.</string>
+    <!-- Next-day reminder for a new trial user who has not practised yet. -->
+    <string name="notification_practice_reminder_first_session_body">A few gentle minutes is all it takes to get started.</string>
     <string name="notification_practice_reminder_second_chance_title">Your mat is still waiting</string>
     <string name="notification_practice_reminder_second_chance_body">It\'s been a couple of days. Even five gentle minutes will get you moving again.</string>
 
