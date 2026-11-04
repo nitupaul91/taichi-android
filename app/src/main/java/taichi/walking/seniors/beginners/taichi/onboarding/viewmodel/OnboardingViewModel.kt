@@ -2,11 +2,13 @@ package taichi.walking.seniors.beginners.taichi.onboarding.viewmodel
 
 import taichi.walking.seniors.beginners.taichi.onboarding.data.OnboardingFlowPreferences
 import taichi.walking.seniors.beginners.taichi.onboarding.data.OnboardingRepository
+import taichi.walking.seniors.beginners.taichi.onboarding.model.OnboardingProgramSelection
 import taichi.walking.seniors.beginners.taichi.onboarding.nav.OnboardingFlowFlags
 import taichi.walking.seniors.beginners.taichi.onboarding.nav.OnboardingRoutes
 import taichi.walking.seniors.beginners.taichi.onboarding.nav.OnboardingSteps
 import taichi.walking.seniors.beginners.taichi.onboarding.state.OnboardingAction
 import taichi.walking.seniors.beginners.taichi.onboarding.state.OnboardingState
+import taichi.walking.seniors.beginners.taichi.program.ProgramPreference
 import taichi.walking.seniors.beginners.util.AiAssistantRemoteConfig
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -21,7 +23,8 @@ import androidx.lifecycle.viewModelScope
 class OnboardingViewModel @Inject constructor(
     private val repository: OnboardingRepository,
     private val remoteConfig: AiAssistantRemoteConfig,
-    private val flowPreferences: OnboardingFlowPreferences
+    private val flowPreferences: OnboardingFlowPreferences,
+    private val programPreference: ProgramPreference
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(OnboardingState())
@@ -44,6 +47,7 @@ class OnboardingViewModel @Inject constructor(
 
     /** Read live, as iOS reads RemoteConfigService on every navigation. */
     fun flowFlags(): OnboardingFlowFlags = OnboardingFlowFlags(
+        programSelectionEnabled = remoteConfig.onboardingProgramSelectionEnabled(),
         bodyTypeScreensEnabled = remoteConfig.onboardingBodyTypeScreensEnabled(),
         skipLifestyleQuestions = remoteConfig.onboardingSkipLifestyleQuestionsEnabled(),
         showNotificationsPermission = remoteConfig.showNotificationsPermission()
@@ -87,6 +91,16 @@ class OnboardingViewModel @Inject constructor(
             is OnboardingAction.EmailChange -> _state.update { it.copy(email = action.value) }
             OnboardingAction.Complete -> markCompleted()
         }
+    }
+
+    /**
+     * iOS `ProgramSelectionScreen.applySelection`, on Continue: records the answer and points the
+     * app at that program (acquisitionKeyword), which orders the home tabs. "Let Us Decide" is
+     * Tai Chi.
+     */
+    fun applyProgramSelection(selection: OnboardingProgramSelection) {
+        _state.update { it.copy(programSelection = selection.id) }
+        programPreference.setProgram(selection.practiceKind)
     }
 
     private fun handleSingleSelect(questionId: String, optionId: String) {

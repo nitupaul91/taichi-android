@@ -20,6 +20,7 @@ class OnboardingProfilePayloadTest {
     private val gson = Gson()
 
     private val state = OnboardingState(
+        programSelection = "chair_tai_chi",
         discoverySourceId = "facebook",
         actualAge = 67,
         genderId = "male",
@@ -62,7 +63,7 @@ class OnboardingProfilePayloadTest {
             "dailyWalking", "stairsFeeling", "squatsAbility", "canRotateHead", "canHoldArms",
             "taiChiLevel", "betweenMealsFeeling", "sleepAmount", "waterIntake", "dietTypes",
             "height", "weight", "targetWeight", "shapeUpEvent", "shapeUpEventDate",
-            "motivationLevel", "exerciseBlockers", "useMetric"
+            "motivationLevel", "exerciseBlockers", "useMetric", "programSelection"
         )
         expected.forEach { field ->
             assertTrue(json.has(field), "missing wire field: $field")
@@ -79,6 +80,16 @@ class OnboardingProfilePayloadTest {
         // weight/targetWeight are Int on the client but Double on the wire.
         assertEquals(92.0, json.get("weight").asDouble)
         assertEquals(82.0, json.get("targetWeight").asDouble)
+        // The picker's answer, in iOS's OnboardingProgramSelection vocabulary.
+        assertEquals("chair_tai_chi", json.get("programSelection").asString)
+    }
+
+    @Test
+    fun `an unanswered program picker is left out so the server keeps a recorded answer`() {
+        val json = gson.toJsonTree(
+            state.copy(programSelection = null).toOnboardingProfilePayload(userId = "u", completedStep = "gender")
+        ).asJsonObject
+        assertTrue(!json.has("programSelection"))
     }
 
     @Test

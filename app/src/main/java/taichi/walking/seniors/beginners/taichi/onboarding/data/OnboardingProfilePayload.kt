@@ -48,7 +48,13 @@ data class OnboardingProfilePayload(
     @SerializedName("shapeUpEventDate") val shapeUpEventDate: String?,
     @SerializedName("motivationLevel") val motivationLevel: String?,
     @SerializedName("exerciseBlockers") val exerciseBlockers: Set<String>,
-    @SerializedName("useMetric") val useMetric: Boolean?
+    @SerializedName("useMetric") val useMetric: Boolean?,
+    /**
+     * The program picker's explicit answer ("tai_chi", "tai_chi_walking", "chair_tai_chi",
+     * "let_us_decide"), as iOS uploads it; null until the picker is answered. Distinct from the
+     * practice generated for "let_us_decide".
+     */
+    @SerializedName("programSelection") val programSelection: String?
 )
 
 /**
@@ -90,7 +96,8 @@ internal fun OnboardingState.toOnboardingProfilePayload(
             ?.let { formatIsoUtc(it) },
         motivationLevel = motivationLevelId,
         exerciseBlockers = exerciseBlockers,
-        useMetric = useMetric
+        useMetric = useMetric,
+        programSelection = programSelection
     )
 }
 

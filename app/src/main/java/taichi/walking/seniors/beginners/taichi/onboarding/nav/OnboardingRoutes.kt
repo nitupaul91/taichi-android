@@ -20,6 +20,7 @@ sealed class OnboardingRoutes(
     object Goals : OnboardingRoutes("goals", "goals")
     object TargetBodyType : OnboardingRoutes("target_body_type", "targetBodyType")
     object TargetZones : OnboardingRoutes("target_zones", "targetZones")
+    object ProgramSelection : OnboardingRoutes("program_selection", "programSelection")
     object HeardAboutUs : OnboardingRoutes("heard_about_us", "heardAboutUs")
     object ValuePropOnWay : OnboardingRoutes("value_prop_on_way", "valueOnYourWay")
     object Familiarity : OnboardingRoutes("familiarity", "taiChiFamiliarity")

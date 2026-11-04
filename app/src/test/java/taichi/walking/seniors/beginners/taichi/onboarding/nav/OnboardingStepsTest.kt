@@ -29,6 +29,21 @@ class OnboardingStepsTest {
     }
 
     @Test
+    fun `program picker sits between target zones and discovery source, behind its flag`() {
+        val withPicker = OnboardingSteps.navigationSteps(false, defaults, null)
+        val withoutPicker = OnboardingSteps.navigationSteps(
+            false,
+            OnboardingFlowFlags(programSelectionEnabled = false),
+            null
+        )
+
+        val pickerIndex = withPicker.indexOf(OnboardingRoutes.ProgramSelection)
+        assertEquals(OnboardingRoutes.TargetZones, withPicker[pickerIndex - 1])
+        assertEquals(OnboardingRoutes.HeardAboutUs, withPicker[pickerIndex + 1])
+        assertFalse(OnboardingRoutes.ProgramSelection in withoutPicker)
+    }
+
+    @Test
     fun `event date is asked only for an actual event`() {
         val noEvent = OnboardingSteps.navigationSteps(false, defaults, shapeUpEventId = "none")
         val vacation = OnboardingSteps.navigationSteps(false, defaults, shapeUpEventId = "vacation")

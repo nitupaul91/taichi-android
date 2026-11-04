@@ -37,6 +37,7 @@ import taichi.walking.seniors.beginners.taichi.ui.onboarding.screens.MotivationS
 import taichi.walking.seniors.beginners.taichi.ui.onboarding.screens.NotificationPermissionScreen
 import taichi.walking.seniors.beginners.taichi.ui.onboarding.screens.OnboardingPaywallStep
 import taichi.walking.seniors.beginners.taichi.ui.onboarding.screens.PlanReadyScreen
+import taichi.walking.seniors.beginners.taichi.ui.onboarding.screens.ProgramSelectionScreen
 import taichi.walking.seniors.beginners.taichi.ui.onboarding.screens.RotateHeadScreen
 import taichi.walking.seniors.beginners.taichi.ui.onboarding.screens.ShapeUpEventDateScreen
 import taichi.walking.seniors.beginners.taichi.ui.onboarding.screens.ShapeUpEventScreen
@@ -169,6 +170,14 @@ private fun OnboardingNavHost(
                 onToggle = { viewModel.onAction(it) },
                 onBack = goBack,
                 onContinue = { goForward(OnboardingRoutes.TargetZones) }
+            )
+        }
+        composable(OnboardingRoutes.ProgramSelection.route) {
+            ProgramSelectionScreen(
+                state = state,
+                onApply = { viewModel.applyProgramSelection(it) },
+                onBack = goBack,
+                onContinue = { goForward(OnboardingRoutes.ProgramSelection) }
             )
         }
         composable(OnboardingRoutes.HeardAboutUs.route) {

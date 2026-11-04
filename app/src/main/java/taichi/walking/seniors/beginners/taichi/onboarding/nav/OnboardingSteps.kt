@@ -18,6 +18,7 @@ import taichi.walking.seniors.beginners.taichi.onboarding.nav.OnboardingRoutes.M
 import taichi.walking.seniors.beginners.taichi.onboarding.nav.OnboardingRoutes.NotificationPermission
 import taichi.walking.seniors.beginners.taichi.onboarding.nav.OnboardingRoutes.Paywall
 import taichi.walking.seniors.beginners.taichi.onboarding.nav.OnboardingRoutes.PlanReady
+import taichi.walking.seniors.beginners.taichi.onboarding.nav.OnboardingRoutes.ProgramSelection
 import taichi.walking.seniors.beginners.taichi.onboarding.nav.OnboardingRoutes.RotateHead
 import taichi.walking.seniors.beginners.taichi.onboarding.nav.OnboardingRoutes.ShapeUpEvent
 import taichi.walking.seniors.beginners.taichi.onboarding.nav.OnboardingRoutes.ShapeUpEventDate
@@ -44,6 +45,7 @@ import kotlin.math.max
  * activates mid-onboarding applies to the screens still ahead.
  */
 data class OnboardingFlowFlags(
+    val programSelectionEnabled: Boolean = true,
     val bodyTypeScreensEnabled: Boolean = true,
     val skipLifestyleQuestions: Boolean = false,
     val showNotificationsPermission: Boolean = false
@@ -59,7 +61,7 @@ object OnboardingSteps {
     val allCases: List<OnboardingRoutes> by lazy {
         listOf(
             Welcome, Gender, CurrentBodyType, Goals,
-            TargetBodyType, TargetZones, HeardAboutUs,
+            TargetBodyType, TargetZones, ProgramSelection, HeardAboutUs,
             ValuePropOnWay, Familiarity, ValuePropMeditation,
             ActivityLevel, WalkDaily, StairsFeeling, SquatAbility,
             RotateHead, ArmsForward, TaiChiLevel, BetweenMeals,
@@ -100,6 +102,7 @@ object OnboardingSteps {
     fun isIncluded(step: OnboardingRoutes, flags: OnboardingFlowFlags, shapeUpEventId: String?): Boolean {
         if (flags.skipLifestyleQuestions && step in lifestyleSteps) return false
         return when (step) {
+            ProgramSelection -> flags.programSelectionEnabled
             CurrentBodyType, TargetBodyType -> flags.bodyTypeScreensEnabled
             // Only an actual event has a date to ask for; no answer yet counts as no event.
             ShapeUpEventDate -> shapeUpEventRequiresDate(shapeUpEventId)

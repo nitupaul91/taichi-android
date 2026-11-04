@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Onboarding copy ported from the iOS app (Nov 2026 parity pass). English only for now; a later
+     pass translates these into the app's other languages. -->
+<resources>
+    <!-- Program picker (iOS ProgramSelectionScreen) -->
+    <string name="onboarding_program_title">Choose your practice style</string>
+    <string name="onboarding_program_subtitle">Pick the program that fits your lifestyle best.</string>
+    <string name="onboarding_program_tai_chi_title">Tai Chi</string>
+    <string name="onboarding_program_tai_chi_subtitle">Traditional flowing movements for balance &amp; calm</string>
+    <string name="onboarding_program_walking_title">Tai Chi Walking</string>
+    <string name="onboarding_program_walking_subtitle">Gentle walking exercises combined with Tai Chi</string>
+    <string name="onboarding_program_chair_title">Chair Tai Chi</string>
+    <string name="onboarding_program_chair_subtitle">Seated exercises for limited mobility</string>
+    <string name="onboarding_program_let_us_decide_title">Let Us Decide</string>
+    <string name="onboarding_program_let_us_decide_subtitle">We\'ll pick the best program based on your profile</string>
+</resources>

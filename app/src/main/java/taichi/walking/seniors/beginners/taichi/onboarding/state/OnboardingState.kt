@@ -1,9 +1,12 @@
 package taichi.walking.seniors.beginners.taichi.onboarding.state
 
 import com.google.gson.annotations.SerializedName
+import taichi.walking.seniors.beginners.taichi.onboarding.model.OnboardingProgramSelection
 import java.util.Locale
 
 data class OnboardingState(
+    /** iOS `programSelection`: the program picker's answer, an [OnboardingProgramSelection] id. */
+    @SerializedName("programSelection") val programSelection: String? = null,
     @SerializedName("discoverySourceId") val discoverySourceId: String? = null,
     @SerializedName("actualAge") val actualAge: Int = 55,
     @SerializedName("genderId") val genderId: String? = null,
