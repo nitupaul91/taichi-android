@@ -34,8 +34,8 @@ class WorkoutPlanService @Inject constructor(
             goals = personalization.goals.toList()
         )
         return when (kind) {
-            PracticeKind.TAI_CHI -> workoutApi.generateWorkout(request)
-            PracticeKind.WALKING -> workoutApi.generateWalkingWorkout(request)
+            PracticeKind.TAI_CHI -> workoutApi.generateWorkout(request, language)
+            PracticeKind.WALKING -> workoutApi.generateWalkingWorkout(request, language)
             PracticeKind.CHAIR -> workoutApi.generateChairWorkout(request, language)
         }
     }
@@ -55,8 +55,8 @@ class WorkoutPlanService @Inject constructor(
             goals = goals.toList()
         )
         return when (kind) {
-            PracticeKind.TAI_CHI -> workoutApi.generateWorkout(request)
-            PracticeKind.WALKING -> workoutApi.generateWalkingWorkout(request)
+            PracticeKind.TAI_CHI -> workoutApi.generateWorkout(request, language)
+            PracticeKind.WALKING -> workoutApi.generateWalkingWorkout(request, language)
             PracticeKind.CHAIR -> workoutApi.generateChairWorkout(request, language)
         }
     }

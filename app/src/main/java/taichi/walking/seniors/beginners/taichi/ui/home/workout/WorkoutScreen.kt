@@ -49,6 +49,7 @@ import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberUpdatedState
@@ -73,6 +74,7 @@ import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.media3.common.PlaybackException
 import androidx.media3.common.Player.Listener
+import androidx.media3.common.VideoSize
 import androidx.media3.common.MediaItem
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.common.Player
@@ -630,6 +632,9 @@ private fun WorkoutVideoPlayer(
     // load and stalls with one signal, so the narration can never run ahead of the picture. ---
     var isRenderingVideo by remember(player) { mutableStateOf(false) }
     var hasPlaybackError by remember(player) { mutableStateOf(false) }
+    // Kept across exercises (not keyed on the player) so the frame does not jump back to the
+    // default shape while the next video loads; almost every exercise has the same size.
+    var videoAspectRatio by remember { mutableFloatStateOf(DEFAULT_VIDEO_ASPECT) }
 
     DisposableEffect(player) {
         val listener = object : Listener {
@@ -641,6 +646,12 @@ private fun WorkoutVideoPlayer(
             override fun onPlayerError(error: PlaybackException) {
                 hasPlaybackError = true
                 isRenderingVideo = false
+            }
+
+            override fun onVideoSizeChanged(videoSize: VideoSize) {
+                if (videoSize.width > 0 && videoSize.height > 0) {
+                    videoAspectRatio = videoSize.width * videoSize.pixelWidthHeightRatio / videoSize.height
+                }
             }
         }
         player.addListener(listener)
@@ -723,26 +734,23 @@ private fun WorkoutVideoPlayer(
         }
     }
 
-    AndroidView(
-        modifier = Modifier.fillMaxSize(),
-        factory = { ctx ->
-            inflateAppPlayerView(ctx).apply {
-                useController = false
-                // v1 media is framed to fill a phone screen, so crop-to-fill gives the intended
-                // edge-to-edge look. FIT letterboxed it into black bands that read as if the screen
-                // were inset under the system bars.
-                //
-                // This pairs with the media set: the v2 videos are near-square (1328x1552) and must
-                // use RESIZE_MODE_FIT over the studio backdrop, the way iOS does. Switch both
-                // together when the Android-decodable v2 rendition lands.
-                resizeMode = AspectRatioFrameLayout.RESIZE_MODE_ZOOM
-                this.player = player
+    WorkoutVideoStage(videoAspectRatio = videoAspectRatio) {
+        AndroidView(
+            modifier = Modifier.fillMaxSize(),
+            factory = { ctx ->
+                inflateAppPlayerView(ctx).apply {
+                    useController = false
+                    // The stage already sizes this view to the video's own shape (iOS's layout),
+                    // so FILL draws it edge to edge without cropping or letterboxing.
+                    resizeMode = AspectRatioFrameLayout.RESIZE_MODE_FILL
+                    this.player = player
+                }
+            },
+            update = { view ->
+                view.player = player
             }
-        },
-        update = { view ->
-            view.player = player
-        }
-    )
+        )
+    }
 }
 
 @Composable
