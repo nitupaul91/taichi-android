@@ -46,6 +46,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import taichi.walking.seniors.beginners.R
+import androidx.compose.ui.res.stringResource
 import taichi.walking.seniors.beginners.taichi.ui.progress.data.PracticeTitleService
 import com.mobteq.analytics.logAppEvent
 import androidx.core.os.bundleOf
@@ -82,12 +83,19 @@ fun WorkoutCompletionScreen(
     val activity = context as? ComponentActivity
     val title = completionResult?.title
     val calories = dayData.exercises.sumOf { it.calories }
+    val shareTitle = stringResource(R.string.completion_share_title)
     val shareText = buildString {
-        append("I just completed Day $dayNumber of ${practiceKind.displayName} \uD83E\uDDD8\n")
-        title?.let { append("${it.icon} ${it.title}\n") }
-        append("\u23F1 ${dayData.durationInMinutes} minutes\n")
-        append("\uD83D\uDD25 ${completionResult?.currentStreak ?: 0} day streak\n\n")
-        append("Start your journey:\n")
+        append(context.getString(R.string.completion_share_line, dayNumber, context.getString(practiceKind.displayNameRes)))
+        append("\n")
+        title?.let { append("${it.icon} ${context.getString(it.titleRes)}\n") }
+        append("\u23F1 ")
+        append(context.resources.getQuantityString(R.plurals.completion_share_minutes, dayData.durationInMinutes, dayData.durationInMinutes))
+        append("\n\uD83D\uDD25 ")
+        val streak = completionResult?.currentStreak ?: 0
+        append(context.resources.getQuantityString(R.plurals.completion_share_streak, streak, streak))
+        append("\n\n")
+        append(context.getString(R.string.completion_share_start))
+        append("\n")
         append(context.getString(R.string.app_link))
     }
 
@@ -152,7 +160,7 @@ fun WorkoutCompletionScreen(
 
             title?.let {
                 Text(
-                    text = "${it.icon} ${it.title}",
+                    text = "${it.icon} ${stringResource(it.titleRes)}",
                     style = MaterialTheme.typography.headlineMedium,
                     fontWeight = FontWeight.Bold,
                     color = Color(0xFF2F3C42),
@@ -170,7 +178,7 @@ fun WorkoutCompletionScreen(
                     fontSize = 16.sp
                 )
                 Text(
-                    text = "Day $dayNumber Complete",
+                    text = stringResource(R.string.completion_day_complete, dayNumber),
                     style = MaterialTheme.typography.titleLarge,
                     fontWeight = FontWeight.SemiBold,
                     color = Color(0xFF4A5A60)
@@ -180,13 +188,13 @@ fun WorkoutCompletionScreen(
             title?.let {
                 Image(
                     painter = painterResource(id = it.badgeDrawableRes),
-                    contentDescription = it.title,
+                    contentDescription = stringResource(it.titleRes),
                     modifier = Modifier
                         .padding(top = 16.dp)
                         .size(130.dp)
                 )
                 Text(
-                    text = it.encouragement,
+                    text = stringResource(it.encouragementRes),
                     modifier = Modifier.padding(top = 12.dp),
                     style = MaterialTheme.typography.bodyLarge.copy(fontSize = 16.sp, lineHeight = 22.sp),
                     color = Color(0xFF6A7A80),
@@ -236,7 +244,7 @@ fun WorkoutCompletionScreen(
                 horizontalArrangement = Arrangement.spacedBy(12.dp)
             ) {
                 Button(
-                    onClick = { sharePlainText(context, shareText, "Share your progress") },
+                    onClick = { sharePlainText(context, shareText, shareTitle) },
                     modifier = Modifier.weight(1f),
                     shape = RoundedCornerShape(16.dp),
                     colors = ButtonDefaults.buttonColors(
@@ -244,7 +252,7 @@ fun WorkoutCompletionScreen(
                         contentColor = Color(0xFF0BA56B)
                     )
                 ) {
-                    Text("Share", fontWeight = FontWeight.Bold)
+                    Text(stringResource(R.string.completion_share), fontWeight = FontWeight.Bold)
                 }
 
                 Button(
@@ -278,7 +286,7 @@ fun WorkoutCompletionScreen(
                         contentColor = Color.White
                     )
                 ) {
-                    Text("Done", fontWeight = FontWeight.Bold)
+                    Text(stringResource(R.string.completion_done), fontWeight = FontWeight.Bold)
                 }
             }
         }

@@ -1,6 +1,8 @@
 package taichi.walking.seniors.beginners.taichi.ui.home.screen
 
 import androidx.activity.compose.BackHandler
+import taichi.walking.seniors.beginners.R
+import androidx.compose.ui.res.stringResource
 import com.mobteq.analytics.logAppEvent
 import androidx.core.os.bundleOf
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -44,15 +46,15 @@ import taichi.walking.seniors.beginners.taichi.ui.onboarding.screens.PaywallScre
 import taichi.walking.seniors.beginners.ui.paywall.HomeEntryPaywallViewModel
 
 internal enum class HomeTab(
-    val title: String,
+    @androidx.annotation.StringRes val titleRes: Int,
     val icon: androidx.compose.ui.graphics.vector.ImageVector,
     val analyticsName: String
 ) {
-    TaiChi("Tai Chi", Icons.Default.AccessibilityNew, "tai_chi"),
-    Chair("Chair", Icons.Default.EventSeat, "chair"),
-    Walking("Walking", Icons.Default.DirectionsWalk, "walking"),
-    Progress("Progress", Icons.Default.ShowChart, "progress"),
-    Settings("Settings", Icons.Default.Settings, "settings")
+    TaiChi(R.string.tab_tai_chi, Icons.Default.AccessibilityNew, "tai_chi"),
+    Chair(R.string.tab_chair, Icons.Default.EventSeat, "chair"),
+    Walking(R.string.tab_walking, Icons.Default.DirectionsWalk, "walking"),
+    Progress(R.string.progress_title, Icons.Default.ShowChart, "progress"),
+    Settings(R.string.settings_title, Icons.Default.Settings, "settings")
 }
 
 @Composable
@@ -127,8 +129,8 @@ fun TaiChiHomeRoot(
                                 }
                                 selected = tab
                             },
-                            icon = { Icon(tab.icon, contentDescription = tab.title) },
-                            label = { Text(tab.title) },
+                            icon = { Icon(tab.icon, contentDescription = stringResource(tab.titleRes)) },
+                            label = { Text(stringResource(tab.titleRes)) },
                             colors = NavigationBarItemDefaults.colors(
                                 selectedIconColor = Color(0xFF2FA36B),
                                 selectedTextColor = Color(0xFF2FA36B),

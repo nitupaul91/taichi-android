@@ -1,17 +1,18 @@
 package taichi.walking.seniors.beginners.taichi.ui.progress.data
 
 import androidx.annotation.DrawableRes
+import androidx.annotation.StringRes
 import com.google.gson.annotations.SerializedName
 import taichi.walking.seniors.beginners.R
 import java.time.LocalDate
 
 enum class PracticeKind(
     val storageValue: String,
-    val displayName: String
+    @StringRes val displayNameRes: Int
 ) {
-    TAI_CHI("tai_chi", "Tai Chi"),
-    WALKING("walking", "Tai Chi Walking"),
-    CHAIR("chair", "Chair Tai Chi")
+    TAI_CHI("tai_chi", R.string.program_tai_chi),
+    WALKING("walking", R.string.program_tai_chi_walking),
+    CHAIR("chair", R.string.chair_tai_chi_title)
 }
 
 enum class PracticeProgramVariant(val storageValue: String) {
@@ -112,11 +113,11 @@ fun mergePracticeSummaries(
 }
 
 data class PracticeTitleModel(
-    val title: String,
+    @StringRes val titleRes: Int,
     val icon: String,
     val badgeId: String,
     @DrawableRes val badgeDrawableRes: Int,
-    val encouragement: String
+    @StringRes val encouragementRes: Int
 )
 
 data class PracticeCompletionResult(
@@ -129,39 +130,39 @@ data class PracticeCompletionResult(
 object PracticeTitleService {
     private val milestones: List<Pair<Int, PracticeTitleModel>> = listOf(
         1 to PracticeTitleModel(
-            title = "Initiate of Tai Chi",
+            titleRes = R.string.badge_initiate_title,
             icon = "\uD83C\uDF31",
             badgeId = "initiate",
             badgeDrawableRes = R.drawable.badge_one,
-            encouragement = "Your journey has begun.\nKeep showing up for yourself."
+            encouragementRes = R.string.badge_initiate_encouragement
         ),
         3 to PracticeTitleModel(
-            title = "Student of Tai Chi",
+            titleRes = R.string.badge_student_title,
             icon = "\uD83C\uDF43",
             badgeId = "student",
             badgeDrawableRes = R.drawable.badge_two,
-            encouragement = "You're building a real habit.\nConsistency is your superpower."
+            encouragementRes = R.string.badge_student_encouragement
         ),
         7 to PracticeTitleModel(
-            title = "Practitioner",
+            titleRes = R.string.badge_practitioner_title,
             icon = "\uD83C\uDF3F",
             badgeId = "practitioner",
             badgeDrawableRes = R.drawable.badge_three,
-            encouragement = "One full week complete.\nThe flow is becoming part of you."
+            encouragementRes = R.string.badge_practitioner_encouragement
         ),
         14 to PracticeTitleModel(
-            title = "Disciplined Practitioner",
+            titleRes = R.string.badge_disciplined_title,
             icon = "\uD83C\uDF33",
             badgeId = "disciplined",
             badgeDrawableRes = R.drawable.badge_four,
-            encouragement = "True discipline in action.\nYou're inspiring others around you."
+            encouragementRes = R.string.badge_disciplined_encouragement
         ),
         30 to PracticeTitleModel(
-            title = "Master of Flow",
+            titleRes = R.string.badge_master_title,
             icon = "\uD83E\uDDD8",
             badgeId = "master",
             badgeDrawableRes = R.drawable.badge_five,
-            encouragement = "You've mastered the flow.\nYour mind and body are transformed."
+            encouragementRes = R.string.badge_master_encouragement
         )
     )
 

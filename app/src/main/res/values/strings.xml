@@ -394,4 +394,49 @@
     <string name="settings_contact">Contact Us</string>
     <string name="settings_contact_subtitle">Send feedback or report issues</string>
     <string name="settings_app_version">App Version</string>
+
+    <!-- Programs, home and day preview -->
+    <string name="program_tai_chi">Tai Chi</string>
+    <string name="program_tai_chi_walking">Tai Chi Walking</string>
+    <string name="home_title_tai_chi">Your Tai Chi Journey</string>
+    <string name="tab_tai_chi">Tai Chi</string>
+    <string name="tab_chair">Chair</string>
+    <string name="tab_walking" translatable="false">Walking</string>
+    <string name="day_number">Day %1$d</string>
+    <string name="day_completed">Day %1$d Completed</string>
+    <string name="start_day">Start Day %1$d</string>
+    <string name="home_plan_error">Unable to load plan</string>
+    <string name="preview_todays_workout">Today\'s Workout</string>
+    <string name="preview_exercises">Exercises</string>
+    <string name="preview_calories">%1$d cal</string>
+    <string name="preview_complete_previous_title">Complete Previous Day</string>
+    <string name="preview_complete_previous_message">Please complete Day %1$d first before starting Day %2$d.</string>
+
+    <!-- Workout completion -->
+    <string name="completion_day_complete">Day %1$d Complete</string>
+    <string name="completion_share">Share</string>
+    <string name="completion_done">Done</string>
+    <string name="completion_share_title">Share your progress</string>
+    <string name="completion_share_line">I just completed Day %1$d of %2$s 🧘</string>
+    <plurals name="completion_share_minutes">
+        <item quantity="one">%1$d minute</item>
+        <item quantity="other">%1$d minutes</item>
+    </plurals>
+    <plurals name="completion_share_streak">
+        <item quantity="one">%1$d day streak</item>
+        <item quantity="other">%1$d day streak</item>
+    </plurals>
+    <string name="completion_share_start">Start your journey:</string>
+
+    <!-- Practice badges -->
+    <string name="badge_initiate_title">Initiate of Tai Chi</string>
+    <string name="badge_initiate_encouragement">Your journey has begun.\nKeep showing up for yourself.</string>
+    <string name="badge_student_title">Student of Tai Chi</string>
+    <string name="badge_student_encouragement">You\'re building a real habit.\nConsistency is your superpower.</string>
+    <string name="badge_practitioner_title">Practitioner</string>
+    <string name="badge_practitioner_encouragement">One full week complete.\nThe flow is becoming part of you.</string>
+    <string name="badge_disciplined_title">Disciplined Practitioner</string>
+    <string name="badge_disciplined_encouragement">True discipline in action.\nYou\'re inspiring others around you.</string>
+    <string name="badge_master_title">Master of Flow</string>
+    <string name="badge_master_encouragement">You\'ve mastered the flow.\nYour mind and body are transformed.</string>
 </resources>

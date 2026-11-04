@@ -83,7 +83,7 @@ fun ProgressTabScreen(viewModel: ProgressViewModel = hiltViewModel()) {
                 ) {
                     Text(title.icon)
                     Text(
-                        text = title.title,
+                        text = stringResource(title.titleRes),
                         style = MaterialTheme.typography.labelLarge,
                         fontWeight = FontWeight.SemiBold,
                         color = Color(0xFF0BA56B)

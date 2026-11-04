@@ -151,12 +151,12 @@ fun WorkoutPreviewScreen(
                             verticalArrangement = Arrangement.spacedBy(10.dp)
                         ) {
                             Text(
-                                "Day $dayNumber",
+                                stringResource(R.string.day_number, dayNumber),
                                 style = MaterialTheme.typography.titleLarge,
                                 fontWeight = FontWeight.Bold
                             )
                             Text(
-                                if (dayData.description.isBlank()) "Today's Workout" else dayData.description,
+                                if (dayData.description.isBlank()) stringResource(R.string.preview_todays_workout) else dayData.description,
                                 style = MaterialTheme.typography.bodyLarge,
                                 color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.75f)
                             )
@@ -181,7 +181,7 @@ fun WorkoutPreviewScreen(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
-                        "Exercises",
+                        stringResource(R.string.preview_exercises),
                         style = MaterialTheme.typography.titleMedium,
                         fontWeight = FontWeight.Bold,
                         modifier = Modifier.weight(1f)
@@ -245,7 +245,7 @@ fun WorkoutPreviewScreen(
                             )
                             Spacer(modifier = Modifier.width(4.dp))
                             Text(
-                                "${ex.calories} cal",
+                                stringResource(R.string.preview_calories, ex.calories),
                                 style = MaterialTheme.typography.bodySmall,
                                 color = Color.Gray
                             )
@@ -290,7 +290,7 @@ fun WorkoutPreviewScreen(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    "Start Day $dayNumber",
+                    stringResource(R.string.start_day, dayNumber),
                     style = MaterialTheme.typography.titleMedium,
                     color = Color.White,
                     fontWeight = FontWeight.Bold
@@ -303,11 +303,11 @@ fun WorkoutPreviewScreen(
     if (showCompleteFirstDialog) {
         AlertDialog(
             onDismissRequest = { showCompleteFirstDialog = false },
-            title = { Text("Complete Previous Day") },
-            text = { Text("Please complete Day ${currentDay} first before starting Day $dayNumber.") },
+            title = { Text(stringResource(R.string.preview_complete_previous_title)) },
+            text = { Text(stringResource(R.string.preview_complete_previous_message, currentDay, dayNumber)) },
             confirmButton = {
                 TextButton(onClick = { showCompleteFirstDialog = false }) {
-                    Text("OK", color = TaiChiGreen)
+                    Text(stringResource(android.R.string.ok), color = TaiChiGreen)
                 }
             }
         )

@@ -100,7 +100,7 @@ fun JourneyHomeScreen(
     onBottomBarVisibilityChange: (Boolean) -> Unit = {}
 ) {
     PracticeJourneyHomeScreen(
-        title = "Your Tai Chi Journey",
+        title = stringResource(R.string.home_title_tai_chi),
         practiceKind = PracticeKind.TAI_CHI,
         viewModel = viewModel,
         onBottomBarVisibilityChange = onBottomBarVisibilityChange
@@ -113,7 +113,7 @@ fun WalkingHomeScreen(
     onBottomBarVisibilityChange: (Boolean) -> Unit = {}
 ) {
     PracticeJourneyHomeScreen(
-        title = "Tai Chi Walking",
+        title = stringResource(R.string.program_tai_chi_walking),
         practiceKind = PracticeKind.WALKING,
         viewModel = viewModel,
         onBottomBarVisibilityChange = onBottomBarVisibilityChange
@@ -547,7 +547,7 @@ private fun JourneyDayRow(
                 Spacer(modifier = Modifier.weight(0.2f))
 
                 Text(
-                    "Day $dayNumber",
+                    stringResource(R.string.day_number, dayNumber),
                     style = MaterialTheme.typography.headlineLarge.copy(fontSize = 32.sp),
                     color = Color.White,
                     fontWeight = FontWeight.Bold
@@ -585,7 +585,7 @@ private fun JourneyDayRow(
                         contentAlignment = Alignment.Center
                     ) {
                         Text(
-                            text = if (isCompleted) "Day $dayNumber Completed" else "Start Day $dayNumber",
+                            text = stringResource(if (isCompleted) R.string.day_completed else R.string.start_day, dayNumber),
                             color = Color.White,
                             style = MaterialTheme.typography.titleLarge,
                             fontWeight = FontWeight.Bold,
@@ -641,9 +641,9 @@ fun ErrorMessage(onRetry: () -> Unit) {
     ) {
         Icon(Icons.Default.ErrorOutline, null, modifier = Modifier.size(56.dp), tint = Color.Gray)
         Spacer(modifier = Modifier.height(12.dp))
-        Text("Unable to load plan", style = MaterialTheme.typography.titleMedium)
+        Text(stringResource(R.string.home_plan_error), style = MaterialTheme.typography.titleMedium)
         Button(onClick = onRetry, colors = ButtonDefaults.buttonColors(containerColor = TaiChiGreen)) {
-            Text("Try Again")
+            Text(stringResource(R.string.workout_preparation_try_again))
         }
     }
 }
