@@ -25,7 +25,10 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
@@ -58,6 +61,11 @@ class PlayStoreBillingService @Inject constructor(
         }
 
     val purchaseFlow = MutableStateFlow<List<Subscription>>(listOf())
+
+    private val _purchaseCanceled = MutableSharedFlow<Unit>(extraBufferCapacity = 1)
+
+    /** Fires each time the user dismisses the Play purchase sheet without buying. */
+    val purchaseCanceled: SharedFlow<Unit> = _purchaseCanceled.asSharedFlow()
 
     @Volatile
     private var billingClient = createBillingClient()
@@ -203,6 +211,7 @@ class PlayStoreBillingService @Inject constructor(
 
             BillingClient.BillingResponseCode.USER_CANCELED -> {
                 Timber.tag(TAG).d("Purchase canceled by user")
+                _purchaseCanceled.tryEmit(Unit)
             }
 
             BillingClient.BillingResponseCode.ITEM_ALREADY_OWNED -> {

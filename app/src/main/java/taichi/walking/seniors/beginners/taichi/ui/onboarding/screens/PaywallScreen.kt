@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.ContextWrapper
 import android.content.Intent
 import android.net.Uri
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -62,15 +63,19 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.mobteq.billing.domain.Product
 import taichi.walking.seniors.beginners.R
 import taichi.walking.seniors.beginners.taichi.onboarding.nav.OnboardingRoutes
 import taichi.walking.seniors.beginners.taichi.onboarding.state.OnboardingState
 import taichi.walking.seniors.beginners.taichi.onboarding.ui.components.PrimaryButton
+import taichi.walking.seniors.beginners.ui.paywall.CachedRemotePaywall
+import taichi.walking.seniors.beginners.ui.paywall.PaywallSource
 import taichi.walking.seniors.beginners.ui.paywall.PaywallWebAction
 import taichi.walking.seniors.beginners.ui.paywall.PaywallWebIntroOffer
 import taichi.walking.seniors.beginners.taichi.onboarding.data.toOnboardingProfilePayload
@@ -81,6 +86,8 @@ import taichi.walking.seniors.beginners.ui.paywall.RemotePaywallVariant
 import taichi.walking.seniors.beginners.ui.paywall.RemotePaywallWebView
 import taichi.walking.seniors.beginners.ui.paywall.PaywallViewModel
 import taichi.walking.seniors.beginners.ui.paywall.TrialTimelineDetails
+import taichi.walking.seniors.beginners.ui.paywall.TrialTimelineMode
+import taichi.walking.seniors.beginners.ui.paywall.TrialTimelineScreen
 import taichi.walking.seniors.beginners.ui.paywall.UIProduct
 import java.util.Locale
 
@@ -93,6 +100,10 @@ fun PaywallScreen(
     onClose: () -> Unit,
     onComplete: () -> Unit,
     paywallVariant: RemotePaywallVariant = RemotePaywallVariant.PRIMARY,
+    /** Which surface opened the paywall, sent as `source` with every paywall event. */
+    source: String = PaywallSource.UNKNOWN,
+    /** Refinement of [source], such as the notification campaign, sent as `source_detail`. */
+    sourceDetail: String? = null,
     /** Called before [onComplete] when a purchase here started a free trial (iOS onTrialPurchased). */
     onTrialPurchased: ((TrialTimelineDetails) -> Unit)? = null,
     viewModel: PaywallViewModel = hiltViewModel()
@@ -109,6 +120,7 @@ fun PaywallScreen(
     val cachedRemotePaywall by remember(paywallVariant) {
         viewModel.observeCachedPaywall(paywallVariant)
     }.collectAsState()
+    val purchaseRecovery by viewModel.purchaseRecovery.collectAsState()
     val hasFreeTrial = !selectedProduct?.freeTrial.isNullOrBlank()
     val trialDays = selectedProduct?.freeTrial.orEmpty()
     val isYearlyProduct = selectedProduct?.productId?.contains("yearly", ignoreCase = true) == true
@@ -128,6 +140,15 @@ fun PaywallScreen(
 
     val genderId = onboardingState?.genderId
     val useRemotePaywall = cachedRemotePaywall != null
+
+    LaunchedEffect(Unit) {
+        viewModel.onPaywallShown(
+            source = source,
+            sourceDetail = sourceDetail,
+            renderer = if (useRemotePaywall) "web" else "native",
+            paywallVariant = cachedRemotePaywall?.analyticsVariantName() ?: "native"
+        )
+    }
     val storePayload = remember(
         products,
         selectedProduct,
@@ -190,44 +211,90 @@ fun PaywallScreen(
     val statusBarPadding = WindowInsets.statusBars.asPaddingValues().calculateTopPadding()
     val navBarPadding = WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding()
 
-    cachedRemotePaywall?.let { remotePaywall ->
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(MaterialTheme.colorScheme.background)
-                .padding(top = statusBarPadding, bottom = navBarPadding)
-        ) {
-            RemotePaywallWebView(
-                paywall = remotePaywall,
-                storePayload = storePayload,
-                onAction = { action ->
-                    when (action) {
-                        PaywallWebAction.Close -> {
-                            viewModel.onCloseRequested()
-                            onClose()
-                        }
-                        PaywallWebAction.Restore -> viewModel.restorePurchases()
-                        is PaywallWebAction.Purchase -> {
-                            if (activity != null) {
-                                viewModel.makePurchase(activity, action.productId)
+    Box(modifier = Modifier.fillMaxSize()) {
+        val remotePaywall = cachedRemotePaywall
+        if (remotePaywall != null) {
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(MaterialTheme.colorScheme.background)
+                    .padding(top = statusBarPadding, bottom = navBarPadding)
+            ) {
+                RemotePaywallWebView(
+                    paywall = remotePaywall,
+                    storePayload = storePayload,
+                    onAction = { action ->
+                        when (action) {
+                            PaywallWebAction.Close -> {
+                                viewModel.onCloseRequested()
+                                onClose()
+                            }
+                            PaywallWebAction.Restore -> viewModel.restorePurchases()
+                            is PaywallWebAction.Purchase -> {
+                                if (activity != null) {
+                                    viewModel.makePurchase(activity, action.productId)
+                                }
+                            }
+                            is PaywallWebAction.SelectProduct -> viewModel.selectProductById(action.productId)
+                            is PaywallWebAction.OpenUrl -> {
+                                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(action.url))
+                                context.startActivity(intent)
+                            }
+                            is PaywallWebAction.TrackPersonalization -> {
+                                viewModel.trackPersonalization(action.variants)
                             }
                         }
-                        is PaywallWebAction.SelectProduct -> viewModel.selectProductById(action.productId)
-                        is PaywallWebAction.OpenUrl -> {
-                            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(action.url))
-                            context.startActivity(intent)
-                        }
-                        is PaywallWebAction.TrackPersonalization -> {
-                            viewModel.trackPersonalization(action.variants)
-                        }
-                    }
-                },
-                modifier = Modifier.fillMaxSize()
+                    },
+                    modifier = Modifier.fillMaxSize()
+                )
+            }
+        } else {
+            NativePaywall(
+                products = products,
+                selectedProduct = selectedProduct,
+                genderId = genderId,
+                ctaText = ctaText,
+                ctaSubtitle = ctaSubtitle,
+                statusBarPadding = statusBarPadding,
+                navBarPadding = navBarPadding,
+                onPurchase = { if (activity != null) viewModel.makePurchase(activity) },
+                onSelectProduct = viewModel::selectProduct,
+                onClose = {
+                    viewModel.onCloseRequested()
+                    onClose()
+                }
             )
         }
-        return
-    }
 
+        // Drawn over the paywall, which stays composed, so the web paywall is not reloaded.
+        purchaseRecovery?.let { recovery ->
+            LaunchedEffect(recovery) { viewModel.onPurchaseRecoveryViewed(recovery) }
+            BackHandler { viewModel.onPurchaseRecoveryDismissed() }
+            TrialTimelineScreen(
+                details = recovery.details,
+                mode = TrialTimelineMode.CANCELLATION_RECOVERY,
+                reminderMessaging = recovery.reminderMessaging,
+                onPrimaryAction = { if (activity != null) viewModel.onPurchaseRecoveryRetry(activity) },
+                onSecondaryAction = viewModel::onPurchaseRecoveryDismissed
+            )
+        }
+    }
+}
+
+@Composable
+private fun NativePaywall(
+    products: List<UIProduct>,
+    selectedProduct: Product?,
+    genderId: String?,
+    ctaText: String,
+    ctaSubtitle: String,
+    statusBarPadding: Dp,
+    navBarPadding: Dp,
+    onPurchase: () -> Unit,
+    onSelectProduct: (Product) -> Unit,
+    onClose: () -> Unit
+) {
+    val context = LocalContext.current
     Scaffold(
         containerColor = MaterialTheme.colorScheme.background,
         contentWindowInsets = WindowInsets(0, 0, 0, 0),
@@ -243,9 +310,7 @@ fun PaywallScreen(
                 PrimaryButton(
                     text = ctaText,
                     enabled = selectedProduct != null,
-                    onClick = {
-                        if (activity != null) viewModel.makePurchase(activity)
-                    }
+                    onClick = onPurchase
                 )
                 Spacer(modifier = Modifier.height(10.dp))
                 Text(
@@ -290,10 +355,7 @@ fun PaywallScreen(
             item {
                 BeforeAfterHeader(
                     genderId = genderId,
-                    onClose = {
-                        viewModel.onCloseRequested()
-                        onClose()
-                    }
+                    onClose = onClose
                 )
             }
             item {
@@ -324,7 +386,7 @@ fun PaywallScreen(
                         rightMain = if (isYearly) product.monthlyBreakdownPrice() else product.product.displayPrice,
                         rightSub = perMonthText,
                         selected = selectedProduct?.productId == product.product.productId,
-                        onClick = { viewModel.selectProduct(product.product) }
+                        onClick = { onSelectProduct(product.product) }
                     )
                 }
             }
@@ -344,6 +406,12 @@ fun PaywallScreen(
     }
 }
 
+/** File name of the rendered HTML (identifier is "<sourceUrl>#<cachedAt>"), as iOS reports it. */
+private fun CachedRemotePaywall.analyticsVariantName(): String {
+    val withoutSuffix = identifier.split('#', '?').first()
+    return withoutSuffix.substringAfterLast('/').take(100).ifEmpty { "unknown" }
+}
+
 private fun UIProduct.subtitleForCard(): String? {
     if (!product.freeTrial.isNullOrBlank()) return null
     return description.takeIf { it.isNotBlank() }
@@ -357,7 +425,7 @@ private fun UIProduct.monthlyBreakdownPrice(): String {
 
 private fun buildRemotePaywallStorePayload(
     products: List<UIProduct>,
-    selectedProduct: com.mobteq.billing.domain.Product?,
+    selectedProduct: Product?,
     onboardingState: OnboardingState?,
     userId: String?,
     errorMessage: String?,

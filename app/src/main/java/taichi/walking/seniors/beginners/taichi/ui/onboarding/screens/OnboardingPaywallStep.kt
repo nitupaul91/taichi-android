@@ -16,6 +16,7 @@ import taichi.walking.seniors.beginners.taichi.onboarding.nav.OnboardingRoutes
 import taichi.walking.seniors.beginners.taichi.onboarding.ui.util.progressFor
 import taichi.walking.seniors.beginners.ui.paywall.OnboardingPaywallPhase
 import taichi.walking.seniors.beginners.ui.paywall.OnboardingPaywallStepViewModel
+import taichi.walking.seniors.beginners.ui.paywall.PaywallSource
 import taichi.walking.seniors.beginners.ui.paywall.RemotePaywallVariant
 import taichi.walking.seniors.beginners.ui.paywall.TrialTimelineMode
 import taichi.walking.seniors.beginners.ui.paywall.TrialTimelineScreen
@@ -56,6 +57,7 @@ fun OnboardingPaywallStep(
             onClose = viewModel::onPaywallFinished,
             onComplete = viewModel::onPaywallFinished,
             paywallVariant = RemotePaywallVariant.PRIMARY,
+            source = PaywallSource.ONBOARDING,
             onTrialPurchased = viewModel::onTrialPurchased
         )
 

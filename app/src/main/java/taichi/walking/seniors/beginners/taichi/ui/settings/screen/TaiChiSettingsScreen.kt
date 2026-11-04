@@ -283,7 +283,8 @@ fun TaiChiSettingsScreen(
     if (showPaywall) {
         PaywallScreen(
             onClose = { showPaywall = false },
-            onComplete = { showPaywall = false }
+            onComplete = { showPaywall = false },
+            source = taichi.walking.seniors.beginners.ui.paywall.PaywallSource.SETTINGS
         )
     }
 }

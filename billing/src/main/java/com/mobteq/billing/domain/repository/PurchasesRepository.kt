@@ -88,6 +88,11 @@ class PurchasesRepository @Inject constructor(
         return billingClient.purchaseStatus
     }
 
+    /** The user dismissed the Play purchase sheet without buying. */
+    fun getPurchaseCancellations(): SharedFlow<Unit> {
+        return billingClient.purchaseCanceled
+    }
+
     fun getProducts(): SharedFlow<List<Product>> {
         return products
     }

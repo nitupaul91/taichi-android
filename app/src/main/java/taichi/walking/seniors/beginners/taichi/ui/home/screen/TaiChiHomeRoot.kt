@@ -39,6 +39,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import taichi.walking.seniors.beginners.taichi.ui.home.activity.PaywallLaunchRequest
 import taichi.walking.seniors.beginners.taichi.ui.onboarding.screens.PaywallScreen
+import taichi.walking.seniors.beginners.ui.paywall.PaywallSource
 
 internal enum class HomeTab(val title: String, val icon: androidx.compose.ui.graphics.vector.ImageVector) {
     TaiChi("Tai Chi", Icons.Default.AccessibilityNew),
@@ -143,6 +144,8 @@ fun TaiChiHomeRoot(
                 ) {
                     PaywallScreen(
                         paywallVariant = request.variant,
+                        source = PaywallSource.DEEP_LINK,
+                        sourceDetail = request.source,
                         onClose = dismissActivePaywall,
                         onComplete = dismissActivePaywall
                     )

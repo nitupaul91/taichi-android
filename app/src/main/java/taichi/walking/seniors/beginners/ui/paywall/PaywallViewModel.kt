@@ -1,6 +1,8 @@
 package taichi.walking.seniors.beginners.ui.paywall
 
 import android.app.Activity
+import android.content.Context
+import androidx.core.os.bundleOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.gson.Gson
@@ -13,12 +15,14 @@ import com.mobteq.billing.service.PlayStoreBillingService.Companion.PREMIUM_LIFE
 import com.mobteq.billing.service.PlayStoreBillingService.Companion.YEARLY_SUBSCRIPTION_V1
 import com.sageai.id.IDService
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import taichi.walking.seniors.beginners.R
@@ -26,6 +30,7 @@ import taichi.walking.seniors.beginners.service.UserService
 import taichi.walking.seniors.beginners.taichi.notifications.reminder.TrialStartReminders
 import taichi.walking.seniors.beginners.taichi.onboarding.data.OnboardingPrefs
 import taichi.walking.seniors.beginners.taichi.onboarding.state.OnboardingState
+import taichi.walking.seniors.beginners.util.AiAssistantRemoteConfig
 import taichi.walking.seniors.beginners.util.Strings
 import kotlinx.coroutines.delay
 import javax.inject.Inject
@@ -41,7 +46,9 @@ class PaywallViewModel @Inject constructor(
     private val gson: Gson,
     private val idService: IDService,
     private val remotePaywallCache: RemotePaywallCache,
-    private val trialStartReminders: TrialStartReminders
+    private val trialStartReminders: TrialStartReminders,
+    private val remoteConfig: AiAssistantRemoteConfig,
+    @ApplicationContext private val context: Context
 ) : ViewModel() {
 
     private val events = MutableSharedFlow<PaywallEvents>()
@@ -77,13 +84,35 @@ class PaywallViewModel @Inject constructor(
     @Volatile
     private var purchaseAttemptProduct: Product? = null
 
+    private val _purchaseRecovery = MutableStateFlow<PurchaseRecovery?>(null)
+
+    /** Shown over the paywall after the user dismisses the Play sheet (`show_purchase_cancel_recovery`). */
+    val purchaseRecovery: StateFlow<PurchaseRecovery?> = _purchaseRecovery.asStateFlow()
+
     init {
         getProducts()
         subscribeToPurchaseStatus()
+        subscribeToPurchaseCancellations()
         subscribeToOnboardingState()
         fetchUserId()
+    }
 
-        analytics.trackPaywallView()
+    /**
+     * One call per presentation. The view model can outlive a paywall (home keeps one per
+     * activity), so the view is tracked here rather than at creation.
+     */
+    fun onPaywallShown(source: String, sourceDetail: String?, renderer: String, paywallVariant: String) {
+        analytics.setSource(source, sourceDetail)
+        _purchaseRecovery.value = null
+        viewModelScope.launch {
+            analytics.trackPaywallView(
+                bundleOf(
+                    "paywall_variant" to paywallVariant,
+                    "renderer" to renderer,
+                    "was_premium" to dataStorePrefs.isSubscribed().first()
+                )
+            )
+        }
     }
 
     private fun subscribeToPurchaseStatus() {
@@ -102,7 +131,19 @@ class PaywallViewModel @Inject constructor(
                             _isRestoring.value = false
                             _errorMessage.value = null
 
-                            onPurchaseAcknowledged(it.productId)?.let { details ->
+                            val purchasedProduct = takePurchaseAttempt(it.productId)
+                            val trialDetails = purchasedProduct?.let { product ->
+                                trialStartReminders.onPurchaseAcknowledged(product)
+                                TrialTimelineDetails.make(product, System.currentTimeMillis())
+                            }
+                            purchasedProduct?.let { product ->
+                                analytics.trackPurchaseOutcome(
+                                    outcome = "success",
+                                    product = product,
+                                    extraParams = bundleOf("is_trial" to (trialDetails != null))
+                                )
+                            }
+                            trialDetails?.let { details ->
                                 events.emit(PaywallEvents.TrialPurchased(details))
                             }
                             events.emit(PaywallEvents.PurchaseIsAcknowledged)
@@ -136,13 +177,61 @@ class PaywallViewModel @Inject constructor(
      * purchase used that offer's token. The end date is projected from the offer: Play Billing
      * gives the client no expiry time.
      */
-    private fun onPurchaseAcknowledged(acknowledgedProductId: String?): TrialTimelineDetails? {
+    /**
+     * The product this paywall opened the Play sheet for, when [acknowledgedProductId] is it, and
+     * forgets it: only this ViewModel's own purchase counts (the purchase status is shared by every
+     * paywall instance, and a restore is not a trial start).
+     */
+    private fun takePurchaseAttempt(acknowledgedProductId: String?): Product? {
         val product = purchaseAttemptProduct
             ?.takeIf { acknowledgedProductId == null || it.productId == acknowledgedProductId }
             ?: return null
         purchaseAttemptProduct = null
-        trialStartReminders.onPurchaseAcknowledged(product)
-        return TrialTimelineDetails.make(product, System.currentTimeMillis())
+        return product
+    }
+
+    private fun productById(productId: String): Product? =
+        products.value.firstOrNull { it.product.productId == productId }?.product
+
+    private fun subscribeToPurchaseCancellations() {
+        viewModelScope.launch {
+            purchasesRepository.getPurchaseCancellations().collect { onPurchaseSheetCanceled() }
+        }
+    }
+
+    /**
+     * iOS PaywallView `.userCancelled`: if the dismissed product carries a free trial, reassure the
+     * user that nothing is charged today and offer the trial again.
+     */
+    private suspend fun onPurchaseSheetCanceled() {
+        val product = purchaseAttemptProduct ?: return
+        purchaseAttemptProduct = null
+        analytics.trackPurchaseOutcome(outcome = "user_cancelled", product = product)
+
+        if (!remoteConfig.showPurchaseCancelRecovery()) return
+        if (dataStorePrefs.isSubscribed().first()) return
+        val details = TrialTimelineDetails.make(product, System.currentTimeMillis()) ?: return
+        val reminderMessaging = TrialReminderMessaging.current(context, remoteConfig.showTrialEndingReminder())
+        _purchaseRecovery.value = PurchaseRecovery(details, reminderMessaging)
+    }
+
+    fun onPurchaseRecoveryViewed(recovery: PurchaseRecovery) {
+        analytics.trackPurchaseRecoveryViewed(recovery.details)
+    }
+
+    /** "Start Free Trial": opens the Play sheet again for the same product. */
+    fun onPurchaseRecoveryRetry(activity: Activity) {
+        val recovery = _purchaseRecovery.value ?: return
+        analytics.trackPurchaseRecoveryRetry(recovery.details)
+        _purchaseRecovery.value = null
+        makePurchase(activity, recovery.details.productId)
+    }
+
+    /** "Not now", or back: returns to the paywall. */
+    fun onPurchaseRecoveryDismissed() {
+        val recovery = _purchaseRecovery.value ?: return
+        analytics.trackPurchaseRecoveryDismissed(recovery.details)
+        _purchaseRecovery.value = null
     }
 
     private fun closeScreen() {
@@ -371,6 +460,12 @@ class PaywallViewModel @Inject constructor(
     }
 
 }
+
+/** The free trial the user just backed out of, and what the reminder row may promise. */
+data class PurchaseRecovery(
+    val details: TrialTimelineDetails,
+    val reminderMessaging: TrialReminderMessaging
+)
 
 sealed class PaywallEvents {
     object DismissPurchaseStatusDialog : PaywallEvents()

@@ -2,6 +2,7 @@ package taichi.walking.seniors.beginners.ui.paywall
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -41,6 +42,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
@@ -54,6 +56,9 @@ import taichi.walking.seniors.beginners.taichi.onboarding.ui.components.PrimaryB
 enum class TrialTimelineMode {
     /** Before the onboarding paywall: what happens if the user starts the trial today. */
     PRE_PURCHASE,
+
+    /** Over the paywall after the user dismissed the Play purchase sheet. */
+    CANCELLATION_RECOVERY,
 
     /** After a trial purchase: the trial has started and when it ends. */
     POST_PURCHASE_CONFIRMATION
@@ -86,11 +91,13 @@ fun TrialTimelineScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
+            // Shown over the paywall after a cancelled purchase: taps must not reach the paywall.
+            .pointerInput(Unit) { detectTapGestures { } }
             .background(TimelineBackground)
             .padding(top = statusBarPadding, bottom = navBarPadding),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        TimelineHeader(details = details, mode = mode, progress = progress)
+        TimelineHeader(details = details, mode = mode, reminderMessaging = reminderMessaging, progress = progress)
 
         Column(
             modifier = Modifier
@@ -142,7 +149,12 @@ fun TrialTimelineScreen(
 }
 
 @Composable
-private fun TimelineHeader(details: TrialTimelineDetails, mode: TrialTimelineMode, progress: Float?) {
+private fun TimelineHeader(
+    details: TrialTimelineDetails,
+    mode: TrialTimelineMode,
+    reminderMessaging: TrialReminderMessaging,
+    progress: Float?
+) {
     val progressDescription = stringResource(R.string.trial_timeline_progress_accessibility)
     Column(
         modifier = Modifier
@@ -180,7 +192,7 @@ private fun TimelineHeader(details: TrialTimelineDetails, mode: TrialTimelineMod
             color = TimelineTextPrimary
         )
         Text(
-            text = mode.subtitle(details),
+            text = mode.subtitle(details, reminderMessaging),
             fontSize = 18.sp,
             lineHeight = 26.sp,
             fontWeight = FontWeight.Medium,
@@ -387,12 +399,27 @@ private fun CancellationCard() {
 @Composable
 private fun TrialTimelineMode.title(): String = when (this) {
     TrialTimelineMode.PRE_PURCHASE -> stringResource(R.string.trial_timeline_title_pre_purchase)
+    TrialTimelineMode.CANCELLATION_RECOVERY -> stringResource(R.string.trial_timeline_title_cancellation)
     TrialTimelineMode.POST_PURCHASE_CONFIRMATION -> stringResource(R.string.trial_timeline_title_confirmation)
 }
 
 @Composable
-private fun TrialTimelineMode.subtitle(details: TrialTimelineDetails): String = when (this) {
+private fun TrialTimelineMode.subtitle(
+    details: TrialTimelineDetails,
+    reminderMessaging: TrialReminderMessaging
+): String = when (this) {
     TrialTimelineMode.PRE_PURCHASE -> stringResource(R.string.trial_timeline_subtitle_pre_purchase)
+    TrialTimelineMode.CANCELLATION_RECOVERY -> {
+        val endDate = formatShortTrialDate(details.trialEndMillis)
+        when (reminderMessaging) {
+            TrialReminderMessaging.AUTHORIZED ->
+                stringResource(R.string.trial_timeline_subtitle_cancellation_authorized, endDate)
+            TrialReminderMessaging.PERMISSION_NEEDED ->
+                stringResource(R.string.trial_timeline_subtitle_cancellation_permission_needed, endDate)
+            TrialReminderMessaging.UNAVAILABLE ->
+                stringResource(R.string.trial_timeline_subtitle_cancellation_unavailable, endDate)
+        }
+    }
     TrialTimelineMode.POST_PURCHASE_CONFIRMATION -> stringResource(
         R.string.trial_timeline_subtitle_confirmation,
         formatShortTrialDate(details.trialEndMillis)
@@ -408,6 +435,7 @@ private fun TrialTimelineMode.todaySubtitle(): String = when (this) {
 @Composable
 private fun TrialTimelineMode.primaryButtonTitle(): String = when (this) {
     TrialTimelineMode.PRE_PURCHASE -> stringResource(R.string.continue_button)
+    TrialTimelineMode.CANCELLATION_RECOVERY -> stringResource(R.string.trial_timeline_button_cancellation)
     TrialTimelineMode.POST_PURCHASE_CONFIRMATION -> stringResource(R.string.trial_timeline_button_confirmation)
 }
 

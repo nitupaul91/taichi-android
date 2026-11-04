@@ -5,6 +5,12 @@
     <!-- Free-trial timeline (iOS TrialTimelineView) -->
     <string name="trial_timeline_title_pre_purchase">Your free trial, step by step</string>
     <string name="trial_timeline_subtitle_pre_purchase">Here is exactly what happens if you start your free trial today.</string>
+    <string name="trial_timeline_title_cancellation">You won\'t be charged today</string>
+    <!-- %1$s is the short date the trial ends, such as "Nov 11". -->
+    <string name="trial_timeline_subtitle_cancellation_authorized">Your trial is free until %1$s, and we\'ll remind you before it ends.</string>
+    <string name="trial_timeline_subtitle_cancellation_permission_needed">Your trial is free until %1$s. We\'ll ask to remind you before it ends.</string>
+    <string name="trial_timeline_subtitle_cancellation_unavailable">Your trial is free until %1$s. Nothing is charged before then.</string>
+    <string name="trial_timeline_button_cancellation">Start Free Trial</string>
     <string name="trial_timeline_title_confirmation">Your free trial has started</string>
     <!-- %1$s is the short date the trial ends, such as "Nov 11". -->
     <string name="trial_timeline_subtitle_confirmation">Enjoy Premium free until %1$s.</string>

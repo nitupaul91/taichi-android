@@ -74,6 +74,7 @@ import taichi.walking.seniors.beginners.taichi.ui.home.workout.WorkoutPreviewScr
 import taichi.walking.seniors.beginners.taichi.ui.home.workout.WorkoutScreen
 import taichi.walking.seniors.beginners.taichi.ui.home.workout.WorkoutAnalyticsContext
 import taichi.walking.seniors.beginners.taichi.ui.onboarding.screens.PaywallScreen
+import taichi.walking.seniors.beginners.ui.paywall.PaywallSource
 import taichi.walking.seniors.beginners.taichi.ui.progress.data.PracticeKind
 import taichi.walking.seniors.beginners.ui.rateapp.RateAppDialogView
 
@@ -324,7 +325,8 @@ private fun PracticeJourneyHomeScreen(
     if (showPaywall) {
         PaywallScreen(
             onClose = { showPaywall = false },
-            onComplete = { showPaywall = false }
+            onComplete = { showPaywall = false },
+            source = PaywallSource.WORKOUT_PREVIEW
         )
     }
     if (state.showRateDialog) {
