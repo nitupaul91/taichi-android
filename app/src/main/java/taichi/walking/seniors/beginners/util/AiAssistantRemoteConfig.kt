@@ -66,6 +66,44 @@ class AiAssistantRemoteConfig @Inject constructor(
         )
     }
 
+    // iOS parity flags. Same keys and in-app defaults as iOS's RemoteConfigService, so one Firebase
+    // experiment design can run on both platforms (the Android app has its own Firebase values).
+
+    /** Onboarding: tai chi / chair / walking picker after the goals screens. */
+    fun onboardingProgramSelectionEnabled(): Boolean = remoteConfig.getBoolean("onboarding_program_selection_enabled")
+    fun onboardingSkipLifestyleQuestionsEnabled(): Boolean = remoteConfig.getBoolean("onboarding_skip_lifestyle_questions_enabled")
+    fun onboardingOrder2Enabled(): Boolean = remoteConfig.getBoolean("onboarding_order_2_enabled")
+    fun onboardingGoalsFirstEnabled(): Boolean = remoteConfig.getBoolean("onboarding_goals_first_enabled")
+    fun onboardingBackButtonEnabled(): Boolean = remoteConfig.getBoolean("onboarding_back_button_enabled")
+    fun onboardingHideContinueOnSingleChoiceEnabled(): Boolean = remoteConfig.getBoolean("onboarding_hide_continue_on_single_choice_enabled")
+    fun onboardingOptionIconsEnabled(): Boolean = remoteConfig.getBoolean("onboarding_option_icons_enabled")
+    fun onboardingShapeUpEventScreensEnabled(): Boolean = remoteConfig.getBoolean("onboarding_shape_up_event_screens_enabled")
+    fun onboardingBodyTypeScreensEnabled(): Boolean = remoteConfig.getBoolean("onboarding_body_type_screens_enabled")
+    fun onboardingWalkingExperimentEnabled(): Boolean = remoteConfig.getBoolean("onboarding_walking_experiment_enabled")
+    fun onboardingBmiTwoCategoryEnabled(): Boolean = remoteConfig.getBoolean("onboarding_bmi_two_category_enabled")
+    fun onboardingResumeSkipsPaywallEnabled(): Boolean = remoteConfig.getBoolean("onboarding_resume_skips_paywall_enabled")
+    fun showNotificationsPermission(): Boolean = remoteConfig.getBoolean("show_notifications_permission")
+    fun showExtendedDiscoverySources(): Boolean = remoteConfig.getBoolean("show_extended_discovery_sources")
+
+    /** Days 1..N of each program are free; later days need a subscription. */
+    fun freeDaysCount(): Int = remoteConfig.getLong("free_days_count").toInt().coerceAtLeast(0)
+
+    fun showReentryPaywall(): Boolean = remoteConfig.getBoolean("show_reentry_paywall")
+    fun showDiscountPaywall(): Boolean = remoteConfig.getBoolean("show_discount_paywall")
+    fun showPrePaywallTrialTimeline(): Boolean = remoteConfig.getBoolean("show_pre_paywall_trial_timeline")
+    fun showPurchaseCancelRecovery(): Boolean = remoteConfig.getBoolean("show_purchase_cancel_recovery")
+    fun showPostPurchaseTrialConfirmation(): Boolean = remoteConfig.getBoolean("show_post_purchase_trial_confirmation")
+    fun shouldShowPostWorkoutPaywall(): Boolean = remoteConfig.getBoolean("should_show_post_workout_paywall")
+    fun showPrintablePlanPaidUpsell(): Boolean = remoteConfig.getBoolean("show_printable_plan_paid_upsell")
+    fun showSettingsCancelSubscriptionFlow(): Boolean = remoteConfig.getBoolean("show_settings_cancel_subscription_flow")
+    fun showTrialEndingReminder(): Boolean = remoteConfig.getBoolean("show_trial_ending_reminder")
+    fun trialPracticeReminderEnabled(): Boolean = remoteConfig.getBoolean("trial_practice_reminder_enabled")
+    fun showPostWorkoutReminderPrompt(): Boolean = remoteConfig.getBoolean("show_post_workout_reminder_prompt")
+    fun showWorkoutIntensityWidget(): Boolean = remoteConfig.getBoolean("show_workout_intensity_widget")
+
+    /** Larger text: follow the phone's font size (capped) instead of the app's fixed sizes. */
+    fun dynamicTypeEnabled(): Boolean = remoteConfig.getBoolean("dynamic_type_enabled")
+
     companion object {
         const val PROMOTED_APPS = "promotedApps"
         const val PAYWALL_HTML_URL = "paywall_html_url"
