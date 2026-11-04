@@ -131,20 +131,20 @@ fun TaiChiSettingsScreen(
         verticalArrangement = Arrangement.spacedBy(22.dp)
     ) {
         Text(
-            text = "Settings",
+            text = stringResource(R.string.settings_title),
             style = MaterialTheme.typography.headlineMedium,
             fontWeight = FontWeight.ExtraBold,
             color = Color(0xFF1A1A1A)
         )
 
-        SectionLabel("SUBSCRIPTION")
+        SectionLabel(stringResource(R.string.settings_section_subscription))
         SettingsCard {
             SettingsRow(
                 icon = Icons.Default.WorkspacePremium,
                 iconColor = if (isPremium) Color(0xFF0BA56B) else Color(0xFFF5A623),
                 iconBackground = if (isPremium) Color(0xFFE6F5EE) else Color(0xFFF9EFD9),
-                title = if (isPremium) "Premium" else "Upgrade to Premium",
-                subtitle = if (isPremium) "You have full access" else "Unlock all features",
+                title = stringResource(if (isPremium) R.string.settings_premium else R.string.settings_upgrade_premium),
+                subtitle = stringResource(if (isPremium) R.string.settings_premium_subtitle else R.string.settings_upgrade_premium_subtitle),
                 showChevron = !isPremium,
                 onClick = { if (!isPremium) showPaywall = true }
             )
@@ -165,19 +165,21 @@ fun TaiChiSettingsScreen(
             }
         }
 
-        SectionLabel("COMMUNITY")
+        SectionLabel(stringResource(R.string.settings_section_community))
+        val shareAppTitle = stringResource(R.string.settings_share_app)
+        val shareAppText = stringResource(R.string.settings_share_app_text, stringResource(R.string.app_link))
         SettingsCard {
             SettingsRow(
                 icon = Icons.Default.Share,
                 iconColor = Color(0xFF0BA56B),
                 iconBackground = Color(0xFFE6F5EE),
-                title = "Share App",
-                subtitle = "Tell friends about Tai Chi",
+                title = stringResource(R.string.settings_share_app),
+                subtitle = stringResource(R.string.settings_share_app_subtitle),
                 onClick = {
                     sharePlainText(
                         context = context,
-                        text = "Try this Tai Chi app \uD83E\uDDD8\n${context.getString(taichi.walking.seniors.beginners.R.string.app_link)}",
-                        title = "Share App"
+                        text = shareAppText,
+                        title = shareAppTitle
                     )
                 }
             )
@@ -186,19 +188,19 @@ fun TaiChiSettingsScreen(
                 icon = Icons.Default.Star,
                 iconColor = Color(0xFFF5A623),
                 iconBackground = Color(0xFFFDF1DA),
-                title = "Rate App",
-                subtitle = "Leave a review on Google Play",
+                title = stringResource(R.string.settings_rate_app),
+                subtitle = stringResource(R.string.settings_rate_app_subtitle),
                 onClick = { openPlayStore(context) }
             )
         }
 
-        SectionLabel("ABOUT")
+        SectionLabel(stringResource(R.string.settings_section_about))
         SettingsCard {
             SettingsLinkRow(
                 icon = Icons.Default.Description,
                 iconColor = Color(0xFF78909C),
                 iconBackground = Color(0xFFE8EDF1),
-                title = "Terms of Service",
+                title = stringResource(R.string.settings_terms),
                 onClick = { uriHandler.openUri("https://easytaichi.app/terms") }
             )
             DividerRow()
@@ -206,7 +208,7 @@ fun TaiChiSettingsScreen(
                 icon = Icons.Default.PrivacyTip,
                 iconColor = Color(0xFF78909C),
                 iconBackground = Color(0xFFE8EDF1),
-                title = "Privacy Policy",
+                title = stringResource(R.string.settings_privacy),
                 onClick = { uriHandler.openUri("https://easytaichi.app/privacy") }
             )
             DividerRow()
@@ -214,8 +216,8 @@ fun TaiChiSettingsScreen(
                 icon = Icons.Default.Email,
                 iconColor = Color(0xFF5C6BC0),
                 iconBackground = Color(0xFFE6E8F8),
-                title = "Contact Us",
-                subtitle = "Send feedback or report issues",
+                title = stringResource(R.string.settings_contact),
+                subtitle = stringResource(R.string.settings_contact_subtitle),
                 onClick = { uriHandler.openUri(viewModel.buildContactEmailUri()) }
             )
             DividerRow()
@@ -223,7 +225,7 @@ fun TaiChiSettingsScreen(
                 icon = Icons.Default.Info,
                 iconColor = Color(0xFF78909C),
                 iconBackground = Color(0xFFE8EDF1),
-                title = "App Version",
+                title = stringResource(R.string.settings_app_version),
                 subtitle = viewModel.appVersion,
                 showChevron = false
             )

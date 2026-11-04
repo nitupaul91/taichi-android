@@ -374,4 +374,24 @@
     <string name="progress_encouragement_7">You\'re doing amazing! One week down.</string>
     <string name="progress_encouragement_14">Halfway there! Your dedication shows.</string>
     <string name="progress_encouragement_21">Almost done! You\'re an inspiration.</string>
+
+    <!-- Settings -->
+    <string name="settings_title">Settings</string>
+    <string name="settings_section_subscription">SUBSCRIPTION</string>
+    <string name="settings_premium">Premium</string>
+    <string name="settings_premium_subtitle">You have full access</string>
+    <string name="settings_upgrade_premium">Upgrade to Premium</string>
+    <string name="settings_upgrade_premium_subtitle">Unlock all features</string>
+    <string name="settings_section_community">COMMUNITY</string>
+    <string name="settings_share_app">Share App</string>
+    <string name="settings_share_app_subtitle">Tell friends about Tai Chi</string>
+    <string name="settings_share_app_text">Try this Tai Chi app 🧘\n%1$s</string>
+    <string name="settings_rate_app">Rate App</string>
+    <string name="settings_rate_app_subtitle">Leave a review on Google Play</string>
+    <string name="settings_section_about">ABOUT</string>
+    <string name="settings_terms">Terms of Service</string>
+    <string name="settings_privacy">Privacy Policy</string>
+    <string name="settings_contact">Contact Us</string>
+    <string name="settings_contact_subtitle">Send feedback or report issues</string>
+    <string name="settings_app_version">App Version</string>
 </resources>
