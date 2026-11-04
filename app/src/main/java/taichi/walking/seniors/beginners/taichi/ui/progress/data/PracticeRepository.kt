@@ -194,6 +194,26 @@ class PracticeRepository @Inject constructor(
         )
     }
 
+    /**
+     * Removes all practice history and every program's current day, including the legacy keys the
+     * migration would otherwise rebuild history from, so nothing survives an account deletion.
+     * Like iOS `PracticeProgressStore.eraseAll`, the premium flag and workout intensity are kept:
+     * they are device settings, not account data.
+     */
+    suspend fun eraseAll() {
+        context.practiceDataStore.edit { prefs ->
+            listOf(
+                Keys.legacyCurrentDay,
+                Keys.legacyTotalMinutes,
+                Keys.legacyCompletionDates,
+                Keys.summaries,
+                Keys.taiChiCurrentDay,
+                Keys.walkingCurrentDay,
+                Keys.chairCurrentDay
+            ).forEach { key -> prefs -= key }
+        }
+    }
+
     fun computeCurrentStreak(summaries: List<PracticeDaySummary>): Int {
         val practicedDates = summaries.filter { it.hasPractice() }.map { it.date }.toSet()
         if (practicedDates.isEmpty()) return 0

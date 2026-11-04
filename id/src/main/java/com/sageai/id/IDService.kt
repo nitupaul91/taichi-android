@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.mapNotNull
 import timber.log.Timber
+import java.util.UUID
 import javax.inject.Inject
 
 class IDService @Inject constructor(
@@ -43,8 +44,30 @@ class IDService @Inject constructor(
         if (newUserId.isBlank()) {
             return
         }
+        if (isRetiredUserId(newUserId)) {
+            Timber.tag(TAG).d("updateUserId ignored: the id belongs to a deleted account")
+            return
+        }
         userIdDataStore.setUserId(newUserId)
     }
+
+    /**
+     * Replaces the stored id with a brand-new random UUID (never ANDROID_ID, which would hand back
+     * the identity the user just deleted) and retires [retiredUserIds], so [updateUserId] can never
+     * restore one of them. A Play purchase keeps the id it was made under as its obfuscated account
+     * id and would otherwise bring the deleted id straight back on the next purchase query.
+     */
+    suspend fun resetUserId(retiredUserIds: Collection<String>): String {
+        val newUserId = UUID.randomUUID().toString().lowercase()
+        userIdDataStore.replaceUserId(newUserId, retiredUserIds)
+
+        Timber.tag(TAG).d("#resetUserId userId=$newUserId")
+
+        return newUserId
+    }
+
+    suspend fun isRetiredUserId(userId: String): Boolean =
+        userId in userIdDataStore.getRetiredUserIds().first()
 
     suspend fun getDeviceID(): String = getDeviceId()
 

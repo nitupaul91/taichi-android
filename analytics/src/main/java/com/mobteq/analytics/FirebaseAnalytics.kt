@@ -27,6 +27,16 @@ class FirebaseAnalytics @Inject constructor(
         AnalyticsMirror.mirror(eventName, params)
     }
 
+    /**
+     * Clears the app instance id and stored analytics data, so events after an account deletion
+     * are not joined to the deleted identity.
+     */
+    fun resetAnalyticsData() {
+        Timber.d("Firebase analytics data reset")
+
+        firebaseAnalytics.resetAnalyticsData()
+    }
+
     companion object {
         const val PROPERTY_SCREEN_NAME = "screen_name"
     }

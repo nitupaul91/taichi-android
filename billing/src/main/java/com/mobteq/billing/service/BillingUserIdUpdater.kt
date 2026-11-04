@@ -14,6 +14,11 @@ class BillingUserIdUpdater @Inject constructor(
 ) {
 
     suspend fun updateUserIdFromPurchase(purchase: Purchase) {
+        if (dataStorePrefs.needsSubscriptionRelink().first()) {
+            relinkToCurrentUserId(purchase)
+            return
+        }
+
         val userId = purchase.accountIdentifiers?.obfuscatedAccountId
         if (!userId.isNullOrBlank()) {
             Timber.tag(IDService.TAG).d("UserId found on purchase")
@@ -38,6 +43,31 @@ class BillingUserIdUpdater @Inject constructor(
                     Timber.tag(IDService.TAG).d("Remote returned null user id")
                 }
             }
+        }
+    }
+
+    /**
+     * After an account deletion the device has a brand-new user id, while a still-active Play
+     * purchase keeps the deleted id as its obfuscated account id. Validating the purchase again
+     * under the current id attaches the subscription to the new account on the server, like the iOS
+     * app's subscription relink; account deletion never touches the Play subscription itself.
+     * Stays pending (retried on the next purchase query) until the server answers.
+     */
+    private suspend fun relinkToCurrentUserId(purchase: Purchase) {
+        val productId = purchase.products.firstOrNull() ?: return
+
+        Timber.tag(IDService.TAG).d("Relinking purchase to the current userId")
+
+        val result = runCatching {
+            subscriptionsService.validatePurchase(productId, purchase.purchaseToken)
+        }.getOrElse { Result.failure(it) }
+
+        val nothingLeftToLink = result.exceptionOrNull()?.message == SubscriptionsService.SUB_NOT_VALID
+        if (result.isSuccess || nothingLeftToLink) {
+            dataStorePrefs.setNeedsSubscriptionRelink(false)
+            dataStorePrefs.setHasSyncedUserIdWithRemote(true)
+        } else {
+            Timber.tag(IDService.TAG).w(result.exceptionOrNull(), "Subscription relink failed; will retry")
         }
     }
 }

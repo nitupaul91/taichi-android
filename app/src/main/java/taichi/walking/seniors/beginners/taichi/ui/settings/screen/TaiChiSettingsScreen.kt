@@ -1,5 +1,6 @@
 package taichi.walking.seniors.beginners.taichi.ui.settings.screen
 
+import android.content.Intent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -14,6 +15,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ChevronRight
+import androidx.compose.material.icons.filled.DeleteOutline
 import androidx.compose.material.icons.filled.Description
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Info
@@ -22,10 +24,13 @@ import androidx.compose.material.icons.filled.PrivacyTip
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.filled.WorkspacePremium
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -42,11 +47,14 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalUriHandler
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.foundation.verticalScroll
 import androidx.hilt.navigation.compose.hiltViewModel
+import taichi.walking.seniors.beginners.MainActivity
+import taichi.walking.seniors.beginners.R
 import taichi.walking.seniors.beginners.taichi.ui.onboarding.screens.PaywallScreen
 import taichi.walking.seniors.beginners.ui.rateapp.openPlayStore
 import taichi.walking.seniors.beginners.util.sharePlainText
@@ -60,9 +68,23 @@ fun TaiChiSettingsScreen(
     val context = androidx.compose.ui.platform.LocalContext.current
     var showPaywall by remember { mutableStateOf(false) }
     val isPremium by viewModel.isPremium.collectAsState()
+    val isDeletingAccount by viewModel.isDeletingAccount.collectAsState()
+    val showDeleteAccountFailed by viewModel.showDeleteAccountFailed.collectAsState()
+    var showDeleteAccountConfirmation by remember { mutableStateOf(false) }
 
     LaunchedEffect(showPaywall) {
         onBottomBarVisibilityChange(!showPaywall)
+    }
+
+    LaunchedEffect(viewModel) {
+        // Local data is wiped by now; the launcher routes a device without an onboarding flag to
+        // onboarding, exactly like a fresh install.
+        viewModel.accountDeleted.collect {
+            context.startActivity(
+                Intent(context, MainActivity::class.java)
+                    .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+            )
+        }
     }
 
     val statusBarPadding = WindowInsets.statusBars.asPaddingValues().calculateTopPadding()
@@ -166,6 +188,50 @@ fun TaiChiSettingsScreen(
                 showChevron = false
             )
         }
+
+        SectionLabel(stringResource(R.string.settings_account_section))
+        SettingsCard {
+            SettingsRow(
+                icon = Icons.Default.DeleteOutline,
+                iconColor = DestructiveRed,
+                iconBackground = Color(0xFFF8E4E4),
+                title = stringResource(R.string.settings_delete_account_title),
+                subtitle = stringResource(R.string.settings_delete_account_subtitle),
+                isLoading = isDeletingAccount,
+                onClick = {
+                    if (viewModel.onDeleteAccountTapped()) showDeleteAccountConfirmation = true
+                }
+            )
+        }
+    }
+
+    if (showDeleteAccountConfirmation) {
+        DeleteAccountDialog(
+            isPremium = isPremium,
+            onManageSubscription = {
+                showDeleteAccountConfirmation = false
+                viewModel.openManageSubscriptions()
+            },
+            onCancel = { showDeleteAccountConfirmation = false },
+            onDelete = {
+                showDeleteAccountConfirmation = false
+                viewModel.deleteAccount()
+            }
+        )
+    }
+
+    if (showDeleteAccountFailed) {
+        AlertDialog(
+            onDismissRequest = viewModel::dismissDeleteAccountFailed,
+            containerColor = Color.White,
+            title = { Text(stringResource(R.string.settings_delete_account_failed_title), color = DialogText) },
+            text = { Text(stringResource(R.string.settings_delete_account_failed_message), color = DialogBodyText) },
+            confirmButton = {
+                TextButton(onClick = viewModel::dismissDeleteAccountFailed) {
+                    Text(stringResource(R.string.settings_account_ok), color = DialogText, fontWeight = FontWeight.SemiBold)
+                }
+            }
+        )
     }
 
     if (showPaywall) {
@@ -175,6 +241,66 @@ fun TaiChiSettingsScreen(
         )
     }
 }
+
+/**
+ * Subscribers are also offered Google Play's subscription page, since deleting the account does not
+ * cancel the subscription. Buttons use explicit dark or red colours rather than the theme accent so
+ * Cancel reads as clearly as Delete (iOS had to fix a hard-to-read Cancel on this same dialog).
+ */
+@Composable
+private fun DeleteAccountDialog(
+    isPremium: Boolean,
+    onManageSubscription: () -> Unit,
+    onCancel: () -> Unit,
+    onDelete: () -> Unit
+) {
+    val message = stringResource(R.string.settings_delete_account_dialog_message)
+    val subscriberNote = stringResource(R.string.settings_delete_account_dialog_subscriber_note)
+
+    AlertDialog(
+        onDismissRequest = onCancel,
+        containerColor = Color.White,
+        title = { Text(stringResource(R.string.settings_delete_account_dialog_title), color = DialogText) },
+        text = {
+            Text(
+                text = if (isPremium) "$message $subscriberNote" else message,
+                color = DialogBodyText
+            )
+        },
+        // The dialog lays these out in a wrapping row, dismiss slot first.
+        dismissButton = {
+            if (isPremium) {
+                TextButton(onClick = onManageSubscription) {
+                    Text(
+                        stringResource(R.string.settings_delete_account_manage_subscription),
+                        color = DialogText,
+                        fontWeight = FontWeight.SemiBold
+                    )
+                }
+            }
+            TextButton(onClick = onCancel) {
+                Text(
+                    stringResource(R.string.settings_delete_account_cancel),
+                    color = DialogText,
+                    fontWeight = FontWeight.SemiBold
+                )
+            }
+        },
+        confirmButton = {
+            TextButton(onClick = onDelete) {
+                Text(
+                    stringResource(R.string.settings_delete_account_confirm),
+                    color = DestructiveRed,
+                    fontWeight = FontWeight.Bold
+                )
+            }
+        }
+    )
+}
+
+private val DestructiveRed = Color(0xFFC84C4C)
+private val DialogText = Color(0xFF2F3C42)
+private val DialogBodyText = Color(0xFF5B686D)
 
 @Composable
 private fun SectionLabel(text: String) {
@@ -209,12 +335,13 @@ private fun SettingsRow(
     title: String,
     subtitle: String,
     showChevron: Boolean = true,
+    isLoading: Boolean = false,
     onClick: () -> Unit = {}
 ) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .clickable { onClick() }
+            .clickable(enabled = !isLoading) { onClick() }
             .padding(horizontal = 14.dp, vertical = 14.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -244,7 +371,13 @@ private fun SettingsRow(
             )
         }
 
-        if (showChevron) {
+        if (isLoading) {
+            CircularProgressIndicator(
+                modifier = Modifier.size(20.dp),
+                color = Color(0xFF7D8A8F),
+                strokeWidth = 2.dp
+            )
+        } else if (showChevron) {
             Icon(
                 imageVector = Icons.Default.ChevronRight,
                 contentDescription = null,

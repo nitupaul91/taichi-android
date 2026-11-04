@@ -11,5 +11,6 @@ class SubscriptionMapper @Inject constructor() {
             purchaseToken = purchase.purchaseToken,
             orderNumber = purchase.orderId!!,
             purchaseTime = purchase.purchaseTime,
+            productId = purchase.products.firstOrNull(),
         )
 }

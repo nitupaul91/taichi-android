@@ -38,6 +38,7 @@ class DataStorePrefs @Inject constructor(
         val SHOW_ONBOARDING = booleanPreferencesKey("showOnboarding")
         val TRAINING_COMPLETED_CARS = stringSetPreferencesKey("training_completed_cars")
         val HAS_SCHEDULED_CONVERSION_NOTIFICATION = booleanPreferencesKey("hasScheduledConversionNotification")
+        val NEEDS_SUBSCRIPTION_RELINK = booleanPreferencesKey("needsSubscriptionRelink")
     }
 
     fun isSubscribed() = context.dataStore.data.map { preferences ->
@@ -119,6 +120,20 @@ class DataStorePrefs @Inject constructor(
     suspend fun setLastOnboardingShowVersion(versionCode: Int) {
         context.dataStore.edit { preferences ->
             preferences[LAST_ONBOARDING_SHOW_VERSION] = versionCode
+        }
+    }
+
+    /**
+     * Set when the user id is replaced after an account deletion: the next purchase query attaches
+     * a still-active Play purchase to the new id instead of adopting the deleted one.
+     */
+    fun needsSubscriptionRelink() = context.dataStore.data.map { preferences ->
+        preferences[NEEDS_SUBSCRIPTION_RELINK] ?: false
+    }
+
+    suspend fun setNeedsSubscriptionRelink(value: Boolean) {
+        context.dataStore.edit { preferences ->
+            preferences[NEEDS_SUBSCRIPTION_RELINK] = value
         }
     }
 

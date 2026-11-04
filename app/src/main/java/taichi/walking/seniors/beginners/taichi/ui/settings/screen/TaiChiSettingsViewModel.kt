@@ -8,17 +8,29 @@ import com.sageai.id.IDService
 import com.mobteq.billing.model.purchases.local.PurchaseManager
 import taichi.walking.seniors.beginners.BuildConfig
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.NonCancellable
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import taichi.walking.seniors.beginners.taichi.account.AccountDeletionException
+import taichi.walking.seniors.beginners.taichi.account.AccountDeletionService
+import taichi.walking.seniors.beginners.taichi.account.PlaySubscriptionManagement
 import java.util.Locale
 import javax.inject.Inject
 
 @HiltViewModel
 class TaiChiSettingsViewModel @Inject constructor(
     private val purchaseManager: PurchaseManager,
-    private val idService: IDService
+    private val idService: IDService,
+    private val accountDeletionService: AccountDeletionService,
+    private val playSubscriptionManagement: PlaySubscriptionManagement,
+    private val analytics: SettingsAnalyticsTracker
 ) : ViewModel() {
 
     val appVersion: String = BuildConfig.VERSION_NAME
@@ -26,6 +38,17 @@ class TaiChiSettingsViewModel @Inject constructor(
 
     private val _isPremium = MutableStateFlow(false)
     val isPremium: StateFlow<Boolean> = _isPremium.asStateFlow()
+
+    private val _isDeletingAccount = MutableStateFlow(false)
+    val isDeletingAccount: StateFlow<Boolean> = _isDeletingAccount.asStateFlow()
+
+    private val _showDeleteAccountFailed = MutableStateFlow(false)
+    val showDeleteAccountFailed: StateFlow<Boolean> = _showDeleteAccountFailed.asStateFlow()
+
+    private val accountDeletedEvents = Channel<Unit>(Channel.BUFFERED)
+
+    /** Emits once the account is deleted and local data wiped; the screen then restarts the app at onboarding. */
+    val accountDeleted: Flow<Unit> = accountDeletedEvents.receiveAsFlow()
 
     init {
         viewModelScope.launch {
@@ -51,5 +74,55 @@ class TaiChiSettingsViewModel @Inject constructor(
         return "mailto:hello@easytaichi.app" +
             "?subject=${Uri.encode(subject)}" +
             "&body=${Uri.encode(body)}"
+    }
+
+    /** Returns false while a deletion is already running, in which case no confirmation is shown. */
+    fun onDeleteAccountTapped(): Boolean {
+        if (_isDeletingAccount.value) return false
+        analytics.trackAccountDeleteTapped()
+        return true
+    }
+
+    fun deleteAccount() {
+        if (_isDeletingAccount.value) return
+        _isDeletingAccount.value = true
+        analytics.trackAccountDeleteConfirmed()
+
+        viewModelScope.launch {
+            // Once the server is asked to delete, the local wipe must follow even if the user leaves
+            // the screen; otherwise the device keeps an id the server no longer knows.
+            val outcome = withContext(NonCancellable) {
+                try {
+                    accountDeletionService.deleteAccount()
+                    OUTCOME_DELETED
+                } catch (e: CancellationException) {
+                    throw e
+                } catch (e: Exception) {
+                    "failed:${(e as? AccountDeletionException)?.reason ?: e.javaClass.simpleName}"
+                }
+            }
+
+            val didDelete = outcome == OUTCOME_DELETED
+            _isDeletingAccount.value = false
+            _showDeleteAccountFailed.value = !didDelete
+            // After a deletion the analytics ids are already reset, so this lands on the new identity.
+            analytics.trackAccountDeleteOutcome(outcome)
+
+            if (didDelete) {
+                accountDeletedEvents.send(Unit)
+            }
+        }
+    }
+
+    fun dismissDeleteAccountFailed() {
+        _showDeleteAccountFailed.value = false
+    }
+
+    fun openManageSubscriptions() {
+        playSubscriptionManagement.open()
+    }
+
+    private companion object {
+        const val OUTCOME_DELETED = "deleted"
     }
 }
