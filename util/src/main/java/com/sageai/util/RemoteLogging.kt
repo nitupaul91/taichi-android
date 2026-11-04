@@ -2,8 +2,6 @@ package com.sageai.util
 
 import android.content.Context
 import android.util.Log
-import com.bugfender.sdk.Bugfender
-import com.bugfender.sdk.LogLevel
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -27,8 +25,6 @@ class RemoteLogging @Inject constructor(
             Timber.d("RemoteLogging already initialized.")
             return
         }
-
-        Bugfender.init(context, BUGFENDER_KEY, BuildConfig.DEBUG)
 
         GlobalScope.launch {
             val minLogLevel = loggingDataStore.getMinLogLevel().first()
@@ -54,24 +50,21 @@ class RemoteLogging @Inject constructor(
         val mappedLogLevel = getMappedLogLevel(minLogLevel)
         Timber.uprootAll()
 
-        Timber.plant(BugfenderLogTree(mappedLogLevel))
-
         Timber.plant(CrashlyticsLogTree(FirebaseCrashlytics.getInstance(), mappedLogLevel))
     }
 
     fun updateLoggingUserId(userId: String) {
-        Bugfender.setDeviceString(PARAM_USER_ID, userId)
         FirebaseCrashlytics.getInstance().setUserId(userId)
     }
 
     private fun getMappedLogLevel(minLogLevel: String): Int {
         return when (minLogLevel) {
-            com.sageai.util.LogLevel.VERBOSE -> Log.VERBOSE
-            com.sageai.util.LogLevel.DEBUG -> Log.DEBUG
-            com.sageai.util.LogLevel.INFO -> Log.INFO
-            com.sageai.util.LogLevel.WARN -> Log.WARN
-            com.sageai.util.LogLevel.ERROR -> Log.ERROR
-            com.sageai.util.LogLevel.ASSERT -> Log.ASSERT
+            LogLevel.VERBOSE -> Log.VERBOSE
+            LogLevel.DEBUG -> Log.DEBUG
+            LogLevel.INFO -> Log.INFO
+            LogLevel.WARN -> Log.WARN
+            LogLevel.ERROR -> Log.ERROR
+            LogLevel.ASSERT -> Log.ASSERT
             else -> {
                 Timber.e(IllegalArgumentException("invalid log level $minLogLevel"))
 
@@ -80,33 +73,6 @@ class RemoteLogging @Inject constructor(
         }
     }
 
-    private companion object {
-        private const val BUGFENDER_KEY = "mdWAauZb3CZsYT7hzu8B93fIapTKlYFM"
-
-        private const val PARAM_USER_ID = "userId"
-    }
-}
-
-class BugfenderLogTree(
-    private val minLogPriority: Int
-) : Timber.Tree() {
-
-    override fun log(priority: Int, tag: String?, message: String, t: Throwable?) {
-        if (priority < minLogPriority) {
-            return
-        }
-        val logLevel = when (priority) {
-            Log.VERBOSE -> LogLevel.Trace
-            Log.DEBUG -> LogLevel.Debug
-            Log.INFO -> LogLevel.Info
-            Log.WARN -> LogLevel.Warning
-            Log.ERROR -> LogLevel.Error
-            Log.ASSERT -> LogLevel.Fatal
-            else -> LogLevel.Debug
-        }
-
-        Bugfender.log(-1, "", "", logLevel, tag, message);
-    }
 }
 
 class CrashlyticsLogTree(
