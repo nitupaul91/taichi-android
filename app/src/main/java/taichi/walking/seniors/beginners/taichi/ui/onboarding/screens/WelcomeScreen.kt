@@ -165,12 +165,26 @@ fun WelcomeScreen(
             }
         }
 
-        PrimaryButton(
-            text = stringResource(R.string.onboarding_welcome_button),
+        Column(
             modifier = Modifier
                 .align(Alignment.BottomCenter)
                 .padding(horizontal = 24.dp),
-            onClick = onContinue
-        )
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            PrimaryButton(
+                text = stringResource(R.string.onboarding_welcome_button),
+                modifier = Modifier.fillMaxWidth(),
+                onClick = onContinue
+            )
+            // Shown before any question is asked, so the answers that follow are given on notice
+            // of the terms. The full pages are linked from Settings.
+            Text(
+                text = stringResource(R.string.onboarding_welcome_legal),
+                style = MaterialTheme.typography.bodySmall.copy(fontSize = 11.sp),
+                color = Color(0xFF6A7471),
+                textAlign = TextAlign.Center,
+                modifier = Modifier.padding(top = 10.dp, bottom = 4.dp)
+            )
+        }
     }
 }

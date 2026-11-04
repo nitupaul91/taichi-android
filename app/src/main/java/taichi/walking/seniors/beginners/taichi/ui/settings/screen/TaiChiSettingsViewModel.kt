@@ -48,7 +48,7 @@ class TaiChiSettingsViewModel @Inject constructor(
             append("App version: $appVersion\n\n")
         }
 
-        return "mailto:nativemobteq@gmail.com" +
+        return "mailto:hello@easytaichi.app" +
             "?subject=${Uri.encode(subject)}" +
             "&body=${Uri.encode(body)}"
     }

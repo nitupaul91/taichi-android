@@ -137,7 +137,7 @@ fun TaiChiSettingsScreen(
                 iconColor = Color(0xFF78909C),
                 iconBackground = Color(0xFFE8EDF1),
                 title = "Terms of Service",
-                onClick = { uriHandler.openUri("https://easytaichi.app/terms.html") }
+                onClick = { uriHandler.openUri("https://easytaichi.app/terms") }
             )
             DividerRow()
             SettingsLinkRow(
@@ -145,7 +145,7 @@ fun TaiChiSettingsScreen(
                 iconColor = Color(0xFF78909C),
                 iconBackground = Color(0xFFE8EDF1),
                 title = "Privacy Policy",
-                onClick = { uriHandler.openUri("https://easytaichi.app/privacy_policy.html") }
+                onClick = { uriHandler.openUri("https://easytaichi.app/privacy") }
             )
             DividerRow()
             SettingsRow(

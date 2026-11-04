@@ -1,8 +1,8 @@
 <resources>
     <!-- Non-translatable -->
     <string name="app_link" translatable="false">https://play.google.com/store/apps/details?id=taichi.walking.seniors.beginners</string>
-    <string name="privacy_policy_link" translatable="false">https://easytaichi.app/privacy_policy.html</string>
-    <string name="terms_of_use_link" translatable="false">https://easytaichi.app/terms.html</string>
+    <string name="privacy_policy_link" translatable="false">https://easytaichi.app/privacy</string>
+    <string name="terms_of_use_link" translatable="false">https://easytaichi.app/terms</string>
     <string name="no_trial_product_name" translatable="false">%s / %s</string>
     <string name="forward_arrow" translatable="false">→</string>
     <string name="app_name" translatable="false">Taichi</string>
@@ -62,6 +62,7 @@
     <string name="onboarding_welcome_rating_value">4.9</string>
     <string name="onboarding_welcome_rating_label">Google Play Rating</string>
     <string name="onboarding_welcome_button">Continue</string>
+    <string name="onboarding_welcome_legal">By continuing, you agree to our Terms of Service (including subscription terms and pricing offers) and acknowledge our Privacy Policy and Refund Policy. Tai Chi does not provide medical advice. Always consult a healthcare professional with any health concerns.</string>
 
     <!-- Age Screen -->
     <string name="onboarding_age_title">What age should we use for your plan?</string>
