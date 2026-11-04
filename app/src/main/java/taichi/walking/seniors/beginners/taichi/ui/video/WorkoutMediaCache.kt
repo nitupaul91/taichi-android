@@ -153,6 +153,15 @@ object WorkoutMediaCache {
         onProgress: (Float) -> Unit
     ): DownloadOutcome = withContext(Dispatchers.IO) {
         val factory = dataSourceFactory(context)
+        // CacheWriter reports every buffer it writes, thousands of times a second; forward only
+        // steps of half a percent so the progress bar does not recompose on every buffer.
+        var lastReported = -1f
+        val report: (Float) -> Unit = { fraction ->
+            if (fraction >= 1f || fraction - lastReported >= PROGRESS_STEP) {
+                lastReported = fraction
+                onProgress(fraction)
+            }
+        }
         val totalWeight = urls.sumOf { weightOf(it) }.coerceAtLeast(1.0)
         var doneWeight = 0.0
         var completed = 0
@@ -173,7 +182,7 @@ object WorkoutMediaCache {
                         val isLast = index == parts.lastIndex
                         CacheWriter(factory.createDataSource(), DataSpec(part.toUri()), null) { length, cached, _ ->
                             if (isLast && length > 0) {
-                                onProgress(((doneWeight + weight * cached / length) / totalWeight).toFloat())
+                                report(((doneWeight + weight * cached / length) / totalWeight).toFloat())
                             }
                         }.cache()
                     }
@@ -190,7 +199,7 @@ object WorkoutMediaCache {
                 }
             }
             doneWeight += weight
-            onProgress((doneWeight / totalWeight).toFloat())
+            report((doneWeight / totalWeight).toFloat())
         }
         DownloadOutcome(completed = completed, failed = failed, skipped = skipped, total = urls.size)
     }
@@ -217,6 +226,8 @@ object WorkoutMediaCache {
         }.map { if (it.contains("://")) it else base + it }.distinct().toList()
         return listOf(url) + referenced
     }
+
+    private const val PROGRESS_STEP = 0.005f
 
     private fun isHls(url: String) = url.substringBefore('?').endsWith(".m3u8", ignoreCase = true)
 
