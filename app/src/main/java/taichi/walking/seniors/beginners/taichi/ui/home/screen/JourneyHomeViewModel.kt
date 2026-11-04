@@ -133,6 +133,12 @@ open class BaseJourneyHomeViewModel(
 
     val analyticsPracticeKind: String get() = practiceKind.storageValue
 
+    /**
+     * Days 1..N of every program are free (Remote Config `free_days_count`). Read on each use, like
+     * iOS, so a value activated after launch applies the next time a day is opened.
+     */
+    fun freeDaysCount(): Int = remoteConfig.freeDaysCount()
+
     /** iOS applyWorkoutIntensity: store the level, then regenerate the plan with it. */
     fun applyWorkoutIntensity(intensity: String) {
         viewModelScope.launch {

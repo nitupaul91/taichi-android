@@ -254,6 +254,7 @@ private fun PracticeJourneyHomeScreen(
             dayData = day,
             currentDay = state.currentDay,
             isPremium = state.isPremium,
+            freeDaysCount = viewModel.freeDaysCount(),
             onClose = { previewDay = null },
             onBegin = {
                 previewDay = null

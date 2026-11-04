@@ -60,11 +60,13 @@ fun WorkoutPreviewScreen(
     dayData: WorkoutDayDto,
     currentDay: Int,
     isPremium: Boolean = false,
+    /** Days 1..N are free (Remote Config `free_days_count`, iOS WorkoutPreviewView). */
+    freeDaysCount: Int,
     onClose: () -> Unit,
     onBegin: () -> Unit,
     onOpenPaywall: (() -> Unit)? = null
 ) {
-    val requiresPremium = dayNumber > 3 && !isPremium
+    val requiresPremium = dayNumber > freeDaysCount && !isPremium
     val accessible = dayNumber <= currentDay
     var showCompleteFirstDialog by remember { mutableStateOf(false) }
     Box(
