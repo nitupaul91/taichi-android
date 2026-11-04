@@ -27,6 +27,7 @@ import androidx.core.os.bundleOf
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -164,9 +165,10 @@ fun WorkoutPreviewScreen(
                                 modifier = Modifier.fillMaxWidth(),
                                 horizontalArrangement = Arrangement.SpaceEvenly
                             ) {
-                                StatBadge("${dayData.durationInMinutes}", "minutes")
-                                StatBadge("${dayData.exercises.sumOf { it.calories }}", "calories")
-                                StatBadge("${dayData.exercises.size}", "exercises")
+                                val calories = dayData.exercises.sumOf { it.calories }
+                                StatBadge("${dayData.durationInMinutes}", pluralStringResource(R.plurals.progress_minutes_unit, dayData.durationInMinutes))
+                                StatBadge("$calories", pluralStringResource(R.plurals.preview_stat_calories, calories))
+                                StatBadge("${dayData.exercises.size}", pluralStringResource(R.plurals.preview_stat_exercises, dayData.exercises.size))
                             }
                         }
                     }

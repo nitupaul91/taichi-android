@@ -43,4 +43,12 @@
     <string name="completion_stat_minutes">min</string>
     <string name="completion_stat_calories">cal</string>
     <string name="completion_stat_moves">moves</string>
+    <plurals name="preview_stat_calories">
+        <item quantity="one">calorie</item>
+        <item quantity="other">calories</item>
+    </plurals>
+    <plurals name="preview_stat_exercises">
+        <item quantity="one">exercise</item>
+        <item quantity="other">exercises</item>
+    </plurals>
 </resources>
