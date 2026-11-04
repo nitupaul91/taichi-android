@@ -13,4 +13,15 @@
     <string name="onboarding_program_chair_subtitle">Seated exercises for limited mobility</string>
     <string name="onboarding_program_let_us_decide_title">Let Us Decide</string>
     <string name="onboarding_program_let_us_decide_subtitle">We\'ll pick the best program based on your profile</string>
+
+    <!-- Discovery sources (iOS DiscoverySource). Google Play stands in for iOS's App Store. -->
+    <string name="onboarding_discovery_google_play" translatable="false">Google Play</string>
+    <string name="onboarding_discovery_google" translatable="false">Google</string>
+    <string name="onboarding_discovery_tiktok" translatable="false">TikTok</string>
+    <string name="onboarding_discovery_instagram" translatable="false">Instagram</string>
+    <string name="onboarding_discovery_facebook" translatable="false">Facebook</string>
+    <string name="onboarding_discovery_tv_commercial">TV Commercial</string>
+    <string name="onboarding_discovery_trainer_therapist">Recommended by Trainer / Therapist</string>
+    <string name="onboarding_discovery_friends_family">Friends / Family</string>
+    <string name="onboarding_discovery_other">Other</string>
 </resources>

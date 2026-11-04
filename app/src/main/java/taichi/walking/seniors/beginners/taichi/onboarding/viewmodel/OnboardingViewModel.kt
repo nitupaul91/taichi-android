@@ -2,6 +2,7 @@ package taichi.walking.seniors.beginners.taichi.onboarding.viewmodel
 
 import taichi.walking.seniors.beginners.taichi.onboarding.data.OnboardingFlowPreferences
 import taichi.walking.seniors.beginners.taichi.onboarding.data.OnboardingRepository
+import taichi.walking.seniors.beginners.taichi.onboarding.model.DiscoverySources
 import taichi.walking.seniors.beginners.taichi.onboarding.model.OnboardingProgramSelection
 import taichi.walking.seniors.beginners.taichi.onboarding.nav.OnboardingFlowFlags
 import taichi.walking.seniors.beginners.taichi.onboarding.nav.OnboardingRoutes
@@ -11,6 +12,7 @@ import taichi.walking.seniors.beginners.taichi.onboarding.state.OnboardingState
 import taichi.walking.seniors.beginners.taichi.onboarding.ui.util.OnboardingChrome
 import taichi.walking.seniors.beginners.taichi.program.ProgramPreference
 import taichi.walking.seniors.beginners.util.AiAssistantRemoteConfig
+import com.sageai.id.IDService
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -25,13 +27,39 @@ class OnboardingViewModel @Inject constructor(
     private val repository: OnboardingRepository,
     private val remoteConfig: AiAssistantRemoteConfig,
     private val flowPreferences: OnboardingFlowPreferences,
-    private val programPreference: ProgramPreference
+    private val programPreference: ProgramPreference,
+    private val idService: IDService
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(OnboardingState())
     val state: StateFlow<OnboardingState> = _state
 
     private val _usesGoalsFirstOrder = MutableStateFlow(flowPreferences.usesGoalsFirstOrder)
+
+    private val _discoveryOrderSeed = MutableStateFlow("")
+
+    /**
+     * Seeds the per-user order of the discovery-source rows (iOS seeds it with the user id), so
+     * re-renders and back navigation keep the order. Loaded long before that screen is reached.
+     */
+    val discoveryOrderSeed: StateFlow<String> = _discoveryOrderSeed
+
+    init {
+        viewModelScope.launch {
+            _discoveryOrderSeed.value = runCatching { idService.getUserID() }.getOrNull().orEmpty()
+        }
+    }
+
+    /** The discovery-source rows in this user's order (iOS `displayedDiscoverySources`). */
+    fun displayedDiscoverySources(): List<String> = DiscoverySources.displayedSources(
+        includeExtendedSources = remoteConfig.showExtendedDiscoverySources(),
+        selectedSource = _state.value.discoverySourceId,
+        orderSeed = _discoveryOrderSeed.value
+    )
+
+    /** 1-based row the chosen source sat on; measures position bias in the answer event. */
+    fun discoverySourcePosition(): Int? =
+        DiscoverySources.position(_state.value.discoverySourceId, displayedDiscoverySources())
 
     /** iOS `usesGoalsFirstOrder`; see [decideStepOrder]. */
     val usesGoalsFirstOrder: StateFlow<Boolean> = _usesGoalsFirstOrder

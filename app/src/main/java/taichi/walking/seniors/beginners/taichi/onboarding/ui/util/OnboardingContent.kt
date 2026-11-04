@@ -38,7 +38,6 @@ import androidx.compose.material.icons.filled.Bolt
 import androidx.compose.material.icons.filled.Chair
 import androidx.compose.material.icons.filled.DirectionsWalk
 import androidx.compose.material.icons.filled.FitnessCenter
-import androidx.compose.material.icons.filled.LiveTv
 import androidx.compose.material.icons.filled.MedicalServices
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Psychology
@@ -79,17 +78,6 @@ object OnboardingQuestions {
  * have none here either.
  */
 object OnboardingOptions {
-    val discoverySources = listOf(
-        OnboardingOption("google", "Google"),
-        OnboardingOption("tv_commercial", "TV Commercial", icon = Icons.Default.LiveTv),
-        OnboardingOption("trainer_therapist_recommendation", "Recommended by Trainer / Therapist", icon = Icons.Default.MedicalServices),
-        OnboardingOption("tiktok", "TikTok"),
-        OnboardingOption("instagram", "Instagram"),
-        OnboardingOption("facebook", "Facebook"),
-        OnboardingOption("friends_family", "Friends / Family"),
-        OnboardingOption("other", "Other")
-    )
-
     val gender = listOf(
         OnboardingOption("female", "Female", icon = Icons.Default.Woman),
         OnboardingOption("male", "Male", icon = Icons.Default.Man),

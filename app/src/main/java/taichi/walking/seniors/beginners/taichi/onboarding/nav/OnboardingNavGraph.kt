@@ -5,6 +5,7 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
@@ -180,8 +181,12 @@ private fun OnboardingNavHost(
             )
         }
         composable(OnboardingRoutes.HeardAboutUs.route) {
+            val discoveryOrderSeed by viewModel.discoveryOrderSeed.collectAsState()
             HeardAboutUsScreen(
                 state = state,
+                sources = remember(discoveryOrderSeed, state.discoverySourceId) {
+                    viewModel.displayedDiscoverySources()
+                },
                 onSelect = { viewModel.onAction(it) },
                 onBack = goBack,
                 onContinue = { goForward(OnboardingRoutes.HeardAboutUs) }
