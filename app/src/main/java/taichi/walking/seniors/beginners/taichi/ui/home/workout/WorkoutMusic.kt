@@ -30,7 +30,8 @@ sealed interface WorkoutMusicMode {
 }
 
 /**
- * Quiet enough to sit under the instructor's voice. Matches iOS's `musicVolume`; raising it makes
- * the spoken guidance hard to follow for the older users this app targets.
+ * Quiet enough to sit under the instructor's voice. Matches iOS's `musicVolume`, which 1.1.8
+ * lowered from 0.35 because the music competed with the instructions: player volume is linear
+ * amplitude while hearing is logarithmic, so 0.10 is about -11 dB, roughly half as loud.
  */
-const val WORKOUT_MUSIC_VOLUME = 0.35f
+const val WORKOUT_MUSIC_VOLUME = 0.10f

@@ -12,7 +12,6 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
-import kotlin.math.roundToInt
 
 class WorkoutViewModel(
     val dayNumber: Int,
@@ -22,8 +21,7 @@ class WorkoutViewModel(
     enum class WorkoutAudioCue(val resId: Int) {
         PreviewCountdown(R.raw.countdown),
         KeepGoing(R.raw.keep_going),
-        AlmostDone(R.raw.almost_done),
-        TenMoreSeconds(R.raw.ten_more_seconds)
+        AlmostDone(R.raw.almost_done)
     }
 
     /** [cue] null means "silence any cue still playing" rather than "play nothing new". */
@@ -352,42 +350,23 @@ class WorkoutViewModel(
         totalDurationSeconds: Int,
         instructionDurationSeconds: Int?
     ): List<ScheduledCue> {
+        // iOS WorkoutViewModel.scheduleExerciseCueAudio: "almost done" halfway between the end of
+        // the spoken instructions and the last 10 s, then "keep going" with 10 s left. Both are
+        // localized clips (res/raw-<lang>), so a non-English workout hears no English cue.
         if (totalDurationSeconds <= 0) return emptyList()
         val instructionEnd = instructionDurationSeconds ?: return emptyList()
-        val tenMoreAtSecond = totalDurationSeconds - 10
+        val keepGoingAtSecond = totalDurationSeconds - KEEP_GOING_REMAINING_SECONDS
+        if (keepGoingAtSecond <= 0 || instructionEnd >= keepGoingAtSecond) return emptyList()
 
-        if (tenMoreAtSecond <= instructionEnd) return emptyList()
-
-        val gapBeforeTenMore = tenMoreAtSecond - instructionEnd
-        val fillerCount = when {
-            gapBeforeTenMore >= 15 -> 2
-            gapBeforeTenMore >= 10 -> 1
-            else -> 0
+        val midpointSecond = (instructionEnd + keepGoingAtSecond) / 2
+        return buildList {
+            if (midpointSecond > instructionEnd) {
+                add(ScheduledCue(atSecond = midpointSecond, cue = WorkoutAudioCue.AlmostDone))
+            }
+            add(ScheduledCue(atSecond = keepGoingAtSecond, cue = WorkoutAudioCue.KeepGoing))
         }
-
-        val scheduled = mutableListOf<ScheduledCue>()
-        if (fillerCount > 0) {
-            val step = gapBeforeTenMore.toDouble() / (fillerCount + 1).toDouble()
-            scheduled += ScheduledCue(
-                atSecond = (instructionEnd + step).roundToInt(),
-                cue = WorkoutAudioCue.KeepGoing
-            )
-        }
-        if (fillerCount > 1) {
-            val step = gapBeforeTenMore.toDouble() / (fillerCount + 1).toDouble()
-            scheduled += ScheduledCue(
-                atSecond = (instructionEnd + (step * 2)).roundToInt(),
-                cue = WorkoutAudioCue.AlmostDone
-            )
-        }
-        scheduled += ScheduledCue(
-            atSecond = tenMoreAtSecond,
-            cue = WorkoutAudioCue.TenMoreSeconds
-        )
-
-        return scheduled
-            .distinctBy { it.atSecond }
-            .filter { it.atSecond > instructionEnd && it.atSecond < totalDurationSeconds }
-            .sortedBy { it.atSecond }
     }
 }
+
+/** iOS keepGoingRemainingSeconds: the "keep going" cue plays with this many seconds left. */
+private const val KEEP_GOING_REMAINING_SECONDS = 10
