@@ -7,6 +7,7 @@ import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import com.google.gson.Gson
+import com.google.gson.annotations.SerializedName
 import com.google.gson.reflect.TypeToken
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
@@ -38,12 +39,15 @@ class PracticeRepository @Inject constructor(
         val workoutIntensity = stringPreferencesKey("workout_intensity")
     }
 
+    // Persisted practice history via Gson; @SerializedName keeps the stored keys stable across
+    // releases, where R8 would otherwise rename fields differently per build and silently drop
+    // the user's local history on update.
     private data class StoredPracticeDaySummary(
-        val date: String,
-        val taiChiMinutes: Int,
-        val walkingMinutes: Int,
+        @SerializedName("date") val date: String,
+        @SerializedName("taiChiMinutes") val taiChiMinutes: Int,
+        @SerializedName("walkingMinutes") val walkingMinutes: Int,
         // Gson leaves this at 0 for summaries written before the seated program shipped.
-        val chairMinutes: Int = 0
+        @SerializedName("chairMinutes") val chairMinutes: Int = 0
     )
 
     val practiceSnapshot: Flow<PracticeSnapshot> = context.practiceDataStore.data.map(::buildSnapshot)

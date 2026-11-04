@@ -2,6 +2,7 @@ package taichi.walking.seniors.beginners.ui.paywall
 
 import android.content.Context
 import com.google.gson.Gson
+import com.google.gson.annotations.SerializedName
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -26,11 +27,13 @@ data class CachedRemotePaywall(
     val identifier: String
 )
 
+// Persisted to disk via Gson; @SerializedName keeps the stored keys stable across releases,
+// where R8 would otherwise rename fields differently per build and orphan the cached metadata.
 private data class RemotePaywallMetadata(
-    val sourceUrl: String,
-    val cachedAtEpochMillis: Long,
-    val etag: String?,
-    val lastModified: String?
+    @SerializedName("sourceUrl") val sourceUrl: String,
+    @SerializedName("cachedAtEpochMillis") val cachedAtEpochMillis: Long,
+    @SerializedName("etag") val etag: String?,
+    @SerializedName("lastModified") val lastModified: String?
 )
 
 @Singleton

@@ -1,5 +1,6 @@
 package taichi.walking.seniors.beginners.taichi.onboarding.data
 
+import com.google.gson.annotations.SerializedName
 import taichi.walking.seniors.beginners.taichi.onboarding.state.OnboardingState
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -14,37 +15,40 @@ import java.util.TimeZone
  * server's deserialization at the same time. The backend normalises the four fields it stores
  * differently (body-type option ids to indices, "yes"/"no" to booleans) — see
  * AndroidOnboardingUploadRequest server-side; nothing needs converting here.
+ *
+ * Every field needs @SerializedName: Gson serializes by reflection, and the release build's R8
+ * pass renames unannotated fields, which shipped a payload the server rejected (missing userId).
  */
 data class OnboardingProfilePayload(
-    val userId: String?,
-    val completedStep: String,
-    val discoverySource: String?,
-    val age: Int,
-    val gender: String?,
-    val goals: Set<String>,
-    val taiChiFamiliarity: String?,
-    val currentBodyType: String?,
-    val targetBodyType: String?,
-    val targetZones: Set<String>,
-    val activityLevel: String?,
-    val dailyWalking: String?,
-    val stairsFeeling: String?,
-    val squatsAbility: String?,
-    val canRotateHead: String?,
-    val canHoldArms: String?,
-    val taiChiLevel: String?,
-    val betweenMealsFeeling: String?,
-    val sleepAmount: String?,
-    val waterIntake: String?,
-    val dietTypes: Set<String>,
-    val height: Int,
-    val weight: Double,
-    val targetWeight: Double,
-    val shapeUpEvent: String?,
-    val shapeUpEventDate: String?,
-    val motivationLevel: String?,
-    val exerciseBlockers: Set<String>,
-    val useMetric: Boolean?
+    @SerializedName("userId") val userId: String?,
+    @SerializedName("completedStep") val completedStep: String,
+    @SerializedName("discoverySource") val discoverySource: String?,
+    @SerializedName("age") val age: Int,
+    @SerializedName("gender") val gender: String?,
+    @SerializedName("goals") val goals: Set<String>,
+    @SerializedName("taiChiFamiliarity") val taiChiFamiliarity: String?,
+    @SerializedName("currentBodyType") val currentBodyType: String?,
+    @SerializedName("targetBodyType") val targetBodyType: String?,
+    @SerializedName("targetZones") val targetZones: Set<String>,
+    @SerializedName("activityLevel") val activityLevel: String?,
+    @SerializedName("dailyWalking") val dailyWalking: String?,
+    @SerializedName("stairsFeeling") val stairsFeeling: String?,
+    @SerializedName("squatsAbility") val squatsAbility: String?,
+    @SerializedName("canRotateHead") val canRotateHead: String?,
+    @SerializedName("canHoldArms") val canHoldArms: String?,
+    @SerializedName("taiChiLevel") val taiChiLevel: String?,
+    @SerializedName("betweenMealsFeeling") val betweenMealsFeeling: String?,
+    @SerializedName("sleepAmount") val sleepAmount: String?,
+    @SerializedName("waterIntake") val waterIntake: String?,
+    @SerializedName("dietTypes") val dietTypes: Set<String>,
+    @SerializedName("height") val height: Int,
+    @SerializedName("weight") val weight: Double,
+    @SerializedName("targetWeight") val targetWeight: Double,
+    @SerializedName("shapeUpEvent") val shapeUpEvent: String?,
+    @SerializedName("shapeUpEventDate") val shapeUpEventDate: String?,
+    @SerializedName("motivationLevel") val motivationLevel: String?,
+    @SerializedName("exerciseBlockers") val exerciseBlockers: Set<String>,
+    @SerializedName("useMetric") val useMetric: Boolean?
 )
 
 /**

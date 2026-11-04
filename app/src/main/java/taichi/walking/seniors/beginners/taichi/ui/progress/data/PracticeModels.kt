@@ -1,6 +1,7 @@
 package taichi.walking.seniors.beginners.taichi.ui.progress.data
 
 import androidx.annotation.DrawableRes
+import com.google.gson.annotations.SerializedName
 import taichi.walking.seniors.beginners.R
 import java.time.LocalDate
 
@@ -44,11 +45,13 @@ data class PracticeDaySummary(
     }
 }
 
+// Gson-serialized inside ExerciseProgressSyncUploadBody; @SerializedName keeps the wire field
+// names stable through release R8 renaming.
 data class PracticeSyncDay(
-    val date: String,
-    val taiChiMinutes: Int,
-    val walkingMinutes: Int,
-    val chairMinutes: Int = 0
+    @SerializedName("date") val date: String,
+    @SerializedName("taiChiMinutes") val taiChiMinutes: Int,
+    @SerializedName("walkingMinutes") val walkingMinutes: Int,
+    @SerializedName("chairMinutes") val chairMinutes: Int = 0
 )
 
 data class PracticeProgressSyncPayload(

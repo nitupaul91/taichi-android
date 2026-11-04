@@ -16,6 +16,7 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.viewinterop.AndroidView
 import com.google.gson.Gson
 import com.google.gson.JsonSyntaxException
+import com.google.gson.annotations.SerializedName
 import taichi.walking.seniors.beginners.taichi.onboarding.data.OnboardingProfilePayload
 
 sealed interface PaywallWebAction {
@@ -27,36 +28,38 @@ sealed interface PaywallWebAction {
     data class TrackPersonalization(val variants: Map<String, Any?>) : PaywallWebAction
 }
 
+// These are gson.toJson-ed into the paywall's JS, so the field names are the webview's wire
+// contract; @SerializedName keeps them stable through release R8 renaming.
 data class PaywallWebStorePayload(
-    val products: List<PaywallWebStoreProduct>,
-    val heroGender: String,
-    val isTaiChiWalkingFlow: Boolean,
-    val onboardingProfile: OnboardingProfilePayload?,
-    val selectedProductId: String?,
-    val errorMessage: String?,
-    val isPurchaseInProgress: Boolean,
-    val isRestoring: Boolean
+    @SerializedName("products") val products: List<PaywallWebStoreProduct>,
+    @SerializedName("heroGender") val heroGender: String,
+    @SerializedName("isTaiChiWalkingFlow") val isTaiChiWalkingFlow: Boolean,
+    @SerializedName("onboardingProfile") val onboardingProfile: OnboardingProfilePayload?,
+    @SerializedName("selectedProductId") val selectedProductId: String?,
+    @SerializedName("errorMessage") val errorMessage: String?,
+    @SerializedName("isPurchaseInProgress") val isPurchaseInProgress: Boolean,
+    @SerializedName("isRestoring") val isRestoring: Boolean
 )
 
 data class PaywallWebStoreProduct(
-    val id: String,
-    val title: String?,
-    val description: String?,
-    val displayPrice: String,
-    val billingPeriodLabel: String?,
-    val freeTrialDays: String?,
-    val trialDisplayText: String?,
-    val subscriptionPeriodUnit: String?,
-    val subscriptionPeriodValue: Int?,
-    val introOffer: PaywallWebIntroOffer?,
-    val isIntroOfferEligible: Boolean,
-    val isSelected: Boolean = false
+    @SerializedName("id") val id: String,
+    @SerializedName("title") val title: String?,
+    @SerializedName("description") val description: String?,
+    @SerializedName("displayPrice") val displayPrice: String,
+    @SerializedName("billingPeriodLabel") val billingPeriodLabel: String?,
+    @SerializedName("freeTrialDays") val freeTrialDays: String?,
+    @SerializedName("trialDisplayText") val trialDisplayText: String?,
+    @SerializedName("subscriptionPeriodUnit") val subscriptionPeriodUnit: String?,
+    @SerializedName("subscriptionPeriodValue") val subscriptionPeriodValue: Int?,
+    @SerializedName("introOffer") val introOffer: PaywallWebIntroOffer?,
+    @SerializedName("isIntroOfferEligible") val isIntroOfferEligible: Boolean,
+    @SerializedName("isSelected") val isSelected: Boolean = false
 )
 
 data class PaywallWebIntroOffer(
-    val paymentMode: String,
-    val periodUnit: String?,
-    val periodValue: Int?
+    @SerializedName("paymentMode") val paymentMode: String,
+    @SerializedName("periodUnit") val periodUnit: String?,
+    @SerializedName("periodValue") val periodValue: Int?
 )
 
 @Composable

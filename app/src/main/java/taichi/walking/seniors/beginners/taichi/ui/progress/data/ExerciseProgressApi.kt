@@ -1,19 +1,22 @@
 package taichi.walking.seniors.beginners.taichi.ui.progress.data
 
+import com.google.gson.annotations.SerializedName
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Query
 
+// @SerializedName on every field: Gson serializes by reflection and release R8 renames
+// unannotated fields, so without these the server rejects the upload (missing userId).
 data class ExerciseProgressSyncUploadBody(
-    val userId: String,
-    val version: Int,
-    val programVariant: String,
-    val taiChiCurrentDay: Int,
-    val walkingCurrentDay: Int,
-    val chairCurrentDay: Int,
-    val dailyPractice: List<PracticeSyncDay>
+    @SerializedName("userId") val userId: String,
+    @SerializedName("version") val version: Int,
+    @SerializedName("programVariant") val programVariant: String,
+    @SerializedName("taiChiCurrentDay") val taiChiCurrentDay: Int,
+    @SerializedName("walkingCurrentDay") val walkingCurrentDay: Int,
+    @SerializedName("chairCurrentDay") val chairCurrentDay: Int,
+    @SerializedName("dailyPractice") val dailyPractice: List<PracticeSyncDay>
 ) {
     constructor(userId: String, payload: PracticeProgressSyncPayload) : this(
         userId = userId,
@@ -32,19 +35,19 @@ data class ExerciseProgressSyncUploadBody(
  * value set on iOS.
  */
 data class ExerciseProgressRestoreResponse(
-    val version: Int = 1,
-    val programVariant: String? = null,
-    val taiChiCurrentDay: Int = 1,
-    val walkingCurrentDay: Int = 1,
-    val chairCurrentDay: Int = 1,
-    val dailyPractice: List<ExerciseProgressRestoreDay> = emptyList()
+    @SerializedName("version") val version: Int = 1,
+    @SerializedName("programVariant") val programVariant: String? = null,
+    @SerializedName("taiChiCurrentDay") val taiChiCurrentDay: Int = 1,
+    @SerializedName("walkingCurrentDay") val walkingCurrentDay: Int = 1,
+    @SerializedName("chairCurrentDay") val chairCurrentDay: Int = 1,
+    @SerializedName("dailyPractice") val dailyPractice: List<ExerciseProgressRestoreDay> = emptyList()
 )
 
 data class ExerciseProgressRestoreDay(
-    val date: String,
-    val taiChiMinutes: Int = 0,
-    val walkingMinutes: Int = 0,
-    val chairMinutes: Int = 0
+    @SerializedName("date") val date: String,
+    @SerializedName("taiChiMinutes") val taiChiMinutes: Int = 0,
+    @SerializedName("walkingMinutes") val walkingMinutes: Int = 0,
+    @SerializedName("chairMinutes") val chairMinutes: Int = 0
 )
 
 interface ExerciseProgressApi {
