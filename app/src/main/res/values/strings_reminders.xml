@@ -25,4 +25,15 @@
     <string name="notification_practice_reminder_second_chance_title">Your mat is still waiting</string>
     <string name="notification_practice_reminder_second_chance_body">It\'s been a couple of days. Even five gentle minutes will get you moving again.</string>
 
+    <!-- Trial-ending reminder, sent two days before a free trial ends. -->
+    <string name="notification_trial_reminder_title">Your free trial ends in 2 days</string>
+    <!-- %1$d is the number of days practised in the last week, %2$s the trial end date (e.g. "Nov 7").
+         English "one" says "once"; in languages where "one" also covers numbers like 21, keep %1$d. -->
+    <plurals name="notification_trial_reminder_body_practiced">
+        <item quantity="one">You\'ve practiced once this week. Your trial ends %2$s — keep going, or manage your plan anytime in Settings.</item>
+        <item quantity="other">You\'ve practiced %1$d times this week. Your trial ends %2$s — keep going, or manage your plan anytime in Settings.</item>
+    </plurals>
+    <!-- %1$s is the trial end date (e.g. "Nov 7"). -->
+    <string name="notification_trial_reminder_body_not_practiced">Your trial ends %1$s. There\'s still time for one gentle 5-minute session — and you can manage your plan anytime in Settings.</string>
+
 </resources>

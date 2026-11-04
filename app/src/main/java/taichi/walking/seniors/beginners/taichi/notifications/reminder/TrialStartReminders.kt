@@ -5,6 +5,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
+import taichi.walking.seniors.beginners.util.AiAssistantRemoteConfig
 import java.time.ZonedDateTime
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -22,7 +23,9 @@ import javax.inject.Singleton
  */
 @Singleton
 class TrialStartReminders @Inject constructor(
-    private val practiceReminderScheduler: PracticeReminderScheduler
+    private val practiceReminderScheduler: PracticeReminderScheduler,
+    private val trialReminderScheduler: TrialReminderScheduler,
+    private val remoteConfig: AiAssistantRemoteConfig
 ) {
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
 
@@ -30,6 +33,10 @@ class TrialStartReminders @Inject constructor(
         if (product.freeTrial.isNullOrBlank()) return
 
         scope.launch {
+            if (remoteConfig.showTrialEndingReminder()) {
+                TrialReminderTimes.trialEnd(product, start = purchasedAt)
+                    ?.let { trialReminderScheduler.schedule(trialEnd = it) }
+            }
             practiceReminderScheduler.scheduleAfterTrialStart(now = purchasedAt)
         }
     }

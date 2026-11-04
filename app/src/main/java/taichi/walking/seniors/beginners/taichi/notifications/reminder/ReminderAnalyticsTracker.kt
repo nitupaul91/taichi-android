@@ -54,6 +54,22 @@ class ReminderAnalyticsTracker @Inject constructor(
         bundleOf(PARAM_ERROR to error.toString())
     )
 
+    fun trackTrialReminderScheduled(trialEnd: ZonedDateTime, completedSessions: Int, isReschedule: Boolean) = log(
+        EVENT_TRIAL_REMINDER_SCHEDULED,
+        bundleOf(
+            PARAM_TRIAL_END to trialEnd.toIsoInstant(),
+            PARAM_COMPLETED_SESSIONS to completedSessions.toLong(),
+            PARAM_IS_RESCHEDULE to isReschedule
+        )
+    )
+
+    fun trackTrialReminderNotScheduled(reason: String, error: Throwable? = null) = log(
+        EVENT_TRIAL_REMINDER_NOT_SCHEDULED,
+        bundleOf(PARAM_REASON to reason).apply {
+            if (error != null) putString(PARAM_ERROR, error.toString())
+        }
+    )
+
     /** iOS tracks every notification tap; here only the reminder notifications carry an id to report. */
     fun trackNotificationTapped(notificationId: String, appState: String) = log(
         EVENT_NOTIFICATION_TAPPED,
@@ -88,6 +104,8 @@ class ReminderAnalyticsTracker @Inject constructor(
         private const val EVENT_PRACTICE_REMINDER_SCHEDULED = "practice_reminder_scheduled"
         private const val EVENT_PRACTICE_REMINDER_SCHEDULE_FAILED = "practice_reminder_schedule_failed"
         private const val EVENT_NOTIFICATION_TAPPED = "notification_tapped"
+        private const val EVENT_TRIAL_REMINDER_SCHEDULED = "trial_reminder_scheduled"
+        private const val EVENT_TRIAL_REMINDER_NOT_SCHEDULED = "trial_reminder_not_scheduled"
 
         private const val PARAM_DID_CHANGE_TIME = "did_change_time"
         private const val PARAM_REMINDER_HOUR = "reminder_hour"
@@ -103,5 +121,9 @@ class ReminderAnalyticsTracker @Inject constructor(
         private const val PARAM_HAS_DEEPLINK = "has_deeplink"
         private const val PARAM_DEEPLINK_SOURCE = "deeplink_source"
         private const val PARAM_APP_STATE = "app_state"
+        private const val PARAM_TRIAL_END = "trial_end"
+        private const val PARAM_COMPLETED_SESSIONS = "completed_sessions"
+        private const val PARAM_IS_RESCHEDULE = "is_reschedule"
+        private const val PARAM_REASON = "reason"
     }
 }
