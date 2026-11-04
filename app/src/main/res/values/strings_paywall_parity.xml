@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Paywall, trial and subscription-recovery copy ported from the iOS app. English only for now;
+     the translation pass adds the other locales. -->
+<resources>
+    <!-- Free-trial timeline (iOS TrialTimelineView) -->
+    <string name="trial_timeline_title_pre_purchase">Your free trial, step by step</string>
+    <string name="trial_timeline_subtitle_pre_purchase">Here is exactly what happens if you start your free trial today.</string>
+    <string name="trial_timeline_progress_accessibility">Onboarding progress</string>
+    <string name="trial_timeline_plan_ready_title">Your plan is ready</string>
+    <string name="trial_timeline_plan_ready_subtitle">Your personalized Tai Chi program is ready to begin.</string>
+    <string name="trial_timeline_today_title">Today</string>
+    <string name="trial_timeline_today_start">Start your free trial and unlock every Premium session.</string>
+    <!-- %1$s is a short date such as "Nov 6". -->
+    <string name="trial_timeline_reminder_title">%1$s — Trial reminder</string>
+    <string name="trial_timeline_reminder_authorized">We\'ll remind you when your trial ends.</string>
+    <string name="trial_timeline_reminder_permission_needed">We\'ll ask to remind you when your trial ends.</string>
+    <string name="trial_timeline_reminder_unavailable">This is 2 days before your trial ends.</string>
+    <!-- %1$s is a short date such as "Nov 9". -->
+    <string name="trial_timeline_end_title">%1$s — Trial ends</string>
+    <string name="trial_timeline_end_subtitle">Your subscription renews unless you cancel.</string>
+    <string name="trial_timeline_cancel_question">How do I cancel my subscription?</string>
+    <string name="trial_timeline_cancel_answer">Open Settings in the app and tap Cancel Subscription. We\'ll take you straight to your Google Play subscription page.</string>
+    <string name="trial_timeline_not_now">Not now</string>
+</resources>

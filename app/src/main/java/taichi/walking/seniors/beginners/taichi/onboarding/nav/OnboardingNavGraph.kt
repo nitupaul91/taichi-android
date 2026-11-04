@@ -30,7 +30,7 @@ import taichi.walking.seniors.beginners.taichi.ui.onboarding.screens.HeightScree
 import taichi.walking.seniors.beginners.taichi.ui.onboarding.screens.LoadingScreen
 import taichi.walking.seniors.beginners.taichi.ui.onboarding.screens.MotivationScreen
 import taichi.walking.seniors.beginners.taichi.ui.onboarding.screens.NotificationPermissionScreen
-import taichi.walking.seniors.beginners.taichi.ui.onboarding.screens.PaywallScreen
+import taichi.walking.seniors.beginners.taichi.ui.onboarding.screens.OnboardingPaywallStep
 import taichi.walking.seniors.beginners.taichi.ui.onboarding.screens.PlanReadyScreen
 import taichi.walking.seniors.beginners.taichi.ui.onboarding.screens.RotateHeadScreen
 import taichi.walking.seniors.beginners.taichi.ui.onboarding.screens.ShapeUpEventDateScreen
@@ -50,7 +50,6 @@ import taichi.walking.seniors.beginners.taichi.ui.onboarding.screens.WalkDailySc
 import taichi.walking.seniors.beginners.taichi.ui.onboarding.screens.WaterIntakeScreen
 import taichi.walking.seniors.beginners.taichi.ui.onboarding.screens.WeightScreen
 import taichi.walking.seniors.beginners.taichi.ui.onboarding.screens.WelcomeScreen
-import taichi.walking.seniors.beginners.ui.paywall.RemotePaywallVariant
 
 @Composable
 fun OnboardingNavGraph(
@@ -344,22 +343,14 @@ fun OnboardingNavGraph(
             )
         }
         composable(OnboardingRoutes.Paywall.route) {
-            PaywallScreen(
-                onClose = {
+            OnboardingPaywallStep(
+                onFinished = {
                     scope.launch {
                         viewModel.completeOnboarding()
                         analyticsTracker.trackOnboardingComplete()
                         onFinished()
                     }
-                },
-                onComplete = {
-                    scope.launch {
-                        viewModel.completeOnboarding()
-                        analyticsTracker.trackOnboardingComplete()
-                        onFinished()
-                    }
-                },
-                paywallVariant = RemotePaywallVariant.PRIMARY
+                }
             )
         }
     }
