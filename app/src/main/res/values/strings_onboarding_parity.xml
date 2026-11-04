@@ -24,4 +24,16 @@
     <string name="onboarding_discovery_trainer_therapist">Recommended by Trainer / Therapist</string>
     <string name="onboarding_discovery_friends_family">Friends / Family</string>
     <string name="onboarding_discovery_other">Other</string>
+
+    <!-- Welcome screen (iOS WelcomeHeroScreen). Asterisks mark the italic word of a promise line,
+         so a translation can choose its own. -->
+    <string name="onboarding_welcome_wordmark" translatable="false">Tai Chi</string>
+    <string name="onboarding_welcome_promise_line_1">Lose *Weight*</string>
+    <string name="onboarding_welcome_promise_line_2">Improve *Balance*</string>
+    <string name="onboarding_welcome_get_started">Get Started</string>
+    <string name="onboarding_welcome_members_caption">people joined</string>
+    <string name="onboarding_welcome_minutes_value">10 min</string>
+    <string name="onboarding_welcome_minutes_caption">a day</string>
+    <!-- %1$s is the Google Play star rating, e.g. 4.1 -->
+    <string name="onboarding_welcome_rating_format">%1$s Rating</string>
 </resources>
