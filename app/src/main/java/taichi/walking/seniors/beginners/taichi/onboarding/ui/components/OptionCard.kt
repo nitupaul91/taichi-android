@@ -32,6 +32,7 @@ import androidx.compose.ui.semantics.stateDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import taichi.walking.seniors.beginners.taichi.onboarding.ui.theme.Dimens
+import taichi.walking.seniors.beginners.taichi.onboarding.ui.util.LocalOnboardingChrome
 
 @Composable
 fun OptionCard(
@@ -42,6 +43,7 @@ fun OptionCard(
     selected: Boolean,
     onClick: () -> Unit
 ) {
+    val showsIcon = LocalOnboardingChrome.current.optionIconsEnabled
     val borderColor = if (selected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.outline
     val containerColor = if (selected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.surface
 
@@ -66,19 +68,23 @@ fun OptionCard(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                if (icon != null || imageRes != null) {
+            Row(
+                modifier = Modifier.weight(1f, fill = false),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                // iOS SeniorSingleSelectButton / SeniorMultiSelectButton: the icon is drawn only with
+                // onboarding_option_icons_enabled, in the accent colour, white on a selected row.
+                if (showsIcon && (icon != null || imageRes != null)) {
                     Box(
-                        modifier = Modifier
-                            .size(44.dp)
-                            .background(MaterialTheme.colorScheme.onPrimary.copy(alpha = 0.18f), CircleShape),
+                        modifier = Modifier.width(28.dp),
                         contentAlignment = Alignment.Center
                     ) {
                         if (icon != null) {
                             Icon(
                                 imageVector = icon,
                                 contentDescription = null,
-                                tint = if (selected) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onSurface
+                                modifier = Modifier.size(24.dp),
+                                tint = if (selected) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.primary
                             )
                         } else if (imageRes != null) {
                             Image(
@@ -89,7 +95,7 @@ fun OptionCard(
                             )
                         }
                     }
-                    Spacer(modifier = Modifier.width(12.dp))
+                    Spacer(modifier = Modifier.width(16.dp))
                 }
                 Column {
                     Text(

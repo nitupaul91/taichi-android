@@ -84,7 +84,6 @@ fun LoadingScreen(
         progress = progressFor(OnboardingRoutes.Loading),
         title = "",
         subtitle = null,
-        onBack = {},
         continueText = stringResource(R.string.please_wait),
         continueEnabled = false,
         onContinue = onContinue

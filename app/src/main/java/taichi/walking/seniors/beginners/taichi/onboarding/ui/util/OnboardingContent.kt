@@ -1,15 +1,44 @@
 package taichi.walking.seniors.beginners.taichi.onboarding.ui.util
 
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.HelpOutline
+import androidx.compose.material.icons.filled.BatteryAlert
+import androidx.compose.material.icons.filled.Block
+import androidx.compose.material.icons.filled.Cake
+import androidx.compose.material.icons.filled.CheckCircleOutline
+import androidx.compose.material.icons.filled.Cloud
+import androidx.compose.material.icons.filled.Eco
+import androidx.compose.material.icons.filled.Event
+import androidx.compose.material.icons.filled.FavoriteBorder
+import androidx.compose.material.icons.filled.Flight
+import androidx.compose.material.icons.filled.Grass
+import androidx.compose.material.icons.filled.Groups
+import androidx.compose.material.icons.filled.HighlightOff
+import androidx.compose.material.icons.filled.Inventory2
+import androidx.compose.material.icons.filled.LocalFireDepartment
+import androidx.compose.material.icons.filled.Looks3
+import androidx.compose.material.icons.filled.LooksOne
+import androidx.compose.material.icons.filled.LooksTwo
+import androidx.compose.material.icons.filled.Man
+import androidx.compose.material.icons.filled.Map
+import androidx.compose.material.icons.filled.MonitorWeight
+import androidx.compose.material.icons.filled.MoreHoriz
+import androidx.compose.material.icons.filled.PanTool
+import androidx.compose.material.icons.filled.PauseCircleOutline
+import androidx.compose.material.icons.filled.People
+import androidx.compose.material.icons.filled.Restaurant
+import androidx.compose.material.icons.filled.Schedule
+import androidx.compose.material.icons.filled.SetMeal
+import androidx.compose.material.icons.filled.Verified
+import androidx.compose.material.icons.filled.WbSunny
+import androidx.compose.material.icons.filled.Woman
 import androidx.compose.material.icons.filled.AccessibilityNew
 import androidx.compose.material.icons.filled.Bedtime
 import androidx.compose.material.icons.filled.Bolt
 import androidx.compose.material.icons.filled.Chair
 import androidx.compose.material.icons.filled.DirectionsWalk
 import androidx.compose.material.icons.filled.FitnessCenter
-import androidx.compose.material.icons.filled.Healing
 import androidx.compose.material.icons.filled.LiveTv
-import androidx.compose.material.icons.filled.LocalDrink
 import androidx.compose.material.icons.filled.MedicalServices
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Psychology
@@ -44,6 +73,11 @@ object OnboardingQuestions {
     const val BLOCKERS = "blockers"
 }
 
+/**
+ * Answer lists. The icons mirror iOS's `iconSystemName` per answer and are drawn only with
+ * `onboarding_option_icons_enabled`; answers iOS gives no icon (walking time, squats, sleep, water)
+ * have none here either.
+ */
 object OnboardingOptions {
     val discoverySources = listOf(
         OnboardingOption("google", "Google"),
@@ -57,25 +91,25 @@ object OnboardingOptions {
     )
 
     val gender = listOf(
-        OnboardingOption("female", "Female"),
-        OnboardingOption("male", "Male"),
-        OnboardingOption("prefer_not_to_say", "Prefer not to say")
+        OnboardingOption("female", "Female", icon = Icons.Default.Woman),
+        OnboardingOption("male", "Male", icon = Icons.Default.Man),
+        OnboardingOption("prefer_not_to_say", "Prefer not to say", icon = Icons.Default.Person)
     )
 
     val goals = listOf(
-        OnboardingOption("weight_loss", "Weight Loss", icon = Icons.Default.FitnessCenter),
-        OnboardingOption("improve_balance", "Improve Balance", icon = Icons.Default.AccessibilityNew),
+        OnboardingOption("weight_loss", "Weight Loss", icon = Icons.Default.MonitorWeight),
+        OnboardingOption("improve_balance", "Improve Balance", icon = Icons.Default.SelfImprovement),
         OnboardingOption("reduce_stress", "Reduce Stress", icon = Icons.Default.Psychology),
-        OnboardingOption("increase_flexibility", "Increase Flexibility", icon = Icons.Default.SelfImprovement),
+        OnboardingOption("increase_flexibility", "Increase Flexibility", icon = Icons.Default.AccessibilityNew),
         OnboardingOption("more_energy", "More Energy", icon = Icons.Default.Bolt),
-        OnboardingOption("pain_relief", "Pain Relief", icon = Icons.Default.Healing)
+        OnboardingOption("pain_relief", "Pain Relief", icon = Icons.Default.MedicalServices)
     )
 
     val familiarity = listOf(
-        OnboardingOption("never_tried", "Never tried it"),
-        OnboardingOption("tried_once", "Tried once or twice"),
-        OnboardingOption("practice_occasionally", "Practice occasionally"),
-        OnboardingOption("regular_practice", "Regular practice")
+        OnboardingOption("never_tried", "Never tried it", icon = Icons.AutoMirrored.Filled.HelpOutline),
+        OnboardingOption("tried_once", "Tried once or twice", icon = Icons.Default.LooksOne),
+        OnboardingOption("practice_occasionally", "Practice occasionally", icon = Icons.Default.LooksTwo),
+        OnboardingOption("regular_practice", "Regular practice", icon = Icons.Default.Looks3)
     )
 
     private val femaleCurrentBodyTypes = listOf(
@@ -119,17 +153,17 @@ object OnboardingOptions {
     )
 
     val walkDaily = listOf(
-        OnboardingOption("less_than_10", "Less than 10 min", icon = Icons.Default.DirectionsWalk),
-        OnboardingOption("ten_to_30", "10 - 30 minutes", icon = Icons.Default.DirectionsWalk),
-        OnboardingOption("thirty_to_60", "30 - 60 minutes", icon = Icons.Default.DirectionsWalk),
-        OnboardingOption("more_than_60", "More than 1 hour", icon = Icons.Default.DirectionsWalk)
+        OnboardingOption("less_than_10", "Less than 10 min"),
+        OnboardingOption("ten_to_30", "10 - 30 minutes"),
+        OnboardingOption("thirty_to_60", "30 - 60 minutes"),
+        OnboardingOption("more_than_60", "More than 1 hour")
     )
 
     val stairs = listOf(
-        OnboardingOption("easy", "Easy, no problem"),
-        OnboardingOption("slightly_tired", "Slightly tired"),
-        OnboardingOption("need_to_rest", "Need to rest"),
-        OnboardingOption("avoid_stairs", "I avoid stairs")
+        OnboardingOption("easy", "Easy, no problem", icon = Icons.Default.CheckCircleOutline),
+        OnboardingOption("slightly_tired", "Slightly tired", icon = Icons.Default.DirectionsWalk),
+        OnboardingOption("need_to_rest", "Need to rest", icon = Icons.Default.PauseCircleOutline),
+        OnboardingOption("avoid_stairs", "I avoid stairs", icon = Icons.Default.HighlightOff)
     )
 
     val squat = listOf(
@@ -145,10 +179,10 @@ object OnboardingOptions {
     )
 
     val taiChiLevel = listOf(
-        OnboardingOption("complete", "Complete beginner", "Never practiced before"),
-        OnboardingOption("beginner", "Beginner", "Know a few basic moves"),
-        OnboardingOption("intermediate", "Intermediate", "Comfortable with forms"),
-        OnboardingOption("advanced", "Advanced", "Years of experience")
+        OnboardingOption("complete", "Complete beginner", "Never practiced before", icon = Icons.AutoMirrored.Filled.HelpOutline),
+        OnboardingOption("beginner", "Beginner", "Know a few basic moves", icon = Icons.Default.LooksOne),
+        OnboardingOption("intermediate", "Intermediate", "Comfortable with forms", icon = Icons.Default.LooksTwo),
+        OnboardingOption("advanced", "Advanced", "Years of experience", icon = Icons.Default.Looks3)
     )
 
     val betweenMeals = listOf(
@@ -159,56 +193,56 @@ object OnboardingOptions {
     )
 
     val sleep = listOf(
-        OnboardingOption("less_than_5", "Less than 5 hours", icon = Icons.Default.Bedtime),
-        OnboardingOption("five_to_six", "5 - 6 hours", icon = Icons.Default.Bedtime),
-        OnboardingOption("seven_to_eight", "7 - 8 hours", icon = Icons.Default.Bedtime),
-        OnboardingOption("more_than_8", "More than 8 hours", icon = Icons.Default.Bedtime)
+        OnboardingOption("less_than_5", "Less than 5 hours"),
+        OnboardingOption("five_to_six", "5 - 6 hours"),
+        OnboardingOption("seven_to_eight", "7 - 8 hours"),
+        OnboardingOption("more_than_8", "More than 8 hours")
     )
 
     val water = listOf(
-        OnboardingOption("less_than_2", "Less than 2 glasses", icon = Icons.Default.LocalDrink),
-        OnboardingOption("two_to_four", "2 - 4 glasses", icon = Icons.Default.LocalDrink),
-        OnboardingOption("five_to_seven", "5 - 7 glasses", icon = Icons.Default.LocalDrink),
-        OnboardingOption("eight_plus", "8+ glasses", icon = Icons.Default.LocalDrink)
+        OnboardingOption("less_than_2", "Less than 2 glasses"),
+        OnboardingOption("two_to_four", "2 - 4 glasses"),
+        OnboardingOption("five_to_seven", "5 - 7 glasses"),
+        OnboardingOption("eight_plus", "8+ glasses")
     )
 
     val diet = listOf(
-        OnboardingOption("regular", "Regular"),
-        OnboardingOption("vegetarian", "Vegetarian"),
-        OnboardingOption("vegan", "Vegan"),
-        OnboardingOption("keto", "Keto"),
-        OnboardingOption("mediterranean", "Mediterranean"),
-        OnboardingOption("gluten_free", "Gluten-free")
+        OnboardingOption("regular", "Regular", icon = Icons.Default.Restaurant),
+        OnboardingOption("vegetarian", "Vegetarian", icon = Icons.Default.Eco),
+        OnboardingOption("vegan", "Vegan", icon = Icons.Default.Grass),
+        OnboardingOption("keto", "Keto", icon = Icons.Default.LocalFireDepartment),
+        OnboardingOption("mediterranean", "Mediterranean", icon = Icons.Default.SetMeal),
+        OnboardingOption("gluten_free", "Gluten-free", icon = Icons.Default.Verified)
     )
 
     val shapeUpEvents = listOf(
-        OnboardingOption("none", "No"),
-        OnboardingOption("vacation", "Vacation"),
-        OnboardingOption("wedding", "Wedding"),
-        OnboardingOption("reunion", "Reunion"),
-        OnboardingOption("family_reunion", "Family Reunion"),
-        OnboardingOption("birthday", "Birthday"),
-        OnboardingOption("beach_trip", "Beach trip"),
-        OnboardingOption("adventure_trip", "Adventure trip"),
-        OnboardingOption("sporting_event", "Sporting event"),
-        OnboardingOption("important_date", "Important date"),
-        OnboardingOption("other", "Other")
+        OnboardingOption("none", "No", icon = Icons.Default.Block),
+        OnboardingOption("vacation", "Vacation", icon = Icons.Default.Flight),
+        OnboardingOption("wedding", "Wedding", icon = Icons.Default.FavoriteBorder),
+        OnboardingOption("reunion", "Reunion", icon = Icons.Default.People),
+        OnboardingOption("family_reunion", "Family Reunion", icon = Icons.Default.Groups),
+        OnboardingOption("birthday", "Birthday", icon = Icons.Default.Cake),
+        OnboardingOption("beach_trip", "Beach trip", icon = Icons.Default.WbSunny),
+        OnboardingOption("adventure_trip", "Adventure trip", icon = Icons.Default.Map),
+        OnboardingOption("sporting_event", "Sporting event", icon = Icons.Default.DirectionsRun),
+        OnboardingOption("important_date", "Important date", icon = Icons.Default.Event),
+        OnboardingOption("other", "Other", icon = Icons.Default.MoreHoriz)
     )
 
     val motivation = listOf(
-        OnboardingOption("very_motivated", "Very motivated", "Ready to start today!", icon = Icons.Default.Bolt),
-        OnboardingOption("motivated", "Motivated", "Looking forward to it", icon = Icons.Default.SelfImprovement),
-        OnboardingOption("need_help", "Need some help", "Could use encouragement", icon = Icons.Default.Psychology),
-        OnboardingOption("struggling", "Struggling", "Finding it hard to begin", icon = Icons.Default.Spa)
+        OnboardingOption("very_motivated", "Very motivated", "Ready to start today!", icon = Icons.Default.LocalFireDepartment),
+        OnboardingOption("motivated", "Motivated", "Looking forward to it", icon = Icons.Default.Bolt),
+        OnboardingOption("need_help", "Need some help", "Could use encouragement", icon = Icons.Default.PanTool),
+        OnboardingOption("struggling", "Struggling", "Finding it hard to begin", icon = Icons.Default.Cloud)
     )
 
     val blockers = listOf(
-        OnboardingOption("no_time", "Not enough time"),
-        OnboardingOption("too_tired", "Too tired"),
-        OnboardingOption("pain_discomfort", "Pain or discomfort"),
-        OnboardingOption("lack_motivation", "Lack of motivation"),
-        OnboardingOption("dont_know_how", "Don't know how"),
-        OnboardingOption("no_equipment", "No equipment")
+        OnboardingOption("no_time", "Not enough time", icon = Icons.Default.Schedule),
+        OnboardingOption("too_tired", "Too tired", icon = Icons.Default.Bedtime),
+        OnboardingOption("pain_discomfort", "Pain or discomfort", icon = Icons.Default.MedicalServices),
+        OnboardingOption("lack_motivation", "Lack of motivation", icon = Icons.Default.BatteryAlert),
+        OnboardingOption("dont_know_how", "Don't know how", icon = Icons.AutoMirrored.Filled.HelpOutline),
+        OnboardingOption("no_equipment", "No equipment", icon = Icons.Default.Inventory2)
     )
 
     fun currentBodyTypesForGender(genderId: String?): List<OnboardingOption> {

@@ -17,7 +17,6 @@ import kotlinx.coroutines.launch
 import taichi.walking.seniors.beginners.taichi.onboarding.analytics.OnboardingAnalyticsTracker
 import taichi.walking.seniors.beginners.taichi.onboarding.state.OnboardingState
 import taichi.walking.seniors.beginners.taichi.onboarding.ui.util.LocalOnboardingChrome
-import taichi.walking.seniors.beginners.taichi.onboarding.ui.util.OnboardingChrome
 import taichi.walking.seniors.beginners.taichi.onboarding.viewmodel.OnboardingViewModel
 import taichi.walking.seniors.beginners.taichi.ui.onboarding.screens.ActivityLevelScreen
 import taichi.walking.seniors.beginners.taichi.ui.onboarding.screens.AgeScreen
@@ -98,7 +97,7 @@ fun OnboardingNavGraph(
     }
     val goBack: () -> Unit = { navController.popBackStack() }
 
-    CompositionLocalProvider(LocalOnboardingChrome provides OnboardingChrome(navigationSteps)) {
+    CompositionLocalProvider(LocalOnboardingChrome provides viewModel.chrome(navigationSteps)) {
         OnboardingNavHost(
             navController = navController,
             viewModel = viewModel,

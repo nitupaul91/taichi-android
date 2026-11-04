@@ -32,7 +32,9 @@ import taichi.walking.seniors.beginners.taichi.onboarding.state.OnboardingState
 import taichi.walking.seniors.beginners.taichi.onboarding.ui.components.QuestionScaffold
 import taichi.walking.seniors.beginners.taichi.onboarding.ui.util.OnboardingOptions
 import taichi.walking.seniors.beginners.taichi.onboarding.ui.util.OnboardingQuestions
+import taichi.walking.seniors.beginners.taichi.onboarding.ui.util.LocalOnboardingChrome
 import taichi.walking.seniors.beginners.taichi.onboarding.ui.util.progressFor
+import taichi.walking.seniors.beginners.taichi.onboarding.ui.util.rememberContinueOnSelection
 
 @Composable
 fun CurrentBodyTypeScreen(
@@ -43,12 +45,15 @@ fun CurrentBodyTypeScreen(
 ) {
     val options = OnboardingOptions.currentBodyTypesForGender(state.genderId)
 
+    val continueOnSelection = rememberContinueOnSelection(onContinue)
+
     QuestionScaffold(
         progress = progressFor(OnboardingRoutes.CurrentBodyType),
         title = stringResource(R.string.onboarding_current_body_type_title),
         subtitle = null,
         onBack = onBack,
-        showContinueButton = false,
+        showContinueButton = !LocalOnboardingChrome.current.hideContinueOnSingleChoice,
+        continueEnabled = state.currentBodyTypeId != null,
         onContinue = onContinue
     ) {
         Column(verticalArrangement = Arrangement.spacedBy(14.dp)) {
@@ -58,7 +63,7 @@ fun CurrentBodyTypeScreen(
                     selected = state.currentBodyTypeId == option.id,
                     onClick = {
                         onSelect(OnboardingAction.SingleSelect(OnboardingQuestions.CURRENT_BODY, option.id))
-                        onContinue()
+                        continueOnSelection()
                     }
                 )
             }

@@ -30,6 +30,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import taichi.walking.seniors.beginners.taichi.onboarding.ui.theme.Dimens
+import taichi.walking.seniors.beginners.taichi.onboarding.ui.util.LocalOnboardingChrome
 
 @Composable
 fun QuestionScaffold(
@@ -51,7 +52,10 @@ fun QuestionScaffold(
 ) {
     val statusBarPadding = WindowInsets.statusBars.asPaddingValues().calculateTopPadding()
     val navBarPadding = WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding()
-    val shouldRenderBackInHeader = onBack != null && !(overlayBackButton && !showProgress)
+    // iOS shows the back arrow only with onboarding_back_button_enabled; the system back gesture
+    // still works either way.
+    val backAction = onBack.takeIf { LocalOnboardingChrome.current.backButtonEnabled }
+    val shouldRenderBackInHeader = backAction != null && !(overlayBackButton && !showProgress)
     val hasHeaderText = title.isNotBlank() || !subtitle.isNullOrBlank()
 
     Box(
@@ -77,7 +81,7 @@ fun QuestionScaffold(
                             modifier = Modifier.fillMaxWidth(),
                             verticalAlignment = Alignment.CenterVertically
                         ) {
-                            IconButton(onClick = { onBack?.invoke() }) {
+                            IconButton(onClick = { backAction?.invoke() }) {
                                 Icon(
                                     imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                                     contentDescription = "Back",
@@ -99,7 +103,7 @@ fun QuestionScaffold(
                         Spacer(modifier = Modifier.height(18.dp))
                     } else if (shouldRenderBackInHeader) {
                         Row(modifier = Modifier.fillMaxWidth()) {
-                            IconButton(onClick = { onBack?.invoke() }) {
+                            IconButton(onClick = { backAction?.invoke() }) {
                                 Icon(
                                     imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                                     contentDescription = "Back",
@@ -140,7 +144,7 @@ fun QuestionScaffold(
             }
         }
 
-        if (overlayBackButton && !showProgress && onBack != null) {
+        if (overlayBackButton && !showProgress && backAction != null) {
             Box(
                 modifier = Modifier
                     .align(Alignment.TopStart)
@@ -148,7 +152,7 @@ fun QuestionScaffold(
                         top = if (applyOverlayBackButtonInset) statusBarPadding + 8.dp else 8.dp
                     )
             ) {
-                IconButton(onClick = onBack) {
+                IconButton(onClick = backAction) {
                     Icon(
                         imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                         contentDescription = "Back",

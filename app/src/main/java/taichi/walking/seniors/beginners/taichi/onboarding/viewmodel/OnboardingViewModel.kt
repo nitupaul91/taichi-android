@@ -8,6 +8,7 @@ import taichi.walking.seniors.beginners.taichi.onboarding.nav.OnboardingRoutes
 import taichi.walking.seniors.beginners.taichi.onboarding.nav.OnboardingSteps
 import taichi.walking.seniors.beginners.taichi.onboarding.state.OnboardingAction
 import taichi.walking.seniors.beginners.taichi.onboarding.state.OnboardingState
+import taichi.walking.seniors.beginners.taichi.onboarding.ui.util.OnboardingChrome
 import taichi.walking.seniors.beginners.taichi.program.ProgramPreference
 import taichi.walking.seniors.beginners.util.AiAssistantRemoteConfig
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -51,6 +52,14 @@ class OnboardingViewModel @Inject constructor(
         bodyTypeScreensEnabled = remoteConfig.onboardingBodyTypeScreensEnabled(),
         skipLifestyleQuestions = remoteConfig.onboardingSkipLifestyleQuestionsEnabled(),
         showNotificationsPermission = remoteConfig.showNotificationsPermission()
+    )
+
+    /** The step list plus the question-UI switches every screen reads (all live Remote Config). */
+    fun chrome(navigationSteps: List<OnboardingRoutes>): OnboardingChrome = OnboardingChrome(
+        navigationSteps = navigationSteps,
+        backButtonEnabled = remoteConfig.onboardingBackButtonEnabled(),
+        hideContinueOnSingleChoice = remoteConfig.onboardingHideContinueOnSingleChoiceEnabled(),
+        optionIconsEnabled = remoteConfig.onboardingOptionIconsEnabled()
     )
 
     fun orderedSteps(): List<OnboardingRoutes> = OnboardingSteps.orderedSteps(_usesGoalsFirstOrder.value)

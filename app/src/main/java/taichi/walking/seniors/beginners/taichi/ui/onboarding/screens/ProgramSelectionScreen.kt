@@ -47,7 +47,9 @@ import taichi.walking.seniors.beginners.taichi.onboarding.model.OnboardingProgra
 import taichi.walking.seniors.beginners.taichi.onboarding.nav.OnboardingRoutes
 import taichi.walking.seniors.beginners.taichi.onboarding.state.OnboardingState
 import taichi.walking.seniors.beginners.taichi.onboarding.ui.components.QuestionScaffold
+import taichi.walking.seniors.beginners.taichi.onboarding.ui.util.LocalOnboardingChrome
 import taichi.walking.seniors.beginners.taichi.onboarding.ui.util.progressFor
+import taichi.walking.seniors.beginners.taichi.onboarding.ui.util.rememberContinueOnSelection
 
 private data class ProgramOption(
     val selection: OnboardingProgramSelection,
@@ -107,11 +109,14 @@ fun ProgramSelectionScreen(
         onContinue()
     }
 
+    val continueOnSelection = rememberContinueOnSelection(continueWithSelection)
+
     QuestionScaffold(
         progress = progressFor(OnboardingRoutes.ProgramSelection),
         title = stringResource(R.string.onboarding_program_title),
         subtitle = stringResource(R.string.onboarding_program_subtitle),
         onBack = onBack,
+        showContinueButton = !LocalOnboardingChrome.current.hideContinueOnSingleChoice,
         continueEnabled = selected != null,
         onContinue = continueWithSelection
     ) {
@@ -123,7 +128,10 @@ fun ProgramSelectionScreen(
                 ProgramCard(
                     option = option,
                     isSelected = selected == option.selection,
-                    onClick = { selectedId = option.selection.id }
+                    onClick = {
+                        selectedId = option.selection.id
+                        continueOnSelection()
+                    }
                 )
             }
         }

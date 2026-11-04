@@ -6,6 +6,8 @@ import taichi.walking.seniors.beginners.taichi.onboarding.ui.components.MultiSel
 import taichi.walking.seniors.beginners.taichi.onboarding.ui.components.QuestionScaffold
 import taichi.walking.seniors.beginners.taichi.onboarding.ui.components.SeniorNumberPicker
 import taichi.walking.seniors.beginners.taichi.onboarding.ui.components.SingleSelectQuestion
+import taichi.walking.seniors.beginners.taichi.onboarding.ui.util.LocalOnboardingChrome
+import taichi.walking.seniors.beginners.taichi.onboarding.ui.util.rememberContinueOnSelection
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -36,12 +38,14 @@ fun SingleSelectScreen(
     onSelect: (OnboardingOption) -> Unit,
     onContinue: () -> Unit
 ) {
+    val continueOnSelection = rememberContinueOnSelection(onContinue)
     QuestionScaffold(
         progress = progress,
         title = title,
         subtitle = subtitle.takeIf { it.isNotBlank() },
         onBack = onBack,
-        showContinueButton = false,
+        showContinueButton = !LocalOnboardingChrome.current.hideContinueOnSingleChoice,
+        continueEnabled = selectedId != null,
         onContinue = onContinue
     ) {
         SingleSelectQuestion(
@@ -49,7 +53,7 @@ fun SingleSelectScreen(
             selectedId = selectedId,
             onSelect = { option ->
                 onSelect(option)
-                onContinue()
+                continueOnSelection()
             }
         )
     }
@@ -89,12 +93,14 @@ fun ImageGridScreen(
     onSelect: (OnboardingOption) -> Unit,
     onContinue: () -> Unit
 ) {
+    val continueOnSelection = rememberContinueOnSelection(onContinue)
     QuestionScaffold(
         progress = progress,
         title = title,
         subtitle = subtitle.takeIf { it.isNotBlank() },
         onBack = onBack,
-        showContinueButton = false,
+        showContinueButton = !LocalOnboardingChrome.current.hideContinueOnSingleChoice,
+        continueEnabled = selectedId != null,
         onContinue = onContinue
     ) {
         ImageGridQuestion(
@@ -102,7 +108,7 @@ fun ImageGridScreen(
             selectedId = selectedId,
             onSelect = { option ->
                 onSelect(option)
-                onContinue()
+                continueOnSelection()
             }
         )
     }
