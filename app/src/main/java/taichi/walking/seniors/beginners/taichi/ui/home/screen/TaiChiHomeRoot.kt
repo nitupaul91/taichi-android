@@ -1,6 +1,8 @@
 package taichi.walking.seniors.beginners.taichi.ui.home.screen
 
 import androidx.activity.compose.BackHandler
+import com.mobteq.analytics.logAppEvent
+import androidx.core.os.bundleOf
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -41,12 +43,16 @@ import taichi.walking.seniors.beginners.taichi.ui.home.activity.PaywallLaunchReq
 import taichi.walking.seniors.beginners.taichi.ui.onboarding.screens.PaywallScreen
 import taichi.walking.seniors.beginners.ui.paywall.HomeEntryPaywallViewModel
 
-internal enum class HomeTab(val title: String, val icon: androidx.compose.ui.graphics.vector.ImageVector) {
-    TaiChi("Tai Chi", Icons.Default.AccessibilityNew),
-    Chair("Chair", Icons.Default.EventSeat),
-    Walking("Walking", Icons.Default.DirectionsWalk),
-    Progress("Progress", Icons.Default.ShowChart),
-    Settings("Settings", Icons.Default.Settings)
+internal enum class HomeTab(
+    val title: String,
+    val icon: androidx.compose.ui.graphics.vector.ImageVector,
+    val analyticsName: String
+) {
+    TaiChi("Tai Chi", Icons.Default.AccessibilityNew, "tai_chi"),
+    Chair("Chair", Icons.Default.EventSeat, "chair"),
+    Walking("Walking", Icons.Default.DirectionsWalk, "walking"),
+    Progress("Progress", Icons.Default.ShowChart, "progress"),
+    Settings("Settings", Icons.Default.Settings, "settings")
 }
 
 @Composable
@@ -107,7 +113,20 @@ fun TaiChiHomeRoot(
                     visibleTabs.forEach { tab ->
                         NavigationBarItem(
                             selected = selected == tab,
-                            onClick = { selected = tab },
+                            onClick = {
+                                if (tab != selected) {
+                                    // iOS tab_selected: only real changes, with iOS tab names.
+                                    logAppEvent(
+                                        "tab_selected",
+                                        bundleOf(
+                                            "tab" to tab.analyticsName,
+                                            "tab_index" to visibleTabs.indexOf(tab),
+                                            "previous_tab" to selected.analyticsName
+                                        )
+                                    )
+                                }
+                                selected = tab
+                            },
                             icon = { Icon(tab.icon, contentDescription = tab.title) },
                             label = { Text(tab.title) },
                             colors = NavigationBarItemDefaults.colors(

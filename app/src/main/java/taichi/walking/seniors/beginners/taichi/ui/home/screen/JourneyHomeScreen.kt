@@ -60,6 +60,10 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import taichi.walking.seniors.beginners.R
+import androidx.compose.ui.platform.LocalLifecycleOwner
+import androidx.lifecycle.LifecycleEventObserver
+import androidx.lifecycle.Lifecycle
+import androidx.compose.runtime.DisposableEffect
 import androidx.core.os.bundleOf
 import com.mobteq.analytics.logAppEvent
 import androidx.compose.runtime.rememberCoroutineScope
@@ -152,6 +156,24 @@ private fun PracticeJourneyHomeScreen(
 
     LaunchedEffect(Unit) {
         if (state.workoutPlan == null) viewModel.fetchWorkoutPlan()
+    }
+    LaunchedEffect(Unit) { viewModel.onHomeShown(context) }
+    // iOS counts every return to the app while home is alive towards home_view_count.
+    val homeLifecycleOwner = LocalLifecycleOwner.current
+    DisposableEffect(homeLifecycleOwner) {
+        var wasStopped = false
+        val observer = LifecycleEventObserver { _, event ->
+            when (event) {
+                Lifecycle.Event.ON_STOP -> wasStopped = true
+                Lifecycle.Event.ON_START -> if (wasStopped) {
+                    wasStopped = false
+                    viewModel.onReturnedToForeground(context)
+                }
+                else -> Unit
+            }
+        }
+        homeLifecycleOwner.lifecycle.addObserver(observer)
+        onDispose { homeLifecycleOwner.lifecycle.removeObserver(observer) }
     }
 
     LaunchedEffect(previewDay, preparingDay, workoutDay, completedDay, showPaywall) {
@@ -258,7 +280,13 @@ private fun PracticeJourneyHomeScreen(
                             isCurrent = dayNumber == state.currentDay,
                             isCompleted = dayNumber < state.currentDay,
                             isLast = index == plan.allDays.size - 1,
-                            onTap = { previewDay = day }
+                            onTap = {
+                                logAppEvent(
+                                    "day_card_tap",
+                                    viewModel.homeAnalyticsParams().apply { putInt("day_number", dayNumber) }
+                                )
+                                previewDay = day
+                            }
                         )
                     }
                 }
@@ -282,8 +310,26 @@ private fun PracticeJourneyHomeScreen(
                 previewDay = null
                 beginScope.launch {
                     // A day already on disk skips the preparation screen instead of flashing it.
-                    val ready = WorkoutMediaCache.isDayReady(context, WorkoutMediaCache.mediaUrls(day.exercises))
-                    if (ready) workoutDay = day else preparingDay = day
+                    val urls = WorkoutMediaCache.mediaUrls(day.exercises)
+                    val ready = WorkoutMediaCache.isDayReady(context, urls)
+                    if (ready) {
+                        // iOS logs the skipped preparation so the cached path stays in the funnel.
+                        logAppEvent(
+                            "workout_preparation",
+                            bundleOf(
+                                "day_number" to day.day,
+                                "result" to "cached",
+                                "seconds" to 0,
+                                "file_count" to urls.size,
+                                "failed_count" to 0,
+                                "is_media_cached" to true,
+                                "source" to "home_day_card"
+                            )
+                        )
+                        workoutDay = day
+                    } else {
+                        preparingDay = day
+                    }
                 }
             },
             onOpenPaywall = {
@@ -320,6 +366,7 @@ private fun PracticeJourneyHomeScreen(
             dayData = day,
             practiceKind = practiceKind,
             completionResult = state.completionResult,
+            isPremium = state.isPremium,
             onReturnHome = {
                 completedDay = null
                 viewModel.clearCompletionResult()
@@ -373,6 +420,8 @@ private fun PracticeJourneyHomeScreen(
         )
     }
     if (showPaywall) {
+        // Back closes this paywall, not the home screen.
+        BackHandler { showPaywall = false }
         PaywallScreen(
             onClose = { showPaywall = false },
             onComplete = { showPaywall = false },

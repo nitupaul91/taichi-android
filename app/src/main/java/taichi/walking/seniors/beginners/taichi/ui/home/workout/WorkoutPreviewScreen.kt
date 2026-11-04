@@ -20,6 +20,12 @@ import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import taichi.walking.seniors.beginners.R
+import androidx.activity.compose.BackHandler
+import taichi.walking.seniors.beginners.taichi.ui.video.WorkoutMediaCache
+import com.mobteq.analytics.logAppEvent
+import androidx.core.os.bundleOf
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.CircleShape
@@ -68,6 +74,28 @@ fun WorkoutPreviewScreen(
 ) {
     val requiresPremium = dayNumber > freeDaysCount && !isPremium
     val accessible = dayNumber <= currentDay
+    val context = LocalContext.current
+
+    // iOS workout_preview_view: once per preview presentation.
+    LaunchedEffect(Unit) {
+        val cached = WorkoutMediaCache.isDayReady(context, WorkoutMediaCache.mediaUrls(dayData.exercises))
+        logAppEvent(
+            "workout_preview_view",
+            bundleOf(
+                "day_number" to dayNumber,
+                "is_accessible" to accessible,
+                "requires_premium" to requiresPremium,
+                "exercise_count" to dayData.exercises.size,
+                "is_media_cached" to cached
+            )
+        )
+    }
+    val close = {
+        logAppEvent("workout_preview_close", bundleOf("day_number" to dayNumber))
+        onClose()
+    }
+    // System back returns to the journey like the close button, instead of leaving the app.
+    BackHandler(onBack = close)
     var showCompleteFirstDialog by remember { mutableStateOf(false) }
     Box(
         modifier = Modifier
@@ -103,7 +131,7 @@ fun WorkoutPreviewScreen(
                             .padding(horizontal = 20.dp),
                         horizontalArrangement = Arrangement.SpaceBetween
                     ) {
-                        CircleIcon(icon = Icons.Default.Close, onClick = onClose)
+                        CircleIcon(icon = Icons.Default.Close, onClick = close)
                     }
                 }
             }
@@ -243,9 +271,18 @@ fun WorkoutPreviewScreen(
                     .background(TaiChiGreen)
                     .clickable {
                         when {
-                            requiresPremium -> onOpenPaywall?.invoke()
-                            !accessible -> showCompleteFirstDialog = true
-                            else -> onBegin()
+                            requiresPremium -> {
+                                logBeginOutcome(dayNumber, "paywall")
+                                onOpenPaywall?.invoke()
+                            }
+                            !accessible -> {
+                                logBeginOutcome(dayNumber, "locked")
+                                showCompleteFirstDialog = true
+                            }
+                            else -> {
+                                logBeginOutcome(dayNumber, "started")
+                                onBegin()
+                            }
                         }
                     }
                     .padding(vertical = 18.dp),
@@ -320,4 +357,9 @@ private fun StatBadge(value: String, label: String) {
             textAlign = TextAlign.Center
         )
     }
+}
+
+/** iOS workout_preview_begin: what the bottom button did. */
+private fun logBeginOutcome(dayNumber: Int, outcome: String) {
+    logAppEvent("workout_preview_begin", bundleOf("day_number" to dayNumber, "outcome" to outcome))
 }

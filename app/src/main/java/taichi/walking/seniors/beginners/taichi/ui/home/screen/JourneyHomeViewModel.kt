@@ -1,5 +1,9 @@
 package taichi.walking.seniors.beginners.taichi.ui.home.screen
 
+import android.content.Context
+import android.os.Bundle
+import androidx.core.os.bundleOf
+import com.mobteq.analytics.logAppEvent
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mobteq.billing.model.purchases.local.PurchaseManager
@@ -165,6 +169,40 @@ open class BaseJourneyHomeViewModel(
         }
     }
 
+    /** homeAnalyticsContext on iOS. */
+    fun homeAnalyticsParams(): Bundle = bundleOf(
+        "practice_kind" to practiceKind.storageValue,
+        "is_premium" to _state.value.isPremium
+    )
+
+    /**
+     * iOS home_view: the first time this practice's tab shows in the process. home_view_count is
+     * kept per practice across launches and also counts silent returns from the background.
+     */
+    fun onHomeShown(context: Context) {
+        if (!homeViewTracked.add(practiceKind)) return
+        val count = bumpHomeViewCount(context)
+        val absoluteDay = _state.value.currentDay.coerceAtLeast(1)
+        val cycleLength = _state.value.workoutPlan?.allDays?.size?.takeIf { it > 0 } ?: DEFAULT_CYCLE_LENGTH
+        logAppEvent("home_view", homeAnalyticsParams().apply {
+            putInt("home_view_count", count)
+            putInt("current_day", (absoluteDay - 1) % cycleLength + 1)
+            putInt("cycle", (absoluteDay - 1) / cycleLength + 1)
+        })
+    }
+
+    fun onReturnedToForeground(context: Context) {
+        bumpHomeViewCount(context)
+    }
+
+    private fun bumpHomeViewCount(context: Context): Int {
+        val prefs = context.getSharedPreferences(HOME_ANALYTICS_PREFS, Context.MODE_PRIVATE)
+        val key = "home_view_count_${practiceKind.storageValue}"
+        val count = prefs.getInt(key, 0) + 1
+        prefs.edit().putInt(key, count).apply()
+        return count
+    }
+
     private suspend fun loadWorkoutPlan(intensityOverride: String? = null) {
         if (_state.value.isLoadingPlan) return
 
@@ -178,6 +216,15 @@ open class BaseJourneyHomeViewModel(
             plan.intensity?.let { practiceRepository.setWorkoutIntensity(it) }
             _state.update { it.copy(workoutPlan = plan, isLoadingPlan = false) }
         } catch (throwable: Throwable) {
+            // iOS plan_fetch_failed; Android keeps no plan on disk, so there is never a fallback.
+            logAppEvent(
+                "plan_fetch_failed",
+                bundleOf(
+                    "practice_kind" to practiceKind.storageValue,
+                    "offline_cache_used" to false,
+                    "error" to "${throwable::class.java.simpleName}#${(throwable as? retrofit2.HttpException)?.code() ?: 0}"
+                )
+            )
             _state.update {
                 it.copy(
                     isLoadingPlan = false,
@@ -187,6 +234,11 @@ open class BaseJourneyHomeViewModel(
         }
     }
 }
+
+/** Practice kinds whose home_view was logged in this process (iOS: once per tab instance). */
+private val homeViewTracked: MutableSet<PracticeKind> = java.util.Collections.synchronizedSet(mutableSetOf())
+private const val HOME_ANALYTICS_PREFS = "home_analytics"
+private const val DEFAULT_CYCLE_LENGTH = 30
 
 @HiltViewModel
 class JourneyHomeViewModel @Inject constructor(

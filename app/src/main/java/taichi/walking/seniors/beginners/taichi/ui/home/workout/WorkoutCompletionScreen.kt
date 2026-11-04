@@ -46,6 +46,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import taichi.walking.seniors.beginners.R
+import taichi.walking.seniors.beginners.taichi.ui.progress.data.PracticeTitleService
+import com.mobteq.analytics.logAppEvent
+import androidx.core.os.bundleOf
 import taichi.walking.seniors.beginners.taichi.ui.home.model.WorkoutDayDto
 import taichi.walking.seniors.beginners.taichi.ui.progress.data.PracticeCompletionResult
 import taichi.walking.seniors.beginners.taichi.ui.progress.data.PracticeKind
@@ -69,6 +72,7 @@ fun WorkoutCompletionScreen(
      * post-workout paywall first and call [continueFlow] when it closes.
      */
     beforeReminderPrompt: (continueFlow: () -> Unit) -> Unit = { it() },
+    isPremium: Boolean = false,
     reminderViewModel: PracticeReminderViewModel = hiltViewModel()
 ) {
     val context = LocalContext.current
@@ -96,6 +100,20 @@ fun WorkoutCompletionScreen(
 
     LaunchedEffect(Unit) {
         reminderViewModel.onWorkoutCompletionShown()
+    }
+    // iOS workout_completion_view; progress is recorded before this screen, so no projection.
+    LaunchedEffect(Unit) {
+        logAppEvent(
+            "workout_completion_view",
+            bundleOf(
+                "day_number" to dayNumber,
+                "variant" to "classic",
+                "is_premium" to isPremium,
+                "total_days_practiced" to (completionResult?.totalDaysPracticed ?: 0),
+                "current_streak" to (completionResult?.currentStreak ?: 0),
+                "source" to "home_day_card"
+            )
+        )
     }
 
     // Offers tomorrow's reminder before leaving, unless the flag is off or the user already
@@ -230,7 +248,29 @@ fun WorkoutCompletionScreen(
                 }
 
                 Button(
-                    onClick = { beforeReminderPrompt(finishOrPromptForReminder) },
+                    onClick = {
+                        logAppEvent(
+                            "workout_completion_done_tap",
+                            bundleOf(
+                                "day_number" to dayNumber,
+                                "minutes" to dayData.lengthSeconds / 60,
+                                "calories" to calories,
+                                "exercises_count" to dayData.exercises.size,
+                                "source" to "home_day_card"
+                            )
+                        )
+                        val totalDays = completionResult?.totalDaysPracticed ?: 0
+                        if (PracticeTitleService.shouldUnlockBadge(totalDays)) {
+                            logAppEvent(
+                                "badge_unlocked",
+                                bundleOf(
+                                    "badge_id" to PracticeTitleService.getTitle(totalDays)?.badgeId.orEmpty(),
+                                    "total_days" to totalDays
+                                )
+                            )
+                        }
+                        beforeReminderPrompt(finishOrPromptForReminder)
+                    },
                     modifier = Modifier.weight(1f),
                     shape = RoundedCornerShape(16.dp),
                     colors = ButtonDefaults.buttonColors(
