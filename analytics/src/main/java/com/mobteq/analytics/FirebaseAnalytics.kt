@@ -16,14 +16,14 @@ class FirebaseAnalytics @Inject constructor(
             val param = event.params.get(it)
             Timber.d("AnalyticsEvent logged to Firebase: ${event.name} param: $it - value $param")
         }
-        firebaseAnalytics.logEvent(event.name, event.params)
+        firebaseAnalytics.logEvent(event.name, event.params.forFirebase())
         AnalyticsMirror.mirror(event.name, event.params)
     }
 
     fun logEvent(eventName: String, params: Bundle = bundleOf()) {
         Timber.d("AnalyticsEvent logged to Firebase.\n${eventName}\n${params}")
 
-        firebaseAnalytics.logEvent(eventName, params)
+        firebaseAnalytics.logEvent(eventName, params.forFirebase())
         AnalyticsMirror.mirror(eventName, params)
     }
 
