@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Practice and trial reminders, ported from iOS (PracticeReminderPromptView, PracticeReminderScheduler,
+     LocalNotificationScheduler). English only for now; translations follow in a later pass. -->
+<resources>
+
+    <!-- Post-workout reminder prompt -->
+    <string name="practice_reminder_prompt_title">Same time tomorrow?</string>
+    <!-- %1$s is a localized time of day, e.g. "6:30 PM". -->
+    <string name="practice_reminder_prompt_body">Keep your Tai Chi routine going. We can remind you tomorrow at %1$s.</string>
+    <string name="practice_reminder_prompt_remind_me">Remind Me</string>
+    <string name="practice_reminder_prompt_change_time">Change time</string>
+    <string name="practice_reminder_prompt_not_now">Not now</string>
+
+    <!-- Shown when the user taps Remind Me but notifications are off or the permission was denied. -->
+    <string name="practice_reminder_permission_denied_title">Notifications are turned off</string>
+    <!-- %1$s is the app name as shown in the phone's settings. -->
+    <string name="practice_reminder_permission_denied_message">Turn on notifications for %1$s in Settings and we\'ll be able to remind you.</string>
+    <string name="practice_reminder_permission_open_settings">Open Settings</string>
+
+    <!-- Practice reminder notifications: the next day, then one second chance the day after. -->
+    <string name="notification_practice_reminder_title">Time for your Tai Chi session</string>
+    <string name="notification_practice_reminder_body">You showed up yesterday. A few gentle minutes is all it takes to keep going.</string>
+    <string name="notification_practice_reminder_second_chance_title">Your mat is still waiting</string>
+    <string name="notification_practice_reminder_second_chance_body">It\'s been a couple of days. Even five gentle minutes will get you moving again.</string>
+
+</resources>

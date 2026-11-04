@@ -12,10 +12,12 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import taichi.walking.seniors.beginners.taichi.notifications.reminder.ReminderNotificationTapTracker
 import taichi.walking.seniors.beginners.taichi.onboarding.ui.theme.TaiChiTheme
 import taichi.walking.seniors.beginners.taichi.ui.home.screen.TaiChiHomeRoot
 import taichi.walking.seniors.beginners.ui.paywall.RemotePaywallVariant
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class TaiChiHomeActivity : ComponentActivity() {
@@ -27,12 +29,18 @@ class TaiChiHomeActivity : ComponentActivity() {
 
     private var pendingPaywallRequest by mutableStateOf<PaywallLaunchRequest?>(null)
 
+    @Inject
+    lateinit var reminderNotificationTapTracker: ReminderNotificationTapTracker
+
     override fun onCreate(savedInstanceState: Bundle?) {
         enableEdgeToEdge(
             statusBarStyle = SystemBarStyle.light(Color.TRANSPARENT, Color.TRANSPARENT),
             navigationBarStyle = SystemBarStyle.light(Color.TRANSPARENT, Color.TRANSPARENT)
         )
         super.onCreate(savedInstanceState)
+        if (savedInstanceState == null) {
+            reminderNotificationTapTracker.trackIfFromReminder(intent)
+        }
         pendingPaywallRequest = intent.toPaywallLaunchRequest()
         setContent {
             TaiChiTheme(useDarkTheme = false) {
@@ -51,6 +59,7 @@ class TaiChiHomeActivity : ComponentActivity() {
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
         setIntent(intent)
+        reminderNotificationTapTracker.trackIfFromReminder(intent)
         pendingPaywallRequest = intent.toPaywallLaunchRequest()
     }
 

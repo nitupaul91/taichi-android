@@ -43,9 +43,11 @@ fun buildDefaultNotification(
     title: String,
     subtitle: String,
     pendingIntent: PendingIntent,
-    context: Context
+    context: Context,
+    /** Lets a body longer than one line expand instead of being cut off. */
+    expandable: Boolean = false
 ): Notification {
-    return NotificationCompat.Builder(
+    val builder = NotificationCompat.Builder(
         context,
         NOTIFICATION_CHANNEL_ID
     )
@@ -55,5 +57,10 @@ fun buildDefaultNotification(
         .setContentIntent(pendingIntent)
         .setAutoCancel(true)
         .setPriority(NotificationCompat.PRIORITY_HIGH)
-        .build()
+
+    if (expandable) {
+        builder.setStyle(NotificationCompat.BigTextStyle().bigText(subtitle))
+    }
+
+    return builder.build()
 }

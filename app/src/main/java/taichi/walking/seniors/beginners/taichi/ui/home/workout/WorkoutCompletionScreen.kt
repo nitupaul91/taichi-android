@@ -29,6 +29,11 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
@@ -39,13 +44,18 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import taichi.walking.seniors.beginners.R
 import taichi.walking.seniors.beginners.taichi.ui.home.model.WorkoutDayDto
 import taichi.walking.seniors.beginners.taichi.ui.progress.data.PracticeCompletionResult
 import taichi.walking.seniors.beginners.taichi.ui.progress.data.PracticeKind
+import taichi.walking.seniors.beginners.taichi.ui.reminder.PracticeReminderPromptScreen
+import taichi.walking.seniors.beginners.taichi.ui.reminder.PracticeReminderViewModel
 import taichi.walking.seniors.beginners.util.InAppReviewHelper
 import taichi.walking.seniors.beginners.util.sharePlainText
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import java.time.ZonedDateTime
 
 @Composable
 fun WorkoutCompletionScreen(
@@ -53,9 +63,13 @@ fun WorkoutCompletionScreen(
     dayData: WorkoutDayDto,
     practiceKind: PracticeKind,
     completionResult: PracticeCompletionResult?,
-    onReturnHome: () -> Unit
+    onReturnHome: () -> Unit,
+    reminderViewModel: PracticeReminderViewModel = hiltViewModel()
 ) {
     val context = LocalContext.current
+    val scope = rememberCoroutineScope()
+    // Non-null while the "same time tomorrow?" reminder prompt is shown over this screen.
+    var reminderPromptTime by remember { mutableStateOf<ZonedDateTime?>(null) }
     val activity = context as? ComponentActivity
     val title = completionResult?.title
     val calories = dayData.exercises.sumOf { it.calories }
@@ -72,6 +86,19 @@ fun WorkoutCompletionScreen(
         delay(1_500)
         if (activity != null) {
             InAppReviewHelper.launchIfAvailable(activity)
+        }
+    }
+
+    LaunchedEffect(Unit) {
+        reminderViewModel.onWorkoutCompletionShown()
+    }
+
+    // Offers tomorrow's reminder before leaving, unless the flag is off or the user already
+    // answered the prompt today (iOS WorkoutCompletionView.finishOrPromptForReminder).
+    val finishOrPromptForReminder: () -> Unit = {
+        scope.launch {
+            val promptTime = reminderViewModel.promptTimeIfOffered()
+            if (promptTime != null) reminderPromptTime = promptTime else onReturnHome()
         }
     }
 
@@ -198,7 +225,7 @@ fun WorkoutCompletionScreen(
                 }
 
                 Button(
-                    onClick = onReturnHome,
+                    onClick = finishOrPromptForReminder,
                     modifier = Modifier.weight(1f),
                     shape = RoundedCornerShape(16.dp),
                     colors = ButtonDefaults.buttonColors(
@@ -210,6 +237,14 @@ fun WorkoutCompletionScreen(
                 }
             }
         }
+    }
+
+    reminderPromptTime?.let { promptTime ->
+        PracticeReminderPromptScreen(
+            initialTime = promptTime,
+            onFinish = onReturnHome,
+            viewModel = reminderViewModel
+        )
     }
 }
 
