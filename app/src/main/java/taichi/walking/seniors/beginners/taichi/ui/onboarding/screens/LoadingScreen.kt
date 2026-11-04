@@ -2,7 +2,9 @@ package taichi.walking.seniors.beginners.taichi.ui.onboarding.screens
 
 import taichi.walking.seniors.beginners.R
 import taichi.walking.seniors.beginners.taichi.onboarding.nav.OnboardingRoutes
+import taichi.walking.seniors.beginners.taichi.onboarding.model.OnboardingSocialProof
 import taichi.walking.seniors.beginners.taichi.onboarding.ui.components.QuestionScaffold
+import taichi.walking.seniors.beginners.taichi.onboarding.ui.components.RatingStars
 import taichi.walking.seniors.beginners.taichi.onboarding.ui.util.progressFor
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.FastOutSlowInEasing
@@ -26,7 +28,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Groups
 import androidx.compose.material.icons.filled.SelfImprovement
-import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -117,20 +118,26 @@ fun LoadingScreen(
             )
         }
         Spacer(modifier = Modifier.height(30.dp))
+        // iOS LoadingPlanScreen badges with the real Google Play rating (4e26ec1 on iOS).
         SocialCard(
             icon = {
-                Row(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
-                    repeat(5) {
-                        Icon(Icons.Default.Star, contentDescription = null, tint = Color(0xFFF5A623))
-                    }
-                }
+                RatingStars(
+                    filled = OnboardingSocialProof.filledStars,
+                    starSize = 22.dp,
+                    color = Color(0xFFF5A623),
+                    spacing = 4.dp
+                )
             },
-            text = stringResource(R.string.onboarding_loading_rating)
+            text = stringResource(
+                R.string.onboarding_loading_rating_count,
+                OnboardingSocialProof.formattedPlayRating(),
+                OnboardingSocialProof.PLAY_RATINGS_COUNT
+            )
         )
         Spacer(modifier = Modifier.height(12.dp))
         SocialCard(
             icon = { Icon(Icons.Default.Groups, contentDescription = null, tint = MaterialTheme.colorScheme.primary) },
-            text = stringResource(R.string.onboarding_loading_members)
+            text = stringResource(R.string.onboarding_loading_members_thousands)
         )
     }
 }

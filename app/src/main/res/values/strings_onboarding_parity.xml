@@ -36,4 +36,11 @@
     <string name="onboarding_welcome_minutes_caption">a day</string>
     <!-- %1$s is the Google Play star rating, e.g. 4.1 -->
     <string name="onboarding_welcome_rating_format">%1$s Rating</string>
+
+    <!-- Social proof (iOS SocialProofScreen1 and the plan-loading badges, 4e26ec1) -->
+    <string name="onboarding_social_proof_rating_caption">Google Play rating from verified users</string>
+    <string name="onboarding_social_proof_active_members">Thousands of active members</string>
+    <!-- %1$s is the Google Play star rating (4.1), %2$s the ratings count (200+) -->
+    <string name="onboarding_loading_rating_count">%1$s  •  %2$s Ratings</string>
+    <string name="onboarding_loading_members_thousands">Join thousands of happy members</string>
 </resources>

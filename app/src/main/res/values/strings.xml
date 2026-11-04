@@ -192,7 +192,7 @@
 
     <!-- Social Proof Screen -->
     <string name="onboarding_social_proof_title">Your success story starts here!</string>
-    <string name="onboarding_social_proof_subtitle">Made for people like you.</string>
+    <string name="onboarding_social_proof_subtitle">Made for people like you!</string>
     <string name="onboarding_social_proof_members">12,000+ active members</string>
     <string name="onboarding_social_proof_testimonial_1">"Knees aren\'t great so I can\'t run anymore. This has been a good alternative."</string>
     <string name="onboarding_social_proof_author_1" translatable="false">Paul, 58</string>
