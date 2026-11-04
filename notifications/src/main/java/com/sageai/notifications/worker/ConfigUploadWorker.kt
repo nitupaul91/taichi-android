@@ -1,6 +1,7 @@
 package com.sageai.notifications.worker
 
 import android.content.Context
+import android.os.Build
 import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
@@ -33,12 +34,19 @@ class ConfigUploadWorker @AssistedInject constructor(
             return Result.retry()
         }
 
+        val locale = Locale.getDefault()
         val body = UploadConfigBody(
-            userId = idService.getDeviceID(),
-            region = Locale.getDefault().country.ifBlank { "UN" },
+            // The id every other upload (profile, progress, events) uses; equals the device id
+            // unless it was reassigned.
+            userId = idService.getUserID(),
+            region = locale.country.ifBlank { "UN" },
             fcmToken = fcmToken,
-            deviceLanguage = Locale.getDefault().displayLanguage,
+            deviceLanguage = locale.displayLanguage,
             appVersion = appVersionCode,
+            preferredLanguage = locale.toLanguageTag(),
+            locale = locale.toString(),
+            deviceModel = listOf(Build.MANUFACTURER, Build.MODEL).filter { it.isNotBlank() }.joinToString(" "),
+            deviceOS = "Android ${Build.VERSION.RELEASE}",
         )
         val response = configApi.uploadConfig(body)
 
