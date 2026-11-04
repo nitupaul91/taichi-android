@@ -18,6 +18,7 @@ object PaywallSource {
     const val WORKOUT_PREVIEW = "workout_preview"
     const val SETTINGS = "settings"
     const val POST_WORKOUT = "post_workout"
+    const val PRINTABLE_PLAN = "printable_plan"
     const val DEEP_LINK = "deep_link"
     const val UNKNOWN = "unknown"
 }

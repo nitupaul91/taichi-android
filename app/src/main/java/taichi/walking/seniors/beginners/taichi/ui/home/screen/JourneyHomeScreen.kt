@@ -145,6 +145,7 @@ private fun PracticeJourneyHomeScreen(
     var completedDay by remember { mutableStateOf<WorkoutDayDto?>(null) }
     var showPostWorkoutPaywall by remember { mutableStateOf(false) }
     var showPaywall by remember { mutableStateOf(false) }
+    var paywallSource by remember { mutableStateOf(PaywallSource.WORKOUT_PREVIEW) }
     var showIntensitySheet by remember { mutableStateOf(false) }
 
     LaunchedEffect(Unit) {
@@ -218,7 +219,10 @@ private fun PracticeJourneyHomeScreen(
                         PrintablePlanCard(
                             plan = plan,
                             practiceKind = practiceKind,
-                            onOpenPaywall = { showPaywall = true },
+                            onOpenPaywall = {
+                                paywallSource = PaywallSource.PRINTABLE_PLAN
+                                showPaywall = true
+                            },
                             modifier = Modifier.padding(bottom = 24.dp)
                         )
                     }
@@ -280,7 +284,10 @@ private fun PracticeJourneyHomeScreen(
                     if (ready) workoutDay = day else preparingDay = day
                 }
             },
-            onOpenPaywall = { showPaywall = true }
+            onOpenPaywall = {
+                paywallSource = PaywallSource.WORKOUT_PREVIEW
+                showPaywall = true
+            }
         )
     }
     preparingDay?.let { day ->
@@ -361,7 +368,7 @@ private fun PracticeJourneyHomeScreen(
         PaywallScreen(
             onClose = { showPaywall = false },
             onComplete = { showPaywall = false },
-            source = PaywallSource.WORKOUT_PREVIEW
+            source = paywallSource
         )
     }
     if (state.showRateDialog) {

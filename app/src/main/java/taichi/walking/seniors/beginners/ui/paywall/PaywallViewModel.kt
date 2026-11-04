@@ -190,9 +190,6 @@ class PaywallViewModel @Inject constructor(
         return product
     }
 
-    private fun productById(productId: String): Product? =
-        products.value.firstOrNull { it.product.productId == productId }?.product
-
     private fun subscribeToPurchaseCancellations() {
         viewModelScope.launch {
             purchasesRepository.getPurchaseCancellations().collect { onPurchaseSheetCanceled() }
