@@ -27,6 +27,9 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import taichi.walking.seniors.beginners.R
+import androidx.compose.ui.res.pluralStringResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -64,7 +67,7 @@ fun ProgressTabScreen(viewModel: ProgressViewModel = hiltViewModel()) {
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             Text(
-                text = "Progress",
+                text = stringResource(R.string.progress_title),
                 style = MaterialTheme.typography.headlineMedium,
                 fontWeight = FontWeight.Bold,
                 color = Color(0xFF1A1A1A)
@@ -93,30 +96,30 @@ fun ProgressTabScreen(viewModel: ProgressViewModel = hiltViewModel()) {
             StatCard(
                 icon = Icons.Default.CheckCircle,
                 iconColor = Color(0xFF0BA56B),
-                title = "Days Practiced",
+                title = stringResource(R.string.progress_days_practiced),
                 value = state.totalDaysPracticed.toString(),
-                subtitle = if (state.totalDaysPracticed == 1) "day" else "days"
+                subtitle = pluralStringResource(R.plurals.progress_days_unit, state.totalDaysPracticed)
             )
             StatCard(
                 icon = Icons.Default.LocalFireDepartment,
                 iconColor = Color(0xFFFF9800),
-                title = "Current Streak",
+                title = stringResource(R.string.progress_current_streak),
                 value = state.currentStreak.toString(),
-                subtitle = if (state.currentStreak == 1) "day in a row" else "days in a row"
+                subtitle = pluralStringResource(R.plurals.progress_days_in_a_row, state.currentStreak)
             )
             StatCard(
                 icon = Icons.Default.Schedule,
                 iconColor = Color(0xFF5A9BD5),
-                title = "Total Practice Time",
+                title = stringResource(R.string.progress_total_time),
                 value = state.totalMinutesPracticed.toString(),
-                subtitle = "minutes"
+                subtitle = pluralStringResource(R.plurals.progress_minutes_unit, state.totalMinutesPracticed)
             )
         }
 
-        SectionTitle("This Week")
+        SectionTitle(stringResource(R.string.progress_this_week))
         WeeklyProgressCard(days = state.weeklyProgress)
 
-        SectionTitle("Last 30 Days")
+        SectionTitle(stringResource(R.string.progress_last_30_days))
         MonthlyPracticeCalendar(days = state.monthlyProgress)
 
         EncouragementCard(daysCompleted = state.totalDaysPracticed)
@@ -358,11 +361,11 @@ private fun <T> CalendarRow(
 @Composable
 private fun EncouragementCard(daysCompleted: Int) {
     val message = when {
-        daysCompleted == 0 -> "Start your journey today! Every step counts."
-        daysCompleted < 7 -> "Great start! Keep up the good work."
-        daysCompleted < 14 -> "You're doing amazing! One week down."
-        daysCompleted < 21 -> "Halfway there! Your dedication shows."
-        else -> "Almost done! You're an inspiration."
+        daysCompleted == 0 -> stringResource(R.string.progress_encouragement_0)
+        daysCompleted < 7 -> stringResource(R.string.progress_encouragement_1)
+        daysCompleted < 14 -> stringResource(R.string.progress_encouragement_7)
+        daysCompleted < 21 -> stringResource(R.string.progress_encouragement_14)
+        else -> stringResource(R.string.progress_encouragement_21)
     }
 
     Row(

@@ -315,7 +315,7 @@ fun WorkoutScreen(
                 ) {
                     Icon(
                         Icons.Default.PlayArrow,
-                        contentDescription = "Play",
+                        contentDescription = stringResource(R.string.workout_play),
                         tint = Color.White,
                         modifier = Modifier.size(48.dp)
                     )
@@ -359,7 +359,7 @@ fun WorkoutScreen(
                 }
                 Spacer(modifier = Modifier.weight(1f))
                 Text(
-                    text = "Exercise ${model.currentExerciseIndex + 1}/${dayData.exercises.size}",
+                    text = stringResource(R.string.workout_exercise_counter, model.currentExerciseIndex + 1, dayData.exercises.size),
                     color = Color.White.copy(alpha = 0.85f),
                     style = MaterialTheme.typography.bodyLarge,
                     fontWeight = FontWeight.SemiBold
@@ -392,7 +392,7 @@ fun WorkoutScreen(
 
             if (model.isShowingPreview) {
                 Text(
-                    text = if (model.currentExerciseIndex == 0) "Let's Begin" else "UP NEXT",
+                    text = stringResource(if (model.currentExerciseIndex == 0) R.string.workout_lets_begin else R.string.workout_up_next),
                     color = Color.White,
                     style = MaterialTheme.typography.headlineMedium,
                     fontWeight = FontWeight.Bold,
@@ -512,7 +512,7 @@ private fun PreviewOverlay(
             )
         ) {
             Text(
-                text = "Start",
+                text = stringResource(R.string.workout_start),
                 style = MaterialTheme.typography.titleLarge,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.padding(vertical = 6.dp)

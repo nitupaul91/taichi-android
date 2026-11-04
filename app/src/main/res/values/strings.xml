@@ -342,4 +342,36 @@
     <string name="intensity_moderate">Moderate</string>
     <string name="intensity_challenging">Challenging</string>
     <string name="intensity_intense">Intense</string>
+
+    <!-- Workout player -->
+    <string name="workout_exercise_counter">Exercise %1$d/%2$d</string>
+    <string name="workout_lets_begin">Let\'s Begin</string>
+    <string name="workout_up_next">UP NEXT</string>
+    <string name="workout_start">Start</string>
+    <string name="workout_play">Play</string>
+
+    <!-- Progress tab -->
+    <string name="progress_title">Progress</string>
+    <string name="progress_days_practiced">Days Practiced</string>
+    <plurals name="progress_days_unit">
+        <item quantity="one">day</item>
+        <item quantity="other">days</item>
+    </plurals>
+    <string name="progress_current_streak">Current Streak</string>
+    <plurals name="progress_days_in_a_row">
+        <item quantity="one">day in a row</item>
+        <item quantity="other">days in a row</item>
+    </plurals>
+    <string name="progress_total_time">Total Practice Time</string>
+    <plurals name="progress_minutes_unit">
+        <item quantity="one">minute</item>
+        <item quantity="other">minutes</item>
+    </plurals>
+    <string name="progress_this_week">This Week</string>
+    <string name="progress_last_30_days">Last 30 Days</string>
+    <string name="progress_encouragement_0">Start your journey today! Every step counts.</string>
+    <string name="progress_encouragement_1">Great start! Keep up the good work.</string>
+    <string name="progress_encouragement_7">You\'re doing amazing! One week down.</string>
+    <string name="progress_encouragement_14">Halfway there! Your dedication shows.</string>
+    <string name="progress_encouragement_21">Almost done! You\'re an inspiration.</string>
 </resources>
