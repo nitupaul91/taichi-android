@@ -117,9 +117,14 @@ fun PaywallScreen(
     val isPurchaseInProgress by viewModel.isPurchaseInProgress.collectAsState()
     val isRestoring by viewModel.isRestoring.collectAsState()
     val errorMessage by viewModel.errorMessage.collectAsState()
-    val cachedRemotePaywall by remember(paywallVariant) {
+    val cachedVariantPaywall by remember(paywallVariant) {
         viewModel.observeCachedPaywall(paywallVariant)
     }.collectAsState()
+    val cachedPrimaryPaywall by remember {
+        viewModel.observeCachedPaywall(RemotePaywallVariant.PRIMARY)
+    }.collectAsState()
+    // As on iOS, a variant that is not cached yet falls back to the main web paywall, then native.
+    val cachedRemotePaywall = cachedVariantPaywall ?: cachedPrimaryPaywall
     val purchaseRecovery by viewModel.purchaseRecovery.collectAsState()
     val hasFreeTrial = !selectedProduct?.freeTrial.isNullOrBlank()
     val trialDays = selectedProduct?.freeTrial.orEmpty()

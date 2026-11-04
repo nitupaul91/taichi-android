@@ -39,7 +39,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import taichi.walking.seniors.beginners.taichi.ui.home.activity.PaywallLaunchRequest
 import taichi.walking.seniors.beginners.taichi.ui.onboarding.screens.PaywallScreen
-import taichi.walking.seniors.beginners.ui.paywall.PaywallSource
+import taichi.walking.seniors.beginners.ui.paywall.HomeEntryPaywallViewModel
 
 internal enum class HomeTab(val title: String, val icon: androidx.compose.ui.graphics.vector.ImageVector) {
     TaiChi("Tai Chi", Icons.Default.AccessibilityNew),
@@ -73,6 +73,22 @@ fun TaiChiHomeRoot(
     val dismissActivePaywall = {
         activePaywallRequest = null
         onPaywallRequestConsumed()
+    }
+
+    // Limited-offer paywall on the first home visit, re-entry paywall on later ones (iOS
+    // JourneyHomeView). Never over a workout, another paywall or a notification's paywall.
+    val entryPaywalls: HomeEntryPaywallViewModel = hiltViewModel()
+    entryPaywalls.homeContext = HomeEntryPaywallViewModel.HomeContext(
+        practiceKind = selected.practiceKind?.storageValue,
+        canPresentPaywall = showBottomBar && activePaywallRequest == null && pendingPaywallRequest == null
+    )
+    LaunchedEffect(Unit) {
+        entryPaywalls.onHomeShown()
+        entryPaywalls.paywallRequests.collect { request ->
+            if (activePaywallRequest == null && pendingPaywallRequest == null) {
+                activePaywallRequest = request
+            }
+        }
     }
 
     BackHandler(enabled = activePaywallRequest != null) {
@@ -144,7 +160,7 @@ fun TaiChiHomeRoot(
                 ) {
                     PaywallScreen(
                         paywallVariant = request.variant,
-                        source = PaywallSource.DEEP_LINK,
+                        source = request.paywallSource,
                         sourceDetail = request.source,
                         onClose = dismissActivePaywall,
                         onComplete = dismissActivePaywall
@@ -157,6 +173,14 @@ fun TaiChiHomeRoot(
 
 /** Tabs that host the workout flow, which hides the bottom bar while a workout is running. */
 private val PRACTICE_TABS = setOf(HomeTab.TaiChi, HomeTab.Chair, HomeTab.Walking)
+
+private val HomeTab.practiceKind: PracticeKind?
+    get() = when (this) {
+        HomeTab.TaiChi -> PracticeKind.TAI_CHI
+        HomeTab.Chair -> PracticeKind.CHAIR
+        HomeTab.Walking -> PracticeKind.WALKING
+        HomeTab.Progress, HomeTab.Settings -> null
+    }
 
 /**
  * Tab order follows iOS ContentView: the program picked in onboarding leads, then the other two
