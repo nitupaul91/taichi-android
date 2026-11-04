@@ -4,7 +4,6 @@ import android.os.Bundle
 import androidx.core.os.bundleOf
 import com.mobteq.analytics.FirebaseAnalytics
 import com.mobteq.analytics.FirebaseAnalytics.Companion.PROPERTY_SCREEN_NAME
-import com.mobteq.analytics.TikTokAnalyticsTracker
 import com.mobteq.billing.domain.Product
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -25,7 +24,6 @@ object PaywallSource {
 
 class PaywallAnalyticsTracker @Inject constructor(
     private val firebaseAnalyticsTracker: FirebaseAnalytics,
-    private val tikTokAnalyticsTracker: TikTokAnalyticsTracker,
 ) {
 
     /** Set when a paywall is shown; the view model can outlive one presentation. */
@@ -39,10 +37,6 @@ class PaywallAnalyticsTracker @Inject constructor(
 
     fun trackPaywallView(extraParams: Bundle = bundleOf()) {
         trackEvent(NAME_VIEWED_PAYWALL, extraParams)
-        tikTokAnalyticsTracker.trackCustomEvent(
-            eventName = TIKTOK_EVENT_PAYWALL_VIEW,
-            properties = mapOf(PROPERTY_SCREEN_NAME to VALUE_PAYWALL)
-        )
     }
 
     fun trackSelectProduct(productId: String) {
@@ -60,16 +54,6 @@ class PaywallAnalyticsTracker @Inject constructor(
             name = NAME_CLICKED_MAKE_PURCHASE,
             params = bundleOf(
                 PROPERTY_PRODUCT_ID to productId
-            )
-        )
-        tikTokAnalyticsTracker.trackCustomEvent(
-            eventName = NAME_CLICKED_MAKE_PURCHASE,
-            properties = mapOf(
-                PROPERTY_SCREEN_NAME to VALUE_PAYWALL,
-                PROPERTY_PRODUCT_ID to productId,
-                PROPERTY_PRICE to product?.displayPrice,
-                PROPERTY_HAS_FREE_TRIAL to (product?.freeTrial != null),
-                PROPERTY_FREE_TRIAL_DAYS to product?.freeTrial
             )
         )
     }
@@ -156,12 +140,9 @@ class PaywallAnalyticsTracker @Inject constructor(
 
         private const val PROPERTY_PRODUCT_ID = "product_id"
         private const val PROPERTY_PRICE = "price"
-        private const val PROPERTY_HAS_FREE_TRIAL = "has_free_trial"
-        private const val PROPERTY_FREE_TRIAL_DAYS = "free_trial_days"
         private const val PROPERTY_SOURCE = "source"
         private const val PROPERTY_SOURCE_DETAIL = "source_detail"
 
         private const val VALUE_PAYWALL = "paywall_screen"
-        private const val TIKTOK_EVENT_PAYWALL_VIEW = "paywall_view"
     }
 }

@@ -3,7 +3,6 @@ package taichi.walking.seniors.beginners.taichi.onboarding.analytics
 import android.os.Bundle
 import android.os.SystemClock
 import com.mobteq.analytics.FirebaseAnalytics
-import com.mobteq.analytics.TikTokAnalyticsTracker
 import dagger.hilt.android.scopes.ActivityRetainedScoped
 import taichi.walking.seniors.beginners.taichi.onboarding.nav.OnboardingRoutes
 import javax.inject.Inject
@@ -19,7 +18,6 @@ import javax.inject.Inject
 @ActivityRetainedScoped
 class OnboardingAnalyticsTracker @Inject constructor(
     private val firebaseAnalytics: FirebaseAnalytics,
-    private val tikTokAnalyticsTracker: TikTokAnalyticsTracker,
 ) {
     // Analytics-only bookkeeping; none of this drives the flow.
     var lastTrackedStep: OnboardingRoutes? = null
@@ -107,15 +105,6 @@ class OnboardingAnalyticsTracker @Inject constructor(
             "total_seconds" to totalSeconds,
             "practice_kind" to practiceKind
         )
-    }
-
-    /**
-     * Leaving the onboarding paywall (closed or purchased): TikTok's `onboarding_complete`
-     * conversion. Firebase's `onboarding_completed` is reported on reaching the paywall instead,
-     * by [trackOnboardingCompleted], as on iOS.
-     */
-    fun trackOnboardingComplete() {
-        tikTokAnalyticsTracker.trackCustomEvent("onboarding_complete")
     }
 
     /** `onboarding_plan_loading_done`, when the plan-loading screen hands over. */

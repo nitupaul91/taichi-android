@@ -460,7 +460,6 @@ private fun OnboardingNavHost(
                 onFinished = {
                     scope.launch {
                         viewModel.completeOnboarding()
-                        analyticsTracker.trackOnboardingComplete()
                         onFinished()
                     }
                 }

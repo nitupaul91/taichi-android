@@ -29,7 +29,6 @@ android {
         targetSdk 36
         versionCode 19
         versionName "1.1.0"
-        buildConfigField "String", "TIKTOK_APP_ID", "\"7636413186681405447\""
 
         // Meta app credentials, shared with the iOS app (see its Info.plist).
         // Must be string resources: the manifest merger would parse a bare app id as an int.

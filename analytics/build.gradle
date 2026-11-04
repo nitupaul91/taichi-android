@@ -36,7 +36,6 @@ android {
 dependencies {
 
     implementation 'androidx.core:core-ktx:1.7.0'
-    implementation 'com.github.tiktok:tiktok-business-android-sdk:1.6.1'
 
     /** Meta / Facebook app events */
     implementation 'com.facebook.android:facebook-core:18.0.3'

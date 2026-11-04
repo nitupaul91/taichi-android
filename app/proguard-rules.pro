@@ -20,15 +20,6 @@
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 
--keep class com.tiktok.** { *; }
 -keep class com.android.billingclient.api.** { *; }
 -keep class androidx.lifecycle.** { *; }
 
-# TikTok 1.6.1 still contains its disabled legacy auto-IAP adapter. Billing 9
-# removes these APIs; auto-IAP tracking is disabled in TikTokAnalyticsTracker.
--dontwarn com.android.billingclient.api.QueryPurchaseHistoryParams
--dontwarn com.android.billingclient.api.QueryPurchaseHistoryParams$Builder
--dontwarn com.android.billingclient.api.SkuDetails
--dontwarn com.android.billingclient.api.SkuDetailsParams
--dontwarn com.android.billingclient.api.SkuDetailsParams$Builder
--dontwarn com.android.billingclient.api.SkuDetailsResponseListener

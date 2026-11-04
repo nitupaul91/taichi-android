@@ -13,7 +13,6 @@ import taichi.walking.seniors.beginners.taichi.analytics.AppOpenAnalytics
 import androidx.hilt.work.HiltWorkerFactory
 import androidx.work.Configuration
 import com.mobteq.analytics.FacebookAnalyticsTracker
-import com.mobteq.analytics.TikTokAnalyticsTracker
 import com.mobteq.billing.datastore.DataStorePrefs
 import com.mobteq.billing.domain.repository.PurchasesRepository
 import dagger.hilt.android.HiltAndroidApp
@@ -55,8 +54,6 @@ class StradaApp : Application(), Configuration.Provider {
     @Inject
     lateinit var appLifecycleNotificationObserver: AppLifecycleNotificationObserver
 
-    @Inject
-    lateinit var tikTokAnalyticsTracker: TikTokAnalyticsTracker
 
     @Inject
     lateinit var facebookAnalyticsTracker: FacebookAnalyticsTracker
@@ -107,12 +104,6 @@ class StradaApp : Application(), Configuration.Provider {
                 remotePaywallCache.prefetchAll()
             }
         }
-
-        tikTokAnalyticsTracker.initialize(
-            application = this,
-            sdkAppId = BuildConfig.APPLICATION_ID,
-            tikTokAppId = BuildConfig.TIKTOK_APP_ID
-        )
 
         facebookAnalyticsTracker.initialize(application = this)
 
