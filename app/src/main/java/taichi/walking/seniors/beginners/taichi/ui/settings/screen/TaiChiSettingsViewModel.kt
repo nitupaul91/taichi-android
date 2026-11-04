@@ -21,6 +21,7 @@ import kotlinx.coroutines.withContext
 import taichi.walking.seniors.beginners.taichi.account.AccountDeletionException
 import taichi.walking.seniors.beginners.taichi.account.AccountDeletionService
 import taichi.walking.seniors.beginners.taichi.account.PlaySubscriptionManagement
+import taichi.walking.seniors.beginners.util.AiAssistantRemoteConfig
 import java.util.Locale
 import javax.inject.Inject
 
@@ -30,7 +31,8 @@ class TaiChiSettingsViewModel @Inject constructor(
     private val idService: IDService,
     private val accountDeletionService: AccountDeletionService,
     private val playSubscriptionManagement: PlaySubscriptionManagement,
-    private val analytics: SettingsAnalyticsTracker
+    private val analytics: SettingsAnalyticsTracker,
+    private val remoteConfig: AiAssistantRemoteConfig
 ) : ViewModel() {
 
     val appVersion: String = BuildConfig.VERSION_NAME
@@ -74,6 +76,13 @@ class TaiChiSettingsViewModel @Inject constructor(
         return "mailto:hello@easytaichi.app" +
             "?subject=${Uri.encode(subject)}" +
             "&body=${Uri.encode(body)}"
+    }
+
+    /** Remote flag `show_settings_cancel_subscription_flow`; read each time Settings is shown, as on iOS. */
+    fun isCancellationFlowEnabled(): Boolean = remoteConfig.showSettingsCancelSubscriptionFlow()
+
+    fun onCancelSubscriptionTapped() {
+        analytics.trackSubscriptionCancelTapped()
     }
 
     /** Returns false while a deletion is already running, in which case no confirmation is shown. */

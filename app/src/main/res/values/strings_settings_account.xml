@@ -14,4 +14,35 @@
     <string name="settings_delete_account_failed_title">Couldn\'t delete your account</string>
     <string name="settings_delete_account_failed_message">Please check your connection and try again.</string>
     <string name="settings_account_ok">OK</string>
+
+    <!-- Settings: Cancel Subscription row and the in-app cancellation flow -->
+    <string name="cancel_flow_title">Cancel Subscription</string>
+    <string name="cancel_flow_settings_subtitle">Tell us why before continuing</string>
+    <string name="cancel_flow_reason_title">Why do you want to cancel?</string>
+    <string name="cancel_flow_reason_subtitle">Your answer helps us improve our app.</string>
+    <string name="cancel_flow_keep_subscription">Keep My Subscription</string>
+    <string name="cancel_flow_cancel_anyway">I want to cancel anyway</string>
+    <string name="cancel_flow_reason_too_expensive">Too expensive</string>
+    <string name="cancel_flow_reason_exercises_too_hard">Exercises are too hard</string>
+    <string name="cancel_flow_reason_exercises_too_easy">Exercises are too easy</string>
+    <string name="cancel_flow_reason_other">Something else</string>
+    <string name="cancel_flow_easier_offer_title">Would gentler exercises help?</string>
+    <string name="cancel_flow_easier_offer_subtitle">We can set your sessions to the gentlest pace. You keep everything you\'ve already done.</string>
+    <string name="cancel_flow_easier_accept">I want to try easier exercises</string>
+    <string name="cancel_flow_easier_confirmation_title">Your sessions are now gentler</string>
+    <string name="cancel_flow_easier_confirmation_body">We\'ve set the gentlest pace for you. Your next session will be easier.</string>
+    <string name="cancel_flow_harder_offer_title">Want more of a challenge?</string>
+    <string name="cancel_flow_harder_offer_subtitle">We can set your sessions to the most demanding pace. You keep everything you\'ve already done.</string>
+    <string name="cancel_flow_harder_accept">Try harder exercises</string>
+    <string name="cancel_flow_harder_confirmation_title">Your sessions are now more challenging</string>
+    <string name="cancel_flow_harder_confirmation_body">We\'ve set the most demanding pace for you. Your next session will push you further.</string>
+    <string name="cancel_flow_ready_title">Ready to cancel?</string>
+    <string name="cancel_flow_ready_subtitle">We\'ll take you to Google Play\'s subscription page. Your Premium access stays active until the end of the period you\'ve already paid for.</string>
+    <string name="cancel_flow_feedback_title">What went wrong?</string>
+    <string name="cancel_flow_feedback_subtitle">Tell us in a few words if you\'d like. This is optional.</string>
+    <string name="cancel_flow_applying">Adjusting your program</string>
+    <string name="cancel_flow_play_fallback_title">Couldn\'t open cancellation options</string>
+    <!-- %1$s is the support email address. -->
+    <string name="cancel_flow_play_fallback_message">Please contact %1$s and we\'ll help you cancel your subscription.</string>
+    <string name="cancel_flow_copy_support_email">Copy Support Email</string>
 </resources>

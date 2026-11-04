@@ -1,6 +1,9 @@
 package taichi.walking.seniors.beginners.taichi.ui.settings.screen
 
+import android.content.Context
+import android.content.ContextWrapper
 import android.content.Intent
+import androidx.activity.ComponentActivity
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -14,6 +17,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Cancel
 import androidx.compose.material.icons.filled.ChevronRight
 import androidx.compose.material.icons.filled.DeleteOutline
 import androidx.compose.material.icons.filled.Description
@@ -53,8 +57,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.foundation.verticalScroll
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.ViewModelProvider
 import taichi.walking.seniors.beginners.MainActivity
 import taichi.walking.seniors.beginners.R
+import taichi.walking.seniors.beginners.taichi.ui.home.screen.JourneyHomeViewModel
+import taichi.walking.seniors.beginners.taichi.ui.home.screen.WalkingHomeViewModel
+import taichi.walking.seniors.beginners.taichi.ui.settings.cancellation.CancellationFlowScreen
+import taichi.walking.seniors.beginners.taichi.ui.settings.cancellation.CancellationFlowViewModel
 import taichi.walking.seniors.beginners.taichi.ui.onboarding.screens.PaywallScreen
 import taichi.walking.seniors.beginners.ui.rateapp.openPlayStore
 import taichi.walking.seniors.beginners.util.sharePlainText
@@ -62,6 +71,7 @@ import taichi.walking.seniors.beginners.util.sharePlainText
 @Composable
 fun TaiChiSettingsScreen(
     viewModel: TaiChiSettingsViewModel = hiltViewModel(),
+    cancellationViewModel: CancellationFlowViewModel = hiltViewModel(),
     onBottomBarVisibilityChange: (Boolean) -> Unit = {}
 ) {
     val uriHandler = LocalUriHandler.current
@@ -71,9 +81,23 @@ fun TaiChiSettingsScreen(
     val isDeletingAccount by viewModel.isDeletingAccount.collectAsState()
     val showDeleteAccountFailed by viewModel.showDeleteAccountFailed.collectAsState()
     var showDeleteAccountConfirmation by remember { mutableStateOf(false) }
+    val cancellationFlowEnabled = remember { viewModel.isCancellationFlowEnabled() }
+    var showCancellationFlow by remember { mutableStateOf(false) }
+    val cancellationState by cancellationViewModel.state.collectAsState()
 
-    LaunchedEffect(showPaywall) {
-        onBottomBarVisibilityChange(!showPaywall)
+    LaunchedEffect(showPaywall, showCancellationFlow) {
+        onBottomBarVisibilityChange(!showPaywall && !showCancellationFlow)
+    }
+
+    LaunchedEffect(cancellationState.isFinished) {
+        if (cancellationState.isFinished) showCancellationFlow = false
+    }
+
+    LaunchedEffect(cancellationState.plansNeedRefresh) {
+        if (cancellationState.plansNeedRefresh) {
+            context.findComponentActivity()?.let(::reloadPracticePlans)
+            cancellationViewModel.onPlansRefreshed()
+        }
     }
 
     LaunchedEffect(viewModel) {
@@ -123,6 +147,21 @@ fun TaiChiSettingsScreen(
                 showChevron = !isPremium,
                 onClick = { if (!isPremium) showPaywall = true }
             )
+            if (isPremium && cancellationFlowEnabled) {
+                DividerRow()
+                SettingsRow(
+                    icon = Icons.Default.Cancel,
+                    iconColor = DestructiveRed,
+                    iconBackground = Color(0xFFF8E4E4),
+                    title = stringResource(R.string.cancel_flow_title),
+                    subtitle = stringResource(R.string.cancel_flow_settings_subtitle),
+                    onClick = {
+                        viewModel.onCancelSubscriptionTapped()
+                        cancellationViewModel.start()
+                        showCancellationFlow = true
+                    }
+                )
+            }
         }
 
         SectionLabel("COMMUNITY")
@@ -234,6 +273,10 @@ fun TaiChiSettingsScreen(
         )
     }
 
+    if (showCancellationFlow) {
+        CancellationFlowScreen(viewModel = cancellationViewModel)
+    }
+
     if (showPaywall) {
         PaywallScreen(
             onClose = { showPaywall = false },
@@ -296,6 +339,23 @@ private fun DeleteAccountDialog(
             }
         }
     )
+}
+
+/**
+ * The home tabs keep their plan in activity-scoped view models and only fetch when they have none,
+ * so after the cancellation flow changes the workout intensity they are asked to reload; the server
+ * already holds the regenerated plans, so this is a cache hit.
+ */
+private fun reloadPracticePlans(activity: ComponentActivity) {
+    val viewModels = ViewModelProvider(activity)
+    viewModels[JourneyHomeViewModel::class.java].fetchWorkoutPlan()
+    viewModels[WalkingHomeViewModel::class.java].fetchWorkoutPlan()
+}
+
+private tailrec fun Context.findComponentActivity(): ComponentActivity? = when (this) {
+    is ComponentActivity -> this
+    is ContextWrapper -> baseContext.findComponentActivity()
+    else -> null
 }
 
 private val DestructiveRed = Color(0xFFC84C4C)

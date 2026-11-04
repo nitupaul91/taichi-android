@@ -5,6 +5,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
+import taichi.walking.seniors.beginners.taichi.ui.settings.cancellation.CancellationFlowApi
 import javax.inject.Singleton
 
 @InstallIn(SingletonComponent::class)
@@ -14,4 +15,9 @@ object AccountModule {
     @Provides
     @Singleton
     fun provideAccountApi(retrofit: Retrofit): AccountApi = retrofit.create(AccountApi::class.java)
+
+    @Provides
+    @Singleton
+    fun provideCancellationFlowApi(retrofit: Retrofit): CancellationFlowApi =
+        retrofit.create(CancellationFlowApi::class.java)
 }
