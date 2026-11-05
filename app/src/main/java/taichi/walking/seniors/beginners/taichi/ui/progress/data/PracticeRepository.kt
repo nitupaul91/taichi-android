@@ -6,6 +6,7 @@ import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
+import androidx.annotation.VisibleForTesting
 import com.google.gson.Gson
 import taichi.walking.seniors.beginners.taichi.program.ProgramPreference
 import com.google.gson.annotations.SerializedName
@@ -42,14 +43,16 @@ class PracticeRepository @Inject constructor(
     }
 
     // Persisted practice history via Gson; @SerializedName keeps the stored keys stable across
-    // releases, where R8 would otherwise rename fields differently per build and silently drop
-    // the user's local history on update.
-    private data class StoredPracticeDaySummary(
-        @SerializedName("date") val date: String,
-        @SerializedName("taiChiMinutes") val taiChiMinutes: Int,
-        @SerializedName("walkingMinutes") val walkingMinutes: Int,
+    // releases. Release builds up to 1.0.9 had no annotations, so R8 renamed the fields and the
+    // stored JSON uses a/b/c/d (1.0.9 mapping.txt). The alternates read that data, and the next
+    // save rewrites it under the real names, so updating users keep their practice history.
+    @VisibleForTesting
+    internal data class StoredPracticeDaySummary(
+        @SerializedName(value = "date", alternate = ["a"]) val date: String,
+        @SerializedName(value = "taiChiMinutes", alternate = ["b"]) val taiChiMinutes: Int,
+        @SerializedName(value = "walkingMinutes", alternate = ["c"]) val walkingMinutes: Int,
         // Gson leaves this at 0 for summaries written before the seated program shipped.
-        @SerializedName("chairMinutes") val chairMinutes: Int = 0
+        @SerializedName(value = "chairMinutes", alternate = ["d"]) val chairMinutes: Int = 0
     )
 
     val practiceSnapshot: Flow<PracticeSnapshot> = context.practiceDataStore.data.map(::buildSnapshot)
