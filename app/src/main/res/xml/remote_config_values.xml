@@ -164,8 +164,4 @@
         <key>show_workout_intensity_widget</key>
         <value>false</value>
     </entry>
-    <entry>
-        <key>dynamic_type_enabled</key>
-        <value>false</value>
-    </entry>
 </defaults>

@@ -22,10 +22,7 @@ class RemoteConfig @Inject constructor(
     fun allValues(): Map<String, String> = firebaseRemoteConfig.all.mapValues { it.value.asString() }
 
     companion object {
-        /** For code that runs before injection is available (an activity's attachBaseContext). */
-        fun peekBoolean(key: String): Boolean =
-            runCatching { FirebaseRemoteConfig.getInstance().getBoolean(key) }.getOrDefault(false)
-
+        /** For code that runs without injection (WorkoutSessionAnalytics reads free_days_count). */
         fun peekLong(key: String): Long =
             runCatching { FirebaseRemoteConfig.getInstance().getLong(key) }.getOrDefault(0L)
     }

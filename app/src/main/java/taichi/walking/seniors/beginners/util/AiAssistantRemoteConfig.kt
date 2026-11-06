@@ -106,9 +106,6 @@ class AiAssistantRemoteConfig @Inject constructor(
     fun showPostWorkoutReminderPrompt(): Boolean = remoteConfig.getBoolean("show_post_workout_reminder_prompt")
     fun showWorkoutIntensityWidget(): Boolean = remoteConfig.getBoolean("show_workout_intensity_widget")
 
-    /** Larger text: follow the phone's font size (capped) instead of the app's fixed sizes. */
-    fun dynamicTypeEnabled(): Boolean = remoteConfig.getBoolean("dynamic_type_enabled")
-
     companion object {
         private val LEGACY_TEMPLATE_KEYS = setOf(
             "showOnboardingVariant", "adsCapTimeInMillis", "chatPromptCategories", "showPaywallWithRewardedAds",
