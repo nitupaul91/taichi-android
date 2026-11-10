@@ -25,7 +25,7 @@
     <string name="trial_timeline_cancel_question">Comment annuler mon abonnement ?</string>
     <string name="trial_timeline_cancel_answer">Dans le Google Play Store, appuyez sur votre photo de profil, puis sur Paiements et abonnements, puis sur Abonnements. Quelques gestes suffisent.</string>
     <string name="trial_timeline_not_now">Pas maintenant</string>
-    <string name="paywall_rating_badge_title">Note de %1$s sur Google Play</string>
+    <string name="paywall_rating_badge_title">Noté %1$s sur l\'App Store et Google Play</string>
     <string name="paywall_rating_badge_count">%1$s+ avis</string>
     <string name="paywall_billed_annually">%1$s par an</string>
     <string name="paywall_billed_monthly">%1$s par mois</string>

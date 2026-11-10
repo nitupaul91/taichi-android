@@ -21,7 +21,6 @@
     <string name="notification_conversion_title">Reducerea de 50%% este încă activă</string>
     <string name="notification_conversion_body">Am salvat planul dumneavoastră. Începeți chiar astăzi, cu o reducere specială, valabilă pentru o perioadă limitată.</string>
     <string name="email_error_toast">Nu aveți instalată nicio aplicație de e-mail.</string>
-    <string name="onboarding_welcome_rating_value">4.9</string>
     <string name="onboarding_welcome_legal">Continuând, sunteți de acord cu Termenii și condițiile noastre (inclusiv condițiile abonamentului și ofertele de preț) și confirmați că ați luat la cunoștință Politica de confidențialitate și Politica de rambursare. Tai Chi nu oferă sfaturi medicale. Pentru orice problemă de sănătate, consultați întotdeauna un cadru medical.</string>
     <string name="onboarding_age_title">Ce vârstă să folosim pentru planul dumneavoastră?</string>
     <string name="onboarding_age_subtitle">Ne ajută să stabilim ritmul și progresia potrivite pentru sesiunile dumneavoastră.</string>

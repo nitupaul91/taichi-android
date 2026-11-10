@@ -25,7 +25,7 @@
     <string name="trial_timeline_cancel_question">Come posso annullare l\'abbonamento?</string>
     <string name="trial_timeline_cancel_answer">Nel Google Play Store, tocchi la Sua immagine del profilo, poi Pagamenti e abbonamenti e infine Abbonamenti. Bastano pochi tocchi.</string>
     <string name="trial_timeline_not_now">Non ora</string>
-    <string name="paywall_rating_badge_title">Valutazione di %1$s su Google Play</string>
+    <string name="paywall_rating_badge_title">Valutata %1$s su App Store e Google Play</string>
     <string name="paywall_rating_badge_count">%1$s+ valutazioni</string>
     <string name="paywall_billed_annually">%1$s all\'anno</string>
     <string name="paywall_billed_monthly">%1$s al mese</string>

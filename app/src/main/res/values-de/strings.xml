@@ -21,7 +21,6 @@
     <string name="notification_conversion_title">Ihr Rabatt von 50 %% gilt noch</string>
     <string name="notification_conversion_body">Wir haben Ihren Plan gespeichert. Starten Sie noch heute mit einem Sonderrabatt, der nur für kurze Zeit gilt.</string>
     <string name="email_error_toast">Auf Ihrem Gerät ist keine E-Mail-App installiert.</string>
-    <string name="onboarding_welcome_rating_value">4.9</string>
     <string name="onboarding_welcome_legal">Indem Sie fortfahren, stimmen Sie unseren Nutzungsbedingungen (einschließlich der Abo-Bedingungen und Preisangebote) zu und bestätigen, dass Sie unsere Datenschutzerklärung und unsere Rückerstattungsrichtlinie zur Kenntnis genommen haben. Tai Chi bietet keine medizinische Beratung. Wenden Sie sich bei gesundheitlichen Fragen immer an medizinisches Fachpersonal.</string>
     <string name="onboarding_age_title">Welches Alter sollen wir für Ihren Plan verwenden?</string>
     <string name="onboarding_age_subtitle">So können wir das passende Tempo und die richtige Steigerung für Ihre Einheiten festlegen.</string>

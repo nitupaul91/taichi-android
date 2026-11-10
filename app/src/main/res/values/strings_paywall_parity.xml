@@ -34,9 +34,9 @@
     <string name="trial_timeline_cancel_answer">In the Google Play Store, tap your profile picture, then Payments &amp; subscriptions, then Subscriptions. It only takes a few taps.</string>
     <string name="trial_timeline_not_now">Not now</string>
     <!-- Native fallback paywall (iOS PaywallView, matching the HTML paywall) -->
-    <!-- %1$s is the app's Google Play rating, such as "4.9". -->
-    <string name="paywall_rating_badge_title">Rated %1$s on Google Play</string>
-    <!-- %1$s is a ratings count, such as "1,200". -->
+    <!-- %1$s is the average rating over both stores, such as "4.7". -->
+    <string name="paywall_rating_badge_title">Rated %1$s on the App Store and Google Play</string>
+    <!-- %1$s is the ratings count over both stores, such as "4,600". -->
     <string name="paywall_rating_badge_count">%1$s+ ratings</string>
     <!-- %1$s is the localized price that is charged. -->
     <string name="paywall_billed_annually">%1$s billed annually</string>

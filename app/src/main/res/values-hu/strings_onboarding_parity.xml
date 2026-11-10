@@ -21,7 +21,7 @@
     <string name="onboarding_welcome_minutes_value">10 perc</string>
     <string name="onboarding_welcome_minutes_caption">naponta</string>
     <string name="onboarding_welcome_rating_format">Értékelés: %1$s</string>
-    <string name="onboarding_social_proof_rating_caption">Ellenőrzött felhasználók értékelése a Google Play áruházban</string>
+    <string name="onboarding_social_proof_rating_caption">Átlagos értékelés az App Store-ban és a Google Playen</string>
     <string name="onboarding_social_proof_active_members">Több ezer aktív tag</string>
     <string name="onboarding_loading_rating_count">%1$s  •  %2$s értékelés</string>
     <string name="onboarding_loading_members_thousands">Csatlakozzon több ezer elégedett taghoz</string>

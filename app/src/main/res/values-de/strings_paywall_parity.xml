@@ -25,7 +25,7 @@
     <string name="trial_timeline_cancel_question">Wie kündige ich mein Abo?</string>
     <string name="trial_timeline_cancel_answer">Tippen Sie im Google Play Store auf Ihr Profilbild, dann auf „Zahlungen &amp; Abos“ und danach auf „Abos“. Das geht mit wenigen Fingertipps.</string>
     <string name="trial_timeline_not_now">Nicht jetzt</string>
-    <string name="paywall_rating_badge_title">Mit %1$s bei Google Play bewertet</string>
+    <string name="paywall_rating_badge_title">Mit %1$s bewertet im App Store und bei Google Play</string>
     <string name="paywall_rating_badge_count">%1$s+ Bewertungen</string>
     <string name="paywall_billed_annually">%1$s pro Jahr</string>
     <string name="paywall_billed_monthly">%1$s pro Monat</string>

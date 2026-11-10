@@ -73,6 +73,7 @@ import androidx.compose.ui.window.DialogProperties
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.mobteq.billing.domain.Product
 import taichi.walking.seniors.beginners.R
+import taichi.walking.seniors.beginners.taichi.onboarding.model.OnboardingSocialProof
 import taichi.walking.seniors.beginners.taichi.onboarding.nav.OnboardingRoutes
 import taichi.walking.seniors.beginners.taichi.onboarding.state.OnboardingState
 import taichi.walking.seniors.beginners.taichi.onboarding.ui.components.PrimaryButton
@@ -420,12 +421,6 @@ private val PaywallCardBorder = Color(0xFFE8EEF0)
 private val PaywallRadioBorder = Color(0xFFD9E5DE)
 private val PaywallBestValue = Color(0xFFF5A623)
 
-/**
- * Number of Google Play ratings for the badge's second line ("4,400+ ratings" on iOS). Unset: there
- * is no verified Play Console figure in the project, so only the rating itself is shown. Set it to
- * the Play Console count (for example "1,200") to show the line.
- */
-private val PLAY_STORE_RATINGS_COUNT: String? = null
 
 /** The plan's billing period, from Play's subscription period (product ids as a fallback). */
 private enum class PlanPeriod { YEAR, MONTH, WEEK }
@@ -637,14 +632,14 @@ private fun RatingBadge() {
             Text(
                 text = stringResource(
                     R.string.paywall_rating_badge_title,
-                    stringResource(R.string.onboarding_welcome_rating_value)
+                    OnboardingSocialProof.formattedRating()
                 ).uppercase(),
                 fontSize = 13.sp,
                 fontWeight = FontWeight.ExtraBold,
                 letterSpacing = 0.6.sp,
                 color = Color(0xFF4A3A0E)
             )
-            PLAY_STORE_RATINGS_COUNT?.let { count ->
+            OnboardingSocialProof.formattedRatingsCount().let { count ->
                 Text(
                     text = stringResource(R.string.paywall_rating_badge_count, count).uppercase(),
                     fontSize = 11.sp,

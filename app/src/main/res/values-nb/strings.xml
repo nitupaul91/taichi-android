@@ -21,7 +21,6 @@
     <string name="notification_conversion_title">Rabatten din på 50 %% gjelder fortsatt</string>
     <string name="notification_conversion_body">Vi har lagret planen din. Kom i gang i dag med en tidsbegrenset spesialrabatt.</string>
     <string name="email_error_toast">Du har ingen e-postapp installert.</string>
-    <string name="onboarding_welcome_rating_value">4.9</string>
     <string name="onboarding_welcome_legal">Ved å fortsette godtar du våre Vilkår for bruk (inkludert abonnementsvilkår og pristilbud) og bekrefter at du har lest vår Personvernerklæring og våre Refusjonsvilkår. Tai Chi gir ikke medisinske råd. Kontakt alltid helsepersonell hvis du er bekymret for helsen din.</string>
     <string name="onboarding_age_title">Hvilken alder skal vi bruke i planen din?</string>
     <string name="onboarding_age_subtitle">Dette hjelper oss å finne riktig tempo og progresjon for øktene dine.</string>

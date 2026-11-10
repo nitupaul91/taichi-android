@@ -21,7 +21,7 @@
     <string name="onboarding_welcome_minutes_value">10 min</string>
     <string name="onboarding_welcome_minutes_caption">al día</string>
     <string name="onboarding_welcome_rating_format">Valoración %1$s</string>
-    <string name="onboarding_social_proof_rating_caption">Valoración en Google Play de usuarios verificados</string>
+    <string name="onboarding_social_proof_rating_caption">Valoración media en App Store y Google Play</string>
     <string name="onboarding_social_proof_active_members">Miles de miembros activos</string>
     <string name="onboarding_loading_rating_count">%1$s  •  %2$s valoraciones</string>
     <string name="onboarding_loading_members_thousands">Únete a miles de miembros satisfechos</string>

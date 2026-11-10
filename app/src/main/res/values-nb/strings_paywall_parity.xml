@@ -25,7 +25,7 @@
     <string name="trial_timeline_cancel_question">Hvordan sier jeg opp abonnementet?</string>
     <string name="trial_timeline_cancel_answer">I Google Play Butikk trykker du på profilbildet ditt, deretter på «Betalinger og abonnementer» og til slutt på «Abonnementer». Det tar bare noen få trykk.</string>
     <string name="trial_timeline_not_now">Ikke nå</string>
-    <string name="paywall_rating_badge_title">Vurdert %1$s på Google Play</string>
+    <string name="paywall_rating_badge_title">Vurdert til %1$s i App Store og Google Play</string>
     <string name="paywall_rating_badge_count">Over %1$s vurderinger</string>
     <string name="paywall_billed_annually">%1$s per år</string>
     <string name="paywall_billed_monthly">%1$s per måned</string>

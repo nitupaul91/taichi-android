@@ -25,7 +25,6 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Shop
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
@@ -346,7 +345,7 @@ private fun WelcomeStat(value: String, caption: String, m: WelcomeMetrics, modif
     }
 }
 
-/** iOS shows the App Store rating here; Android shows the Google Play one (see OnboardingSocialProof). */
+/** iOS shows the App Store rating here; Android shows both stores combined (see OnboardingSocialProof). */
 @Composable
 private fun WelcomeRating(m: WelcomeMetrics, modifier: Modifier = Modifier) {
     val smallText = max(m.y(22f), 11.dp)
@@ -365,21 +364,15 @@ private fun WelcomeRating(m: WelcomeMetrics, modifier: Modifier = Modifier) {
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(m.x(6f))
             ) {
-                Icon(
-                    imageVector = Icons.Default.Shop,
-                    contentDescription = null,
-                    tint = WelcomePalette.caption,
-                    modifier = Modifier.size(smallText)
-                )
+                // Two store names in a narrow column: wraps to a second line instead of clipping.
                 Text(
-                    text = stringResource(R.string.onboarding_discovery_google_play),
-                    style = TextStyle(fontSize = smallText.fixedSp(), color = WelcomePalette.caption),
-                    maxLines = 1,
-                    softWrap = false
+                    text = stringResource(R.string.onboarding_rating_stores),
+                    style = TextStyle(fontSize = smallText.fixedSp(), color = WelcomePalette.caption, textAlign = TextAlign.Center),
+                    maxLines = 2
                 )
             }
             Text(
-                text = stringResource(R.string.onboarding_welcome_rating_format, OnboardingSocialProof.formattedPlayRating()),
+                text = stringResource(R.string.onboarding_welcome_rating_format, OnboardingSocialProof.formattedRating()),
                 style = TextStyle(
                     fontFamily = FontFamily.Serif,
                     fontWeight = SerifMedium,

@@ -25,7 +25,7 @@
     <string name="trial_timeline_cancel_question">¿Cómo cancelo mi suscripción?</string>
     <string name="trial_timeline_cancel_answer">En Google Play Store, toque su foto de perfil, luego Pagos y suscripciones y después Suscripciones. Solo hacen falta unos pocos toques.</string>
     <string name="trial_timeline_not_now">Ahora no</string>
-    <string name="paywall_rating_badge_title">Valoración de %1$s en Google Play</string>
+    <string name="paywall_rating_badge_title">Valorada con %1$s en App Store y Google Play</string>
     <string name="paywall_rating_badge_count">%1$s+ valoraciones</string>
     <string name="paywall_billed_annually">%1$s al año</string>
     <string name="paywall_billed_monthly">%1$s al mes</string>

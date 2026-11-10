@@ -21,7 +21,7 @@
     <string name="onboarding_welcome_minutes_value">10 min</string>
     <string name="onboarding_welcome_minutes_caption">pe zi</string>
     <string name="onboarding_welcome_rating_format">Notă %1$s</string>
-    <string name="onboarding_social_proof_rating_caption">Notă pe Google Play de la utilizatori verificați</string>
+    <string name="onboarding_social_proof_rating_caption">Evaluare medie în App Store și Google Play</string>
     <string name="onboarding_social_proof_active_members">Mii de membri activi</string>
     <string name="onboarding_loading_rating_count">%1$s  •  %2$s evaluări</string>
     <string name="onboarding_loading_members_thousands">Alătură-te miilor de membri mulțumiți</string>

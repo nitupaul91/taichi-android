@@ -25,7 +25,7 @@
     <string name="trial_timeline_cancel_question">Hur avslutar jag min prenumeration?</string>
     <string name="trial_timeline_cancel_answer">I Google Play Butik trycker du på din profilbild, sedan på ”Betalningar och prenumerationer” och sist på ”Prenumerationer”. Det tar bara några tryck.</string>
     <string name="trial_timeline_not_now">Inte nu</string>
-    <string name="paywall_rating_badge_title">Betyg %1$s på Google Play</string>
+    <string name="paywall_rating_badge_title">Betyg %1$s i App Store och Google Play</string>
     <string name="paywall_rating_badge_count">Över %1$s betyg</string>
     <string name="paywall_billed_annually">%1$s per år</string>
     <string name="paywall_billed_monthly">%1$s per månad</string>

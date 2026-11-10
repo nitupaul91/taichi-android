@@ -25,7 +25,7 @@
     <string name="trial_timeline_cancel_question">Como cancelo minha assinatura?</string>
     <string name="trial_timeline_cancel_answer">Na Google Play Store, toque na sua foto do perfil, depois em Pagamentos e assinaturas e, por fim, em Assinaturas. São só alguns toques.</string>
     <string name="trial_timeline_not_now">Agora não</string>
-    <string name="paywall_rating_badge_title">Nota %1$s no Google Play</string>
+    <string name="paywall_rating_badge_title">Nota %1$s na App Store e no Google Play</string>
     <string name="paywall_rating_badge_count">%1$s+ avaliações</string>
     <string name="paywall_billed_annually">%1$s por ano</string>
     <string name="paywall_billed_monthly">%1$s por mês</string>

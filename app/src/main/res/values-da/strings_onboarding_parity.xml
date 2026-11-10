@@ -21,7 +21,7 @@
     <string name="onboarding_welcome_minutes_value">10 min</string>
     <string name="onboarding_welcome_minutes_caption">om dagen</string>
     <string name="onboarding_welcome_rating_format">Bedømmelse: %1$s</string>
-    <string name="onboarding_social_proof_rating_caption">Google Play-bedømmelse fra bekræftede brugere</string>
+    <string name="onboarding_social_proof_rating_caption">Gennemsnitlig bedømmelse i App Store og Google Play</string>
     <string name="onboarding_social_proof_active_members">Tusindvis af aktive medlemmer</string>
     <string name="onboarding_loading_rating_count">%1$s  •  %2$s vurderinger</string>
     <string name="onboarding_loading_members_thousands">Bliv en del af tusindvis af glade medlemmer</string>

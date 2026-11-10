@@ -21,7 +21,6 @@
     <string name="notification_conversion_title">Seu desconto de 50%% ainda está ativo</string>
     <string name="notification_conversion_body">Salvamos seu plano. Comece hoje com um desconto especial por tempo limitado.</string>
     <string name="email_error_toast">Você não tem nenhum app de e-mail instalado.</string>
-    <string name="onboarding_welcome_rating_value">4.9</string>
     <string name="onboarding_welcome_legal">Ao continuar, você concorda com nossos Termos de Serviço (incluindo os termos de assinatura e as ofertas de preço) e declara estar ciente da nossa Política de Privacidade e da nossa Política de Reembolso. O Tai Chi não oferece orientação médica. Em caso de qualquer dúvida sobre sua saúde, consulte sempre um profissional de saúde.</string>
     <string name="onboarding_age_title">Que idade devemos usar para o seu plano?</string>
     <string name="onboarding_age_subtitle">Isso nos ajuda a definir o ritmo e a progressão certos para suas sessões.</string>

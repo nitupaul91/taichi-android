@@ -25,7 +25,7 @@
     <string name="trial_timeline_cancel_question">Hogyan mondhatom le az előfizetésemet?</string>
     <string name="trial_timeline_cancel_answer">A Google Play Áruházban koppintson a profilképére, majd a „Fizetések és előfizetések”, végül az „Előfizetések” menüpontra. Csak néhány koppintás az egész.</string>
     <string name="trial_timeline_not_now">Most nem</string>
-    <string name="paywall_rating_badge_title">Google Play értékelés: %1$s</string>
+    <string name="paywall_rating_badge_title">%1$s értékelés az App Store-ban és a Google Playen</string>
     <string name="paywall_rating_badge_count">%1$s+ értékelés</string>
     <string name="paywall_billed_annually">%1$s évente</string>
     <string name="paywall_billed_monthly">%1$s havonta</string>

@@ -45,7 +45,7 @@ private val TextSecondary = Color(0xFF6A7B82)
 /**
  * iOS `SocialProofScreen1`, the last screen before the paywall: the store rating in laurels, the
  * reviewer faces, "Thousands of active members" and three testimonials. The rating is the real
- * Google Play one ([OnboardingSocialProof]) instead of the old 4.9 / 12,000+ placeholders.
+ * App Store and Google Play average ([OnboardingSocialProof]) instead of the old 4.9 / 12,000+ placeholders.
  */
 @Composable
 fun SocialProofScreen(
@@ -127,7 +127,7 @@ private fun SocialProofRatingHeader() {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Text(
-                    text = OnboardingSocialProof.formattedPlayRating(),
+                    text = OnboardingSocialProof.formattedRating(),
                     style = MaterialTheme.typography.headlineLarge.copy(fontSize = 40.sp),
                     fontWeight = FontWeight.Bold,
                     color = MaterialTheme.colorScheme.onSurface

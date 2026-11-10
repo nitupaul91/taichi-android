@@ -21,7 +21,6 @@
     <string name="notification_conversion_title">50%%-os kedvezménye még érvényes</string>
     <string name="notification_conversion_body">Elmentettük a tervét. Kezdje el még ma, különleges, korlátozott ideig érvényes kedvezménnyel.</string>
     <string name="email_error_toast">Nincs e-mail-alkalmazás telepítve az eszközén.</string>
-    <string name="onboarding_welcome_rating_value">4.9</string>
     <string name="onboarding_welcome_legal">A folytatással elfogadja Szolgáltatási feltételeinket (beleértve az előfizetési feltételeket és az árakkal kapcsolatos ajánlatokat), és tudomásul veszi Adatvédelmi irányelveinket és Visszatérítési szabályzatunkat. A Tai Chi alkalmazás nem nyújt orvosi tanácsot. Egészségével kapcsolatos kérdéseivel mindig forduljon orvoshoz vagy más egészségügyi szakemberhez.</string>
     <string name="onboarding_age_title">Milyen életkort vegyünk figyelembe a terv összeállításához?</string>
     <string name="onboarding_age_subtitle">Ez segít beállítani gyakorlásainak megfelelő tempóját és fokozatosságát.</string>

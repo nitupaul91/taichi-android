@@ -21,7 +21,6 @@
     <string name="notification_conversion_title">Din rabat på 50 %% gælder stadig</string>
     <string name="notification_conversion_body">Vi har gemt din plan. Kom i gang i dag med en særlig, tidsbegrænset rabat.</string>
     <string name="email_error_toast">Du har ingen e-mailapp installeret.</string>
-    <string name="onboarding_welcome_rating_value">4.9</string>
     <string name="onboarding_welcome_legal">Ved at fortsætte accepterer du vores Vilkår for brug (herunder abonnementsvilkår og pristilbud) og bekræfter, at du har læst vores Privatlivspolitik og Refusionspolitik. Tai Chi giver ikke medicinsk rådgivning. Søg altid råd hos sundhedsfagligt personale, hvis du er bekymret for dit helbred.</string>
     <string name="onboarding_age_title">Hvilken alder skal vi bruge til din plan?</string>
     <string name="onboarding_age_subtitle">Det hjælper os med at finde det rette tempo og den rette udvikling i dine sessioner.</string>

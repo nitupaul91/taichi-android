@@ -25,7 +25,7 @@
     <string name="trial_timeline_cancel_question">Cum îmi anulez abonamentul?</string>
     <string name="trial_timeline_cancel_answer">În Google Play Store, atingeți fotografia de profil, apoi „Plăți și abonamente” și apoi „Abonamente”. Este nevoie doar de câteva atingeri.</string>
     <string name="trial_timeline_not_now">Nu acum</string>
-    <string name="paywall_rating_badge_title">Notă %1$s pe Google Play</string>
+    <string name="paywall_rating_badge_title">Evaluată cu %1$s în App Store și Google Play</string>
     <string name="paywall_rating_badge_count">%1$s+ evaluări</string>
     <string name="paywall_billed_annually">%1$s pe an</string>
     <string name="paywall_billed_monthly">%1$s pe lună</string>

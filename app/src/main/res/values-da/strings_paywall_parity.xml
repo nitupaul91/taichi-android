@@ -25,7 +25,7 @@
     <string name="trial_timeline_cancel_question">Hvordan opsiger jeg mit abonnement?</string>
     <string name="trial_timeline_cancel_answer">I Google Play Butik trykker du på dit profilbillede, derefter på ”Betalinger og abonnementer” og til sidst på ”Abonnementer”. Det kræver kun nogle få tryk.</string>
     <string name="trial_timeline_not_now">Ikke nu</string>
-    <string name="paywall_rating_badge_title">Vurderet %1$s på Google Play</string>
+    <string name="paywall_rating_badge_title">Bedømt %1$s i App Store og Google Play</string>
     <string name="paywall_rating_badge_count">Over %1$s vurderinger</string>
     <string name="paywall_billed_annually">%1$s om året</string>
     <string name="paywall_billed_monthly">%1$s om måneden</string>

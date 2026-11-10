@@ -34,13 +34,15 @@
     <string name="onboarding_welcome_members_caption">people joined</string>
     <string name="onboarding_welcome_minutes_value">10 min</string>
     <string name="onboarding_welcome_minutes_caption">a day</string>
-    <!-- %1$s is the Google Play star rating, e.g. 4.1 -->
+    <!-- %1$s is the star rating over both stores, e.g. 4.7 -->
     <string name="onboarding_welcome_rating_format">%1$s Rating</string>
 
     <!-- Social proof (iOS SocialProofScreen1 and the plan-loading badges, 4e26ec1) -->
-    <string name="onboarding_social_proof_rating_caption">Google Play rating from verified users</string>
+    <string name="onboarding_social_proof_rating_caption">Average rating on the App Store and Google Play</string>
     <string name="onboarding_social_proof_active_members">Thousands of active members</string>
-    <!-- %1$s is the Google Play star rating (4.1), %2$s the ratings count (200+) -->
+    <!-- %1$s is the star rating over both stores (4.7), %2$s the ratings count (4,600+) -->
     <string name="onboarding_loading_rating_count">%1$s  •  %2$s Ratings</string>
     <string name="onboarding_loading_members_thousands">Join thousands of happy members</string>
+    <!-- Store names under the combined rating; brand names, the same in every language. -->
+    <string name="onboarding_rating_stores" translatable="false">App Store &amp;\nGoogle Play</string>
 </resources>

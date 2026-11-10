@@ -21,7 +21,6 @@
     <string name="notification_conversion_title">Uw korting van 50%% is nog geldig</string>
     <string name="notification_conversion_body">Wij hebben uw plan bewaard. Begin vandaag met een speciale korting, alleen voor korte tijd.</string>
     <string name="email_error_toast">Er is geen e-mailapp op uw apparaat geïnstalleerd.</string>
-    <string name="onboarding_welcome_rating_value">4.9</string>
     <string name="onboarding_welcome_legal">Door verder te gaan, gaat u akkoord met onze Servicevoorwaarden (inclusief de abonnementsvoorwaarden en prijsaanbiedingen) en bevestigt u dat u kennis heeft genomen van ons Privacybeleid en ons Terugbetalingsbeleid. Tai Chi geeft geen medisch advies. Raadpleeg bij vragen over uw gezondheid altijd een zorgverlener.</string>
     <string name="onboarding_age_title">Welke leeftijd mogen wij voor uw plan gebruiken?</string>
     <string name="onboarding_age_subtitle">Zo kunnen wij het juiste tempo en de juiste opbouw voor uw sessies bepalen.</string>

@@ -108,7 +108,7 @@ fun LoadingScreen(
             )
         }
         Spacer(modifier = Modifier.height(30.dp))
-        // iOS LoadingPlanScreen badges with the real Google Play rating (4e26ec1 on iOS).
+        // iOS LoadingPlanScreen badges with the store rating (4e26ec1 on iOS), here both stores combined.
         SocialCard(
             icon = {
                 RatingStars(
@@ -120,8 +120,8 @@ fun LoadingScreen(
             },
             text = stringResource(
                 R.string.onboarding_loading_rating_count,
-                OnboardingSocialProof.formattedPlayRating(),
-                OnboardingSocialProof.PLAY_RATINGS_COUNT
+                OnboardingSocialProof.formattedRating(),
+                OnboardingSocialProof.formattedRatingsCount() + "+"
             )
         )
         Spacer(modifier = Modifier.height(12.dp))

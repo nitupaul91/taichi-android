@@ -59,8 +59,6 @@
 
     <!-- Welcome Screen -->
     <string name="onboarding_welcome_title">Tai Chi for\nWeight Loss</string>
-    <string name="onboarding_welcome_rating_value">4.9</string>
-    <string name="onboarding_welcome_rating_label">Google Play Rating</string>
     <string name="onboarding_welcome_button">Continue</string>
     <string name="onboarding_welcome_legal">By continuing, you agree to our Terms of Service (including subscription terms and pricing offers) and acknowledge our Privacy Policy and Refund Policy. Tai Chi does not provide medical advice. Always consult a healthcare professional with any health concerns.</string>
 
@@ -272,7 +270,6 @@
     <!-- Loading Screen -->
     <string name="onboarding_loading_title">Creating Your Plan</string>
     <string name="onboarding_loading_subtitle">Optimizing for your goals…</string>
-    <string name="onboarding_loading_rating">4.9  •  50K+ Reviews</string>
     <string name="onboarding_loading_members">Join 100,000+ happy members</string>
 
     <!-- Paywall Screen -->

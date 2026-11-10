@@ -25,7 +25,7 @@
     <string name="trial_timeline_cancel_question">Hoe zeg ik mijn abonnement op?</string>
     <string name="trial_timeline_cancel_answer">Tik in de Google Play Store op uw profielfoto, daarna op “Betalingen en abonnementen” en dan op “Abonnementen”. Het is met een paar tikken gedaan.</string>
     <string name="trial_timeline_not_now">Niet nu</string>
-    <string name="paywall_rating_badge_title">Beoordeeld met %1$s op Google Play</string>
+    <string name="paywall_rating_badge_title">Beoordeeld met %1$s in de App Store en Google Play</string>
     <string name="paywall_rating_badge_count">%1$s+ beoordelingen</string>
     <string name="paywall_billed_annually">%1$s per jaar</string>
     <string name="paywall_billed_monthly">%1$s per maand</string>
