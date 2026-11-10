@@ -141,10 +141,6 @@
         <value>false</value>
     </entry>
     <entry>
-        <key>show_printable_plan_paid_upsell</key>
-        <value>false</value>
-    </entry>
-    <entry>
         <key>show_settings_cancel_subscription_flow</key>
         <value>true</value>
     </entry>

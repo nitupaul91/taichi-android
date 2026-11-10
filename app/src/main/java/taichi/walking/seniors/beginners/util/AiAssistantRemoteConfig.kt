@@ -99,7 +99,6 @@ class AiAssistantRemoteConfig @Inject constructor(
     fun showPurchaseCancelRecovery(): Boolean = remoteConfig.getBoolean("show_purchase_cancel_recovery")
     fun showPostPurchaseTrialConfirmation(): Boolean = remoteConfig.getBoolean("show_post_purchase_trial_confirmation")
     fun shouldShowPostWorkoutPaywall(): Boolean = remoteConfig.getBoolean("should_show_post_workout_paywall")
-    fun showPrintablePlanPaidUpsell(): Boolean = remoteConfig.getBoolean("show_printable_plan_paid_upsell")
     fun showSettingsCancelSubscriptionFlow(): Boolean = remoteConfig.getBoolean("show_settings_cancel_subscription_flow")
     fun showTrialEndingReminder(): Boolean = remoteConfig.getBoolean("show_trial_ending_reminder")
     fun trialPracticeReminderEnabled(): Boolean = remoteConfig.getBoolean("trial_practice_reminder_enabled")

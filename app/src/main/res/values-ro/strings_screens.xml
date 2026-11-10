@@ -56,4 +56,9 @@
     <string name="difficulty_low">Scăzută</string>
     <string name="difficulty_medium">Medie</string>
     <string name="difficulty_high">Ridicată</string>
+    <plurals name="day_card_minutes">
+        <item quantity="one">%d min</item>
+        <item quantity="few">%d min</item>
+        <item quantity="other">%d min</item>
+    </plurals>
 </resources>

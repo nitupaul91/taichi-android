@@ -161,9 +161,6 @@ dependencies {
 
     implementation 'com.github.bumptech.glide:glide:4.16.0'
 
-    /** QR code on the printable plan. 3.3.x is the last line that runs below API 24 without desugaring. */
-    implementation 'com.google.zxing:core:3.3.3'
-
     testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4'
     testImplementation "org.junit.platform:junit-platform-runner:1.6.2"
     testImplementation "org.junit.jupiter:junit-jupiter-api:5.6.2"

@@ -54,4 +54,8 @@
     <string name="difficulty_low">Laag</string>
     <string name="difficulty_medium">Gemiddeld</string>
     <string name="difficulty_high">Hoog</string>
+    <plurals name="day_card_minutes">
+        <item quantity="one">%d min</item>
+        <item quantity="other">%d min</item>
+    </plurals>
 </resources>

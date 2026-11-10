@@ -56,4 +56,9 @@
     <string name="difficulty_low">Baixa</string>
     <string name="difficulty_medium">Média</string>
     <string name="difficulty_high">Alta</string>
+    <plurals name="day_card_minutes">
+        <item quantity="one">%d min</item>
+        <item quantity="many">%d min</item>
+        <item quantity="other">%d min</item>
+    </plurals>
 </resources>

@@ -54,4 +54,8 @@
     <string name="difficulty_low">Alacsony</string>
     <string name="difficulty_medium">Közepes</string>
     <string name="difficulty_high">Magas</string>
+    <plurals name="day_card_minutes">
+        <item quantity="one">%d perc</item>
+        <item quantity="other">%d perc</item>
+    </plurals>
 </resources>

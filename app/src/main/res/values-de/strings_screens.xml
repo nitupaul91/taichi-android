@@ -54,4 +54,8 @@
     <string name="difficulty_low">Niedrig</string>
     <string name="difficulty_medium">Mittel</string>
     <string name="difficulty_high">Hoch</string>
+    <plurals name="day_card_minutes">
+        <item quantity="one">%d Min.</item>
+        <item quantity="other">%d Min.</item>
+    </plurals>
 </resources>

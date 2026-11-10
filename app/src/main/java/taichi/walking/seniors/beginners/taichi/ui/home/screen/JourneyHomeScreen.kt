@@ -73,7 +73,6 @@ import kotlinx.coroutines.launch
 import taichi.walking.seniors.beginners.taichi.ui.home.workout.WorkoutPreparationScreen
 import taichi.walking.seniors.beginners.taichi.ui.video.WorkoutMediaCache
 import coil.compose.AsyncImage
-import taichi.walking.seniors.beginners.taichi.printable.PrintablePlanCard
 import taichi.walking.seniors.beginners.taichi.ui.home.model.WorkoutDayDto
 import taichi.walking.seniors.beginners.taichi.ui.home.workout.WorkoutCompletionScreen
 import taichi.walking.seniors.beginners.taichi.ui.home.workout.WorkoutPreviewScreen
@@ -152,7 +151,6 @@ private fun PracticeJourneyHomeScreen(
     var showPaywall by remember { mutableStateOf(false) }
     // The completion screen's next step (reminder prompt, then home) once the post-workout paywall closes.
     var afterPostWorkoutPaywall by remember { mutableStateOf<(() -> Unit)?>(null) }
-    var paywallSource by remember { mutableStateOf(PaywallSource.WORKOUT_PREVIEW) }
     var showIntensitySheet by remember { mutableStateOf(false) }
 
     LaunchedEffect(Unit) {
@@ -241,18 +239,6 @@ private fun PracticeJourneyHomeScreen(
                     }
 
                     item {
-                        PrintablePlanCard(
-                            plan = plan,
-                            practiceKind = practiceKind,
-                            onOpenPaywall = {
-                                paywallSource = PaywallSource.PRINTABLE_PLAN
-                                showPaywall = true
-                            },
-                            modifier = Modifier.padding(bottom = 24.dp)
-                        )
-                    }
-
-                    item {
                         val phase = plan.phaseForDay(state.currentDay)
                         if (phase != null) {
                             Surface(
@@ -333,10 +319,7 @@ private fun PracticeJourneyHomeScreen(
                     }
                 }
             },
-            onOpenPaywall = {
-                paywallSource = PaywallSource.WORKOUT_PREVIEW
-                showPaywall = true
-            }
+            onOpenPaywall = { showPaywall = true }
         )
     }
     preparingDay?.let { day ->
@@ -426,7 +409,7 @@ private fun PracticeJourneyHomeScreen(
         PaywallScreen(
             onClose = { showPaywall = false },
             onComplete = { showPaywall = false },
-            source = paywallSource
+            source = PaywallSource.WORKOUT_PREVIEW
         )
     }
     if (state.showRateDialog) {
@@ -565,7 +548,7 @@ private fun JourneyDayRow(
                 Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                     GlassBadge(
                         icon = Icons.Default.Schedule,
-                        text = pluralStringResource(R.plurals.printable_plan_pdf_day_minutes, day.durationInMinutes, day.durationInMinutes)
+                        text = pluralStringResource(R.plurals.day_card_minutes, day.durationInMinutes, day.durationInMinutes)
                     )
                     day.difficultyRes?.let { difficulty ->
                         GlassBadge(icon = Icons.Default.SignalCellularAlt, text = stringResource(difficulty))
