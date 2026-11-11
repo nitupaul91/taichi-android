@@ -10,6 +10,7 @@ import androidx.lifecycle.ProcessLifecycleOwner
 import com.mobteq.analytics.AnalyticsMirror
 import taichi.walking.seniors.beginners.taichi.analytics.AppEventUploader
 import taichi.walking.seniors.beginners.taichi.analytics.AppOpenAnalytics
+import taichi.walking.seniors.beginners.taichi.analytics.InstallReferrerReporter
 import androidx.hilt.work.HiltWorkerFactory
 import androidx.work.Configuration
 import com.mobteq.analytics.FacebookAnalyticsTracker
@@ -61,6 +62,9 @@ class StradaApp : Application(), Configuration.Provider {
     @Inject
     lateinit var appEventUploader: AppEventUploader
 
+    @Inject
+    lateinit var installReferrerReporter: InstallReferrerReporter
+
     override fun getWorkManagerConfiguration(): Configuration =
         Configuration.Builder()
             .setWorkerFactory(workerFactory)
@@ -79,6 +83,8 @@ class StradaApp : Application(), Configuration.Provider {
         // AppEventUploader). Registered before anything logs, so no early event is missed.
         AnalyticsMirror.sink = appEventUploader::enqueue
         appEventUploader.startSession()
+        // Which link, store search or ad this install came from; once per install, never blocking.
+        installReferrerReporter.reportIfNeeded()
         val appOpenAnalytics = AppOpenAnalytics(this)
         ProcessLifecycleOwner.get().lifecycle.addObserver(object : DefaultLifecycleObserver {
             override fun onStart(owner: LifecycleOwner) {

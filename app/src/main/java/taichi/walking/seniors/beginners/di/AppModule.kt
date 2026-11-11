@@ -4,6 +4,7 @@ import taichi.walking.seniors.beginners.BuildConfig
 import taichi.walking.seniors.beginners.data.api.UserApi
 import taichi.walking.seniors.beginners.taichi.music.MusicApi
 import taichi.walking.seniors.beginners.taichi.analytics.AppEventApi
+import taichi.walking.seniors.beginners.taichi.analytics.InstallReferrerApi
 import taichi.walking.seniors.beginners.taichi.onboarding.data.OnboardingProfileApi
 import taichi.walking.seniors.beginners.taichi.ui.progress.data.ExerciseProgressApi
 import taichi.walking.seniors.beginners.taichi.ui.home.data.WorkoutApi
@@ -68,6 +69,12 @@ class AppModule {
     @Singleton
     fun provideAppEventApi(retrofit: Retrofit): AppEventApi {
         return retrofit.create(AppEventApi::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideInstallReferrerApi(retrofit: Retrofit): InstallReferrerApi {
+        return retrofit.create(InstallReferrerApi::class.java)
     }
 
     @Provides
