@@ -25,7 +25,7 @@ android {
 
     defaultConfig {
         applicationId "taichi.walking.seniors.beginners"
-        minSdk 23
+        minSdk 24
         targetSdk 36
         versionCode 19
         versionName "1.1.0"
@@ -70,7 +70,7 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
         // java.time (practice history, reminders, progress) is only on the device from API 26;
-        // minSdk is 23, so Android 6-7 would crash without the desugared library.
+        // minSdk is 24, so Android 7 would crash without the desugared library.
         coreLibraryDesugaringEnabled true
     }
     // The JUnit 5 engine is already a dependency, but without this Gradle runs the JUnit 4 runner
