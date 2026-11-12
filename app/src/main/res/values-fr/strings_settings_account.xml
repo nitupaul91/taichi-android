@@ -5,8 +5,6 @@
     <string name="settings_delete_account_subtitle">Supprimer définitivement vos données</string>
     <string name="settings_delete_account_dialog_title">Supprimer votre compte ?</string>
     <string name="settings_delete_account_dialog_message">Votre profil, votre progression et votre e-mail seront définitivement supprimés de nos serveurs. Cette action est irréversible.</string>
-    <string name="settings_delete_account_dialog_subscriber_note">Cela n\'annule pas votre abonnement Google Play : vous pouvez le gérer dans Google Play.</string>
-    <string name="settings_delete_account_manage_subscription">Gérer l\'abonnement</string>
     <string name="settings_delete_account_cancel">Annuler</string>
     <string name="settings_delete_account_confirm">Supprimer</string>
     <string name="settings_delete_account_failed_title">Impossible de supprimer votre compte</string>

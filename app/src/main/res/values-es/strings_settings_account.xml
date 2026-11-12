@@ -5,8 +5,6 @@
     <string name="settings_delete_account_subtitle">Eliminar sus datos de forma permanente</string>
     <string name="settings_delete_account_dialog_title">¿Desea eliminar su cuenta?</string>
     <string name="settings_delete_account_dialog_message">Esto elimina de forma permanente su perfil, su progreso y su correo electrónico de nuestros servidores. No se puede deshacer.</string>
-    <string name="settings_delete_account_dialog_subscriber_note">Esto no cancela su suscripción de Google Play. Puede gestionarla en Google Play.</string>
-    <string name="settings_delete_account_manage_subscription">Gestionar suscripción</string>
     <string name="settings_delete_account_cancel">Cancelar</string>
     <string name="settings_delete_account_confirm">Eliminar</string>
     <string name="settings_delete_account_failed_title">No se pudo eliminar su cuenta</string>

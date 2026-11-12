@@ -6,9 +6,6 @@
     <string name="settings_delete_account_subtitle">Permanently remove your data</string>
     <string name="settings_delete_account_dialog_title">Delete your account?</string>
     <string name="settings_delete_account_dialog_message">This permanently deletes your profile, progress and email from our servers. It cannot be undone.</string>
-    <!-- Appended to the message above for subscribers. -->
-    <string name="settings_delete_account_dialog_subscriber_note">Your Google Play subscription is not cancelled by this — manage it in Google Play.</string>
-    <string name="settings_delete_account_manage_subscription">Manage Subscription</string>
     <string name="settings_delete_account_cancel">Cancel</string>
     <string name="settings_delete_account_confirm">Delete</string>
     <string name="settings_delete_account_failed_title">Couldn\'t delete your account</string>

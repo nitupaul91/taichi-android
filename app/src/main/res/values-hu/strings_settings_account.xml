@@ -5,8 +5,6 @@
     <string name="settings_delete_account_subtitle">Adatainak végleges eltávolítása</string>
     <string name="settings_delete_account_dialog_title">Törli a fiókját?</string>
     <string name="settings_delete_account_dialog_message">Ezzel véglegesen törli profilját, haladását és e-mail-címét a szervereinkről. A művelet nem vonható vissza.</string>
-    <string name="settings_delete_account_dialog_subscriber_note">A fiók törlése nem szünteti meg az előfizetését a Google Play áruházban – azt ott kezelheti.</string>
-    <string name="settings_delete_account_manage_subscription">Előfizetés kezelése</string>
     <string name="settings_delete_account_cancel">Mégse</string>
     <string name="settings_delete_account_confirm">Törlés</string>
     <string name="settings_delete_account_failed_title">Fiókját nem sikerült törölni</string>

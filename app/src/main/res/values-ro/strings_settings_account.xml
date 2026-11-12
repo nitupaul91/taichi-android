@@ -5,8 +5,6 @@
     <string name="settings_delete_account_subtitle">Eliminați definitiv datele dumneavoastră</string>
     <string name="settings_delete_account_dialog_title">Doriți să vă ștergeți contul?</string>
     <string name="settings_delete_account_dialog_message">Astfel, profilul, progresul și adresa dumneavoastră de e-mail sunt șterse definitiv de pe serverele noastre. Acțiunea nu poate fi anulată.</string>
-    <string name="settings_delete_account_dialog_subscriber_note">Abonamentul din Google Play nu se anulează astfel – îl puteți gestiona din Google Play.</string>
-    <string name="settings_delete_account_manage_subscription">Gestionați abonamentul</string>
     <string name="settings_delete_account_cancel">Anulați</string>
     <string name="settings_delete_account_confirm">Ștergeți</string>
     <string name="settings_delete_account_failed_title">Contul dumneavoastră nu a putut fi șters</string>

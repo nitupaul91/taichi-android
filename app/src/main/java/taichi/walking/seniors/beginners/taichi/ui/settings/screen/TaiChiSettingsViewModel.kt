@@ -20,7 +20,6 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import taichi.walking.seniors.beginners.taichi.account.AccountDeletionException
 import taichi.walking.seniors.beginners.taichi.account.AccountDeletionService
-import taichi.walking.seniors.beginners.taichi.account.PlaySubscriptionManagement
 import taichi.walking.seniors.beginners.util.AiAssistantRemoteConfig
 import java.util.Locale
 import javax.inject.Inject
@@ -30,7 +29,6 @@ class TaiChiSettingsViewModel @Inject constructor(
     private val purchaseManager: PurchaseManager,
     private val idService: IDService,
     private val accountDeletionService: AccountDeletionService,
-    private val playSubscriptionManagement: PlaySubscriptionManagement,
     private val analytics: SettingsAnalyticsTracker,
     private val remoteConfig: AiAssistantRemoteConfig
 ) : ViewModel() {
@@ -125,10 +123,6 @@ class TaiChiSettingsViewModel @Inject constructor(
 
     fun dismissDeleteAccountFailed() {
         _showDeleteAccountFailed.value = false
-    }
-
-    fun openManageSubscriptions() {
-        playSubscriptionManagement.open()
     }
 
     private companion object {

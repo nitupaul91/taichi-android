@@ -5,8 +5,6 @@
     <string name="settings_delete_account_subtitle">Uw gegevens definitief verwijderen</string>
     <string name="settings_delete_account_dialog_title">Wilt u uw account verwijderen?</string>
     <string name="settings_delete_account_dialog_message">Hiermee worden uw profiel, uw voortgang en uw e-mailadres definitief van onze servers verwijderd. Dit kan niet ongedaan worden gemaakt.</string>
-    <string name="settings_delete_account_dialog_subscriber_note">Uw abonnement via Google Play wordt hiermee niet opgezegd – dat beheert u in Google Play.</string>
-    <string name="settings_delete_account_manage_subscription">Abonnement beheren</string>
     <string name="settings_delete_account_cancel">Annuleren</string>
     <string name="settings_delete_account_confirm">Verwijderen</string>
     <string name="settings_delete_account_failed_title">Uw account kon niet worden verwijderd</string>

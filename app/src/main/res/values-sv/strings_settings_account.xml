@@ -5,8 +5,6 @@
     <string name="settings_delete_account_subtitle">Ta bort dina uppgifter permanent</string>
     <string name="settings_delete_account_dialog_title">Vill du radera ditt konto?</string>
     <string name="settings_delete_account_dialog_message">Detta raderar din profil, dina framsteg och din e-postadress permanent från våra servrar. Det går inte att ångra.</string>
-    <string name="settings_delete_account_dialog_subscriber_note">Din Google Play-prenumeration avslutas inte av detta. Du kan hantera den i Google Play.</string>
-    <string name="settings_delete_account_manage_subscription">Hantera prenumeration</string>
     <string name="settings_delete_account_cancel">Avbryt</string>
     <string name="settings_delete_account_confirm">Radera</string>
     <string name="settings_delete_account_failed_title">Ditt konto kunde inte raderas</string>

@@ -5,8 +5,6 @@
     <string name="settings_delete_account_subtitle">Ihre Daten dauerhaft entfernen</string>
     <string name="settings_delete_account_dialog_title">Möchten Sie Ihr Konto löschen?</string>
     <string name="settings_delete_account_dialog_message">Damit werden Ihr Profil, Ihr Fortschritt und Ihre E-Mail-Adresse dauerhaft von unseren Servern gelöscht. Das lässt sich nicht rückgängig machen.</string>
-    <string name="settings_delete_account_dialog_subscriber_note">Ihr Abo bei Google Play wird dadurch nicht gekündigt – verwalten Sie es direkt bei Google Play.</string>
-    <string name="settings_delete_account_manage_subscription">Abo verwalten</string>
     <string name="settings_delete_account_cancel">Abbrechen</string>
     <string name="settings_delete_account_confirm">Löschen</string>
     <string name="settings_delete_account_failed_title">Ihr Konto konnte nicht gelöscht werden</string>

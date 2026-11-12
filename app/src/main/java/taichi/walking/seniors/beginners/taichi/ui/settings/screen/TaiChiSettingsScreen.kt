@@ -249,11 +249,6 @@ fun TaiChiSettingsScreen(
 
     if (showDeleteAccountConfirmation) {
         DeleteAccountDialog(
-            isPremium = isPremium,
-            onManageSubscription = {
-                showDeleteAccountConfirmation = false
-                viewModel.openManageSubscriptions()
-            },
             onCancel = { showDeleteAccountConfirmation = false },
             onDelete = {
                 showDeleteAccountConfirmation = false
@@ -290,41 +285,20 @@ fun TaiChiSettingsScreen(
 }
 
 /**
- * Subscribers are also offered Google Play's subscription page, since deleting the account does not
- * cancel the subscription. Buttons use explicit dark or red colours rather than the theme accent so
- * Cancel reads as clearly as Delete (iOS had to fix a hard-to-read Cancel on this same dialog).
+ * Delete or keep the account, nothing else. Buttons use explicit dark or red colours rather than the
+ * theme accent so Cancel reads as clearly as Delete (iOS had to fix a hard-to-read Cancel here).
  */
 @Composable
 private fun DeleteAccountDialog(
-    isPremium: Boolean,
-    onManageSubscription: () -> Unit,
     onCancel: () -> Unit,
     onDelete: () -> Unit
 ) {
-    val message = stringResource(R.string.settings_delete_account_dialog_message)
-    val subscriberNote = stringResource(R.string.settings_delete_account_dialog_subscriber_note)
-
     AlertDialog(
         onDismissRequest = onCancel,
         containerColor = Color.White,
         title = { Text(stringResource(R.string.settings_delete_account_dialog_title), color = DialogText) },
-        text = {
-            Text(
-                text = if (isPremium) "$message $subscriberNote" else message,
-                color = DialogBodyText
-            )
-        },
-        // The dialog lays these out in a wrapping row, dismiss slot first.
+        text = { Text(stringResource(R.string.settings_delete_account_dialog_message), color = DialogBodyText) },
         dismissButton = {
-            if (isPremium) {
-                TextButton(onClick = onManageSubscription) {
-                    Text(
-                        stringResource(R.string.settings_delete_account_manage_subscription),
-                        color = DialogText,
-                        fontWeight = FontWeight.SemiBold
-                    )
-                }
-            }
             TextButton(onClick = onCancel) {
                 Text(
                     stringResource(R.string.settings_delete_account_cancel),

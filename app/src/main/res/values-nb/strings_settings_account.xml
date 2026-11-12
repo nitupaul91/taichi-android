@@ -5,8 +5,6 @@
     <string name="settings_delete_account_subtitle">Fjern dataene dine permanent</string>
     <string name="settings_delete_account_dialog_title">Vil du slette kontoen din?</string>
     <string name="settings_delete_account_dialog_message">Dette sletter profilen din, framgangen din og e-posten din permanent fra serverne våre. Det kan ikke angres.</string>
-    <string name="settings_delete_account_dialog_subscriber_note">Google Play-abonnementet ditt blir ikke sagt opp av dette. Du kan administrere det i Google Play.</string>
-    <string name="settings_delete_account_manage_subscription">Administrer abonnement</string>
     <string name="settings_delete_account_cancel">Avbryt</string>
     <string name="settings_delete_account_confirm">Slett</string>
     <string name="settings_delete_account_failed_title">Kontoen din kunne ikke slettes</string>
