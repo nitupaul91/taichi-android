@@ -89,6 +89,18 @@ android {
     }
 }
 
+// Play only lets a build buy subscriptions when it knows that version code. Between bumping the
+// version and uploading it, set taichi.debugVersionCode in local.properties to the newest code on
+// Play (e.g. 18) so debug builds can still test purchases. Never applies to release builds.
+def debugVersionCode = localProperties.getProperty('taichi.debugVersionCode')?.trim()
+if (debugVersionCode) {
+    androidComponents {
+        onVariants(selector().withBuildType('debug')) { variant ->
+            variant.outputs.each { it.versionCode.set(debugVersionCode.toInteger()) }
+        }
+    }
+}
+
 dependencies {
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.1.4'
 
